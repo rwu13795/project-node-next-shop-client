@@ -1,0 +1,63 @@
+import { useState } from "react";
+import browserClient from "../axios-client/browser-client";
+
+// (2) //
+const useRequest = ({ url, method, body, onSuccess }) => {
+  const client = browserClient();
+
+  const [errors, setErrors] = useState(null);
+
+  // props = {} - optional object argument for doRequest function
+  const makeRequest = async (props = {}) => {
+    try {
+      setErrors(null); // (3) //
+      // (1) //
+      const response = await client[method](url, { ...body, ...props }); // (6) //
+
+      console.log();
+      // (5) //
+      if (onSuccess) {
+        onSuccess(response.data);
+        // if the page does not need this data, just don't include it in the onSuccess: ()=>{}
+      }
+
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      // the data returned from "res.status(400).send({ message: "xxxxxx" })"
+      const data = err.response.data.message;
+
+      // (4) //
+      setErrors(<h4>Oooops... {data}</h4>);
+    }
+  };
+
+  return { makeRequest, errors };
+};
+
+export default useRequest;
+
+// --------------- Notes --------------- //
+
+/*
+
+(1) method is a string contains the name of get/post/put...
+    so, axios[method] ---> axios.get/post/put...
+
+(2)  { url, method, body } is the object passed from the signup page
+
+
+(3) reset the error each time the useRequest is invoked, so that the 
+    error HTML tags won't always be displayed 
+
+(4) only set errors if there is one, so in successful signup, the 
+    returning errors will be null, so there will be no error message to be 
+    displayed in the Signup page     
+
+(5) a callback function passed from the pages, will be invoked if we get the
+    response successfully    
+
+(6) {...body, ...props} - merge the optional props we get from the doRequest() function
+    into the "body" object, so that we can send the merged "body" to Axios
+
+*/
