@@ -17,6 +17,7 @@ const Home: NextPage = () => {
         <Image
           src="https://testing-images-on-s3.s3.us-east-2.amazonaws.com/images/cat-mask.jpg"
           alt="aws"
+          // unoptimized={true}
           width={300}
           height={300}
         />
