@@ -8,6 +8,12 @@ interface Errors {
   field: string | null;
 }
 
+interface ColorProps {
+  color: string;
+  sizes: { [name: string]: number };
+  imagesCount: number;
+}
+
 const useUpload = ({
   productCategory,
   productPropList,
@@ -31,7 +37,7 @@ const useUpload = ({
 
       // re-format the props and put the imageFiles into "formData"
       const { title, main: main_cat, sub: sub_cat } = productCategory;
-      let colorProps = [];
+      let colorProps: ColorProps[] = [];
 
       const formData = new FormData();
       for (let elem of productPropList) {
@@ -44,7 +50,8 @@ const useUpload = ({
         // we don't want to send the imageFiles again, so we create and send
         // a new array containing the colorProps
         colorProps.push({
-          ...elem.colorAndSize,
+          color: elem.color,
+          sizes: { ...elem.sizes },
           imagesCount: elem.imagesCount,
         });
       }

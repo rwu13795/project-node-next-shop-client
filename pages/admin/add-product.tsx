@@ -7,7 +7,8 @@ import { Fragment, useState } from "react";
 import useUpload from "../../util/react-hooks/use-upload";
 
 export interface ProductProps {
-  colorAndSize: { [name: string]: string };
+  color: string;
+  sizes: { [name: string]: number };
   imagesCount: number;
   imagesFiles: File[];
 }
@@ -20,7 +21,8 @@ export interface ProductCategory {
 const AddProduct: NextPage = ({}) => {
   const [productPropList, setProductPropList] = useState<ProductProps[]>([
     {
-      colorAndSize: { color: "", small: "", medium: "", large: "" },
+      color: "",
+      sizes: { small: 0, medium: 0, large: 0 },
       imagesCount: 0,
       imagesFiles: [],
     },
@@ -61,13 +63,16 @@ const AddProduct: NextPage = ({}) => {
     const { name, value } = e.currentTarget;
     let list = [...productPropList];
 
-    if (name !== "image") {
-      list[index].colorAndSize[name] = value;
-      setProductPropList(list);
-    } else {
+    if (name === "image") {
       const imageFile = (e.target.files as FileList)[0];
       list[index].imagesFiles.push(imageFile);
       list[index].imagesCount = list[index].imagesFiles.length;
+      setProductPropList(list);
+    } else if (name === "color") {
+      list[index].color = value;
+      setProductPropList(list);
+    } else {
+      list[index].sizes[name] = parseInt(value);
       setProductPropList(list);
     }
   };
@@ -83,7 +88,8 @@ const AddProduct: NextPage = ({}) => {
     setProductPropList([
       ...productPropList,
       {
-        colorAndSize: { color: "", small: "", medium: "", large: "" },
+        color: "",
+        sizes: { small: 0, medium: 0, large: 0 },
         imagesCount: 0,
         imagesFiles: [],
       },
@@ -96,7 +102,8 @@ const AddProduct: NextPage = ({}) => {
     if (list.length === 0) {
       setProductPropList([
         {
-          colorAndSize: { color: "", small: "", medium: "", large: "" },
+          color: "",
+          sizes: { small: 0, medium: 0, large: 0 },
           imagesCount: 0,
           imagesFiles: [],
         },
@@ -170,7 +177,7 @@ const AddProduct: NextPage = ({}) => {
                 required
                 type="text"
                 name="color"
-                value={prop.colorAndSize.color}
+                value={prop.color}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   propsChangeHandler(e, index)
                 }
@@ -187,7 +194,7 @@ const AddProduct: NextPage = ({}) => {
                       placeholder={"0"}
                       type="number"
                       name={size}
-                      value={prop.colorAndSize[size]}
+                      value={prop.sizes[size]}
                       onChange={(e: ChangeEvent<HTMLInputElement>) =>
                         propsChangeHandler(e, index)
                       }
