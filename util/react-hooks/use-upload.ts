@@ -5,7 +5,7 @@ import { ProductProps, ProductCategory } from "../../pages/admin/add-product";
 
 interface Errors {
   message: string | null;
-  errorField: string | null;
+  field: string | null;
 }
 
 const useUpload = ({
@@ -27,21 +27,26 @@ const useUpload = ({
 
   const postUpload = async () => {
     try {
-      setErrors({ message: null, errorField: null });
+      setErrors({ message: null, field: null });
 
       // re-format the props and put the imageFiles into "formData"
       const { title, main: main_cat, sub: sub_cat } = productCategory;
-      let list = [...productPropList];
+      let colorProps = [];
 
       const formData = new FormData();
-      for (let elem of list) {
+      for (let elem of productPropList) {
         // "uploaded_images" is used in "multer"
         if (elem.imagesFiles) {
           for (let image of elem.imagesFiles) {
             formData.append("uploaded_images", image);
           }
         }
-        delete elem.imagesFiles;
+        // we don't want to send the imageFiles again, so we create and send
+        // a new array containing the colorProps
+        colorProps.push({
+          ...elem.colorAndSize,
+          imagesCount: elem.imagesCount,
+        });
       }
 
       const body = {
@@ -49,7 +54,7 @@ const useUpload = ({
         main_cat,
         sub_cat,
         price,
-        colorProps: productPropList,
+        colorProps,
         description,
       };
 
@@ -66,11 +71,12 @@ const useUpload = ({
 
       return response;
     } catch (err: any) {
-      console.log(err);
+      // the data in the errors which are sent from the server, are inside
+      // the "err.response.data" field
+      console.log("> > > useUpload - catch error < < <", err.response.data);
 
-      // "data" should be { message: string, errorField: string }
-
-      //   setErrors({ ...err });
+      // "data" should be { message: string, field: string }
+      setErrors({ ...err.response.data });
     }
   };
 

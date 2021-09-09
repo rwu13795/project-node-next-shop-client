@@ -9,7 +9,7 @@ import useUpload from "../../util/react-hooks/use-upload";
 export interface ProductProps {
   colorAndSize: { [name: string]: string };
   imagesCount: number;
-  imagesFiles: File[] | undefined; // need to use "delete" on this preporty, have to set it as optional
+  imagesFiles: File[];
 }
 
 export interface ProductCategory {
@@ -47,9 +47,12 @@ const AddProduct: NextPage = ({}) => {
     description,
     onSuccess: () => {
       console.log("OK");
-      router.push("/");
+      // router.push("/");
+      console.log(productPropList);
     },
   });
+  // put the error message in html element
+  const showError = errors && <h4>{errors.message}</h4>;
 
   const propsChangeHandler = (
     e: ChangeEvent<HTMLInputElement>,
@@ -63,8 +66,8 @@ const AddProduct: NextPage = ({}) => {
       setProductPropList(list);
     } else {
       const imageFile = (e.target.files as FileList)[0];
-      list[index].imagesFiles?.push(imageFile);
-      list[index].imagesCount = list[index].imagesFiles?.length || 0;
+      list[index].imagesFiles.push(imageFile);
+      list[index].imagesCount = list[index].imagesFiles.length;
       setProductPropList(list);
     }
   };
@@ -105,7 +108,7 @@ const AddProduct: NextPage = ({}) => {
 
   const removeImageHandler = (index: number, imageIndex: number) => {
     const list = [...productPropList];
-    list[index].imagesFiles?.splice(imageIndex, 1);
+    list[index].imagesFiles.splice(imageIndex, 1);
     setProductPropList(list);
   };
 
@@ -117,6 +120,7 @@ const AddProduct: NextPage = ({}) => {
     <main>
       <h1>Add New Product</h1>
       <div>
+        {errors?.field === "main" && showError}
         <label>Category: </label>
         {categoryArray.map((cat) => {
           return (
@@ -136,6 +140,7 @@ const AddProduct: NextPage = ({}) => {
         })}
       </div>
       <div>
+        {errors?.field === "main" && showError}
         <label htmlFor="price">Price: $</label>
         <input
           name="price"
@@ -195,8 +200,7 @@ const AddProduct: NextPage = ({}) => {
               <label htmlFor="image">Upload Image: </label>
             </div>
             <div>
-              {prop.imagesFiles &&
-                prop.imagesFiles.length > 0 &&
+              {prop.imagesFiles.length > 0 &&
                 prop.imagesFiles.map((file, imageIndex) => {
                   return (
                     <div
@@ -226,6 +230,7 @@ const AddProduct: NextPage = ({}) => {
                         width={150}
                         height={150}
                       />
+                      <div>{file.name}</div>
                     </div>
                   );
                 })}
