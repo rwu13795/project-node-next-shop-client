@@ -1,10 +1,10 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/dist/client/router";
-import { ChangeEvent } from "react";
-import { Fragment, useState } from "react";
+import { Fragment, useState, ChangeEvent } from "react";
 
 import useUpload from "../../util/react-hooks/use-upload";
+import SelectCategory from "../../components/add-product/select-category";
 
 export interface ProductProps {
   color: string;
@@ -38,7 +38,6 @@ const AddProduct: NextPage = ({}) => {
   const [price, setPrice] = useState<number>(0);
 
   const sizesArray = ["small", "medium", "large"];
-  const categoryArray = ["main", "sub", "title"];
 
   const router = useRouter();
 
@@ -77,8 +76,12 @@ const AddProduct: NextPage = ({}) => {
     }
   };
 
-  const catChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.currentTarget;
+  // material-ui <Select /> "onChange" ChangeEvent type is different from normal react ChangeEvent type
+  const catChangeHandler = (
+    e: ChangeEvent<{ name?: string; value: unknown }>
+  ) => {
+    const value = e.target.value as string;
+    const name = e.target.name as string;
     let category = { ...productCategory };
     category[name] = value;
     setProductCategory(category);
@@ -123,28 +126,18 @@ const AddProduct: NextPage = ({}) => {
     await postUpload();
   };
 
+  console.log(productCategory);
+
   return (
     <main>
       <h1>Add New Product</h1>
       <div>
         {errors?.field === "main" && showError}
         <label>Category: </label>
-        {categoryArray.map((cat) => {
-          return (
-            <Fragment key={cat}>
-              <label>{cat}</label>
-              <input
-                required
-                type="text"
-                name={cat}
-                value={productCategory[cat]}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  catChangeHandler(e)
-                }
-              />
-            </Fragment>
-          );
-        })}
+        <SelectCategory
+          catChangeHandler={catChangeHandler}
+          productCategory={productCategory}
+        />
       </div>
       <div>
         {errors?.field === "main" && showError}
