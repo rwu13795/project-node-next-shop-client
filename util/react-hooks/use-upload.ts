@@ -9,7 +9,8 @@ interface Errors {
 }
 
 interface ColorProps {
-  color: string;
+  colorName: string;
+  colorCode: string;
   sizes: { [name: string]: number };
   imagesCount: number;
 }
@@ -50,7 +51,8 @@ const useUpload = ({
         // we don't want to send the imageFiles again, so we create and send
         // a new array containing the colorProps
         colorProps.push({
-          color: elem.color,
+          colorName: elem.colorName,
+          colorCode: elem.colorCode,
           sizes: { ...elem.sizes },
           imagesCount: elem.imagesCount,
         });

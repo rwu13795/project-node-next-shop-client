@@ -5,9 +5,14 @@ import { Fragment, useState, ChangeEvent } from "react";
 
 import useUpload from "../../util/react-hooks/use-upload";
 import SelectCategory from "../../components/add-product/select-category";
+import AddTitle from "../../components/add-product/add-title";
+import AddPrice from "../../components/add-product/add-price";
+import AddDescription from "../../components/add-product/add-description";
+import AddColorsProps from "../../components/add-product/add-colors-props";
 
 export interface ProductProps {
-  color: string;
+  colorName: string;
+  colorCode: string;
   sizes: { [name: string]: number };
   imagesCount: number;
   imagesFiles: File[];
@@ -19,9 +24,12 @@ export interface ProductCategory {
 }
 
 const AddProduct: NextPage = ({}) => {
+  const router = useRouter();
+
   const [productPropList, setProductPropList] = useState<ProductProps[]>([
     {
-      color: "",
+      colorName: "",
+      colorCode: "",
       sizes: { small: 0, medium: 0, large: 0 },
       imagesCount: 0,
       imagesFiles: [],
@@ -34,13 +42,10 @@ const AddProduct: NextPage = ({}) => {
     title: "",
   });
 
-  const [description, setDescription] = useState<string>("");
   const [price, setPrice] = useState<number>(0);
+  const [description, setDescription] = useState<string>("");
 
-  const sizesArray = ["small", "medium", "large"];
-
-  const router = useRouter();
-
+  // useUpload hook
   const { postUpload, errors } = useUpload({
     productCategory,
     productPropList,
@@ -49,7 +54,7 @@ const AddProduct: NextPage = ({}) => {
     onSuccess: () => {
       console.log("OK");
       // router.push("/");
-      console.log(productPropList);
+      // console.log(productPropList);
     },
   });
   // put the error message in html element
@@ -57,18 +62,27 @@ const AddProduct: NextPage = ({}) => {
 
   const propsChangeHandler = (
     e: ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    const { name, value } = e.currentTarget;
+    index: number,
+    colorName?: string
+  ): void => {
     let list = [...productPropList];
 
+    // handle the "colorName"
+    if (colorName) {
+      list[index].colorName = colorName;
+      setProductPropList(list);
+      return;
+    }
+
+    // handlde images, sizes, and colorCode
+    const { name, value } = e.currentTarget;
     if (name === "image") {
       const imageFile = (e.target.files as FileList)[0];
       list[index].imagesFiles.push(imageFile);
       list[index].imagesCount = list[index].imagesFiles.length;
       setProductPropList(list);
-    } else if (name === "color") {
-      list[index].color = value;
+    } else if (name === "colorCode") {
+      list[index].colorCode = value;
       setProductPropList(list);
     } else {
       list[index].sizes[name] = parseInt(value);
@@ -79,7 +93,7 @@ const AddProduct: NextPage = ({}) => {
   // material-ui <Select /> "onChange" ChangeEvent type is different from normal react ChangeEvent type
   const catChangeHandler = (
     e: ChangeEvent<{ name?: string; value: unknown }>
-  ) => {
+  ): void => {
     const value = e.target.value as string;
     const name = e.target.name as string;
     let category = { ...productCategory };
@@ -87,11 +101,12 @@ const AddProduct: NextPage = ({}) => {
     setProductCategory(category);
   };
 
-  const addMoreColorHandler = () => {
+  const addMoreColorHandler = (): void => {
     setProductPropList([
       ...productPropList,
       {
-        color: "",
+        colorName: "",
+        colorCode: "",
         sizes: { small: 0, medium: 0, large: 0 },
         imagesCount: 0,
         imagesFiles: [],
@@ -99,13 +114,14 @@ const AddProduct: NextPage = ({}) => {
     ]);
   };
 
-  const removeColorHandler = (index: number) => {
+  const removeColorHandler = (index: number): void => {
     const list = [...productPropList];
     list.splice(index, 1);
     if (list.length === 0) {
       setProductPropList([
         {
-          color: "",
+          colorName: "",
+          colorCode: "",
           sizes: { small: 0, medium: 0, large: 0 },
           imagesCount: 0,
           imagesFiles: [],
@@ -116,7 +132,7 @@ const AddProduct: NextPage = ({}) => {
     }
   };
 
-  const removeImageHandler = (index: number, imageIndex: number) => {
+  const removeImageHandler = (index: number, imageIndex: number): void => {
     const list = [...productPropList];
     list[index].imagesFiles.splice(imageIndex, 1);
     setProductPropList(list);
@@ -127,6 +143,7 @@ const AddProduct: NextPage = ({}) => {
   };
 
   console.log(productCategory);
+  console.log(productPropList);
 
   return (
     <main>
@@ -140,119 +157,31 @@ const AddProduct: NextPage = ({}) => {
         />
       </div>
       <div>
-        {errors?.field === "main" && showError}
-        <label htmlFor="price">Price: $</label>
-        <input
-          name="price"
-          id="price"
-          type="number"
-          value={price}
-          min="0"
-          onChange={(e) => setPrice(parseFloat(e.target.value))}
-        ></input>
+        <AddTitle
+          catChangeHandler={catChangeHandler}
+          productCategory={productCategory}
+        />
       </div>
       <div>
-        <label htmlFor="description">Description: </label>
-        <textarea
-          name="description"
-          id="description"
-          rows={6}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        ></textarea>
+        {errors?.field === "main" && showError}
+        <AddPrice price={price} setPrice={setPrice} />
+      </div>
+      <div>
+        <AddDescription
+          description={description}
+          setDescription={setDescription}
+        />
       </div>
       {productPropList.map((prop, index) => {
         return (
-          <div key={index}>
-            <div>
-              <label>Colors:</label>
-              <input
-                required
-                type="text"
-                name="color"
-                value={prop.color}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  propsChangeHandler(e, index)
-                }
-              />
-            </div>
-            <div>
-              <label>Sizes: </label>
-              {sizesArray.map((size) => {
-                return (
-                  <Fragment key={size}>
-                    <label>{size}</label>
-                    <input
-                      required
-                      placeholder={"0"}
-                      type="number"
-                      name={size}
-                      value={prop.sizes[size]}
-                      onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                        propsChangeHandler(e, index)
-                      }
-                    />
-                  </Fragment>
-                );
-              })}
-            </div>
-            <div>
-              <label htmlFor="image">Upload Image: </label>
-            </div>
-            <div>
-              {prop.imagesFiles.length > 0 &&
-                prop.imagesFiles.map((file, imageIndex) => {
-                  return (
-                    <div
-                      key={imageIndex}
-                      style={{
-                        height: "100%",
-                        width: "155px",
-                        position: "relative",
-                        border: "red 2px solid",
-                        display: "inline-block",
-                      }}
-                    >
-                      <button
-                        style={{
-                          position: "absolute",
-                          zIndex: 9,
-                          right: "5%",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => removeImageHandler(index, imageIndex)}
-                      >
-                        X
-                      </button>
-                      <Image
-                        src={URL.createObjectURL(file)}
-                        alt="selected image"
-                        width={150}
-                        height={150}
-                      />
-                      <div>{file.name}</div>
-                    </div>
-                  );
-                })}
-              <span>
-                <input
-                  type="file"
-                  accept="image/jpeg"
-                  name="image"
-                  id="image"
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    propsChangeHandler(e, index)
-                  }
-                />
-              </span>
-            </div>
-
-            <div>
-              <button onClick={() => removeColorHandler(index)}>
-                Remove this color
-              </button>
-            </div>
-          </div>
+          <AddColorsProps
+            key={index}
+            productProp={prop}
+            listIndex={index}
+            propsChangeHandler={propsChangeHandler}
+            removeColorHandler={removeColorHandler}
+            removeImageHandler={removeImageHandler}
+          />
         );
       })}
       <button onClick={addMoreColorHandler}>Add more colors</button>
