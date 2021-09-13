@@ -1,5 +1,5 @@
 import { SetStateAction } from "react";
-import { FieldTypes } from "./field-types";
+import { FieldNames } from "./enums/field-names-enum";
 
 interface Props {
   setDescription: (value: SetStateAction<string | undefined>) => void;
@@ -13,7 +13,7 @@ const AddDescription = (props: Props): JSX.Element => {
     <div>
       <label>Description: </label>
       <textarea
-        name={FieldTypes.desc}
+        name={FieldNames.desc}
         rows={6}
         value={description}
         onChange={(e) => setDescription(e.target.value)}

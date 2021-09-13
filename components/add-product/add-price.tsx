@@ -1,6 +1,6 @@
 import { SetStateAction } from "react";
 
-import { FieldTypes } from "./field-types";
+import { FieldNames } from "./enums/field-names-enum";
 
 interface Props {
   setPrice: (value: SetStateAction<number>) => void;
@@ -14,7 +14,7 @@ const AddPrice = (props: Props): JSX.Element => {
     <div>
       <label htmlFor="price">Price: $</label>
       <input
-        name={FieldTypes.price}
+        name={FieldNames.price}
         type="number"
         value={price}
         min="0"

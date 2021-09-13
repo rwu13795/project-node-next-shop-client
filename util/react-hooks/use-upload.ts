@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import browserClient from "../axios-client/browser-client";
 import { ProductProps, ProductCategory } from "../../pages/admin/add-product";
-import { FieldTypes } from "../../components/add-product/field-types";
+import { FieldNames } from "../../components/add-product/enums/field-names-enum";
 
 export interface Errors {
   [field: string]: string;
@@ -96,13 +96,13 @@ const useUpload = ({
         if (e.field !== "colorProps") {
           errorMsg[e.field] = e.message;
         } else {
-          if (e.message === FieldTypes.colorCode) {
-            errorMsg[FieldTypes.colorCode] = "Please select a color";
-          } else if (e.message === FieldTypes.colorName) {
-            errorMsg[FieldTypes.colorName] =
+          if (e.message === FieldNames.colorCode) {
+            errorMsg[FieldNames.colorCode] = "Please select a color";
+          } else if (e.message === FieldNames.colorName) {
+            errorMsg[FieldNames.colorName] =
               "Please select a name for the color";
           } else {
-            errorMsg[FieldTypes.imagesCount] =
+            errorMsg[FieldNames.imagesCount] =
               "Please upload at least one image";
           }
         }

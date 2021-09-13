@@ -5,7 +5,14 @@ import { ChangeEvent, Fragment, useEffect, useState } from "react";
 
 import { ProductCategory } from "../../pages/admin/add-product";
 import { Errors } from "../../util/react-hooks/use-upload";
-import { FieldTypes } from "./field-types";
+import { FieldNames } from "./enums/field-names-enum";
+import {
+  mainCatArray,
+  menCatArray,
+  womenCatArray,
+  kidsCatArray,
+  MainCategory,
+} from "./enums/category-enum";
 
 interface Props {
   catChangeHandler: (e: ChangeEvent<{ name?: string; value: unknown }>) => void;
@@ -19,24 +26,18 @@ const SelectCategory = (props: Props): JSX.Element => {
   const [noMainCat, setNoMainCat] = useState<boolean>(true);
   const [subCatArray, setSubCatArray] = useState<string[]>([""]);
 
-  const mainCategory = ["Men", "Women", "Kids"];
-
   useEffect(() => {
-    const womenCategory = ["blouses", "jeans", "shorts"];
-    const menCategory = ["T-shirt", "coats", "shorts"];
-    const kidsCategory = ["color-T", "shorts"];
-
     if (productCategory.main_cat !== "") {
       setNoMainCat(false);
       switch (productCategory.main_cat) {
-        case "Men":
-          setSubCatArray(menCategory);
+        case MainCategory.men:
+          setSubCatArray(menCatArray);
           break;
-        case "Women":
-          setSubCatArray(womenCategory);
+        case MainCategory.women:
+          setSubCatArray(womenCatArray);
           break;
-        case "Kids":
-          setSubCatArray(kidsCategory);
+        case MainCategory.kids:
+          setSubCatArray(kidsCatArray);
           break;
         default:
           setSubCatArray([""]);
@@ -50,11 +51,11 @@ const SelectCategory = (props: Props): JSX.Element => {
         <InputLabel style={{ fontSize: "15px" }}>Main-Category</InputLabel>
         <Select
           value={productCategory.main_cat}
-          name={FieldTypes.main}
+          name={FieldNames.main}
           style={{ minWidth: "90px" }}
           onChange={catChangeHandler}
         >
-          {mainCategory.map((cat) => {
+          {mainCatArray.map((cat) => {
             return (
               <MenuItem key={cat} value={cat}>
                 {cat}
@@ -63,14 +64,14 @@ const SelectCategory = (props: Props): JSX.Element => {
           })}
         </Select>
       </span>
-      {propError && propError[FieldTypes.main] && (
-        <div>{propError[FieldTypes.main]}</div>
+      {propError && propError[FieldNames.main] && (
+        <div>{propError[FieldNames.main]}</div>
       )}
       <span>
         <InputLabel style={{ fontSize: "15px" }}>Sub-Category</InputLabel>
         <Select
           value={productCategory.sub_cat}
-          name={FieldTypes.sub}
+          name={FieldNames.sub}
           style={{ minWidth: "90px" }}
           onChange={catChangeHandler}
           disabled={noMainCat}
@@ -84,8 +85,8 @@ const SelectCategory = (props: Props): JSX.Element => {
           })}
         </Select>
       </span>
-      {propError && propError[FieldTypes.sub] && (
-        <div>{propError[FieldTypes.sub]}</div>
+      {propError && propError[FieldNames.sub] && (
+        <div>{propError[FieldNames.sub]}</div>
       )}
     </Fragment>
   );

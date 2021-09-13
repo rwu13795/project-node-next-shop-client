@@ -1,4 +1,4 @@
-export enum FieldTypes {
+export enum FieldNames {
   main = "main_cat",
   sub = "sub_cat",
   title = "title",

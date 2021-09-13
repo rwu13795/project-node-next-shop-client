@@ -3,7 +3,7 @@ import { Dropdown, Row, Col } from "react-bootstrap";
 
 import { ProductProps } from "../../pages/admin/add-product";
 import { Errors } from "../../util/react-hooks/use-upload";
-import { FieldTypes } from "./field-types";
+import { FieldNames } from "./enums/field-names-enum";
 
 interface Props {
   propsChangeHandler: (
@@ -76,7 +76,7 @@ const SelectColor = (props: Props): JSX.Element => {
           </div>
         </div>
         {propError && productProp.colorCode === "" && (
-          <div>{propError[FieldTypes.colorCode]}</div>
+          <div>{propError[FieldNames.colorCode]}</div>
         )}
       </span>
       <span>
@@ -134,7 +134,7 @@ const SelectColor = (props: Props): JSX.Element => {
           </Dropdown.Menu>
         </Dropdown>
         {propError && productProp.colorName === "" && (
-          <div>{propError[FieldTypes.colorName]}</div>
+          <div>{propError[FieldNames.colorName]}</div>
         )}
       </span>
       <span>

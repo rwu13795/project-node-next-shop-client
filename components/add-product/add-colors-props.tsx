@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import { ProductProps } from "../../pages/admin/add-product";
 import SelectColor from "./select-color";
-import { FieldTypes } from "./field-types";
+import { FieldNames } from "./enums/field-names-enum";
 import { Errors } from "../../util/react-hooks/use-upload";
 
 interface Props {
@@ -25,22 +25,10 @@ const AddColorsProps = (props: Props): JSX.Element => {
     removeImageHandler,
   } = props;
 
-  const sizesArray = [FieldTypes.small, FieldTypes.medium, FieldTypes.large];
+  const sizesArray = [FieldNames.small, FieldNames.medium, FieldNames.large];
 
   return (
     <div>
-      {/* <div>
-        <label>Colors:</label>
-        <input
-          required
-          type="text"
-          name="color"
-          value={productProp.color}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            propsChangeHandler(e, listIndex)
-          }
-        />
-      </div> */}
       <SelectColor
         productProp={productProp}
         listIndex={listIndex}
@@ -111,14 +99,14 @@ const AddColorsProps = (props: Props): JSX.Element => {
             type="file"
             accept="image/jpeg"
             name="image"
-            id="image"
+            id="upload-image"
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               propsChangeHandler(e, listIndex)
             }
           />
         </div>
         {propError && productProp.imagesCount < 1 && (
-          <div>{propError[FieldTypes.imagesCount]}</div>
+          <div>{propError[FieldNames.imagesCount]}</div>
         )}
       </div>
 

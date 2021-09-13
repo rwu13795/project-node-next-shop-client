@@ -1,7 +1,7 @@
 import { ChangeEvent, useRef, useState } from "react";
 
 import { ProductCategory } from "../../pages/admin/add-product";
-import { FieldTypes } from "./field-types";
+import { FieldNames } from "./enums/field-names-enum";
 
 interface Props {
   catChangeHandler: (e: ChangeEvent<{ name?: string; value: unknown }>) => void;
@@ -35,7 +35,7 @@ const AddTitle = (props: Props): JSX.Element => {
     <div>
       <label>Title</label>
       <input
-        name={FieldTypes.title}
+        name={FieldNames.title}
         type="text"
         value={productCategory.title}
         onChange={catChangeHandler}

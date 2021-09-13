@@ -9,7 +9,7 @@ import AddTitle from "../../components/add-product/add-title";
 import AddPrice from "../../components/add-product/add-price";
 import AddDescription from "../../components/add-product/add-description";
 import AddColorsProps from "../../components/add-product/add-colors-props";
-import { FieldTypes } from "../../components/add-product/field-types";
+import { FieldNames } from "../../components/add-product/enums/field-names-enum";
 
 export interface ProductProps {
   colorName: string;
@@ -40,9 +40,9 @@ const AddProduct: NextPage = ({}) => {
   ]);
 
   const [productCategory, setProductCategory] = useState<ProductCategory>({
-    [FieldTypes.main]: "",
-    [FieldTypes.sub]: "",
-    [FieldTypes.title]: "",
+    [FieldNames.main]: "",
+    [FieldNames.sub]: "",
+    [FieldNames.title]: "",
   });
 
   const [price, setPrice] = useState<number>(0);
@@ -82,7 +82,7 @@ const AddProduct: NextPage = ({}) => {
       list[index].imagesFiles.push(imageFile);
       list[index].imagesCount = list[index].imagesFiles.length;
       setProductPropList(list);
-    } else if (name === FieldTypes.colorCode) {
+    } else if (name === FieldNames.colorCode) {
       list[index].colorCode = value;
       setProductPropList(list);
     } else {
@@ -136,6 +136,14 @@ const AddProduct: NextPage = ({}) => {
   const removeImageHandler = (index: number, imageIndex: number): void => {
     const list = [...productPropList];
     list[index].imagesFiles.splice(imageIndex, 1);
+    list[index].imagesCount = list[index].imagesCount - 1;
+
+    if (list[index].imagesCount === 0) {
+      const imageInput = document.getElementById(
+        "upload-image"
+      ) as HTMLInputElement;
+      imageInput.value = "";
+    }
     setProductPropList(list);
   };
 
@@ -159,8 +167,8 @@ const AddProduct: NextPage = ({}) => {
           catChangeHandler={catChangeHandler}
           productCategory={productCategory}
         />
-        {errors && errors[FieldTypes.title] && (
-          <div>{errors[FieldTypes.title]}</div>
+        {errors && errors[FieldNames.title] && (
+          <div>{errors[FieldNames.title]}</div>
         )}
       </div>
       <div>
@@ -171,8 +179,8 @@ const AddProduct: NextPage = ({}) => {
           description={description}
           setDescription={setDescription}
         />
-        {errors && errors[FieldTypes.desc] && (
-          <div>{errors[FieldTypes.desc]}</div>
+        {errors && errors[FieldNames.desc] && (
+          <div>{errors[FieldNames.desc]}</div>
         )}
       </div>
       {productPropList.map((prop, index) => {
