@@ -1,8 +1,9 @@
 import { SetStateAction } from "react";
+import { FieldTypes } from "./field-types";
 
 interface Props {
-  setDescription: (value: SetStateAction<string>) => void;
-  description: string;
+  setDescription: (value: SetStateAction<string | undefined>) => void;
+  description?: string;
 }
 
 const AddDescription = (props: Props): JSX.Element => {
@@ -10,10 +11,9 @@ const AddDescription = (props: Props): JSX.Element => {
 
   return (
     <div>
-      <label htmlFor="description">Description: </label>
+      <label>Description: </label>
       <textarea
-        name="description"
-        id="description"
+        name={FieldTypes.desc}
         rows={6}
         value={description}
         onChange={(e) => setDescription(e.target.value)}

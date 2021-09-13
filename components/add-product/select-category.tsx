@@ -4,14 +4,17 @@ import Select from "@material-ui/core/Select";
 import { ChangeEvent, Fragment, useEffect, useState } from "react";
 
 import { ProductCategory } from "../../pages/admin/add-product";
+import { Errors } from "../../util/react-hooks/use-upload";
+import { FieldTypes } from "./field-types";
 
 interface Props {
   catChangeHandler: (e: ChangeEvent<{ name?: string; value: unknown }>) => void;
   productCategory: ProductCategory;
+  propError: Errors | null | undefined;
 }
 
 const SelectCategory = (props: Props): JSX.Element => {
-  const { catChangeHandler, productCategory } = props;
+  const { catChangeHandler, productCategory, propError } = props;
 
   const [noMainCat, setNoMainCat] = useState<boolean>(true);
   const [subCatArray, setSubCatArray] = useState<string[]>([""]);
@@ -23,9 +26,9 @@ const SelectCategory = (props: Props): JSX.Element => {
     const menCategory = ["T-shirt", "coats", "shorts"];
     const kidsCategory = ["color-T", "shorts"];
 
-    if (productCategory.main !== "") {
+    if (productCategory.main_cat !== "") {
       setNoMainCat(false);
-      switch (productCategory.main) {
+      switch (productCategory.main_cat) {
         case "Men":
           setSubCatArray(menCategory);
           break;
@@ -39,17 +42,15 @@ const SelectCategory = (props: Props): JSX.Element => {
           setSubCatArray([""]);
       }
     }
-  }, [productCategory.main]);
+  }, [productCategory.main_cat]);
 
   return (
     <Fragment>
       <span>
-        <InputLabel style={{ fontSize: "15px", color: "red" }}>
-          Main-Category
-        </InputLabel>
+        <InputLabel style={{ fontSize: "15px" }}>Main-Category</InputLabel>
         <Select
-          value={productCategory.main}
-          name="main"
+          value={productCategory.main_cat}
+          name={FieldTypes.main}
           style={{ minWidth: "90px" }}
           onChange={catChangeHandler}
         >
@@ -62,13 +63,14 @@ const SelectCategory = (props: Props): JSX.Element => {
           })}
         </Select>
       </span>
+      {propError && propError[FieldTypes.main] && (
+        <div>{propError[FieldTypes.main]}</div>
+      )}
       <span>
-        <InputLabel style={{ fontSize: "15px", color: "red" }}>
-          Sub-Category
-        </InputLabel>
+        <InputLabel style={{ fontSize: "15px" }}>Sub-Category</InputLabel>
         <Select
-          value={productCategory.sub}
-          name="sub"
+          value={productCategory.sub_cat}
+          name={FieldTypes.sub}
           style={{ minWidth: "90px" }}
           onChange={catChangeHandler}
           disabled={noMainCat}
@@ -82,6 +84,9 @@ const SelectCategory = (props: Props): JSX.Element => {
           })}
         </Select>
       </span>
+      {propError && propError[FieldTypes.sub] && (
+        <div>{propError[FieldTypes.sub]}</div>
+      )}
     </Fragment>
   );
 };

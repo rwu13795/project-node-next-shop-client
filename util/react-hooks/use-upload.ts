@@ -2,10 +2,10 @@ import { useState } from "react";
 
 import browserClient from "../axios-client/browser-client";
 import { ProductProps, ProductCategory } from "../../pages/admin/add-product";
+import { FieldTypes } from "../../components/add-product/field-types";
 
-interface Errors {
-  message: string | null;
-  field: string | null;
+export interface Errors {
+  [field: string]: string;
 }
 
 interface ColorProps {
@@ -25,19 +25,19 @@ const useUpload = ({
   productCategory: ProductCategory;
   productPropList: ProductProps[];
   price: number;
-  description: string;
+  description?: string;
   onSuccess: Function;
 }) => {
   const client = browserClient();
 
-  const [errors, setErrors] = useState<Errors>();
+  const [errors, setErrors] = useState<Errors | null>();
 
   const postUpload = async () => {
     try {
-      setErrors({ message: null, field: null });
+      setErrors(null);
 
       // re-format the props and put the imageFiles into "formData"
-      const { title, main: main_cat, sub: sub_cat } = productCategory;
+      const { title, main_cat, sub_cat } = productCategory;
       let colorProps: ColorProps[] = [];
 
       const formData = new FormData();
@@ -67,6 +67,9 @@ const useUpload = ({
         description,
       };
 
+      // the "body" cannot be put inside "req.body" directly while using FormData,
+      // this "body" has to be added to "req.body.propName", and we need to parse this
+      // "req.body.document" in the server
       formData.append("document", JSON.stringify(body));
 
       const response = await client.post(
@@ -80,12 +83,33 @@ const useUpload = ({
 
       return response;
     } catch (err: any) {
-      // the data in the errors which are sent from the server, are inside
-      // the "err.response.data" field
-      console.log("> > > useUpload - catch error < < <", err.response.data);
+      // catch the errors from the "request-validator"
+      // the error messages array sent from the server is inside "err.response.data.errors"
+      console.log(
+        "> > > useUpload - catch error < < <",
+        err.response.data.errors
+      );
 
-      // "data" should be { message: string, field: string }
-      setErrors({ ...err.response.data });
+      // "data" should be [ { message: string, field: string }, { message: string, field: string }, ... ]
+      let errorMsg: Errors = {};
+      for (let e of err.response.data.errors) {
+        if (e.field !== "colorProps") {
+          errorMsg[e.field] = e.message;
+        } else {
+          if (e.message === FieldTypes.colorCode) {
+            errorMsg[FieldTypes.colorCode] = "Please select a color";
+          } else if (e.message === FieldTypes.colorName) {
+            errorMsg[FieldTypes.colorName] =
+              "Please select a name for the color";
+          } else {
+            errorMsg[FieldTypes.imagesCount] =
+              "Please upload at least one image";
+          }
+        }
+      }
+      console.log(errorMsg);
+
+      setErrors({ ...errorMsg });
     }
   };
 

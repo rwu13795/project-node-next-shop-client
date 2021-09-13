@@ -3,6 +3,8 @@ import Image from "next/image";
 
 import { ProductProps } from "../../pages/admin/add-product";
 import SelectColor from "./select-color";
+import { FieldTypes } from "./field-types";
+import { Errors } from "../../util/react-hooks/use-upload";
 
 interface Props {
   propsChangeHandler: (e: ChangeEvent<HTMLInputElement>, index: number) => void;
@@ -10,18 +12,20 @@ interface Props {
   removeImageHandler: (index: number, imageIndex: number) => void;
   productProp: ProductProps;
   listIndex: number;
+  propError: Errors | null | undefined;
 }
 
 const AddColorsProps = (props: Props): JSX.Element => {
   const {
     productProp,
     listIndex,
+    propError,
     propsChangeHandler,
     removeColorHandler,
     removeImageHandler,
   } = props;
 
-  const sizesArray = ["small", "medium", "large"];
+  const sizesArray = [FieldTypes.small, FieldTypes.medium, FieldTypes.large];
 
   return (
     <div>
@@ -41,6 +45,7 @@ const AddColorsProps = (props: Props): JSX.Element => {
         productProp={productProp}
         listIndex={listIndex}
         propsChangeHandler={propsChangeHandler}
+        propError={propError}
       />
       <div>
         <label>Sizes: </label>
@@ -52,6 +57,7 @@ const AddColorsProps = (props: Props): JSX.Element => {
                 required
                 placeholder={"0"}
                 type="number"
+                min={0}
                 name={size}
                 value={productProp.sizes[size]}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -63,7 +69,7 @@ const AddColorsProps = (props: Props): JSX.Element => {
         })}
       </div>
       <div>
-        <label htmlFor="image">Upload Image: </label>
+        <label>Upload Image: </label>
       </div>
       <div>
         {productProp.imagesFiles.length > 0 &&
@@ -100,7 +106,7 @@ const AddColorsProps = (props: Props): JSX.Element => {
               </div>
             );
           })}
-        <span>
+        <div>
           <input
             type="file"
             accept="image/jpeg"
@@ -110,7 +116,10 @@ const AddColorsProps = (props: Props): JSX.Element => {
               propsChangeHandler(e, listIndex)
             }
           />
-        </span>
+        </div>
+        {propError && productProp.imagesCount < 1 && (
+          <div>{propError[FieldTypes.imagesCount]}</div>
+        )}
       </div>
 
       <div>

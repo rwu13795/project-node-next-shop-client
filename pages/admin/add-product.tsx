@@ -9,6 +9,7 @@ import AddTitle from "../../components/add-product/add-title";
 import AddPrice from "../../components/add-product/add-price";
 import AddDescription from "../../components/add-product/add-description";
 import AddColorsProps from "../../components/add-product/add-colors-props";
+import { FieldTypes } from "../../components/add-product/field-types";
 
 export interface ProductProps {
   colorName: string;
@@ -28,6 +29,8 @@ const AddProduct: NextPage = ({}) => {
 
   const [productPropList, setProductPropList] = useState<ProductProps[]>([
     {
+      // have to initialize the props, or React will throw "uncontrolled input" warning,
+      // when the value changing from undefined to a defined value
       colorName: "",
       colorCode: "",
       sizes: { small: 0, medium: 0, large: 0 },
@@ -37,13 +40,13 @@ const AddProduct: NextPage = ({}) => {
   ]);
 
   const [productCategory, setProductCategory] = useState<ProductCategory>({
-    main: "",
-    sub: "",
-    title: "",
+    [FieldTypes.main]: "",
+    [FieldTypes.sub]: "",
+    [FieldTypes.title]: "",
   });
 
   const [price, setPrice] = useState<number>(0);
-  const [description, setDescription] = useState<string>("");
+  const [description, setDescription] = useState<string | undefined>();
 
   // useUpload hook
   const { postUpload, errors } = useUpload({
@@ -57,8 +60,6 @@ const AddProduct: NextPage = ({}) => {
       // console.log(productPropList);
     },
   });
-  // put the error message in html element
-  const showError = errors && <h4>{errors.message}</h4>;
 
   const propsChangeHandler = (
     e: ChangeEvent<HTMLInputElement>,
@@ -81,7 +82,7 @@ const AddProduct: NextPage = ({}) => {
       list[index].imagesFiles.push(imageFile);
       list[index].imagesCount = list[index].imagesFiles.length;
       setProductPropList(list);
-    } else if (name === "colorCode") {
+    } else if (name === FieldTypes.colorCode) {
       list[index].colorCode = value;
       setProductPropList(list);
     } else {
@@ -142,18 +143,15 @@ const AddProduct: NextPage = ({}) => {
     await postUpload();
   };
 
-  console.log(productCategory);
-  console.log(productPropList);
-
   return (
     <main>
       <h1>Add New Product</h1>
       <div>
-        {errors?.field === "main" && showError}
         <label>Category: </label>
         <SelectCategory
           catChangeHandler={catChangeHandler}
           productCategory={productCategory}
+          propError={errors}
         />
       </div>
       <div>
@@ -161,9 +159,11 @@ const AddProduct: NextPage = ({}) => {
           catChangeHandler={catChangeHandler}
           productCategory={productCategory}
         />
+        {errors && errors[FieldTypes.title] && (
+          <div>{errors[FieldTypes.title]}</div>
+        )}
       </div>
       <div>
-        {errors?.field === "main" && showError}
         <AddPrice price={price} setPrice={setPrice} />
       </div>
       <div>
@@ -171,6 +171,9 @@ const AddProduct: NextPage = ({}) => {
           description={description}
           setDescription={setDescription}
         />
+        {errors && errors[FieldTypes.desc] && (
+          <div>{errors[FieldTypes.desc]}</div>
+        )}
       </div>
       {productPropList.map((prop, index) => {
         return (
@@ -181,6 +184,7 @@ const AddProduct: NextPage = ({}) => {
             propsChangeHandler={propsChangeHandler}
             removeColorHandler={removeColorHandler}
             removeImageHandler={removeImageHandler}
+            propError={errors}
           />
         );
       })}

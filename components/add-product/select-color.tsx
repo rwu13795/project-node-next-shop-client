@@ -2,6 +2,8 @@ import { useState, ChangeEvent, MouseEvent } from "react";
 import { Dropdown, Row, Col } from "react-bootstrap";
 
 import { ProductProps } from "../../pages/admin/add-product";
+import { Errors } from "../../util/react-hooks/use-upload";
+import { FieldTypes } from "./field-types";
 
 interface Props {
   propsChangeHandler: (
@@ -11,13 +13,11 @@ interface Props {
   ) => void;
   productProp: ProductProps;
   listIndex: number;
+  propError: Errors | null | undefined;
 }
 
 const SelectColor = (props: Props): JSX.Element => {
-  const { productProp, listIndex, propsChangeHandler } = props;
-
-  const [colorCode, setColorCode] = useState("");
-  const [colorName, setColorName] = useState("");
+  const { productProp, listIndex, propsChangeHandler, propError } = props;
 
   const selectColorNameHandler = (
     e: MouseEvent<HTMLElement, globalThis.MouseEvent>
@@ -29,8 +29,6 @@ const SelectColor = (props: Props): JSX.Element => {
     let event: any; // by-pass the "ChangeEvent" type check in the function
     propsChangeHandler(event, listIndex, colorName);
   };
-
-  console.log(productProp);
 
   return (
     <div>
@@ -59,7 +57,6 @@ const SelectColor = (props: Props): JSX.Element => {
             }}
           >
             <input
-              required
               type="color"
               name="colorCode"
               value={productProp.colorCode}
@@ -78,6 +75,9 @@ const SelectColor = (props: Props): JSX.Element => {
             />
           </div>
         </div>
+        {propError && productProp.colorCode === "" && (
+          <div>{propError[FieldTypes.colorCode]}</div>
+        )}
       </span>
       <span>
         <Dropdown>
@@ -133,6 +133,9 @@ const SelectColor = (props: Props): JSX.Element => {
             </Row>
           </Dropdown.Menu>
         </Dropdown>
+        {propError && productProp.colorName === "" && (
+          <div>{propError[FieldTypes.colorName]}</div>
+        )}
       </span>
       <span>
         picked color
