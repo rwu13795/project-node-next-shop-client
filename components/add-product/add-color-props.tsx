@@ -17,12 +17,12 @@ interface Props {
 
 const AddColorsProps = (props: Props): JSX.Element => {
   const {
-    productProp,
-    listIndex,
-    propError,
     propsChangeHandler,
     removeColorHandler,
     removeImageHandler,
+    productProp,
+    listIndex,
+    propError,
   } = props;
 
   const sizesArray = [FieldNames.small, FieldNames.medium, FieldNames.large];
@@ -85,6 +85,7 @@ const AddColorsProps = (props: Props): JSX.Element => {
                   X
                 </button>
                 <Image
+                  // src==" if file instance of File ? "ObjectUR"  : "imageUrl"
                   src={URL.createObjectURL(file)}
                   alt="selected image"
                   width={150}

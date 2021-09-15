@@ -8,7 +8,7 @@ import SelectCategory from "../../components/add-product/select-category";
 import AddTitle from "../../components/add-product/add-title";
 import AddPrice from "../../components/add-product/add-price";
 import AddDescription from "../../components/add-product/add-description";
-import AddColorsProps from "../../components/add-product/add-colors-props";
+import AddColorsProps from "../../components/add-product/add-color-props";
 import { FieldNames } from "../../components/add-product/enums/field-names-enum";
 
 export interface ProductProps {
@@ -78,6 +78,7 @@ const AddProduct: NextPage = ({}) => {
     // handlde images, sizes, and colorCode
     const { name, value } = e.currentTarget;
     if (name === "image") {
+      // if(editMode) {}
       const imageFile = (e.target.files as FileList)[0];
       list[index].imagesFiles.push(imageFile);
       list[index].imagesCount = list[index].imagesFiles.length;

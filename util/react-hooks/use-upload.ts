@@ -58,7 +58,7 @@ const useUpload = ({
         });
       }
 
-      const body = {
+      let body = {
         title,
         main_cat,
         sub_cat,
@@ -66,6 +66,9 @@ const useUpload = ({
         colorProps,
         description,
       };
+
+      // use the index of old imagesUrl to update
+      // if (updatedImageIndex) { body = {...body, updatedImageIndex } }
 
       // the "body" cannot be put inside "req.body" directly while using FormData,
       // this "body" has to be added to "req.body.propName", and we need to parse this
