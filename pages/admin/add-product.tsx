@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
-import Image from "next/image";
 import { useRouter } from "next/dist/client/router";
-import { Fragment, useState, ChangeEvent } from "react";
+import { useState, ChangeEvent } from "react";
 
 import useUpload from "../../util/react-hooks/use-upload";
 import SelectCategory from "../../components/add-product/select-category";
@@ -64,7 +63,8 @@ const AddProduct: NextPage = ({}) => {
   const propsChangeHandler = (
     e: ChangeEvent<HTMLInputElement>,
     index: number,
-    colorName?: string
+    colorName?: string,
+    imageIndex?: number
   ): void => {
     let list = [...productPropList];
 
@@ -75,20 +75,34 @@ const AddProduct: NextPage = ({}) => {
       return;
     }
 
-    // handlde images, sizes, and colorCode
     const { name, value } = e.currentTarget;
-    if (name === "image") {
-      // if(editMode) {}
-      const imageFile = (e.target.files as FileList)[0];
-      list[index].imagesFiles.push(imageFile);
-      list[index].imagesCount = list[index].imagesFiles.length;
-      setProductPropList(list);
-    } else if (name === FieldNames.colorCode) {
-      list[index].colorCode = value;
-      setProductPropList(list);
-    } else {
-      list[index].sizes[name] = parseInt(value);
-      setProductPropList(list);
+
+    switch (name) {
+      case "image":
+        let imageFile = (e.target.files as FileList)[0];
+        // if(editMode) {}
+        if (imageFile !== undefined) {
+          list[index].imagesFiles.push(imageFile);
+          list[index].imagesCount = list[index].imagesFiles.length;
+          setProductPropList(list);
+          break;
+        }
+      case "relace-image":
+        imageFile = (e.target.files as FileList)[0];
+        if (imageIndex !== undefined && imageFile !== undefined) {
+          console.log(imageIndex);
+          list[index].imagesFiles[imageIndex] = imageFile;
+          setProductPropList(list);
+        }
+        break;
+      case FieldNames.colorCode:
+        list[index].colorCode = value;
+        setProductPropList(list);
+        break;
+      default:
+        list[index].sizes[name] = parseInt(value);
+        setProductPropList(list);
+        break;
     }
   };
 

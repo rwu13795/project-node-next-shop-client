@@ -1,10 +1,10 @@
-import { ChangeEvent, SetStateAction, Fragment } from "react";
-import Image from "next/image";
+import { ChangeEvent, Fragment } from "react";
 
 import { ProductProps } from "../../pages/admin/add-product";
 import SelectColor from "./select-color";
 import { FieldNames } from "./enums/field-names-enum";
 import { Errors } from "../../util/react-hooks/use-upload";
+import { AddImage } from "./add-image";
 
 interface Props {
   propsChangeHandler: (e: ChangeEvent<HTMLInputElement>, index: number) => void;
@@ -35,6 +35,7 @@ const AddColorsProps = (props: Props): JSX.Element => {
         propsChangeHandler={propsChangeHandler}
         propError={propError}
       />
+
       <div>
         <label>Sizes: </label>
         {sizesArray.map((size) => {
@@ -56,60 +57,14 @@ const AddColorsProps = (props: Props): JSX.Element => {
           );
         })}
       </div>
-      <div>
-        <label>Upload Image: </label>
-      </div>
-      <div>
-        {productProp.imagesFiles.length > 0 &&
-          productProp.imagesFiles.map((file, imageIndex) => {
-            return (
-              <div
-                key={imageIndex}
-                style={{
-                  height: "100%",
-                  width: "155px",
-                  position: "relative",
-                  border: "red 2px solid",
-                  display: "inline-block",
-                }}
-              >
-                <button
-                  style={{
-                    position: "absolute",
-                    zIndex: 9,
-                    right: "5%",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => removeImageHandler(listIndex, imageIndex)}
-                >
-                  X
-                </button>
-                <Image
-                  // src==" if file instance of File ? "ObjectUR"  : "imageUrl"
-                  src={URL.createObjectURL(file)}
-                  alt="selected image"
-                  width={150}
-                  height={150}
-                />
-                <div>{file.name}</div>
-              </div>
-            );
-          })}
-        <div>
-          <input
-            type="file"
-            accept="image/jpeg"
-            name="image"
-            id="upload-image"
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              propsChangeHandler(e, listIndex)
-            }
-          />
-        </div>
-        {propError && productProp.imagesCount < 1 && (
-          <div>{propError[FieldNames.imagesCount]}</div>
-        )}
-      </div>
+
+      <AddImage
+        removeImageHandler={removeImageHandler}
+        propsChangeHandler={propsChangeHandler}
+        productProp={productProp}
+        listIndex={listIndex}
+        propError={propError}
+      />
 
       <div>
         <button onClick={() => removeColorHandler(listIndex)}>
