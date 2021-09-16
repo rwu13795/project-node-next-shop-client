@@ -1,12 +1,12 @@
 import { SetStateAction } from "react";
-import { FieldNames } from "./enums/field-names-enum";
+import { FieldNames } from "../../util/enums/input-field-names-enum";
 
 interface Props {
   setDescription: (value: SetStateAction<string | undefined>) => void;
   description?: string;
 }
 
-const AddDescription = (props: Props): JSX.Element => {
+export default function AddDescription(props: Props): JSX.Element {
   const { description, setDescription } = props;
 
   return (
@@ -20,6 +20,4 @@ const AddDescription = (props: Props): JSX.Element => {
       ></textarea>
     </div>
   );
-};
-
-export default AddDescription;
+}

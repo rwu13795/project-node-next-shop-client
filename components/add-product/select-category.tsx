@@ -5,14 +5,14 @@ import { ChangeEvent, Fragment, useEffect, useState } from "react";
 
 import { ProductCategory } from "../../pages/admin/add-product";
 import { Errors } from "../../util/react-hooks/use-upload";
-import { FieldNames } from "./enums/field-names-enum";
+import { FieldNames } from "../../util/enums/input-field-names-enum";
 import {
   mainCatArray,
   menCatArray,
   womenCatArray,
   kidsCatArray,
   MainCategory,
-} from "./enums/category-enum";
+} from "../../util/enums/category-enum";
 
 interface Props {
   catChangeHandler: (e: ChangeEvent<{ name?: string; value: unknown }>) => void;
@@ -20,7 +20,7 @@ interface Props {
   propError: Errors | null | undefined;
 }
 
-const SelectCategory = (props: Props): JSX.Element => {
+export default function SelectCategory(props: Props): JSX.Element {
   const { catChangeHandler, productCategory, propError } = props;
 
   const [noMainCat, setNoMainCat] = useState<boolean>(true);
@@ -90,6 +90,4 @@ const SelectCategory = (props: Props): JSX.Element => {
       )}
     </Fragment>
   );
-};
-
-export default SelectCategory;
+}

@@ -1,14 +1,14 @@
 import { ChangeEvent, useRef, useState } from "react";
 
 import { ProductCategory } from "../../pages/admin/add-product";
-import { FieldNames } from "./enums/field-names-enum";
+import { FieldNames } from "../../util/enums/input-field-names-enum";
 
 interface Props {
   catChangeHandler: (e: ChangeEvent<{ name?: string; value: unknown }>) => void;
   productCategory: ProductCategory;
 }
 
-const AddTitle = (props: Props): JSX.Element => {
+export default function AddTitle(props: Props): JSX.Element {
   const { productCategory, catChangeHandler } = props;
 
   // const [styles, setStyles] = useState({});
@@ -46,6 +46,4 @@ const AddTitle = (props: Props): JSX.Element => {
       {/* {hasError && <span style={styles}>Title cannot be empty!</span>} */}
     </div>
   );
-};
-
-export default AddTitle;
+}

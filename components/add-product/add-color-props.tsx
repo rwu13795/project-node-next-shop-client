@@ -2,9 +2,9 @@ import { ChangeEvent, Fragment } from "react";
 
 import { ProductProps } from "../../pages/admin/add-product";
 import SelectColor from "./select-color";
-import { FieldNames } from "./enums/field-names-enum";
+import { FieldNames } from "../../util/enums/input-field-names-enum";
 import { Errors } from "../../util/react-hooks/use-upload";
-import { AddImage } from "./add-image";
+import AddImage from "./add-image";
 
 interface Props {
   propsChangeHandler: (e: ChangeEvent<HTMLInputElement>, index: number) => void;
@@ -15,7 +15,7 @@ interface Props {
   propError: Errors | null | undefined;
 }
 
-const AddColorsProps = (props: Props): JSX.Element => {
+export default function AddColorsProps(props: Props): JSX.Element {
   const {
     propsChangeHandler,
     removeColorHandler,
@@ -73,6 +73,4 @@ const AddColorsProps = (props: Props): JSX.Element => {
       </div>
     </div>
   );
-};
-
-export default AddColorsProps;
+}

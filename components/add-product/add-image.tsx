@@ -2,7 +2,7 @@ import { Fragment, ChangeEvent } from "react";
 import Image from "next/image";
 
 import { ProductProps } from "../../pages/admin/add-product";
-import { FieldNames } from "./enums/field-names-enum";
+import { FieldNames } from "../../util/enums/input-field-names-enum";
 import { Errors } from "../../util/react-hooks/use-upload";
 
 interface Props {
@@ -18,7 +18,7 @@ interface Props {
   propError: Errors | null | undefined;
 }
 
-export const AddImage = (props: Props) => {
+export default function AddImage(props: Props) {
   const {
     propsChangeHandler,
     removeImageHandler,
@@ -131,4 +131,4 @@ export const AddImage = (props: Props) => {
       </div>
     </Fragment>
   );
-};
+}

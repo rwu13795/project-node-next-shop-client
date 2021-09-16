@@ -1,14 +1,15 @@
 import axios from "axios";
+import { GetServerSidePropsContext } from "next";
 
 // all the NextJS pages that are server-side-rendered, must have a
 // headers property in order to check for session, you must use this
 // custom axios client to make request in all pages
-const serverClient = (ctx) => {
+const serverClient = (ctx: GetServerSidePropsContext) => {
   if (typeof window === "undefined") {
     // in server
     return axios.create({
       baseURL: "/",
-      headers: ctx.req.headers,
+      headers: ctx.req?.headers,
     });
   } else {
     // in browser

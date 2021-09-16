@@ -8,7 +8,7 @@ import AddTitle from "../../components/add-product/add-title";
 import AddPrice from "../../components/add-product/add-price";
 import AddDescription from "../../components/add-product/add-description";
 import AddColorsProps from "../../components/add-product/add-color-props";
-import { FieldNames } from "../../components/add-product/enums/field-names-enum";
+import { FieldNames } from "../../util/enums/input-field-names-enum";
 
 export interface ProductProps {
   colorName: string;

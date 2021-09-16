@@ -1,13 +1,13 @@
 import { SetStateAction } from "react";
 
-import { FieldNames } from "./enums/field-names-enum";
+import { FieldNames } from "../../util/enums/input-field-names-enum";
 
 interface Props {
   setPrice: (value: SetStateAction<number>) => void;
   price: number;
 }
 
-const AddPrice = (props: Props): JSX.Element => {
+export default function AddPrice(props: Props): JSX.Element {
   const { price, setPrice } = props;
 
   return (
@@ -22,6 +22,4 @@ const AddPrice = (props: Props): JSX.Element => {
       ></input>
     </div>
   );
-};
-
-export default AddPrice;
+}

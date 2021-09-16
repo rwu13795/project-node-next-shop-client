@@ -1,8 +1,10 @@
 import Link from "next/link";
 
+import styles from "./main-navigation.module.css";
+
 export default function MainNavigation({}) {
   return (
-    <main>
+    <main className={styles.main}>
       <section>
         <div>
           <Link href="/">

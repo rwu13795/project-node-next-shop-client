@@ -1,9 +1,9 @@
-import { useState, ChangeEvent, MouseEvent } from "react";
+import { ChangeEvent, MouseEvent } from "react";
 import { Dropdown, Row, Col } from "react-bootstrap";
 
 import { ProductProps } from "../../pages/admin/add-product";
 import { Errors } from "../../util/react-hooks/use-upload";
-import { FieldNames } from "./enums/field-names-enum";
+import { FieldNames } from "../../util/enums/input-field-names-enum";
 
 interface Props {
   propsChangeHandler: (
@@ -16,7 +16,7 @@ interface Props {
   propError: Errors | null | undefined;
 }
 
-const SelectColor = (props: Props): JSX.Element => {
+export default function SelectColor(props: Props): JSX.Element {
   const { productProp, listIndex, propsChangeHandler, propError } = props;
 
   const selectColorNameHandler = (
@@ -85,14 +85,9 @@ const SelectColor = (props: Props): JSX.Element => {
             Dropdown Button
           </Dropdown.Toggle>
 
-          <Dropdown.Menu
-            style={{
-              width: "20rem",
-              flexFlow: "row",
-            }}
-          >
+          <Dropdown.Menu>
             <Row>
-              <Col xs="12" md="6">
+              <Col xs="6" sm="4" md="4">
                 <Dropdown.Item
                   data-color="red"
                   onClick={selectColorNameHandler}
@@ -101,6 +96,7 @@ const SelectColor = (props: Props): JSX.Element => {
                     display: "flex",
                     flexFlow: "row",
                     alignItems: "center",
+                    minWidth: "15rem",
                   }}
                 >
                   <div style={{ fontSize: "1.3rem" }}>Red</div>
@@ -115,6 +111,8 @@ const SelectColor = (props: Props): JSX.Element => {
                     }}
                   ></div>
                 </Dropdown.Item>
+              </Col>
+              <Col xs="6" sm="4" md="4">
                 <Dropdown.Item
                   data-color="blue"
                   onClick={selectColorNameHandler}
@@ -122,7 +120,7 @@ const SelectColor = (props: Props): JSX.Element => {
                   blue
                 </Dropdown.Item>
               </Col>
-              <Col>
+              <Col xs="6" sm="4" md="4">
                 <Dropdown.Item
                   data-color="pink"
                   onClick={selectColorNameHandler}
@@ -151,6 +149,4 @@ const SelectColor = (props: Props): JSX.Element => {
       </span>
     </div>
   );
-};
-
-export default SelectColor;
+}
