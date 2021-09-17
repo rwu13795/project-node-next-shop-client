@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, Dispatch } from "react";
 import { SelectChangeEvent } from "@mui/material";
 
 import {
@@ -9,36 +9,41 @@ import {
   Select,
 } from "@mui/material";
 
+import { Errors } from "../../util/react-hooks/add-product-upload";
+import { FieldNames } from "../../util/enums/input-field-names";
 import {
-  ProductProps,
-  PropsChangeHandler,
-} from "../../pages/admin/add-product";
-import { Errors } from "../../util/react-hooks/use-upload";
-import { FieldNames } from "../../util/enums/input-field-names-enum";
+  ActionType,
+  ColorProps,
+} from "../../util/react-hooks/add-product-reducer";
+import { Actions } from "../../util/enums/reducer-actions";
 
 interface Props {
-  propsChangeHandler: PropsChangeHandler;
-  productProp: ProductProps;
+  colorProps: ColorProps;
   listIndex: number;
-  propError: Errors | null | undefined;
+  dispatch: Dispatch<ActionType>;
+  // propError: Errors | null | undefined;
 }
 
 export default function SelectColor(props: Props): JSX.Element {
-  const { productProp, listIndex, propsChangeHandler, propError } = props;
+  const { colorProps, listIndex, dispatch } = props;
 
-  const selectColorNameHandler = (e: SelectChangeEvent<string>) => {
-    console.log("select colorName", listIndex);
-    const colorName = e.target.value;
+  const selectColorHandler = (
+    e: SelectChangeEvent<string> | ChangeEvent<HTMLInputElement>
+  ) => {
+    const inputValue = e.target.value;
     const inputField = e.target.name;
-    propsChangeHandler(colorName, inputField, listIndex);
+    dispatch({
+      type: Actions.addColorInfo,
+      payload: { listIndex, inputField, inputValue },
+    });
   };
 
-  const selectColorCodeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("select colorCode", listIndex);
-    const colorCode = e.currentTarget.value;
-    const inputField = e.currentTarget.name;
-    propsChangeHandler(colorCode, inputField, listIndex);
-  };
+  // const selectColorCodeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  //   console.log("select colorCode", listIndex);
+  //   const colorCode = e.currentTarget.value;
+  //   const inputField = e.currentTarget.name;
+  //   propsChangeHandler(colorCode, inputField, listIndex);
+  // };
 
   return (
     <div>
@@ -69,8 +74,8 @@ export default function SelectColor(props: Props): JSX.Element {
             <input
               type="color"
               name={FieldNames.colorCode}
-              value={productProp.colorCode}
-              onChange={selectColorCodeHandler}
+              value={colorProps.colorCode}
+              onChange={selectColorHandler}
               style={{
                 position: "relative",
                 bottom: "10px",
@@ -83,9 +88,9 @@ export default function SelectColor(props: Props): JSX.Element {
             />
           </div>
         </div>
-        {propError && productProp.colorCode === "" && (
+        {/* {propError && productProp.colorCode === "" && (
           <div>{propError[FieldNames.colorCode]}</div>
-        )}
+        )} */}
       </span>
       <span>
         <FormControl>
@@ -93,9 +98,9 @@ export default function SelectColor(props: Props): JSX.Element {
 
           <Select
             label="Color Name"
-            value={productProp.colorName}
+            value={colorProps.colorName}
             name={FieldNames.colorName}
-            onChange={selectColorNameHandler}
+            onChange={selectColorHandler}
           >
             <MenuItem
               value="red"
@@ -125,9 +130,9 @@ export default function SelectColor(props: Props): JSX.Element {
             <MenuItem value="pink">pink</MenuItem>
           </Select>
         </FormControl>
-        {propError && productProp.colorName === "" && (
+        {/* {propError && productProp.colorName === "" && (
           <div>{propError[FieldNames.colorName]}</div>
-        )}
+        )} */}
       </span>
       <span>
         picked color
@@ -135,7 +140,7 @@ export default function SelectColor(props: Props): JSX.Element {
           style={{
             height: "30px",
             width: "30px",
-            backgroundColor: `${productProp.colorName}`,
+            backgroundColor: `${colorProps.colorName}`,
           }}
         >
           123

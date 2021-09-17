@@ -1,16 +1,17 @@
-import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { SelectChangeEvent } from "@mui/material";
 
-import { ProductInfo, InfoChangeHandler } from "../../pages/admin/add-product";
-import { FieldNames } from "../../util/enums/input-field-names-enum";
+import { ProductInfo } from "../../util/react-hooks/add-product-reducer";
+import { FieldNames } from "../../util/enums/input-field-names";
+import { AddInfoEvents } from "../../pages/admin/add-product";
 
 interface Props {
-  infoChangeHandler: InfoChangeHandler;
+  dispatchAddInfo: (e: AddInfoEvents) => void;
   productInfo: ProductInfo;
 }
 
 export default function AddTitle(props: Props): JSX.Element {
-  const { productInfo, infoChangeHandler } = props;
+  const { dispatchAddInfo, productInfo } = props;
 
   // const [styles, setStyles] = useState({});
   // const [wasTouched, setWasTouched] = useState(false);
@@ -39,12 +40,14 @@ export default function AddTitle(props: Props): JSX.Element {
         name={FieldNames.title}
         type="text"
         value={productInfo.title}
-        onChange={(e) => infoChangeHandler(e.target.value, e.target.name)}
+        onChange={dispatchAddInfo}
         // onBlur={onBlurHandler}
         // onFocus={onFocusHandler}
         // style={styles}
       ></input>
-      {/* {hasError && <span style={styles}>Title cannot be empty!</span>} */}
+      {/* {errors && errors[FieldNames.title] && (
+          <div>{errors[FieldNames.title]}</div>
+        )} */}
     </div>
   );
 }

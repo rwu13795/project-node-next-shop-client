@@ -2,10 +2,10 @@ import type { GetServerSidePropsContext, NextPage } from "next";
 import { useRef, useState } from "react";
 
 import serverClient from "../../util/axios-client/server-client";
-import { MainCategory, MenCategory } from "../../util/enums/category-enum";
-import useGetMoreProducts from "../../util/react-hooks/use-get-more-products";
+import { MainCategory, MenCategory } from "../../util/enums/product-category";
+import useGetMoreProducts from "../../util/react-hooks/get-more-products";
 
-import { useLastElementRef } from "../../util/react-hooks/use-last-elem-ref";
+import { useLastElementRef } from "../../util/react-hooks/last-elem-ref";
 import RenderSubCatImage from "../../components/display-products/render-sub-cat-image";
 
 interface PageProps {

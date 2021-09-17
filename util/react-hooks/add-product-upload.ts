@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import browserClient from "../axios-client/browser-client";
 import { ProductProps, ProductInfo } from "../../pages/admin/add-product";
-import { FieldNames } from "../enums/input-field-names-enum";
+import { FieldNames } from "../enums/input-field-names";
 
 export interface Errors {
   [field: string]: string;

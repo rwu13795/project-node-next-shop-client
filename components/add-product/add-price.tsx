@@ -1,15 +1,13 @@
-import { SetStateAction, Dispatch } from "react";
-
-import { FieldNames } from "../../util/enums/input-field-names-enum";
-import { InfoChangeHandler, ProductInfo } from "../../pages/admin/add-product";
+import { FieldNames } from "../../util/enums/input-field-names";
+import { ProductInfo } from "../../util/react-hooks/add-product-reducer";
+import { AddInfoEvents } from "../../pages/admin/add-product";
 
 interface Props {
-  infoChangeHandler: InfoChangeHandler;
+  dispatchAddInfo: (e: AddInfoEvents) => void;
   productInfo: ProductInfo;
 }
-
 export default function AddPrice(props: Props): JSX.Element {
-  const { productInfo, infoChangeHandler } = props;
+  const { productInfo, dispatchAddInfo } = props;
 
   return (
     <div>
@@ -19,9 +17,7 @@ export default function AddPrice(props: Props): JSX.Element {
         type="number"
         value={productInfo.price}
         min="0"
-        onChange={(e) =>
-          infoChangeHandler(parseFloat(e.target.value), e.target.name)
-        }
+        onChange={dispatchAddInfo}
       ></input>
     </div>
   );

@@ -1,26 +1,26 @@
 import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
-import { SelectChangeEvent } from "@mui/material";
 
-import { ProductInfo, InfoChangeHandler } from "../../pages/admin/add-product";
-import { Errors } from "../../util/react-hooks/use-upload";
-import { FieldNames } from "../../util/enums/input-field-names-enum";
+import { ProductInfo } from "../../util/react-hooks/add-product-reducer";
+import { FieldNames } from "../../util/enums/input-field-names";
+import { AddInfoEvents } from "../../pages/admin/add-product";
+import { Errors } from "../../util/react-hooks/add-product-upload";
 import {
   mainCatArray,
   menCatArray,
   womenCatArray,
   kidsCatArray,
   MainCategory,
-} from "../../util/enums/category-enum";
+} from "../../util/enums/product-category";
 
 interface Props {
-  infoChangeHandler: InfoChangeHandler;
+  dispatchAddInfo: (e: AddInfoEvents) => void;
   productInfo: ProductInfo;
-  propError: Errors | null | undefined;
+  // propError: Errors;
 }
 
 export default function SelectCategory(props: Props): JSX.Element {
-  const { infoChangeHandler, productInfo, propError } = props;
+  const { dispatchAddInfo, productInfo } = props;
 
   const [noMainCat, setNoMainCat] = useState<boolean>(true);
   const [subCatArray, setSubCatArray] = useState<string[]>([""]);
@@ -44,12 +44,6 @@ export default function SelectCategory(props: Props): JSX.Element {
     }
   }, [productInfo.main_cat]);
 
-  const selectCategoryHandler = (e: SelectChangeEvent<string | number>) => {
-    const inputValue = e.target.value;
-    const inputField = e.target.name;
-    infoChangeHandler(inputValue, inputField);
-  };
-
   return (
     <Fragment>
       <FormControl
@@ -58,11 +52,11 @@ export default function SelectCategory(props: Props): JSX.Element {
       >
         <InputLabel style={{ fontSize: "1rem" }}>Main-Category</InputLabel>
         <Select
-          value={productInfo.main_cat}
+          value={productInfo.main_cat?.toString()}
           name={FieldNames.main}
           label="Main Category"
           sx={{ m: 0, minWidth: 130 }}
-          onChange={selectCategoryHandler}
+          onChange={dispatchAddInfo}
         >
           {mainCatArray.map((cat) => {
             return (
@@ -83,16 +77,16 @@ export default function SelectCategory(props: Props): JSX.Element {
           })}
         </Select>
       </FormControl>
-      {propError && propError[FieldNames.main] && (
+      {/* {propError && propError[FieldNames.main] && (
         <div>{propError[FieldNames.main]}</div>
-      )}
+      )} */}
       <span>
         <InputLabel style={{ fontSize: "15px" }}>Sub-Category</InputLabel>
         <Select
-          value={productInfo.sub_cat}
+          value={productInfo.sub_cat?.toString()}
           name={FieldNames.sub}
           style={{ minWidth: "90px" }}
-          onChange={selectCategoryHandler}
+          onChange={dispatchAddInfo}
           disabled={noMainCat}
         >
           {subCatArray.map((cat) => {
@@ -104,9 +98,9 @@ export default function SelectCategory(props: Props): JSX.Element {
           })}
         </Select>
       </span>
-      {propError && propError[FieldNames.sub] && (
+      {/* {propError && propError[FieldNames.sub] && (
         <div>{propError[FieldNames.sub]}</div>
-      )}
+      )} */}
     </Fragment>
   );
 }

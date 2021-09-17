@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import Image from "next/image";
 
-import { ProductProps } from "../../util/react-hooks/use-get-more-products";
+import { ProductProps } from "../../util/react-hooks/get-more-products";
 
 interface Props {
   products: ProductProps[];

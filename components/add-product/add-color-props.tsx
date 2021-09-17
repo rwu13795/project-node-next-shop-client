@@ -1,46 +1,48 @@
-import { ChangeEvent, Fragment, MouseEvent } from "react";
-import Image from "next/image";
+import { ChangeEvent, Dispatch, Fragment, MouseEvent } from "react";
 
-import {
-  ProductProps,
-  PropsChangeHandler,
-} from "../../pages/admin/add-product";
 import SelectColor from "./select-color";
-import { FieldNames } from "../../util/enums/input-field-names-enum";
-import { Errors } from "../../util/react-hooks/use-upload";
+import { FieldNames } from "../../util/enums/input-field-names";
+import { Errors } from "../../util/react-hooks/add-product-upload";
 import AddImage from "./add-image";
+import {
+  ActionType,
+  ColorProps,
+} from "../../util/react-hooks/add-product-reducer";
+import { Actions } from "../../util/enums/reducer-actions";
 
 interface Props {
-  propsChangeHandler: PropsChangeHandler;
-  productProp: ProductProps;
+  colorProps: ColorProps;
   listIndex: number;
-  propError: Errors | null | undefined;
+  dispatch: Dispatch<ActionType>;
+  // propError:
 }
 
 export default function AddColorsProps(props: Props): JSX.Element {
-  const { propsChangeHandler, productProp, listIndex, propError } = props;
+  const { colorProps, listIndex, dispatch } = props;
 
   const sizesArray = [FieldNames.small, FieldNames.medium, FieldNames.large];
 
   const sizesChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const sizeNum = e.target.value;
+    const inputValue = e.target.value;
     const inputField = e.target.name;
-    console.log("sizes", listIndex);
-    propsChangeHandler(sizeNum, inputField, listIndex);
+    dispatch({
+      type: Actions.addSizes,
+      payload: { listIndex, inputValue, inputField },
+    });
   };
 
-  const removeColorHandler = (e: MouseEvent<HTMLButtonElement>) => {
-    const inputField = e.currentTarget.name;
-    propsChangeHandler("", inputField, listIndex);
-  };
+  // const removeColorHandler = (e: MouseEvent<HTMLButtonElement>) => {
+  //   const inputField = e.currentTarget.name;
+  //   dispatch({type: Actions.removeColor, payload: {}})
+  // };
 
   return (
     <Fragment>
       <SelectColor
-        productProp={productProp}
+        colorProps={colorProps}
         listIndex={listIndex}
-        propsChangeHandler={propsChangeHandler}
-        propError={propError}
+        dispatch={dispatch}
+        // propError={propError}
       />
 
       <div>
@@ -55,7 +57,7 @@ export default function AddColorsProps(props: Props): JSX.Element {
                 type="number"
                 min={0}
                 name={size}
-                value={productProp.sizes[size]}
+                value={colorProps.sizes[size]}
                 onChange={sizesChangeHandler}
               />
             </Fragment>
@@ -63,15 +65,15 @@ export default function AddColorsProps(props: Props): JSX.Element {
         })}
       </div>
       <AddImage
-        propsChangeHandler={propsChangeHandler}
-        productProp={productProp}
+        colorProps={colorProps}
         listIndex={listIndex}
-        propError={propError}
+        dispatch={dispatch}
+        // propError={propError}
       />
       <div>
-        <button name={FieldNames.removeColor} onClick={removeColorHandler}>
+        {/* <button name={FieldNames.removeColor} onClick={removeColorHandler}>
           Remove this color
-        </button>
+        </button> */}
       </div>
     </Fragment>
   );
