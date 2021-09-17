@@ -16,7 +16,7 @@ export default function AddPrice(props: Props): JSX.Element {
         name={FieldNames.price}
         type="number"
         value={productInfo.price}
-        min="0"
+        min={0}
         onChange={dispatchAddInfo}
       ></input>
     </div>

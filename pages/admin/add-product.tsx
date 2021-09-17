@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
-import React, { useState, useReducer, ChangeEvent } from "react";
+import React, { useReducer, ChangeEvent } from "react";
 import { SelectChangeEvent } from "@mui/material";
 
 import useUpload from "../../util/react-hooks/add-product-upload";
@@ -9,28 +9,16 @@ import AddTitle from "../../components/add-product/add-title";
 import AddPrice from "../../components/add-product/add-price";
 import AddDescription from "../../components/add-product/add-description";
 import AddColorsProps from "../../components/add-product/add-color-props";
-import { FieldNames } from "../../util/enums/input-field-names";
 import addProductReducer, {
+  initialColorProps,
+  initialProductInfo,
   ProductState,
 } from "../../util/react-hooks/add-product-reducer";
 import { Actions } from "../../util/enums/reducer-actions";
 
 const initialProductState: ProductState = {
-  colorPropsList: [
-    {
-      colorName: "",
-      colorCode: "",
-      sizes: { small: 0, medium: 0, large: 0 },
-      imagesCount: 0,
-      imagesFiles: [],
-    },
-  ],
-  productInfo: {
-    [FieldNames.main]: "",
-    [FieldNames.sub]: "",
-    [FieldNames.title]: "",
-    [FieldNames.price]: 0,
-  },
+  colorPropsList: [initialColorProps],
+  productInfo: initialProductInfo,
 };
 
 export type AddInfoEvents =
@@ -53,22 +41,19 @@ const AddProduct: NextPage = ({}) => {
   };
 
   // useUpload hook
-  // const { postUpload, errors } = useUpload({
-  //   productInfo,
-  //   productPropList,
-  //   onSuccess: () => {
-  //     console.log("OK");
-  //     // router.push("/");
-  //     // console.log(productPropList);
-  //   },
-  // });
+  const { postUpload, errors } = useUpload({
+    colorPropsList: state.colorPropsList,
+    productInfo: state.productInfo,
+    onSuccess: () => {
+      console.log("OK");
+      // router.push("/");
+      // console.log(productPropList);
+    },
+  });
 
-  // const uploadHandler = async () => {
-  //   await postUpload();
-  // };
-
-  console.log(state);
-  // console.log(productPropList);
+  const uploadHandler = async () => {
+    await postUpload();
+  };
 
   return (
     <main>
@@ -78,28 +63,27 @@ const AddProduct: NextPage = ({}) => {
         <SelectCategory
           dispatchAddInfo={dispatchAddInfo}
           productInfo={state.productInfo}
-          // propError={errors}
+          propError={errors}
         />
       </div>
       <div>
         <AddTitle
           dispatchAddInfo={dispatchAddInfo}
           productInfo={state.productInfo}
-          // propError={errors}
+          propError={errors}
         />
       </div>
       <div>
         <AddPrice
           dispatchAddInfo={dispatchAddInfo}
           productInfo={state.productInfo}
-          // propError={errors}
         />
       </div>
       <div>
         <AddDescription
           dispatchAddInfo={dispatchAddInfo}
           productInfo={state.productInfo}
-          // propError={errors}
+          propError={errors}
         />
       </div>
       {state.colorPropsList.map((prop, index) => {
@@ -109,15 +93,21 @@ const AddProduct: NextPage = ({}) => {
             colorProps={prop}
             listIndex={index}
             dispatch={dispatch}
-            // propError={errors}
+            propError={errors}
           />
         );
       })}
-      {/* <button onClick={addMoreColorHandler}>Add more colors</button> */}
+      <button
+        onClick={() => {
+          dispatch({ type: Actions.addMoreColor });
+        }}
+      >
+        Add more colors
+      </button>
 
-      {/* <div>
+      <div>
         <button onClick={uploadHandler}>upload</button>
-      </div> */}
+      </div>
     </main>
   );
 };

@@ -13,11 +13,11 @@ interface Props {
   colorProps: ColorProps;
   listIndex: number;
   dispatch: Dispatch<ActionType>;
-  // propError: Errors | null | undefined;
+  propError: Errors | null | undefined;
 }
 
 export default function AddImage(props: Props): JSX.Element {
-  const { colorProps, listIndex, dispatch } = props;
+  const { colorProps, listIndex, dispatch, propError } = props;
 
   const addImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const newImage = (e.target.files as FileList)[0];
@@ -73,7 +73,7 @@ export default function AddImage(props: Props): JSX.Element {
                 {/* have to change the "htmlfor" and "id" dynamically, otherwise the first label/input will
                 always be triggered since all the labels have the same "htmlFor" and "id"  */}
                 <label
-                  htmlFor={`relace-image-${imageIndex}`}
+                  htmlFor={`relace-image-${listIndex}-${imageIndex}`}
                   style={{
                     width: "2rem",
                     height: "2rem",
@@ -93,7 +93,7 @@ export default function AddImage(props: Props): JSX.Element {
                 <input
                   type="file"
                   accept="image/jpeg"
-                  id={`relace-image-${imageIndex}`}
+                  id={`relace-image-${listIndex}-${imageIndex}`}
                   name={FieldNames.replaceImage}
                   style={{ opacity: 0, width: "1px" }}
                   onChange={(e) => replaceImageHandler(e, imageIndex)}
@@ -135,9 +135,9 @@ export default function AddImage(props: Props): JSX.Element {
             onChange={addImageHandler}
           />
         </div>
-        {/* {propError && productProp.imagesCount < 1 && (
+        {propError && colorProps.imagesCount < 1 && (
           <div>{propError[FieldNames.imagesCount]}</div>
-        )} */}
+        )}
       </div>
     </Fragment>
   );

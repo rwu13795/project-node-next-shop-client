@@ -16,11 +16,11 @@ import {
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
   productInfo: ProductInfo;
-  // propError: Errors;
+  propError: Errors | null | undefined;
 }
 
 export default function SelectCategory(props: Props): JSX.Element {
-  const { dispatchAddInfo, productInfo } = props;
+  const { dispatchAddInfo, productInfo, propError } = props;
 
   const [noMainCat, setNoMainCat] = useState<boolean>(true);
   const [subCatArray, setSubCatArray] = useState<string[]>([""]);
@@ -77,9 +77,9 @@ export default function SelectCategory(props: Props): JSX.Element {
           })}
         </Select>
       </FormControl>
-      {/* {propError && propError[FieldNames.main] && (
+      {propError && propError[FieldNames.main] && (
         <div>{propError[FieldNames.main]}</div>
-      )} */}
+      )}
       <span>
         <InputLabel style={{ fontSize: "15px" }}>Sub-Category</InputLabel>
         <Select
@@ -98,9 +98,9 @@ export default function SelectCategory(props: Props): JSX.Element {
           })}
         </Select>
       </span>
-      {/* {propError && propError[FieldNames.sub] && (
+      {propError && propError[FieldNames.sub] && (
         <div>{propError[FieldNames.sub]}</div>
-      )} */}
+      )}
     </Fragment>
   );
 }

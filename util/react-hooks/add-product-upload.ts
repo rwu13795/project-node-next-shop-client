@@ -1,14 +1,14 @@
 import { useState } from "react";
 
 import browserClient from "../axios-client/browser-client";
-import { ProductProps, ProductInfo } from "../../pages/admin/add-product";
 import { FieldNames } from "../enums/input-field-names";
+import { ColorProps, ProductInfo } from "./add-product-reducer";
 
 export interface Errors {
   [field: string]: string;
 }
 
-interface ColorProps {
+interface ColorPropsForUpload {
   colorName: string;
   colorCode: string;
   sizes: { [name: string]: number };
@@ -16,12 +16,12 @@ interface ColorProps {
 }
 
 const useUpload = ({
+  colorPropsList,
   productInfo,
-  productPropList,
   onSuccess,
 }: {
+  colorPropsList: ColorProps[];
   productInfo: ProductInfo;
-  productPropList: ProductProps[];
   onSuccess: Function;
 }) => {
   const client = browserClient();
@@ -33,10 +33,10 @@ const useUpload = ({
       setErrors(null);
 
       // re-format the props and put the imageFiles into "formData"
-      let colorProps: ColorProps[] = [];
+      let colorPropsUpload: ColorPropsForUpload[] = [];
 
       const formData = new FormData();
-      for (let elem of productPropList) {
+      for (let elem of colorPropsList) {
         // "uploaded_images" is used in "multer"
         if (elem.imagesFiles) {
           for (let image of elem.imagesFiles) {
@@ -45,7 +45,7 @@ const useUpload = ({
         }
         // we don't want to send the imageFiles again, so we create and send
         // a new array containing the colorProps
-        colorProps.push({
+        colorPropsUpload.push({
           colorName: elem.colorName,
           colorCode: elem.colorCode,
           sizes: { ...elem.sizes },
@@ -55,8 +55,10 @@ const useUpload = ({
 
       let body = {
         ...productInfo,
-        colorProps,
+        colorPropsList: colorPropsUpload,
       };
+
+      console.log(body);
 
       // use the index of old imagesUrl to update
       // if (updatedImageIndex) { body = {...body, updatedImageIndex } }
@@ -87,7 +89,7 @@ const useUpload = ({
       // "data" should be [ { message: string, field: string }, { message: string, field: string }, ... ]
       let errorMsg: Errors = {};
       for (let e of err.response.data.errors) {
-        if (e.field !== "colorProps") {
+        if (e.field !== "colorPropsList") {
           errorMsg[e.field] = e.message;
         } else {
           if (e.message === FieldNames.colorCode) {

@@ -14,11 +14,11 @@ interface Props {
   colorProps: ColorProps;
   listIndex: number;
   dispatch: Dispatch<ActionType>;
-  // propError:
+  propError: Errors | null | undefined;
 }
 
 export default function AddColorsProps(props: Props): JSX.Element {
-  const { colorProps, listIndex, dispatch } = props;
+  const { colorProps, listIndex, dispatch, propError } = props;
 
   const sizesArray = [FieldNames.small, FieldNames.medium, FieldNames.large];
 
@@ -31,10 +31,9 @@ export default function AddColorsProps(props: Props): JSX.Element {
     });
   };
 
-  // const removeColorHandler = (e: MouseEvent<HTMLButtonElement>) => {
-  //   const inputField = e.currentTarget.name;
-  //   dispatch({type: Actions.removeColor, payload: {}})
-  // };
+  const removeColorHandler = () => {
+    dispatch({ type: Actions.removeColor, payload: { listIndex } });
+  };
 
   return (
     <Fragment>
@@ -42,7 +41,7 @@ export default function AddColorsProps(props: Props): JSX.Element {
         colorProps={colorProps}
         listIndex={listIndex}
         dispatch={dispatch}
-        // propError={propError}
+        propError={propError}
       />
 
       <div>
@@ -68,12 +67,12 @@ export default function AddColorsProps(props: Props): JSX.Element {
         colorProps={colorProps}
         listIndex={listIndex}
         dispatch={dispatch}
-        // propError={propError}
+        propError={propError}
       />
       <div>
-        {/* <button name={FieldNames.removeColor} onClick={removeColorHandler}>
+        <button name={FieldNames.removeColor} onClick={removeColorHandler}>
           Remove this color
-        </button> */}
+        </button>
       </div>
     </Fragment>
   );

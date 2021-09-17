@@ -21,11 +21,11 @@ interface Props {
   colorProps: ColorProps;
   listIndex: number;
   dispatch: Dispatch<ActionType>;
-  // propError: Errors | null | undefined;
+  propError: Errors | null | undefined;
 }
 
 export default function SelectColor(props: Props): JSX.Element {
-  const { colorProps, listIndex, dispatch } = props;
+  const { colorProps, listIndex, dispatch, propError } = props;
 
   const selectColorHandler = (
     e: SelectChangeEvent<string> | ChangeEvent<HTMLInputElement>
@@ -37,13 +37,6 @@ export default function SelectColor(props: Props): JSX.Element {
       payload: { listIndex, inputField, inputValue },
     });
   };
-
-  // const selectColorCodeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-  //   console.log("select colorCode", listIndex);
-  //   const colorCode = e.currentTarget.value;
-  //   const inputField = e.currentTarget.name;
-  //   propsChangeHandler(colorCode, inputField, listIndex);
-  // };
 
   return (
     <div>
@@ -88,9 +81,9 @@ export default function SelectColor(props: Props): JSX.Element {
             />
           </div>
         </div>
-        {/* {propError && productProp.colorCode === "" && (
+        {propError && colorProps.colorCode === "" && (
           <div>{propError[FieldNames.colorCode]}</div>
-        )} */}
+        )}
       </span>
       <span>
         <FormControl>
@@ -130,9 +123,9 @@ export default function SelectColor(props: Props): JSX.Element {
             <MenuItem value="pink">pink</MenuItem>
           </Select>
         </FormControl>
-        {/* {propError && productProp.colorName === "" && (
+        {propError && colorProps.colorName === "" && (
           <div>{propError[FieldNames.colorName]}</div>
-        )} */}
+        )}
       </span>
       <span>
         picked color

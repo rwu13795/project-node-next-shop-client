@@ -4,14 +4,16 @@ import { SelectChangeEvent } from "@mui/material";
 import { ProductInfo } from "../../util/react-hooks/add-product-reducer";
 import { FieldNames } from "../../util/enums/input-field-names";
 import { AddInfoEvents } from "../../pages/admin/add-product";
+import { Errors } from "../../util/react-hooks/add-product-upload";
 
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
   productInfo: ProductInfo;
+  propError: Errors | null | undefined;
 }
 
 export default function AddTitle(props: Props): JSX.Element {
-  const { dispatchAddInfo, productInfo } = props;
+  const { dispatchAddInfo, productInfo, propError } = props;
 
   // const [styles, setStyles] = useState({});
   // const [wasTouched, setWasTouched] = useState(false);
@@ -45,9 +47,9 @@ export default function AddTitle(props: Props): JSX.Element {
         // onFocus={onFocusHandler}
         // style={styles}
       ></input>
-      {/* {errors && errors[FieldNames.title] && (
-          <div>{errors[FieldNames.title]}</div>
-        )} */}
+      {propError && propError[FieldNames.title] && (
+        <div>{propError[FieldNames.title]}</div>
+      )}
     </div>
   );
 }
