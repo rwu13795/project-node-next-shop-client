@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import Button from "@mui/material/Button";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
@@ -22,6 +23,9 @@ const Home: NextPage = () => {
           height={300}
         />
       </main>
+      <Button variant="outlined" color="secondary">
+        Primary
+      </Button>
 
       <footer className={styles.footer}>
         <a
@@ -41,4 +45,11 @@ const Home: NextPage = () => {
 
 export default Home;
 
-//
+export function getStaticProps() {
+  // when one of the page is loaded, the props returned from getServerSide/StaticProps
+  // of the current page will be automatically passed to the _app.js and merged to
+  // the "pageProps". So we can tell the "navigation" inside the "Layout" that
+  // which page we are currently in, then change the navigation bar accordingly
+
+  return { props: { page: "home" } };
+}

@@ -1,9 +1,8 @@
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import { ChangeEvent, Fragment, useEffect, useState } from "react";
+import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
+import { Fragment, useEffect, useState } from "react";
+import { SelectChangeEvent } from "@mui/material";
 
-import { ProductCategory } from "../../pages/admin/add-product";
+import { ProductInfo, InfoChangeHandler } from "../../pages/admin/add-product";
 import { Errors } from "../../util/react-hooks/use-upload";
 import { FieldNames } from "../../util/enums/input-field-names-enum";
 import {
@@ -15,21 +14,21 @@ import {
 } from "../../util/enums/category-enum";
 
 interface Props {
-  catChangeHandler: (e: ChangeEvent<{ name?: string; value: unknown }>) => void;
-  productCategory: ProductCategory;
+  infoChangeHandler: InfoChangeHandler;
+  productInfo: ProductInfo;
   propError: Errors | null | undefined;
 }
 
 export default function SelectCategory(props: Props): JSX.Element {
-  const { catChangeHandler, productCategory, propError } = props;
+  const { infoChangeHandler, productInfo, propError } = props;
 
   const [noMainCat, setNoMainCat] = useState<boolean>(true);
   const [subCatArray, setSubCatArray] = useState<string[]>([""]);
 
   useEffect(() => {
-    if (productCategory.main_cat !== "") {
+    if (productInfo.main_cat !== "") {
       setNoMainCat(false);
-      switch (productCategory.main_cat) {
+      switch (productInfo.main_cat) {
         case MainCategory.men:
           setSubCatArray(menCatArray);
           break;
@@ -43,37 +42,57 @@ export default function SelectCategory(props: Props): JSX.Element {
           setSubCatArray([""]);
       }
     }
-  }, [productCategory.main_cat]);
+  }, [productInfo.main_cat]);
+
+  const selectCategoryHandler = (e: SelectChangeEvent<string | number>) => {
+    const inputValue = e.target.value;
+    const inputField = e.target.name;
+    infoChangeHandler(inputValue, inputField);
+  };
 
   return (
     <Fragment>
-      <span>
-        <InputLabel style={{ fontSize: "15px" }}>Main-Category</InputLabel>
+      <FormControl
+        variant="standard"
+        sx={{ m: 0, minWidth: 120, boxShadow: 0 }}
+      >
+        <InputLabel style={{ fontSize: "1rem" }}>Main-Category</InputLabel>
         <Select
-          value={productCategory.main_cat}
+          value={productInfo.main_cat}
           name={FieldNames.main}
-          style={{ minWidth: "90px" }}
-          onChange={catChangeHandler}
+          label="Main Category"
+          sx={{ m: 0, minWidth: 130 }}
+          onChange={selectCategoryHandler}
         >
           {mainCatArray.map((cat) => {
             return (
               <MenuItem key={cat} value={cat}>
                 {cat}
+                <div
+                  style={{
+                    position: "relative",
+                    left: "5%",
+                    height: "1.55rem",
+                    width: "1.55rem",
+                    backgroundColor: "red",
+                    borderRadius: "50%",
+                  }}
+                ></div>
               </MenuItem>
             );
           })}
         </Select>
-      </span>
+      </FormControl>
       {propError && propError[FieldNames.main] && (
         <div>{propError[FieldNames.main]}</div>
       )}
       <span>
         <InputLabel style={{ fontSize: "15px" }}>Sub-Category</InputLabel>
         <Select
-          value={productCategory.sub_cat}
+          value={productInfo.sub_cat}
           name={FieldNames.sub}
           style={{ minWidth: "90px" }}
-          onChange={catChangeHandler}
+          onChange={selectCategoryHandler}
           disabled={noMainCat}
         >
           {subCatArray.map((cat) => {

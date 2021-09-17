@@ -1,8 +1,6 @@
 import type { NextPage } from "next";
 import { useState, ChangeEvent } from "react";
 
-import axios from "axios";
-
 const Men: NextPage = ({}) => {
   const [email, setEmail] = useState("");
 

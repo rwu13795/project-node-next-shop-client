@@ -1,17 +1,19 @@
-import { Fragment } from "react";
+import { ThemeProvider } from "@mui/material/styles";
 import React from "react";
 
+import { theme } from "../../styles/mui-theme";
 import MainNavigation from "./main-navigation";
 
 interface Prop {
   children: React.ReactNode;
+  page?: string;
 }
 
-export default function Layout({ children }: Prop): JSX.Element {
+export default function Layout(props: Prop): JSX.Element {
   return (
-    <Fragment>
-      <MainNavigation />
-      <main>{children}</main>
-    </Fragment>
+    <ThemeProvider theme={theme}>
+      <MainNavigation page={props.page} />
+      <main>{props.children}</main>
+    </ThemeProvider>
   );
 }

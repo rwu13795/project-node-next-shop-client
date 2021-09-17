@@ -1,15 +1,16 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from "react";
+import { SelectChangeEvent } from "@mui/material";
 
-import { ProductCategory } from "../../pages/admin/add-product";
+import { ProductInfo, InfoChangeHandler } from "../../pages/admin/add-product";
 import { FieldNames } from "../../util/enums/input-field-names-enum";
 
 interface Props {
-  catChangeHandler: (e: ChangeEvent<{ name?: string; value: unknown }>) => void;
-  productCategory: ProductCategory;
+  infoChangeHandler: InfoChangeHandler;
+  productInfo: ProductInfo;
 }
 
 export default function AddTitle(props: Props): JSX.Element {
-  const { productCategory, catChangeHandler } = props;
+  const { productInfo, infoChangeHandler } = props;
 
   // const [styles, setStyles] = useState({});
   // const [wasTouched, setWasTouched] = useState(false);
@@ -37,8 +38,8 @@ export default function AddTitle(props: Props): JSX.Element {
       <input
         name={FieldNames.title}
         type="text"
-        value={productCategory.title}
-        onChange={catChangeHandler}
+        value={productInfo.title}
+        onChange={(e) => infoChangeHandler(e.target.value, e.target.name)}
         // onBlur={onBlurHandler}
         // onFocus={onFocusHandler}
         // style={styles}

@@ -1,31 +1,40 @@
-import { Fragment, ChangeEvent } from "react";
+import { Fragment, ChangeEvent, MouseEvent } from "react";
 import Image from "next/image";
 
-import { ProductProps } from "../../pages/admin/add-product";
+import {
+  ProductProps,
+  PropsChangeHandler,
+} from "../../pages/admin/add-product";
 import { FieldNames } from "../../util/enums/input-field-names-enum";
 import { Errors } from "../../util/react-hooks/use-upload";
+import image from "next/image";
 
 interface Props {
-  propsChangeHandler: (
-    e: ChangeEvent<HTMLInputElement>,
-    index: number,
-    colorName?: string,
-    imageIndex?: number
-  ) => void;
-  removeImageHandler: (index: number, imageIndex: number) => void;
+  propsChangeHandler: PropsChangeHandler;
   productProp: ProductProps;
   listIndex: number;
   propError: Errors | null | undefined;
 }
 
-export default function AddImage(props: Props) {
-  const {
-    propsChangeHandler,
-    removeImageHandler,
-    productProp,
-    listIndex,
-    propError,
-  } = props;
+export default function AddImage(props: Props): JSX.Element {
+  const { propsChangeHandler, productProp, listIndex, propError } = props;
+
+  const imageChangeHandler = (
+    e: ChangeEvent<HTMLInputElement>,
+    imageIndex?: number
+  ) => {
+    const newImage = (e.target.files as FileList)[0];
+    const inputField = e.target.name;
+    propsChangeHandler("", inputField, listIndex, newImage, imageIndex);
+  };
+
+  const removeImageHandler = (
+    e: MouseEvent<HTMLButtonElement>,
+    imageIndex: number
+  ) => {
+    const inputField = e.currentTarget.name;
+    propsChangeHandler("", inputField, listIndex, undefined, imageIndex);
+  };
 
   return (
     <Fragment>
@@ -52,7 +61,8 @@ export default function AddImage(props: Props) {
                     zIndex: 9,
                     right: "5%",
                   }}
-                  onClick={() => removeImageHandler(listIndex, imageIndex)}
+                  name={FieldNames.removeImage}
+                  onClick={(e) => removeImageHandler(e, imageIndex)}
                 >
                   X
                 </button>
@@ -80,11 +90,9 @@ export default function AddImage(props: Props) {
                   type="file"
                   accept="image/jpeg"
                   id={`relace-image-${imageIndex}`}
-                  name="relace-image"
+                  name={FieldNames.replaceImage}
                   style={{ opacity: 0, width: "1px" }}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    propsChangeHandler(e, listIndex, undefined, imageIndex)
-                  }
+                  onChange={(e) => imageChangeHandler(e, imageIndex)}
                 />
 
                 <Image
@@ -102,27 +110,25 @@ export default function AddImage(props: Props) {
           })}
         <div>
           <label
-            htmlFor="upload-image"
-            style={{
-              minWidth: "4rem",
-              height: "1.8rem",
-              overflow: "hidden",
-              border: "black solid 1px",
-              backgroundColor: "white",
-              cursor: "pointer",
-            }}
+          // htmlFor="upload-image"
+          // style={{
+          //   minWidth: "4rem",
+          //   height: "1.8rem",
+          //   overflow: "hidden",
+          //   border: "black solid 1px",
+          //   backgroundColor: "white",
+          //   cursor: "pointer",
+          // }}
           >
             Add more images
           </label>
           <input
             type="file"
             accept="image/jpeg"
-            name="image"
+            name={FieldNames.addImage}
             id="upload-image"
-            style={{ opacity: 0, width: "1px" }}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              propsChangeHandler(e, listIndex)
-            }
+            // style={{ opacity: 0, width: "1px" }}
+            onChange={imageChangeHandler}
           />
         </div>
         {propError && productProp.imagesCount < 1 && (

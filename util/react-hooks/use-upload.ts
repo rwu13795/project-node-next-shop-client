@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import browserClient from "../axios-client/browser-client";
-import { ProductProps, ProductCategory } from "../../pages/admin/add-product";
+import { ProductProps, ProductInfo } from "../../pages/admin/add-product";
 import { FieldNames } from "../enums/input-field-names-enum";
 
 export interface Errors {
@@ -16,16 +16,12 @@ interface ColorProps {
 }
 
 const useUpload = ({
-  productCategory,
+  productInfo,
   productPropList,
-  price,
-  description,
   onSuccess,
 }: {
-  productCategory: ProductCategory;
+  productInfo: ProductInfo;
   productPropList: ProductProps[];
-  price: number;
-  description?: string;
   onSuccess: Function;
 }) => {
   const client = browserClient();
@@ -37,7 +33,6 @@ const useUpload = ({
       setErrors(null);
 
       // re-format the props and put the imageFiles into "formData"
-      const { title, main_cat, sub_cat } = productCategory;
       let colorProps: ColorProps[] = [];
 
       const formData = new FormData();
@@ -59,12 +54,8 @@ const useUpload = ({
       }
 
       let body = {
-        title,
-        main_cat,
-        sub_cat,
-        price,
+        ...productInfo,
         colorProps,
-        description,
       };
 
       // use the index of old imagesUrl to update

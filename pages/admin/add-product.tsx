@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
-import { useState, ChangeEvent } from "react";
+import { useState } from "react";
 
 import useUpload from "../../util/react-hooks/use-upload";
 import SelectCategory from "../../components/add-product/select-category";
@@ -18,41 +18,58 @@ export interface ProductProps {
   imagesFiles: File[];
 }
 
-export interface ProductCategory {
+export interface ProductInfo {
   // have to use computed property type if we want to add the category using mapping
-  [name: string]: string;
+  [fieldName: string]: string | number | undefined;
 }
+
+export type PropsChangeHandler = (
+  inputValue: string,
+  inputFiled: string,
+  listIndex: number,
+  imageFile?: File,
+  imageIndex?: number
+) => void;
+
+export type InfoChangeHandler = (
+  inputValue: string | number | undefined,
+  inputField: string
+) => void;
 
 const AddProduct: NextPage = ({}) => {
   const router = useRouter();
 
+  const initialProductProps: ProductProps = {
+    colorName: "",
+    colorCode: "",
+    sizes: { small: 0, medium: 0, large: 0 },
+    imagesCount: 0,
+    imagesFiles: [],
+  };
+
   const [productPropList, setProductPropList] = useState<ProductProps[]>([
     {
-      // have to initialize the props, or React will throw "uncontrolled input" warning,
-      // when the value changing from undefined to a defined value
       colorName: "",
       colorCode: "",
       sizes: { small: 0, medium: 0, large: 0 },
       imagesCount: 0,
       imagesFiles: [],
     },
+    // have to initialize the props, or React will throw "uncontrolled input" warning,
+    // when the value changing from undefined to a defined value
   ]);
 
-  const [productCategory, setProductCategory] = useState<ProductCategory>({
+  const [productInfo, setProductInfo] = useState<ProductInfo>({
     [FieldNames.main]: "",
     [FieldNames.sub]: "",
     [FieldNames.title]: "",
+    [FieldNames.price]: 0,
   });
-
-  const [price, setPrice] = useState<number>(0);
-  const [description, setDescription] = useState<string | undefined>();
 
   // useUpload hook
   const { postUpload, errors } = useUpload({
-    productCategory,
+    productInfo,
     productPropList,
-    price,
-    description,
     onSuccess: () => {
       console.log("OK");
       // router.push("/");
@@ -60,61 +77,87 @@ const AddProduct: NextPage = ({}) => {
     },
   });
 
-  const propsChangeHandler = (
-    e: ChangeEvent<HTMLInputElement>,
-    index: number,
-    colorName?: string,
-    imageIndex?: number
+  const propsChangeHandler: PropsChangeHandler = (
+    inputValue,
+    inputFiled,
+    listIndex,
+    imageFile?,
+    imageIndex?
   ): void => {
     let list = [...productPropList];
 
-    // handle the "colorName"
-    if (colorName) {
-      list[index].colorName = colorName;
-      setProductPropList(list);
-      return;
-    }
-
-    const { name, value } = e.currentTarget;
-
-    switch (name) {
-      case "image":
-        let imageFile = (e.target.files as FileList)[0];
-        // if(editMode) {}
-        if (imageFile !== undefined) {
-          list[index].imagesFiles.push(imageFile);
-          list[index].imagesCount = list[index].imagesFiles.length;
+    switch (inputFiled) {
+      case FieldNames.addImage:
+        if (imageFile) {
+          console.log("add product add image", listIndex);
+          list[listIndex].imagesFiles.push(imageFile);
+          list[listIndex].imagesCount = list[listIndex].imagesFiles.length;
           setProductPropList(list);
           break;
         }
-      case "relace-image":
-        imageFile = (e.target.files as FileList)[0];
+      // imageFile = (e.target.files as FileList)[0];
+      // if(editMode) {}
+      case FieldNames.replaceImage:
         if (imageIndex !== undefined && imageFile !== undefined) {
-          console.log(imageIndex);
-          list[index].imagesFiles[imageIndex] = imageFile;
+          list[listIndex].imagesFiles[imageIndex] = imageFile;
           setProductPropList(list);
         }
         break;
-      case FieldNames.colorCode:
-        list[index].colorCode = value;
+      case FieldNames.removeImage:
+        list[listIndex].imagesFiles.splice(imageIndex!, 1);
+        list[listIndex].imagesCount = list[listIndex].imagesCount - 1;
+        if (list[listIndex].imagesCount === 0) {
+          const imageInput = document.getElementById(
+            "upload-image"
+          ) as HTMLInputElement;
+          imageInput.value = "";
+        }
         setProductPropList(list);
         break;
+      case FieldNames.colorCode:
+        console.log("colorCode", listIndex);
+        list[listIndex].colorCode = inputValue;
+        console.log("colorCode", list);
+        setProductPropList(list);
+        break;
+      case FieldNames.colorName:
+        console.log(listIndex);
+        list[listIndex].colorName = inputValue;
+        setProductPropList(list);
+        break;
+      case FieldNames.removeColor:
+        list.splice(listIndex, 1);
+        if (list.length === 0) {
+          setProductPropList([
+            {
+              colorName: "",
+              colorCode: "",
+              sizes: { small: 0, medium: 0, large: 0 },
+              imagesCount: 0,
+              imagesFiles: [],
+            },
+          ]);
+        } else {
+          setProductPropList(list);
+        }
+        break;
       default:
-        list[index].sizes[name] = parseInt(value);
+        console.log("in add size, ", listIndex);
+        list[listIndex].sizes[inputFiled] = parseInt(inputValue);
         setProductPropList(list);
         break;
     }
   };
 
-  // material-ui <Select /> "onChange" ChangeEvent type is different from normal react ChangeEvent type
-  const catChangeHandler = (
-    e: ChangeEvent<{ name?: string; value: unknown }>
-  ): void => {
-    const value = e.target.value as string;
-    const name = e.target.name as string;
-    let category = { ...productCategory };
-    category[name] = value;
-    setProductCategory(category);
+  // material-ui <Select /> "onChange" SelectChangeEvent type is different from normal react ChangeEvent type
+  const infoChangeHandler: InfoChangeHandler = (inputValue, inputField) => {
+    let info = { ...productInfo };
+    info[inputField] = inputValue;
+    setProductInfo(info);
+  };
+
+  const uploadHandler = async () => {
+    await postUpload();
   };
 
   const addMoreColorHandler = (): void => {
@@ -130,41 +173,8 @@ const AddProduct: NextPage = ({}) => {
     ]);
   };
 
-  const removeColorHandler = (index: number): void => {
-    const list = [...productPropList];
-    list.splice(index, 1);
-    if (list.length === 0) {
-      setProductPropList([
-        {
-          colorName: "",
-          colorCode: "",
-          sizes: { small: 0, medium: 0, large: 0 },
-          imagesCount: 0,
-          imagesFiles: [],
-        },
-      ]);
-    } else {
-      setProductPropList(list);
-    }
-  };
-
-  const removeImageHandler = (index: number, imageIndex: number): void => {
-    const list = [...productPropList];
-    list[index].imagesFiles.splice(imageIndex, 1);
-    list[index].imagesCount = list[index].imagesCount - 1;
-
-    if (list[index].imagesCount === 0) {
-      const imageInput = document.getElementById(
-        "upload-image"
-      ) as HTMLInputElement;
-      imageInput.value = "";
-    }
-    setProductPropList(list);
-  };
-
-  const uploadHandler = async () => {
-    await postUpload();
-  };
+  console.log(productInfo);
+  console.log(productPropList);
 
   return (
     <main>
@@ -172,27 +182,30 @@ const AddProduct: NextPage = ({}) => {
       <div>
         <label>Category: </label>
         <SelectCategory
-          catChangeHandler={catChangeHandler}
-          productCategory={productCategory}
+          infoChangeHandler={infoChangeHandler}
+          productInfo={productInfo}
           propError={errors}
         />
       </div>
       <div>
         <AddTitle
-          catChangeHandler={catChangeHandler}
-          productCategory={productCategory}
+          infoChangeHandler={infoChangeHandler}
+          productInfo={productInfo}
         />
         {errors && errors[FieldNames.title] && (
           <div>{errors[FieldNames.title]}</div>
         )}
       </div>
       <div>
-        <AddPrice price={price} setPrice={setPrice} />
+        <AddPrice
+          infoChangeHandler={infoChangeHandler}
+          productInfo={productInfo}
+        />
       </div>
       <div>
         <AddDescription
-          description={description}
-          setDescription={setDescription}
+          infoChangeHandler={infoChangeHandler}
+          productInfo={productInfo}
         />
         {errors && errors[FieldNames.desc] && (
           <div>{errors[FieldNames.desc]}</div>
@@ -205,8 +218,6 @@ const AddProduct: NextPage = ({}) => {
             productProp={prop}
             listIndex={index}
             propsChangeHandler={propsChangeHandler}
-            removeColorHandler={removeColorHandler}
-            removeImageHandler={removeImageHandler}
             propError={errors}
           />
         );

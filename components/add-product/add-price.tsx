@@ -1,14 +1,15 @@
-import { SetStateAction } from "react";
+import { SetStateAction, Dispatch } from "react";
 
 import { FieldNames } from "../../util/enums/input-field-names-enum";
+import { InfoChangeHandler, ProductInfo } from "../../pages/admin/add-product";
 
 interface Props {
-  setPrice: (value: SetStateAction<number>) => void;
-  price: number;
+  infoChangeHandler: InfoChangeHandler;
+  productInfo: ProductInfo;
 }
 
 export default function AddPrice(props: Props): JSX.Element {
-  const { price, setPrice } = props;
+  const { productInfo, infoChangeHandler } = props;
 
   return (
     <div>
@@ -16,9 +17,11 @@ export default function AddPrice(props: Props): JSX.Element {
       <input
         name={FieldNames.price}
         type="number"
-        value={price}
+        value={productInfo.price}
         min="0"
-        onChange={(e) => setPrice(parseFloat(e.target.value))}
+        onChange={(e) =>
+          infoChangeHandler(parseFloat(e.target.value), e.target.name)
+        }
       ></input>
     </div>
   );

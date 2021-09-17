@@ -1,34 +1,41 @@
-import { ChangeEvent, Fragment } from "react";
+import { ChangeEvent, Fragment, MouseEvent } from "react";
+import Image from "next/image";
 
-import { ProductProps } from "../../pages/admin/add-product";
+import {
+  ProductProps,
+  PropsChangeHandler,
+} from "../../pages/admin/add-product";
 import SelectColor from "./select-color";
 import { FieldNames } from "../../util/enums/input-field-names-enum";
 import { Errors } from "../../util/react-hooks/use-upload";
 import AddImage from "./add-image";
 
 interface Props {
-  propsChangeHandler: (e: ChangeEvent<HTMLInputElement>, index: number) => void;
-  removeColorHandler: (index: number) => void;
-  removeImageHandler: (index: number, imageIndex: number) => void;
+  propsChangeHandler: PropsChangeHandler;
   productProp: ProductProps;
   listIndex: number;
   propError: Errors | null | undefined;
 }
 
 export default function AddColorsProps(props: Props): JSX.Element {
-  const {
-    propsChangeHandler,
-    removeColorHandler,
-    removeImageHandler,
-    productProp,
-    listIndex,
-    propError,
-  } = props;
+  const { propsChangeHandler, productProp, listIndex, propError } = props;
 
   const sizesArray = [FieldNames.small, FieldNames.medium, FieldNames.large];
 
+  const sizesChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const sizeNum = e.target.value;
+    const inputField = e.target.name;
+    console.log("sizes", listIndex);
+    propsChangeHandler(sizeNum, inputField, listIndex);
+  };
+
+  const removeColorHandler = (e: MouseEvent<HTMLButtonElement>) => {
+    const inputField = e.currentTarget.name;
+    propsChangeHandler("", inputField, listIndex);
+  };
+
   return (
-    <div>
+    <Fragment>
       <SelectColor
         productProp={productProp}
         listIndex={listIndex}
@@ -49,28 +56,23 @@ export default function AddColorsProps(props: Props): JSX.Element {
                 min={0}
                 name={size}
                 value={productProp.sizes[size]}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  propsChangeHandler(e, listIndex)
-                }
+                onChange={sizesChangeHandler}
               />
             </Fragment>
           );
         })}
       </div>
-
       <AddImage
-        removeImageHandler={removeImageHandler}
         propsChangeHandler={propsChangeHandler}
         productProp={productProp}
         listIndex={listIndex}
         propError={propError}
       />
-
       <div>
-        <button onClick={() => removeColorHandler(listIndex)}>
+        <button name={FieldNames.removeColor} onClick={removeColorHandler}>
           Remove this color
         </button>
       </div>
-    </div>
+    </Fragment>
   );
 }
