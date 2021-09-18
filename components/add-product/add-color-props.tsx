@@ -15,10 +15,11 @@ interface Props {
   listIndex: number;
   dispatch: Dispatch<ActionType>;
   propError: Errors | null | undefined;
+  editMode: boolean;
 }
 
 export default function AddColorsProps(props: Props): JSX.Element {
-  const { colorProps, listIndex, dispatch, propError } = props;
+  const { colorProps, listIndex, dispatch, propError, editMode } = props;
 
   const sizesArray = [FieldNames.small, FieldNames.medium, FieldNames.large];
 
@@ -32,7 +33,7 @@ export default function AddColorsProps(props: Props): JSX.Element {
   };
 
   const removeColorHandler = () => {
-    dispatch({ type: Actions.removeColor, payload: { listIndex } });
+    dispatch({ type: Actions.removeColor, payload: { listIndex, editMode } });
   };
 
   return (
@@ -67,6 +68,7 @@ export default function AddColorsProps(props: Props): JSX.Element {
         colorProps={colorProps}
         listIndex={listIndex}
         dispatch={dispatch}
+        editMode={editMode}
         propError={propError}
       />
       <div>

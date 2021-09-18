@@ -12,6 +12,7 @@ import {
   kidsCatArray,
   MainCategory,
 } from "../../util/enums/product-category";
+import { capitalize } from "../../util/helper-functions/capitalize-first-letter";
 
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
@@ -27,8 +28,9 @@ export default function SelectCategory(props: Props): JSX.Element {
 
   useEffect(() => {
     if (productInfo.main_cat !== "") {
+      let main = capitalize(productInfo.main_cat);
       setNoMainCat(false);
-      switch (productInfo.main_cat) {
+      switch (main) {
         case MainCategory.men:
           setSubCatArray(menCatArray);
           break;
@@ -52,7 +54,7 @@ export default function SelectCategory(props: Props): JSX.Element {
       >
         <InputLabel style={{ fontSize: "1rem" }}>Main-Category</InputLabel>
         <Select
-          value={productInfo.main_cat?.toString()}
+          value={capitalize(productInfo.main_cat)}
           name={FieldNames.main}
           label="Main Category"
           sx={{ m: 0, minWidth: 130 }}
@@ -83,7 +85,7 @@ export default function SelectCategory(props: Props): JSX.Element {
       <span>
         <InputLabel style={{ fontSize: "15px" }}>Sub-Category</InputLabel>
         <Select
-          value={productInfo.sub_cat?.toString()}
+          value={capitalize(productInfo.sub_cat)}
           name={FieldNames.sub}
           style={{ minWidth: "90px" }}
           onChange={dispatchAddInfo}

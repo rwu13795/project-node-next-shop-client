@@ -7,8 +7,8 @@ export interface ColorProps {
   colorName: string;
   colorCode: string;
   sizes: { [name: string]: number };
-  imagesCount: number;
-  imagesFiles: File[];
+  imageCount: number;
+  imageFiles: (File | string)[];
 }
 
 export interface ProductInfo {
@@ -18,6 +18,7 @@ export interface ProductInfo {
 export interface ProductState {
   colorPropsList: ColorProps[];
   productInfo: ProductInfo;
+  deletedImages?: string[];
 }
 
 export type ActionType =
@@ -28,11 +29,16 @@ export type ActionType =
   | { type: Actions.addImage; payload: { listIndex: number; newImage: File } }
   | {
       type: Actions.replaceImage;
-      payload: { listIndex: number; newImage: File; imageIndex: number };
+      payload: {
+        listIndex: number;
+        newImage: File;
+        imageIndex: number;
+        editMode: boolean;
+      };
     }
   | {
       type: Actions.removeImage;
-      payload: { listIndex: number; imageIndex: number };
+      payload: { listIndex: number; imageIndex: number; editMode: boolean };
     }
   | {
       type: Actions.addColorInfo;
@@ -44,7 +50,7 @@ export type ActionType =
     }
   | {
       type: Actions.removeColor;
-      payload: { listIndex: number };
+      payload: { listIndex: number; editMode: boolean };
     }
   | {
       type: Actions.addSizes;
@@ -55,8 +61,8 @@ export const initialColorProps = {
   colorName: "",
   colorCode: "",
   sizes: { small: 0, medium: 0, large: 0 },
-  imagesCount: 0,
-  imagesFiles: [],
+  imageCount: 0,
+  imageFiles: [],
 };
 
 export const initialProductInfo = {
@@ -80,23 +86,39 @@ export default function addProductReducer(
     case Actions.addImage: {
       const { listIndex, newImage } = action.payload;
       return produce(state, (newState) => {
-        newState.colorPropsList[listIndex].imagesFiles.push(newImage);
-        newState.colorPropsList[listIndex].imagesCount =
-          newState.colorPropsList[listIndex].imagesFiles.length;
+        newState.colorPropsList[listIndex].imageFiles.push(newImage);
+        newState.colorPropsList[listIndex].imageCount =
+          newState.colorPropsList[listIndex].imageFiles.length;
       });
     }
     case Actions.replaceImage: {
-      const { listIndex, newImage, imageIndex } = action.payload;
+      const { listIndex, newImage, imageIndex, editMode } = action.payload;
       return produce(state, (newState) => {
-        newState.colorPropsList[listIndex].imagesFiles[imageIndex] = newImage;
+        let oldImage =
+          newState.colorPropsList[listIndex].imageFiles[imageIndex];
+        if (editMode && typeof oldImage === "string") {
+          if (newState.deletedImages === undefined) {
+            newState.deletedImages = [];
+          }
+          newState.deletedImages.push(oldImage);
+        }
+        newState.colorPropsList[listIndex].imageFiles[imageIndex] = newImage;
       });
     }
     case Actions.removeImage: {
-      const { listIndex, imageIndex } = action.payload;
+      const { listIndex, imageIndex, editMode } = action.payload;
       return produce(state, (newState) => {
-        newState.colorPropsList[listIndex].imagesFiles.splice(imageIndex, 1);
-        newState.colorPropsList[listIndex].imagesCount =
-          newState.colorPropsList[listIndex].imagesCount - 1;
+        let oldImage =
+          newState.colorPropsList[listIndex].imageFiles[imageIndex];
+        if (editMode && typeof oldImage === "string") {
+          if (newState.deletedImages === undefined) {
+            newState.deletedImages = [];
+          }
+          newState.deletedImages.push(oldImage);
+        }
+        newState.colorPropsList[listIndex].imageFiles.splice(imageIndex, 1);
+        newState.colorPropsList[listIndex].imageCount =
+          newState.colorPropsList[listIndex].imageCount - 1;
       });
     }
     case Actions.addColorInfo: {
@@ -117,8 +139,16 @@ export default function addProductReducer(
       });
     }
     case Actions.removeColor: {
-      const { listIndex } = action.payload;
+      const { listIndex, editMode } = action.payload;
       return produce(state, (newState) => {
+        if (editMode) {
+          let oldImageUrl = newState.colorPropsList[listIndex]
+            .imageFiles as string[];
+          if (newState.deletedImages === undefined) {
+            newState.deletedImages = [];
+          }
+          newState.deletedImages.push(...oldImageUrl);
+        }
         newState.colorPropsList.splice(listIndex, 1);
         if (newState.colorPropsList.length === 0) {
           newState.colorPropsList.push(initialColorProps);
@@ -133,7 +163,6 @@ export default function addProductReducer(
       });
     }
     default: {
-      console.log("hello");
       throw new Error("You should not be here");
     }
   }

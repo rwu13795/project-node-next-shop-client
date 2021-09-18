@@ -13,11 +13,12 @@ interface Props {
   colorProps: ColorProps;
   listIndex: number;
   dispatch: Dispatch<ActionType>;
+  editMode: boolean;
   propError: Errors | null | undefined;
 }
 
 export default function AddImage(props: Props): JSX.Element {
-  const { colorProps, listIndex, dispatch, propError } = props;
+  const { colorProps, listIndex, dispatch, editMode, propError } = props;
 
   const addImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const newImage = (e.target.files as FileList)[0];
@@ -31,7 +32,7 @@ export default function AddImage(props: Props): JSX.Element {
     const newImage = (e.target.files as FileList)[0];
     dispatch({
       type: Actions.replaceImage,
-      payload: { listIndex, newImage, imageIndex },
+      payload: { listIndex, newImage, imageIndex, editMode },
     });
   };
 
@@ -41,8 +42,8 @@ export default function AddImage(props: Props): JSX.Element {
         <label>Upload Image: </label>
       </div>
       <div>
-        {colorProps.imagesFiles.length > 0 &&
-          colorProps.imagesFiles.map((file, imageIndex) => {
+        {colorProps.imageFiles.length > 0 &&
+          colorProps.imageFiles.map((file, imageIndex) => {
             return (
               <div
                 key={imageIndex}
@@ -64,7 +65,7 @@ export default function AddImage(props: Props): JSX.Element {
                   onClick={() =>
                     dispatch({
                       type: Actions.removeImage,
-                      payload: { listIndex, imageIndex },
+                      payload: { listIndex, imageIndex, editMode },
                     })
                   }
                 >
@@ -100,14 +101,15 @@ export default function AddImage(props: Props): JSX.Element {
                 />
 
                 <Image
-                  // src==" if file instance of File ? "ObjectUR"  : "imageUrl"
-                  src={URL.createObjectURL(file)}
+                  src={
+                    typeof file === "string" ? file : URL.createObjectURL(file)
+                  }
                   alt="selected image"
                   width={150}
                   height={150}
                 />
                 <div style={{ overflow: "hidden", maxHeight: "1.5rem" }}>
-                  {file.name}
+                  {typeof file !== "string" && file.name}
                 </div>
               </div>
             );
@@ -135,7 +137,7 @@ export default function AddImage(props: Props): JSX.Element {
             onChange={addImageHandler}
           />
         </div>
-        {propError && colorProps.imagesCount < 1 && (
+        {propError && colorProps.imageCount < 1 && (
           <div>{propError[FieldNames.imagesCount]}</div>
         )}
       </div>

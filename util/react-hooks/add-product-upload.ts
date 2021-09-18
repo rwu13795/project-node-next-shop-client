@@ -12,17 +12,25 @@ interface ColorPropsForUpload {
   colorName: string;
   colorCode: string;
   sizes: { [name: string]: number };
-  imagesCount: number;
+  imageCount: number;
+  modifiedImages?: (string | File)[];
+  modifiedIndex?: number[];
 }
 
 const useUpload = ({
   colorPropsList,
   productInfo,
+  editMode,
   onSuccess,
+  productId,
+  deletedImgaes,
 }: {
   colorPropsList: ColorProps[];
   productInfo: ProductInfo;
+  editMode: boolean;
   onSuccess: Function;
+  productId: string;
+  deletedImgaes?: string[];
 }) => {
   const client = browserClient();
 
@@ -37,31 +45,49 @@ const useUpload = ({
 
       const formData = new FormData();
       for (let elem of colorPropsList) {
-        // "uploaded_images" is used in "multer"
-        if (elem.imagesFiles) {
-          for (let image of elem.imagesFiles) {
-            formData.append("uploaded_images", image);
+        let modifiedIndex = [];
+        let modifiedImages = [...elem.imageFiles];
+        // seperate Url and images files
+        if (elem.imageFiles.length > 0) {
+          for (let i = 0; i < elem.imageFiles.length; i++) {
+            if (editMode) {
+              if (typeof elem.imageFiles[i] !== "string") {
+                formData.append("uploaded_images", elem.imageFiles[i]);
+                modifiedImages[i] = "modified";
+                modifiedIndex.push(i);
+              }
+            } else {
+              formData.append("uploaded_images", elem.imageFiles[i]);
+            }
           }
         }
         // we don't want to send the imageFiles again, so we create and send
         // a new array containing the colorProps
-        colorPropsUpload.push({
-          colorName: elem.colorName,
-          colorCode: elem.colorCode,
-          sizes: { ...elem.sizes },
-          imagesCount: elem.imagesCount,
-        });
+        if (editMode) {
+          colorPropsUpload.push({
+            colorName: elem.colorName,
+            colorCode: elem.colorCode,
+            sizes: { ...elem.sizes },
+            imageCount: elem.imageCount,
+            modifiedImages,
+            modifiedIndex,
+          });
+        } else {
+          colorPropsUpload.push({
+            colorName: elem.colorName,
+            colorCode: elem.colorCode,
+            sizes: { ...elem.sizes },
+            imageCount: elem.imageCount,
+          });
+        }
       }
 
-      let body = {
+      const body = {
         ...productInfo,
-        colorPropsList: colorPropsUpload,
+        colorPropsListFromClient: colorPropsUpload,
+        deletedImgaes,
+        productId,
       };
-
-      console.log(body);
-
-      // use the index of old imagesUrl to update
-      // if (updatedImageIndex) { body = {...body, updatedImageIndex } }
 
       // the "body" cannot be put inside "req.body" directly while using FormData,
       // this "body" has to be added to "req.body.propName", and we need to parse this
@@ -69,7 +95,9 @@ const useUpload = ({
       formData.append("document", JSON.stringify(body));
 
       const response = await client.post(
-        "http://localhost:5000/api/admin/post-new-product",
+        editMode
+          ? "http://localhost:5000/api/admin/edit-product"
+          : "http://localhost:5000/api/admin/post-new-product",
         formData
       );
 
@@ -89,7 +117,7 @@ const useUpload = ({
       // "data" should be [ { message: string, field: string }, { message: string, field: string }, ... ]
       let errorMsg: Errors = {};
       for (let e of err.response.data.errors) {
-        if (e.field !== "colorPropsList") {
+        if (e.field !== "colorPropsListFromClient") {
           errorMsg[e.field] = e.message;
         } else {
           if (e.message === FieldNames.colorCode) {
@@ -103,7 +131,6 @@ const useUpload = ({
           }
         }
       }
-      console.log(errorMsg);
 
       setErrors({ ...errorMsg });
     }
