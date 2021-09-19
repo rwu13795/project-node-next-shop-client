@@ -10,12 +10,12 @@ import {
 } from "@mui/material";
 
 import { Errors } from "../../util/react-hooks/add-product-upload";
-import { FieldNames } from "../../util/enums/input-field-names";
+import { inputNames } from "../../util/enums/input-names";
 import {
   ActionType,
   ColorProps,
 } from "../../util/react-hooks/add-product-reducer";
-import { Actions } from "../../util/enums/reducer-actions";
+import { Actions } from "../../util/enums/product-reducer-actions";
 
 interface Props {
   colorProps: ColorProps;
@@ -66,7 +66,7 @@ export default function SelectColor(props: Props): JSX.Element {
           >
             <input
               type="color"
-              name={FieldNames.colorCode}
+              name={inputNames.colorCode}
               value={colorProps.colorCode}
               onChange={selectColorHandler}
               style={{
@@ -82,7 +82,7 @@ export default function SelectColor(props: Props): JSX.Element {
           </div>
         </div>
         {propError && colorProps.colorCode === "" && (
-          <div>{propError[FieldNames.colorCode]}</div>
+          <div>{propError[inputNames.colorCode]}</div>
         )}
       </span>
       <span>
@@ -92,7 +92,7 @@ export default function SelectColor(props: Props): JSX.Element {
           <Select
             label="Color Name"
             value={colorProps.colorName}
-            name={FieldNames.colorName}
+            name={inputNames.colorName}
             onChange={selectColorHandler}
           >
             <MenuItem
@@ -124,7 +124,7 @@ export default function SelectColor(props: Props): JSX.Element {
           </Select>
         </FormControl>
         {propError && colorProps.colorName === "" && (
-          <div>{propError[FieldNames.colorName]}</div>
+          <div>{propError[inputNames.colorName]}</div>
         )}
       </span>
       <span>

@@ -1,4 +1,5 @@
-export enum FieldNames {
+export enum inputNames {
+  // add-edit-product
   main = "main_cat",
   sub = "sub_cat",
   title = "title",
@@ -14,4 +15,8 @@ export enum FieldNames {
   small = "small",
   medium = "medium",
   large = "large",
+  // sign-in-up
+  email = "email",
+  password = "password",
+  confirmPassword = "confirmPassword",
 }

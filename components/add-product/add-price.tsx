@@ -1,4 +1,4 @@
-import { FieldNames } from "../../util/enums/input-field-names";
+import { inputNames } from "../../util/enums/input-names";
 import { ProductInfo } from "../../util/react-hooks/add-product-reducer";
 import { AddInfoEvents } from "../../pages/admin/add-product";
 
@@ -13,7 +13,7 @@ export default function AddPrice(props: Props): JSX.Element {
     <div>
       <label htmlFor="price">Price: $</label>
       <input
-        name={FieldNames.price}
+        name={inputNames.price}
         type="number"
         value={productInfo.price}
         min={0}

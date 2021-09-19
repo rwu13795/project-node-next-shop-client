@@ -14,7 +14,7 @@ import addProductReducer, {
   initialProductInfo,
   ProductState,
 } from "../../util/react-hooks/add-product-reducer";
-import { Actions } from "../../util/enums/reducer-actions";
+import { Actions } from "../../util/enums/product-reducer-actions";
 import serverClient from "../../util/axios-client/server-client";
 
 const initialProductState: ProductState = {

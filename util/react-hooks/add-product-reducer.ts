@@ -1,7 +1,7 @@
 import produce from "immer";
-import { FieldNames } from "../enums/input-field-names";
+import { inputNames } from "../enums/input-names";
 
-import { Actions } from "../enums/reducer-actions";
+import { Actions } from "../enums/product-reducer-actions";
 
 export interface ColorProps {
   colorName: string;
@@ -66,10 +66,10 @@ export const initialColorProps = {
 };
 
 export const initialProductInfo = {
-  [FieldNames.main]: "",
-  [FieldNames.sub]: "",
-  [FieldNames.title]: "",
-  [FieldNames.price]: 0,
+  [inputNames.main]: "",
+  [inputNames.sub]: "",
+  [inputNames.title]: "",
+  [inputNames.price]: 0,
 };
 
 export default function addProductReducer(

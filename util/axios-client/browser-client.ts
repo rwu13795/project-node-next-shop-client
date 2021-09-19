@@ -6,7 +6,7 @@ import axios from "axios";
 const browserClient = () => {
   return axios.create({
     baseURL: "/",
-    // withCredentials: true,
+    withCredentials: true,
   });
 };
 

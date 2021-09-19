@@ -1,13 +1,13 @@
 import { Fragment, ChangeEvent, MouseEvent, Dispatch } from "react";
 import Image from "next/image";
 
-import { FieldNames } from "../../util/enums/input-field-names";
+import { inputNames } from "../../util/enums/input-names";
 import { Errors } from "../../util/react-hooks/add-product-upload";
 import {
   ActionType,
   ColorProps,
 } from "../../util/react-hooks/add-product-reducer";
-import { Actions } from "../../util/enums/reducer-actions";
+import { Actions } from "../../util/enums/product-reducer-actions";
 
 interface Props {
   colorProps: ColorProps;
@@ -61,7 +61,7 @@ export default function AddImage(props: Props): JSX.Element {
                     zIndex: 9,
                     right: "5%",
                   }}
-                  name={FieldNames.removeImage}
+                  name={inputNames.removeImage}
                   onClick={() =>
                     dispatch({
                       type: Actions.removeImage,
@@ -95,7 +95,7 @@ export default function AddImage(props: Props): JSX.Element {
                   type="file"
                   accept="image/jpeg"
                   id={`relace-image-${listIndex}-${imageIndex}`}
-                  name={FieldNames.replaceImage}
+                  name={inputNames.replaceImage}
                   style={{ opacity: 0, width: "1px" }}
                   onChange={(e) => replaceImageHandler(e, imageIndex)}
                 />
@@ -131,14 +131,14 @@ export default function AddImage(props: Props): JSX.Element {
           <input
             type="file"
             accept="image/jpeg"
-            name={FieldNames.addImage}
+            name={inputNames.addImage}
             id={`add-more-image-${listIndex}`}
             style={{ opacity: 0, width: "1px" }}
             onChange={addImageHandler}
           />
         </div>
         {propError && colorProps.imageCount < 1 && (
-          <div>{propError[FieldNames.imagesCount]}</div>
+          <div>{propError[inputNames.imagesCount]}</div>
         )}
       </div>
     </Fragment>

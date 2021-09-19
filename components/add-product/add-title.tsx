@@ -1,8 +1,5 @@
-import { ChangeEvent, useRef, useState } from "react";
-import { SelectChangeEvent } from "@mui/material";
-
 import { ProductInfo } from "../../util/react-hooks/add-product-reducer";
-import { FieldNames } from "../../util/enums/input-field-names";
+import { inputNames } from "../../util/enums/input-names";
 import { AddInfoEvents } from "../../pages/admin/add-product";
 import { Errors } from "../../util/react-hooks/add-product-upload";
 
@@ -15,31 +12,11 @@ interface Props {
 export default function AddTitle(props: Props): JSX.Element {
   const { dispatchAddInfo, productInfo, propError } = props;
 
-  // const [styles, setStyles] = useState({});
-  // const [wasTouched, setWasTouched] = useState(false);
-  // const [hasError, setHasError] = useState(false);
-
-  // const onFocusHandler = () => {
-  //   setWasTouched(true);
-  // };
-
-  // const onBlurHandler = () => {
-  //   console.log(wasTouched);
-  //   if (wasTouched && productCategory.title === "") {
-  //     // was touched before and no value, show error msg
-  //     setStyles({ color: "red", border: "red solid 3px" });
-  //     setHasError(true);
-  //   } else {
-  //     setStyles({});
-  //     setHasError(false);
-  //   }
-  // };
-
   return (
     <div>
       <label>Title</label>
       <input
-        name={FieldNames.title}
+        name={inputNames.title}
         type="text"
         value={productInfo.title}
         onChange={dispatchAddInfo}
@@ -47,8 +24,8 @@ export default function AddTitle(props: Props): JSX.Element {
         // onFocus={onFocusHandler}
         // style={styles}
       ></input>
-      {propError && propError[FieldNames.title] && (
-        <div>{propError[FieldNames.title]}</div>
+      {propError && propError[inputNames.title] && (
+        <div>{propError[inputNames.title]}</div>
       )}
     </div>
   );

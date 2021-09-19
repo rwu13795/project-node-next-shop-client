@@ -2,7 +2,7 @@ import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
 
 import { ProductInfo } from "../../util/react-hooks/add-product-reducer";
-import { FieldNames } from "../../util/enums/input-field-names";
+import { inputNames } from "../../util/enums/input-names";
 import { AddInfoEvents } from "../../pages/admin/add-product";
 import { Errors } from "../../util/react-hooks/add-product-upload";
 import {
@@ -55,7 +55,7 @@ export default function SelectCategory(props: Props): JSX.Element {
         <InputLabel style={{ fontSize: "1rem" }}>Main-Category</InputLabel>
         <Select
           value={capitalize(productInfo.main_cat)}
-          name={FieldNames.main}
+          name={inputNames.main}
           label="Main Category"
           sx={{ m: 0, minWidth: 130 }}
           onChange={dispatchAddInfo}
@@ -79,14 +79,14 @@ export default function SelectCategory(props: Props): JSX.Element {
           })}
         </Select>
       </FormControl>
-      {propError && propError[FieldNames.main] && (
-        <div>{propError[FieldNames.main]}</div>
+      {propError && propError[inputNames.main] && (
+        <div>{propError[inputNames.main]}</div>
       )}
       <span>
         <InputLabel style={{ fontSize: "15px" }}>Sub-Category</InputLabel>
         <Select
           value={capitalize(productInfo.sub_cat)}
-          name={FieldNames.sub}
+          name={inputNames.sub}
           style={{ minWidth: "90px" }}
           onChange={dispatchAddInfo}
           disabled={noMainCat}
@@ -100,8 +100,8 @@ export default function SelectCategory(props: Props): JSX.Element {
           })}
         </Select>
       </span>
-      {propError && propError[FieldNames.sub] && (
-        <div>{propError[FieldNames.sub]}</div>
+      {propError && propError[inputNames.sub] && (
+        <div>{propError[inputNames.sub]}</div>
       )}
     </Fragment>
   );

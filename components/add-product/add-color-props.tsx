@@ -1,14 +1,14 @@
 import { ChangeEvent, Dispatch, Fragment, MouseEvent } from "react";
 
 import SelectColor from "./select-color";
-import { FieldNames } from "../../util/enums/input-field-names";
+import { inputNames } from "../../util/enums/input-names";
 import { Errors } from "../../util/react-hooks/add-product-upload";
 import AddImage from "./add-image";
 import {
   ActionType,
   ColorProps,
 } from "../../util/react-hooks/add-product-reducer";
-import { Actions } from "../../util/enums/reducer-actions";
+import { Actions } from "../../util/enums/product-reducer-actions";
 
 interface Props {
   colorProps: ColorProps;
@@ -21,7 +21,7 @@ interface Props {
 export default function AddColorsProps(props: Props): JSX.Element {
   const { colorProps, listIndex, dispatch, propError, editMode } = props;
 
-  const sizesArray = [FieldNames.small, FieldNames.medium, FieldNames.large];
+  const sizesArray = [inputNames.small, inputNames.medium, inputNames.large];
 
   const sizesChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -72,7 +72,7 @@ export default function AddColorsProps(props: Props): JSX.Element {
         propError={propError}
       />
       <div>
-        <button name={FieldNames.removeColor} onClick={removeColorHandler}>
+        <button name={inputNames.removeColor} onClick={removeColorHandler}>
           Remove this color
         </button>
       </div>

@@ -1,4 +1,4 @@
-import { FieldNames } from "../../util/enums/input-field-names";
+import { inputNames } from "../../util/enums/input-names";
 import { ProductInfo } from "../../util/react-hooks/add-product-reducer";
 import { AddInfoEvents } from "../../pages/admin/add-product";
 import { Errors } from "../../util/react-hooks/add-product-upload";
@@ -16,13 +16,13 @@ export default function AddDescription(props: Props): JSX.Element {
     <div>
       <label>Description: </label>
       <textarea
-        name={FieldNames.desc}
+        name={inputNames.desc}
         rows={6}
         value={productInfo.description}
         onChange={dispatchAddInfo}
       ></textarea>
-      {propError && propError[FieldNames.desc] && (
-        <div>{propError[FieldNames.desc]}</div>
+      {propError && propError[inputNames.desc] && (
+        <div>{propError[inputNames.desc]}</div>
       )}
     </div>
   );
