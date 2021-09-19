@@ -52,7 +52,7 @@ const AddProduct: NextPage<PageProps> = ({ productId, product, editMode }) => {
   };
 
   // useUpload hook
-  const { postUpload, errors } = useUpload({
+  const { postUpload, errors, setErrors } = useUpload({
     colorPropsList: state.colorPropsList,
     productInfo: state.productInfo,
     editMode,
@@ -81,6 +81,7 @@ const AddProduct: NextPage<PageProps> = ({ productId, product, editMode }) => {
           dispatchAddInfo={dispatchAddInfo}
           productInfo={state.productInfo}
           propError={errors}
+          setErrors={setErrors}
         />
       </div>
       <div>
@@ -88,6 +89,7 @@ const AddProduct: NextPage<PageProps> = ({ productId, product, editMode }) => {
           dispatchAddInfo={dispatchAddInfo}
           productInfo={state.productInfo}
           propError={errors}
+          setErrors={setErrors}
         />
       </div>
       <div>
@@ -101,6 +103,7 @@ const AddProduct: NextPage<PageProps> = ({ productId, product, editMode }) => {
           dispatchAddInfo={dispatchAddInfo}
           productInfo={state.productInfo}
           propError={errors}
+          setErrors={setErrors}
         />
       </div>
       {state.colorPropsList.map((prop, index) => {
@@ -112,6 +115,7 @@ const AddProduct: NextPage<PageProps> = ({ productId, product, editMode }) => {
             dispatch={dispatch}
             propError={errors}
             editMode={editMode}
+            setErrors={setErrors}
           />
         );
       })}
@@ -136,7 +140,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   // const { productId, category } = context.query;
   const client = serverClient(context);
 
-  const productId = "614565ea548d3ea1dc2298be";
+  const productId = undefined;
   const category = "Women";
 
   if (!productId) {

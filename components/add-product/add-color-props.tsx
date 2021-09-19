@@ -1,8 +1,14 @@
-import { ChangeEvent, Dispatch, Fragment, MouseEvent } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  Fragment,
+  MouseEvent,
+  SetStateAction,
+} from "react";
 
 import SelectColor from "./select-color";
 import { inputNames } from "../../util/enums/input-names";
-import { Errors } from "../../util/react-hooks/add-product-upload";
+import { Errors } from "../../util/react-hooks/onChange-error-check";
 import AddImage from "./add-image";
 import {
   ActionType,
@@ -14,12 +20,14 @@ interface Props {
   colorProps: ColorProps;
   listIndex: number;
   dispatch: Dispatch<ActionType>;
-  propError: Errors | null | undefined;
+  propError: Errors;
   editMode: boolean;
+  setErrors: Dispatch<SetStateAction<Errors>>;
 }
 
 export default function AddColorsProps(props: Props): JSX.Element {
-  const { colorProps, listIndex, dispatch, propError, editMode } = props;
+  const { colorProps, listIndex, dispatch, propError, editMode, setErrors } =
+    props;
 
   const sizesArray = [inputNames.small, inputNames.medium, inputNames.large];
 
@@ -43,6 +51,7 @@ export default function AddColorsProps(props: Props): JSX.Element {
         listIndex={listIndex}
         dispatch={dispatch}
         propError={propError}
+        setErrors={setErrors}
       />
 
       <div>

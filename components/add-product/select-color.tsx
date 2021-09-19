@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch } from "react";
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { SelectChangeEvent } from "@mui/material";
 
 import {
@@ -9,7 +9,10 @@ import {
   Select,
 } from "@mui/material";
 
-import { Errors } from "../../util/react-hooks/add-product-upload";
+import {
+  Errors,
+  onChangeErrorCheck,
+} from "../../util/react-hooks/onChange-error-check";
 import { inputNames } from "../../util/enums/input-names";
 import {
   ActionType,
@@ -21,17 +24,19 @@ interface Props {
   colorProps: ColorProps;
   listIndex: number;
   dispatch: Dispatch<ActionType>;
-  propError: Errors | null | undefined;
+  propError: Errors;
+  setErrors: Dispatch<SetStateAction<Errors>>;
 }
 
 export default function SelectColor(props: Props): JSX.Element {
-  const { colorProps, listIndex, dispatch, propError } = props;
+  const { colorProps, listIndex, dispatch, propError, setErrors } = props;
 
   const selectColorHandler = (
     e: SelectChangeEvent<string> | ChangeEvent<HTMLInputElement>
   ) => {
     const inputValue = e.target.value;
     const inputField = e.target.name;
+    onChangeErrorCheck(inputField, inputValue, setErrors);
     dispatch({
       type: Actions.addColorInfo,
       payload: { listIndex, inputField, inputValue },
@@ -81,9 +86,8 @@ export default function SelectColor(props: Props): JSX.Element {
             />
           </div>
         </div>
-        {propError && colorProps.colorCode === "" && (
-          <div>{propError[inputNames.colorCode]}</div>
-        )}
+
+        <span>{propError[inputNames.colorCode]}</span>
       </span>
       <span>
         <FormControl>
@@ -123,9 +127,8 @@ export default function SelectColor(props: Props): JSX.Element {
             <MenuItem value="pink">pink</MenuItem>
           </Select>
         </FormControl>
-        {propError && colorProps.colorName === "" && (
-          <div>{propError[inputNames.colorName]}</div>
-        )}
+
+        <span>{propError[inputNames.colorName]}</span>
       </span>
       <span>
         picked color

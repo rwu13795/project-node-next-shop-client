@@ -22,27 +22,32 @@ const SignIn: NextPage = ({}) => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const signInErrors = useSelector(selectErros);
 
+  // since these interfaces only contain [signature: string] as propperties keys
+  // we just need to initialize a empty object to use the "computed property"
+  // Except //
+  // for the inputValue in the input elements, we must initialize the object with the
+  // keys and values, otherwise when the value changes, React will show
+  // warning: A component is changing an uncontrolled input to be controlled
   const [inputValue, setInputValue] = useState<InputValue>({
     [inputNames.email]: "",
     [inputNames.password]: "",
   });
   const [errors, setErrors] = useState<Errors>({});
-  const [touched, setTouched] = useState<Touched>({
-    [inputNames.email]: false,
-    [inputNames.password]: false,
-  });
+  const [touched, setTouched] = useState<Touched>({});
 
   const onFocusHandler = (e: FocusEvent<HTMLInputElement>) => {
     const { name } = e.currentTarget;
-    dispatch(clearSignInErrors(name));
     onFocusErrorCheck(name, setTouched);
   };
+
   const onBlurHandler = (e: FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
     onBlurErrorCheck(name, value, touched, setErrors);
   };
+
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
+    dispatch(clearSignInErrors(name));
     setInputValue((prev) => {
       return { ...prev, [name]: value };
     });
@@ -54,7 +59,7 @@ const SignIn: NextPage = ({}) => {
       <div>
         <label>Email</label>
         <input
-          type="email"
+          type={inputNames.email}
           required
           name={inputNames.email}
           value={inputValue[inputNames.email]}
@@ -63,14 +68,14 @@ const SignIn: NextPage = ({}) => {
           onChange={onChangeHandler}
         ></input>
         <span>
-          {signInErrors[inputNames.email] !== "" &&
-            signInErrors[inputNames.email]}
-          {errors[inputNames.email] !== "" && errors[inputNames.email]}
+          {signInErrors[inputNames.email]}
+          {errors[inputNames.email]}
         </span>
       </div>
       <div>
         <label>Password</label>
         <input
+          type={inputNames.password}
           required
           name={inputNames.password}
           value={inputValue[inputNames.password]}
@@ -79,9 +84,8 @@ const SignIn: NextPage = ({}) => {
           onChange={onChangeHandler}
         ></input>
         <span>
-          {signInErrors[inputNames.password] !== "" &&
-            signInErrors[inputNames.password]}
-          {errors[inputNames.password] !== "" && errors[inputNames.password]}
+          {signInErrors[inputNames.password]}
+          {errors[inputNames.password]}
         </span>
       </div>
       <div>

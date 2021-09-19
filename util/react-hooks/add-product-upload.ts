@@ -3,10 +3,7 @@ import { useState } from "react";
 import browserClient from "../axios-client/browser-client";
 import { inputNames } from "../enums/input-names";
 import { ColorProps, ProductInfo } from "./add-product-reducer";
-
-export interface Errors {
-  [field: string]: string;
-}
+import { Errors } from "./onChange-error-check";
 
 interface ColorPropsForUpload {
   colorName: string;
@@ -34,11 +31,11 @@ const useUpload = ({
 }) => {
   const client = browserClient();
 
-  const [errors, setErrors] = useState<Errors | null>();
+  const [errors, setErrors] = useState<Errors>({});
 
   const postUpload = async () => {
     try {
-      setErrors(null);
+      setErrors({});
 
       // re-format the props and put the imageFiles into "formData"
       let colorPropsUpload: ColorPropsForUpload[] = [];
@@ -136,7 +133,7 @@ const useUpload = ({
     }
   };
 
-  return { postUpload, errors };
+  return { postUpload, errors, setErrors };
 };
 
 export default useUpload;

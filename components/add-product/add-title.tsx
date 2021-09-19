@@ -1,16 +1,26 @@
 import { ProductInfo } from "../../util/react-hooks/add-product-reducer";
 import { inputNames } from "../../util/enums/input-names";
 import { AddInfoEvents } from "../../pages/admin/add-product";
-import { Errors } from "../../util/react-hooks/add-product-upload";
+import { Errors } from "../../util/react-hooks/onChange-error-check";
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { onChangeErrorCheck } from "../../util/react-hooks/onChange-error-check";
+import { selectErros } from "../../store/authSlice";
 
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
   productInfo: ProductInfo;
-  propError: Errors | null | undefined;
+  propError: Errors;
+  setErrors: Dispatch<SetStateAction<Errors>>;
 }
 
 export default function AddTitle(props: Props): JSX.Element {
-  const { dispatchAddInfo, productInfo, propError } = props;
+  const { dispatchAddInfo, productInfo, propError, setErrors } = props;
+
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.currentTarget;
+    onChangeErrorCheck(name, value, setErrors);
+    dispatchAddInfo(e);
+  };
 
   return (
     <div>
@@ -19,14 +29,14 @@ export default function AddTitle(props: Props): JSX.Element {
         name={inputNames.title}
         type="text"
         value={productInfo.title}
-        onChange={dispatchAddInfo}
+        onChange={onChangeHandler}
         // onBlur={onBlurHandler}
         // onFocus={onFocusHandler}
         // style={styles}
       ></input>
-      {propError && propError[inputNames.title] && (
-        <div>{propError[inputNames.title]}</div>
-      )}
+      <div></div>
+
+      <span>{propError[inputNames.title]}</span>
     </div>
   );
 }

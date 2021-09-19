@@ -1,10 +1,19 @@
-import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
-import { Fragment, useEffect, useState } from "react";
+import {
+  FormControl,
+  Select,
+  MenuItem,
+  InputLabel,
+  SelectChangeEvent,
+} from "@mui/material";
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 
 import { ProductInfo } from "../../util/react-hooks/add-product-reducer";
 import { inputNames } from "../../util/enums/input-names";
 import { AddInfoEvents } from "../../pages/admin/add-product";
-import { Errors } from "../../util/react-hooks/add-product-upload";
+import {
+  Errors,
+  onChangeErrorCheck,
+} from "../../util/react-hooks/onChange-error-check";
 import {
   mainCatArray,
   menCatArray,
@@ -17,11 +26,12 @@ import { capitalize } from "../../util/helper-functions/capitalize-first-letter"
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
   productInfo: ProductInfo;
-  propError: Errors | null | undefined;
+  propError: Errors;
+  setErrors: Dispatch<SetStateAction<Errors>>;
 }
 
 export default function SelectCategory(props: Props): JSX.Element {
-  const { dispatchAddInfo, productInfo, propError } = props;
+  const { dispatchAddInfo, productInfo, propError, setErrors } = props;
 
   const [noMainCat, setNoMainCat] = useState<boolean>(true);
   const [subCatArray, setSubCatArray] = useState<string[]>([""]);
@@ -46,6 +56,12 @@ export default function SelectCategory(props: Props): JSX.Element {
     }
   }, [productInfo.main_cat]);
 
+  const onChangeHandler = (e: SelectChangeEvent<string>) => {
+    const { name, value } = e.target;
+    onChangeErrorCheck(name, value, setErrors);
+    dispatchAddInfo(e);
+  };
+
   return (
     <Fragment>
       <FormControl
@@ -58,7 +74,7 @@ export default function SelectCategory(props: Props): JSX.Element {
           name={inputNames.main}
           label="Main Category"
           sx={{ m: 0, minWidth: 130 }}
-          onChange={dispatchAddInfo}
+          onChange={onChangeHandler}
         >
           {mainCatArray.map((cat) => {
             return (
@@ -88,7 +104,7 @@ export default function SelectCategory(props: Props): JSX.Element {
           value={capitalize(productInfo.sub_cat)}
           name={inputNames.sub}
           style={{ minWidth: "90px" }}
-          onChange={dispatchAddInfo}
+          onChange={onChangeHandler}
           disabled={noMainCat}
         >
           {subCatArray.map((cat) => {
@@ -100,9 +116,8 @@ export default function SelectCategory(props: Props): JSX.Element {
           })}
         </Select>
       </span>
-      {propError && propError[inputNames.sub] && (
-        <div>{propError[inputNames.sub]}</div>
-      )}
+
+      <span>{propError[inputNames.sub]}</span>
     </Fragment>
   );
 }

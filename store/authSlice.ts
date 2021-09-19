@@ -34,17 +34,14 @@ const initialState: AuthState = {
 
 const client = browserClient();
 
-export const getAuthStatus = createAsyncThunk(
-  "auth/getAuthStatus",
-  async () => {
-    const response = await client.get<AuthState>(serverUrl + "/auth-status");
+const getAuthStatus = createAsyncThunk("auth/getAuthStatus", async () => {
+  const response = await client.get<AuthState>(serverUrl + "/auth-status");
 
-    console.log("in redux getAuthStatus---------->", response.data);
-    return response.data;
-  }
-);
+  console.log("in redux getAuthStatus---------->", response.data);
+  return response.data;
+});
 
-export const signIn = createAsyncThunk(
+const signIn = createAsyncThunk(
   "auth/signIn",
   async (
     signInBody: { email: string; password: string },
@@ -105,6 +102,7 @@ const authSlice = createSlice({
 });
 
 export const { signOut, clearSignInErrors } = authSlice.actions;
+export { signIn, getAuthStatus };
 
 export default authSlice.reducer;
 

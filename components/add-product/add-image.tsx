@@ -2,7 +2,7 @@ import { Fragment, ChangeEvent, MouseEvent, Dispatch } from "react";
 import Image from "next/image";
 
 import { inputNames } from "../../util/enums/input-names";
-import { Errors } from "../../util/react-hooks/add-product-upload";
+import { Errors } from "../../util/react-hooks/onChange-error-check";
 import {
   ActionType,
   ColorProps,
@@ -14,7 +14,7 @@ interface Props {
   listIndex: number;
   dispatch: Dispatch<ActionType>;
   editMode: boolean;
-  propError: Errors | null | undefined;
+  propError: Errors;
 }
 
 export default function AddImage(props: Props): JSX.Element {
@@ -137,8 +137,9 @@ export default function AddImage(props: Props): JSX.Element {
             onChange={addImageHandler}
           />
         </div>
-        {propError && colorProps.imageCount < 1 && (
-          <div>{propError[inputNames.imagesCount]}</div>
+
+        {colorProps.imageCount < 1 && (
+          <span>{propError[inputNames.imagesCount]}</span>
         )}
       </div>
     </Fragment>

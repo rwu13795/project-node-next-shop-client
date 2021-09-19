@@ -1,16 +1,28 @@
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
+
 import { inputNames } from "../../util/enums/input-names";
 import { ProductInfo } from "../../util/react-hooks/add-product-reducer";
 import { AddInfoEvents } from "../../pages/admin/add-product";
-import { Errors } from "../../util/react-hooks/add-product-upload";
+import {
+  Errors,
+  onChangeErrorCheck,
+} from "../../util/react-hooks/onChange-error-check";
 
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
   productInfo: ProductInfo;
-  propError: Errors | null | undefined;
+  propError: Errors;
+  setErrors: Dispatch<SetStateAction<Errors>>;
 }
 
 export default function AddDescription(props: Props): JSX.Element {
-  const { productInfo, dispatchAddInfo, propError } = props;
+  const { productInfo, dispatchAddInfo, propError, setErrors } = props;
+
+  const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = e.currentTarget;
+    onChangeErrorCheck(name, value, setErrors);
+    dispatchAddInfo(e);
+  };
 
   return (
     <div>
@@ -19,11 +31,10 @@ export default function AddDescription(props: Props): JSX.Element {
         name={inputNames.desc}
         rows={6}
         value={productInfo.description}
-        onChange={dispatchAddInfo}
+        onChange={onChangeHandler}
       ></textarea>
-      {propError && propError[inputNames.desc] && (
-        <div>{propError[inputNames.desc]}</div>
-      )}
+
+      <span>{propError[inputNames.desc]}</span>
     </div>
   );
 }
