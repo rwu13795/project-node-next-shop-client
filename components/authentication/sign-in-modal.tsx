@@ -4,7 +4,10 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
-import SignIn_SignUp from "./sign-in-up";
+
+import AuthForm from "./auth-form";
+import { inputFieldsArray } from "../../pages/auth/sign-in";
+import { inputTypes } from "../../util/enums/input-types";
 
 const style = {
   position: "absolute" as "absolute",
@@ -40,7 +43,11 @@ export default function SignInModal() {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <SignIn_SignUp is_signingIn={true} handleClose={handleClose} />
+            <AuthForm
+              inputType={inputTypes.signIn}
+              inputFields={inputFieldsArray}
+              handleClose={handleClose}
+            />
           </Box>
         </Fade>
       </Modal>

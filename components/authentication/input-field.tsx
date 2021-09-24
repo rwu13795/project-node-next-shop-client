@@ -22,7 +22,7 @@ export default function AuthInputField(props: Props) {
   } = props;
   return (
     <div>
-      <label>{inputName.replace("_", " ").toUpperCase() + "  "}</label>
+      <label>{inputName.replace("_", " ").toUpperCase()}</label>
       <input
         type={inputName === "confirm_password" ? "password" : inputName}
         required

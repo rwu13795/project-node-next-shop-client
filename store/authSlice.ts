@@ -29,9 +29,8 @@ interface SignInBody {
 interface AuthState {
   currentUser: CurrentUser;
   isLoggedIn: boolean;
-  signUpStatus: string;
-  signInErrors: AuthErrors;
-  signUpErrors: AuthErrors;
+  loadingStatus: string;
+  authErrors: AuthErrors;
 }
 
 const serverUrl = "http://localhost:5000/api/auth";
@@ -39,9 +38,8 @@ const serverUrl = "http://localhost:5000/api/auth";
 const initialState: AuthState = {
   currentUser: { username: "" },
   isLoggedIn: false,
-  signUpStatus: "pending",
-  signInErrors: {},
-  signUpErrors: {},
+  loadingStatus: "idle",
+  authErrors: {},
 };
 
 const client = browserClient();
@@ -105,11 +103,8 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    clearSignInErrors(state, action) {
-      state.signInErrors[action.payload] = "";
-    },
-    clearSignUpErrors(state, action) {
-      state.signUpErrors[action.payload] = "";
+    clearAuthErrors(state, action) {
+      state.authErrors[action.payload] = "";
     },
   },
   extraReducers: (builder) => {
@@ -122,50 +117,69 @@ const authSlice = createSlice({
           state.isLoggedIn = action.payload.isLoggedIn;
         }
       )
+      /////////////
+      // SIGN IN //
+      /////////////
       .addCase(
         signIn.fulfilled,
         (state, action: PayloadAction<AuthState>): void => {
           state.currentUser = action.payload.currentUser;
           state.isLoggedIn = action.payload.isLoggedIn;
+          state.loadingStatus = "succeeded";
         }
       )
+      .addCase(signIn.pending, (state, action): void => {
+        state.loadingStatus = "loading";
+      })
       .addCase(signIn.rejected, (state, action: PayloadAction<any>): void => {
         //////////
         console.log(action.payload);
         //////////
         for (let err of action.payload.errors) {
-          state.signInErrors[err.field] = err.message;
+          state.authErrors[err.field] = err.message;
         }
+        state.loadingStatus = "idle";
       })
+      //////////////
+      // SIGN OUT //
+      //////////////
       .addCase(signOut.fulfilled, (state, action): void => {
         state.isLoggedIn = false;
+        state.loadingStatus = "idle";
       })
+      /////////////
+      // SIGN UP //
+      /////////////
       .addCase(
         signUp.fulfilled,
         (state, action: PayloadAction<AuthState>): void => {
           state.currentUser = action.payload.currentUser;
           state.isLoggedIn = action.payload.isLoggedIn;
-          state.signUpStatus = "succeeded";
+          state.loadingStatus = "succeeded";
         }
       )
+      .addCase(signUp.pending, (state, action): void => {
+        state.loadingStatus = "loading";
+      })
       .addCase(signUp.rejected, (state, action: PayloadAction<any>): void => {
         ////////
         console.log(action.payload);
         ////////
         for (let err of action.payload.errors) {
-          state.signUpErrors[err.field] = err.message;
+          state.authErrors[err.field] = err.message;
         }
+        state.loadingStatus = "idle";
       });
   },
 });
 
-export const { clearSignInErrors, clearSignUpErrors } = authSlice.actions;
+export const { clearAuthErrors } = authSlice.actions;
 export { signIn, signOut, signUp, getAuthStatus };
 
 export default authSlice.reducer;
 
 export const selectCurrentUser = (state: RootState) => state.auth.currentUser;
 export const selectIsLoggedIn = (state: RootState) => state.auth.isLoggedIn;
-export const selectSignUpStatus = (state: RootState) => state.auth.signUpStatus;
-export const selectSignInErrors = (state: RootState) => state.auth.signInErrors;
-export const selectSignUpErrors = (state: RootState) => state.auth.signUpErrors;
+export const selectLoadingStatus = (state: RootState) =>
+  state.auth.loadingStatus;
+export const selectAuthErrors = (state: RootState) => state.auth.authErrors;

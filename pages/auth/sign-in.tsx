@@ -5,7 +5,11 @@ import { useSelector } from "react-redux";
 
 import { selectIsLoggedIn } from "../../store/authSlice";
 import serverClient from "../../util/axios-client/server-client";
-import SignIn_SignUp from "../../components/authentication/sign-in-up";
+import AuthForm from "../../components/authentication/auth-form";
+import { inputTypes } from "../../util/enums/input-types";
+import { inputNames } from "../../util/enums/input-names";
+
+export const inputFieldsArray = [inputNames.email, inputNames.password];
 
 const SignInPage: NextPage = ({}) => {
   const router = useRouter();
@@ -18,7 +22,9 @@ const SignInPage: NextPage = ({}) => {
     }
   });
 
-  return <SignIn_SignUp is_signingIn={true} />;
+  return (
+    <AuthForm inputType={inputTypes.signIn} inputFields={inputFieldsArray} />
+  );
 };
 
 export default SignInPage;
