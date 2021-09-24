@@ -1,9 +1,9 @@
 import { ProductInfo } from "../../util/react-hooks/add-product-reducer";
 import { inputNames } from "../../util/enums/input-names";
 import { AddInfoEvents } from "../../pages/admin/add-product";
-import { Errors } from "../../util/react-hooks/onChange-error-check";
+import { Errors } from "../../util/react-hooks/input-error-check";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { onChangeErrorCheck } from "../../util/react-hooks/onChange-error-check";
+import { onChangeErrorCheck } from "../../util/react-hooks/input-error-check";
 import { selectErros } from "../../store/authSlice";
 
 interface Props {

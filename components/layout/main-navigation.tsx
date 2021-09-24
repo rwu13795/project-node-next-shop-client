@@ -1,14 +1,35 @@
 import Link from "next/link";
 import Head from "next/head";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./main-navigation.module.css";
+import {
+  getAuthStatus,
+  selectCurrentUser,
+  selectIsLoggedIn,
+  signOut,
+} from "../../store/authSlice";
+import SignInModal from "../authentication/sign-in-modal";
 
 interface Props {
   page?: string;
 }
 
 export default function MainNavigation({ page }: Props) {
+  const currentUser = useSelector(selectCurrentUser);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const dispatch = useDispatch();
+
+  const signOutHandler = async () => {
+    dispatch(signOut());
+    // re-acquire a "guest" session after signing out
+    // have to wait a few seconds for the mongoDB destoying the old session
+    setTimeout(() => {
+      dispatch(getAuthStatus());
+    }, 2000);
+  };
+
   return (
     <Fragment>
       <main className={styles.main}>
@@ -44,9 +65,14 @@ export default function MainNavigation({ page }: Props) {
           )}
 
           <div style={{ textAlign: "right" }}>
-            <Link href="/baby">
-              <a>BABY</a>
-            </Link>
+            {isLoggedIn ? (
+              <Fragment>
+                <div>Welcome back {currentUser.username}</div>
+                <button onClick={signOutHandler}>Sign Out</button>
+              </Fragment>
+            ) : (
+              <SignInModal />
+            )}
           </div>
         </section>
       </main>

@@ -13,7 +13,7 @@ import { AddInfoEvents } from "../../pages/admin/add-product";
 import {
   Errors,
   onChangeErrorCheck,
-} from "../../util/react-hooks/onChange-error-check";
+} from "../../util/react-hooks/input-error-check";
 import {
   mainCatArray,
   menCatArray,

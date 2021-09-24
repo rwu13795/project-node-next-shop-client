@@ -56,3 +56,21 @@ export const onChangeErrorCheck = (
     });
   }
 };
+
+export const onSubmitErrorCheck = (
+  input: InputValue,
+  errors: Errors,
+  setError: Dispatch<SetStateAction<Errors>>
+): boolean => {
+  for (let [inputName, value] of Object.entries(input)) {
+    if (value === undefined || value === "") {
+      setError((prev) => {
+        return { ...prev, [inputName]: "Required field" };
+      });
+    }
+  }
+  for (let error of Object.values(errors)) {
+    if (error !== "") return true;
+  }
+  return false;
+};

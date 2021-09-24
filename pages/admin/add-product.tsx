@@ -34,7 +34,11 @@ interface PageProps {
   // csrfToken: string
 }
 
-const AddProduct: NextPage<PageProps> = ({ productId, product, editMode }) => {
+const AddProductPage: NextPage<PageProps> = ({
+  productId,
+  product,
+  editMode,
+}) => {
   const router = useRouter();
 
   const [state, dispatch] = useReducer(
@@ -134,7 +138,7 @@ const AddProduct: NextPage<PageProps> = ({ productId, product, editMode }) => {
   );
 };
 
-export default AddProduct;
+export default AddProductPage;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   // const { productId, category } = context.query;

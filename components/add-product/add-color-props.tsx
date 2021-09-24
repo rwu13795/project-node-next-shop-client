@@ -8,7 +8,7 @@ import {
 
 import SelectColor from "./select-color";
 import { inputNames } from "../../util/enums/input-names";
-import { Errors } from "../../util/react-hooks/onChange-error-check";
+import { Errors } from "../../util/react-hooks/input-error-check";
 import AddImage from "./add-image";
 import {
   ActionType,

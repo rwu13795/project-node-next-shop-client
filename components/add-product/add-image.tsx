@@ -2,7 +2,7 @@ import { Fragment, ChangeEvent, MouseEvent, Dispatch } from "react";
 import Image from "next/image";
 
 import { inputNames } from "../../util/enums/input-names";
-import { Errors } from "../../util/react-hooks/onChange-error-check";
+import { Errors } from "../../util/react-hooks/input-error-check";
 import {
   ActionType,
   ColorProps,

@@ -12,7 +12,7 @@ import {
 import {
   Errors,
   onChangeErrorCheck,
-} from "../../util/react-hooks/onChange-error-check";
+} from "../../util/react-hooks/input-error-check";
 import { inputNames } from "../../util/enums/input-names";
 import {
   ActionType,
