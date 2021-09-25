@@ -1,10 +1,11 @@
 import { Fragment } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
-import { ProductProps } from "../../util/react-hooks/get-more-products";
+import { PageProductProps } from "../../util/react-hooks/get-more-products";
 
 interface Props {
-  products: ProductProps[];
+  products: PageProductProps[];
   isLoading: boolean;
   lastElementRef: (node: HTMLDivElement) => void;
 }
@@ -16,15 +17,15 @@ export default function RenderSubCatImage(props: Props) {
     <Fragment>
       <div>t-shirts</div>
       {products.map((p, index) => {
-        let url = Object.values(p.imagesUrl)[0][0];
+        let url = p.colorPropsList[0].imageFiles[0];
         let lastElem = index + 1 === products.length;
         return lastElem ? (
           <div ref={lastElementRef} key={index}>
-            <Image src={url} width={400} height={400} alt={p.title} />
+            <RenderImage p={p} url={url} />
           </div>
         ) : (
           <div key={index}>
-            <Image src={url} width={400} height={400} alt={p.title} />
+            <RenderImage p={p} url={url} />
           </div>
         );
       })}
@@ -32,3 +33,13 @@ export default function RenderSubCatImage(props: Props) {
     </Fragment>
   );
 }
+
+const RenderImage = ({ p, url }: { p: PageProductProps; url: string }) => {
+  return (
+    <Link href={`/shop/${p._id}-${p.productInfo.main_cat}`}>
+      <a>
+        <Image src={url} width={400} height={400} alt={p.productInfo.title} />
+      </a>
+    </Link>
+  );
+};

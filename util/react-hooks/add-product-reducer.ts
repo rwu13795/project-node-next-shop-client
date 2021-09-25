@@ -1,9 +1,9 @@
 import produce from "immer";
-import { inputNames } from "../enums/input-names";
+import { inputNames } from "../enums-types/input-names";
 
-import { Actions } from "../enums/product-reducer-actions";
+import { Actions } from "../enums-types/product-reducer-actions";
 
-export interface ColorProps {
+export interface ReducerColorProps {
   colorName: string;
   colorCode: string;
   sizes: { [name: string]: number };
@@ -11,13 +11,13 @@ export interface ColorProps {
   imageFiles: (File | string)[];
 }
 
-export interface ProductInfo {
+export interface ReducerProductInfo {
   [fieldName: string]: string | number | undefined;
 }
 
 export interface ProductState {
-  colorPropsList: ColorProps[];
-  productInfo: ProductInfo;
+  colorPropsList: ReducerColorProps[];
+  productInfo: ReducerProductInfo;
   deletedImages?: string[];
 }
 

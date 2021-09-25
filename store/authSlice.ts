@@ -7,7 +7,9 @@ interface CurrentUser {
   username: string;
   email?: string;
   userId?: string;
-  cart?: Object[];
+  cart?: [
+    { imageUrl: string; productId: string; quantity: number; price: number }
+  ];
 }
 
 interface AuthErrors {
@@ -183,3 +185,5 @@ export const selectIsLoggedIn = (state: RootState) => state.auth.isLoggedIn;
 export const selectLoadingStatus = (state: RootState) =>
   state.auth.loadingStatus;
 export const selectAuthErrors = (state: RootState) => state.auth.authErrors;
+export const selectCart = (state: RootState) =>
+  state.auth.currentUser.cart ? state.auth.currentUser.cart : [];

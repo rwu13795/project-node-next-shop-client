@@ -1,10 +1,10 @@
-import { inputNames } from "../../util/enums/input-names";
-import { ProductInfo } from "../../util/react-hooks/add-product-reducer";
+import { inputNames } from "../../util/enums-types/input-names";
+import { ReducerProductInfo } from "../../util/react-hooks/add-product-reducer";
 import { AddInfoEvents } from "../../pages/admin/add-product";
 
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
-  productInfo: ProductInfo;
+  productInfo: ReducerProductInfo;
 }
 export default function AddPrice(props: Props): JSX.Element {
   const { productInfo, dispatchAddInfo } = props;

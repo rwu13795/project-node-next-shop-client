@@ -5,9 +5,9 @@ import { useSelector } from "react-redux";
 
 import { selectIsLoggedIn } from "../../store/authSlice";
 import serverClient from "../../util/axios-client/server-client";
-import AuthForm from "../../components/authentication/auth-form";
-import { inputTypes } from "../../util/enums/input-types";
-import { inputNames } from "../../util/enums/input-names";
+import AuthForm from "../../components/auth/auth-form";
+import { inputTypes } from "../../util/enums-types/input-types";
+import { inputNames } from "../../util/enums-types/input-names";
 
 export const inputFieldsArray = [inputNames.email, inputNames.password];
 

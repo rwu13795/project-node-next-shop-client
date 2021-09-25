@@ -9,7 +9,7 @@ import {
   onFocusErrorCheck,
   onSubmitErrorCheck,
 } from "../../util/react-hooks/input-error-check";
-import { inputNames } from "../../util/enums/input-names";
+import { inputNames } from "../../util/enums-types/input-names";
 import { Touched, Errors } from "../../util/react-hooks/input-error-check";
 import {
   signIn,
@@ -20,7 +20,7 @@ import {
 } from "../../store/authSlice";
 import AuthInputField from "./input-field";
 import Redirect_signedUp_to_homePage from "./redirect-signed-up";
-import { inputTypes } from "../../util/enums/input-types";
+import { inputTypes } from "../../util/enums-types/input-types";
 import { CircularProgress } from "@mui/material";
 
 interface Props {
@@ -54,8 +54,6 @@ export default function AuthForm({
     }
     return initialValue;
   });
-
-  console.log(inputValue);
 
   const onFocusHandler = (e: FocusEvent<HTMLInputElement>) => {
     const { name } = e.currentTarget;
@@ -101,8 +99,6 @@ export default function AuthForm({
       })
     );
   };
-
-  console.log(loadingStatus);
 
   const renderFields = () => {
     return inputFieldsArray.map((inputName) => {

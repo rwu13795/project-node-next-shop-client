@@ -2,18 +2,33 @@
 import { useState, useEffect, useCallback } from "react";
 import browserClient from "../axios-client/browser-client";
 
-export interface ProductProps {
-  title: string;
-  imagesUrl: { [color: string]: string[] };
+export interface PageColorProps {
+  imageFiles: string[];
+  colorName?: string;
+  colorCode?: string;
+  sizes?: { [name: string]: number };
+  imageCount?: number;
+}
+
+export interface PageProductProps {
+  _id: string;
+  productInfo: {
+    title: string;
+    main_cat: string;
+    sub_cat?: string;
+    price?: number;
+    description?: string;
+  };
+  colorPropsList: PageColorProps[];
 }
 
 function useGetMoreProducts(
   pageNum: number,
-  startProducts: ProductProps[],
+  startProducts: PageProductProps[],
   main_cat: string,
   sub_cat: string
 ) {
-  const [products, setProducts] = useState<ProductProps[]>(startProducts);
+  const [products, setProducts] = useState<PageProductProps[]>(startProducts);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);

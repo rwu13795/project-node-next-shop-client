@@ -1,23 +1,17 @@
-import {
-  ChangeEvent,
-  Dispatch,
-  Fragment,
-  MouseEvent,
-  SetStateAction,
-} from "react";
+import { ChangeEvent, Dispatch, Fragment, SetStateAction } from "react";
 
 import SelectColor from "./select-color";
-import { inputNames } from "../../util/enums/input-names";
+import { inputNames } from "../../util/enums-types/input-names";
 import { Errors } from "../../util/react-hooks/input-error-check";
 import AddImage from "./add-image";
 import {
   ActionType,
-  ColorProps,
+  ReducerColorProps,
 } from "../../util/react-hooks/add-product-reducer";
-import { Actions } from "../../util/enums/product-reducer-actions";
+import { Actions } from "../../util/enums-types/product-reducer-actions";
 
 interface Props {
-  colorProps: ColorProps;
+  colorProps: ReducerColorProps;
   listIndex: number;
   dispatch: Dispatch<ActionType>;
   propError: Errors;

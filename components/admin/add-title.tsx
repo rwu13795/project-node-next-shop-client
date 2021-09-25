@@ -1,14 +1,13 @@
-import { ProductInfo } from "../../util/react-hooks/add-product-reducer";
-import { inputNames } from "../../util/enums/input-names";
+import { ReducerProductInfo } from "../../util/react-hooks/add-product-reducer";
+import { inputNames } from "../../util/enums-types/input-names";
 import { AddInfoEvents } from "../../pages/admin/add-product";
 import { Errors } from "../../util/react-hooks/input-error-check";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { onChangeErrorCheck } from "../../util/react-hooks/input-error-check";
-import { selectErros } from "../../store/authSlice";
 
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
-  productInfo: ProductInfo;
+  productInfo: ReducerProductInfo;
   propError: Errors;
   setErrors: Dispatch<SetStateAction<Errors>>;
 }

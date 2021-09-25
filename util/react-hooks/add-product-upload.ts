@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 import browserClient from "../axios-client/browser-client";
-import { inputNames } from "../enums/input-names";
-import { ColorProps, ProductInfo } from "./add-product-reducer";
+import { inputNames } from "../enums-types/input-names";
+import { ReducerColorProps, ReducerProductInfo } from "./add-product-reducer";
 import { Errors } from "./input-error-check";
 
 interface ColorPropsForUpload {
@@ -22,8 +22,8 @@ const useUpload = ({
   productId,
   deletedImgaes,
 }: {
-  colorPropsList: ColorProps[];
-  productInfo: ProductInfo;
+  colorPropsList: ReducerColorProps[];
+  productInfo: ReducerProductInfo;
   editMode: boolean;
   onSuccess: Function;
   productId: string;

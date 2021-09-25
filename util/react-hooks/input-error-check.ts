@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { inputNames } from "../enums/input-names";
+import { inputNames } from "../enums-types/input-names";
 
 export interface InputValue {
   [inputNames: string]: string;
@@ -27,7 +27,6 @@ export const onBlurErrorCheck = (
   touched: Touched,
   setErrors: Dispatch<SetStateAction<Errors>>
 ) => {
-  console.log(inputName, value);
   if (touched[inputName] && value === "") {
     setErrors((prev) => {
       return { ...prev, [inputName]: "Required field" };

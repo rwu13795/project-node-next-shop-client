@@ -7,8 +7,8 @@ import {
 } from "@mui/material";
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 
-import { ProductInfo } from "../../util/react-hooks/add-product-reducer";
-import { inputNames } from "../../util/enums/input-names";
+import { ReducerProductInfo } from "../../util/react-hooks/add-product-reducer";
+import { inputNames } from "../../util/enums-types/input-names";
 import { AddInfoEvents } from "../../pages/admin/add-product";
 import {
   Errors,
@@ -20,12 +20,12 @@ import {
   womenCatArray,
   kidsCatArray,
   MainCategory,
-} from "../../util/enums/product-category";
+} from "../../util/enums-types/product-category";
 import { capitalize } from "../../util/helper-functions/capitalize-first-letter";
 
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
-  productInfo: ProductInfo;
+  productInfo: ReducerProductInfo;
   propError: Errors;
   setErrors: Dispatch<SetStateAction<Errors>>;
 }

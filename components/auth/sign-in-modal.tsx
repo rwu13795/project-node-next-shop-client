@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 
 import AuthForm from "./auth-form";
 import { inputFieldsArray } from "../../pages/auth/sign-in";
-import { inputTypes } from "../../util/enums/input-types";
+import { inputTypes } from "../../util/enums-types/input-types";
 
 const style = {
   position: "absolute" as "absolute",

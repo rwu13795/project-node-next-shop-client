@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Link from "next/link";
 import { useState, ChangeEvent } from "react";
 
 const Men: NextPage = ({}) => {
@@ -30,17 +31,10 @@ const Men: NextPage = ({}) => {
   return (
     <main>
       Men{" "}
-      <button type="button" className="btn btn-dark">
-        Primary
-      </button>
       <div>
-        <label style={styles}>Email</label>
-        <input
-          value={email}
-          onBlur={onBlurHandler}
-          onFocus={onFocusHandler}
-          onChange={setEmailHandler}
-        ></input>
+        <Link href="/shop/men/t-shirts">
+          <a>T-Shirts</a>
+        </Link>
       </div>
     </main>
   );

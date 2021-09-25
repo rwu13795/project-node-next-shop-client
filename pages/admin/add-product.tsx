@@ -4,17 +4,17 @@ import React, { useReducer, ChangeEvent } from "react";
 import { SelectChangeEvent } from "@mui/material";
 
 import useUpload from "../../util/react-hooks/add-product-upload";
-import SelectCategory from "../../components/add-product/select-category";
-import AddTitle from "../../components/add-product/add-title";
-import AddPrice from "../../components/add-product/add-price";
-import AddDescription from "../../components/add-product/add-description";
-import AddColorsProps from "../../components/add-product/add-color-props";
+import SelectCategory from "../../components/admin/select-category";
+import AddTitle from "../../components/admin/add-title";
+import AddPrice from "../../components/admin/add-price";
+import AddDescription from "../../components/admin/add-description";
+import AddColorsProps from "../../components/admin/add-color-props";
 import addProductReducer, {
   initialColorProps,
   initialProductInfo,
   ProductState,
 } from "../../util/react-hooks/add-product-reducer";
-import { Actions } from "../../util/enums/product-reducer-actions";
+import { Actions } from "../../util/enums-types/product-reducer-actions";
 import serverClient from "../../util/axios-client/server-client";
 
 const initialProductState: ProductState = {
@@ -74,7 +74,7 @@ const AddProductPage: NextPage<PageProps> = ({
   };
 
   //////////////////////////
-  console.log(state);
+  // console.log(state);
 
   return (
     <main>
@@ -144,8 +144,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   // const { productId, category } = context.query;
   const client = serverClient(context);
 
-  const productId = undefined;
-  const category = "Women";
+  const productId = "614f66eff572a86ea5461927";
+  const category = "men";
 
   if (!productId) {
     return {

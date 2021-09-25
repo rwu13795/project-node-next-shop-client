@@ -10,7 +10,8 @@ import {
   selectIsLoggedIn,
   signOut,
 } from "../../store/authSlice";
-import SignInModal from "../authentication/sign-in-modal";
+import SignInModal from "../auth/sign-in-modal";
+import Cart from "../shop/cart";
 
 interface Props {
   page?: string;
@@ -42,23 +43,18 @@ export default function MainNavigation({ page }: Props) {
           {page !== "a" && (
             <Fragment>
               <div>
-                <Link href="/women">
+                <Link href="/shop/women">
                   <a>WOMEN</a>
                 </Link>
               </div>
               <div>
-                <Link href="/men">
+                <Link href="/shop/men">
                   <a>MEN</a>
                 </Link>
               </div>
               <div>
-                <Link href="/kids">
+                <Link href="/shop/kids">
                   <a>KIDS</a>
-                </Link>
-              </div>
-              <div>
-                <Link href="/baby">
-                  <a>BABY</a>
                 </Link>
               </div>
             </Fragment>
@@ -73,6 +69,7 @@ export default function MainNavigation({ page }: Props) {
             ) : (
               <SignInModal />
             )}
+            <Cart />
           </div>
         </section>
       </main>

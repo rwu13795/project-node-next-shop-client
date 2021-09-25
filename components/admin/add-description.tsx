@@ -1,7 +1,7 @@
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
-import { inputNames } from "../../util/enums/input-names";
-import { ProductInfo } from "../../util/react-hooks/add-product-reducer";
+import { inputNames } from "../../util/enums-types/input-names";
+import { ReducerProductInfo } from "../../util/react-hooks/add-product-reducer";
 import { AddInfoEvents } from "../../pages/admin/add-product";
 import {
   Errors,
@@ -10,7 +10,7 @@ import {
 
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
-  productInfo: ProductInfo;
+  productInfo: ReducerProductInfo;
   propError: Errors;
   setErrors: Dispatch<SetStateAction<Errors>>;
 }
