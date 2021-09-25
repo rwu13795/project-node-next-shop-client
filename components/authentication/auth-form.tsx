@@ -55,6 +55,8 @@ export default function AuthForm({
     return initialValue;
   });
 
+  console.log(inputValue);
+
   const onFocusHandler = (e: FocusEvent<HTMLInputElement>) => {
     const { name } = e.currentTarget;
     onFocusErrorCheck(name, setTouched);
@@ -86,7 +88,9 @@ export default function AuthForm({
 
   const singUpHandler = () => {
     const hasError = onSubmitErrorCheck(inputValue, errors, setErrors);
-    if (hasError) return;
+    if (hasError) {
+      return;
+    }
     dispatch(
       signUp({
         email: inputValue[inputNames.email],
