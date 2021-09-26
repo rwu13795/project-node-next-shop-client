@@ -8,19 +8,19 @@ import {
   onChangeErrorCheck,
   onFocusErrorCheck,
   onSubmitErrorCheck,
-} from "../../util/react-hooks/input-error-check";
-import { inputNames } from "../../util/enums-types/input-names";
-import { Touched, Errors } from "../../util/react-hooks/input-error-check";
+} from "../../utils/react-hooks/input-error-check";
+import { inputNames } from "../../utils/enums-types/input-names";
+import { Touched, Errors } from "../../utils/react-hooks/input-error-check";
 import {
   signIn,
   signUp,
   clearAuthErrors,
   selectAuthErrors,
   selectLoadingStatus,
-} from "../../store/authSlice";
+} from "../../utils/redux-store/userSlice";
 import AuthInputField from "./input-field";
 import Redirect_signedUp_to_homePage from "./redirect-signed-up";
-import { inputTypes } from "../../util/enums-types/input-types";
+import { inputTypes } from "../../utils/enums-types/input-types";
 import { CircularProgress } from "@mui/material";
 
 interface Props {
@@ -79,6 +79,7 @@ export default function AuthForm({
   const singInHandler = () => {
     const hasError = onSubmitErrorCheck(inputValue, errors, setErrors);
     if (hasError) return;
+
     dispatch(
       signIn({ email: inputValue.email, password: inputValue.password })
     );
@@ -86,9 +87,8 @@ export default function AuthForm({
 
   const singUpHandler = () => {
     const hasError = onSubmitErrorCheck(inputValue, errors, setErrors);
-    if (hasError) {
-      return;
-    }
+    if (hasError) return;
+
     dispatch(
       signUp({
         email: inputValue[inputNames.email],

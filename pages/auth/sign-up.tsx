@@ -1,10 +1,10 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
 
-import serverClient from "../../util/axios-client/server-client";
+import serverClient from "../../utils/axios-client/server-client";
 
 import AuthForm from "../../components/auth/auth-form";
-import { inputTypes } from "../../util/enums-types/input-types";
-import { inputNames } from "../../util/enums-types/input-names";
+import { inputTypes } from "../../utils/enums-types/input-types";
+import { inputNames } from "../../utils/enums-types/input-names";
 
 const inputFieldsArray = [
   inputNames.email,

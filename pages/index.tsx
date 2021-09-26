@@ -15,13 +15,7 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1>Home Page</h1>
-        <Image
-          src="https://testing-images-on-s3.s3.us-east-2.amazonaws.com/images/cat-mask.jpg"
-          alt="aws"
-          // unoptimized={true}
-          width={300}
-          height={300}
-        />
+        <Image src="/home.jpg" alt="testing" width={300} height={300} />
       </main>
       <Button variant="outlined" color="secondary">
         Primary

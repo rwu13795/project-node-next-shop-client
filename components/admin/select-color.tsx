@@ -12,13 +12,13 @@ import {
 import {
   Errors,
   onChangeErrorCheck,
-} from "../../util/react-hooks/input-error-check";
-import { inputNames } from "../../util/enums-types/input-names";
+} from "../../utils/react-hooks/input-error-check";
+import { inputNames } from "../../utils/enums-types/input-names";
 import {
   ActionType,
   ReducerColorProps,
-} from "../../util/react-hooks/add-product-reducer";
-import { Actions } from "../../util/enums-types/product-reducer-actions";
+} from "../../utils/react-hooks/add-product-reducer";
+import { Actions } from "../../utils/enums-types/product-reducer-actions";
 
 interface Props {
   colorProps: ReducerColorProps;

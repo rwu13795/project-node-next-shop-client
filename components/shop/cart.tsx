@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { selectCart } from "../../store/authSlice";
+import { selectCart } from "../../utils/redux-store/userSlice";
 
 export default function Cart(): JSX.Element {
   const cart = useSelector(selectCart);

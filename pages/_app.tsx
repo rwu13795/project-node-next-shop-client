@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 // import "bootstrap/dist/css/bootstrap.css";
 
 import Layout from "../components/layout/layout";
-import store from "../store";
+import store from "../utils/redux-store";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (

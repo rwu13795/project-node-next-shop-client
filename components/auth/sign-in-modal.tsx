@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 
 import AuthForm from "./auth-form";
 import { inputFieldsArray } from "../../pages/auth/sign-in";
-import { inputTypes } from "../../util/enums-types/input-types";
+import { inputTypes } from "../../utils/enums-types/input-types";
 
 const style = {
   position: "absolute" as "absolute",
@@ -29,7 +29,9 @@ export default function SignInModal() {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Sign In</Button>
+      <Button variant="contained" onClick={handleOpen}>
+        Sign In
+      </Button>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

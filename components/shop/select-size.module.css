@@ -1,0 +1,14 @@
+.toggleButton {
+  color: #20b2aa;
+}
+
+.toggleButton:hover {
+  color: #ffffff;
+  background-color: black;
+}
+
+.toggleButton .MuiSelect-select {
+  border-radius: 1px !important;
+  background-color: black !important;
+  color: red !important;
+}

@@ -3,7 +3,7 @@ import { useRouter } from "next/dist/client/router";
 import React, { useReducer, ChangeEvent } from "react";
 import { SelectChangeEvent } from "@mui/material";
 
-import useUpload from "../../util/react-hooks/add-product-upload";
+import useUpload from "../../utils/react-hooks/add-product-upload";
 import SelectCategory from "../../components/admin/select-category";
 import AddTitle from "../../components/admin/add-title";
 import AddPrice from "../../components/admin/add-price";
@@ -13,9 +13,9 @@ import addProductReducer, {
   initialColorProps,
   initialProductInfo,
   ProductState,
-} from "../../util/react-hooks/add-product-reducer";
-import { Actions } from "../../util/enums-types/product-reducer-actions";
-import serverClient from "../../util/axios-client/server-client";
+} from "../../utils/react-hooks/add-product-reducer";
+import { Actions } from "../../utils/enums-types/product-reducer-actions";
+import serverClient from "../../utils/axios-client/server-client";
 
 const initialProductState: ProductState = {
   colorPropsList: [initialColorProps],

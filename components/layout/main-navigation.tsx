@@ -9,7 +9,7 @@ import {
   selectCurrentUser,
   selectIsLoggedIn,
   signOut,
-} from "../../store/authSlice";
+} from "../../utils/redux-store/userSlice";
 import SignInModal from "../auth/sign-in-modal";
 import Cart from "../shop/cart";
 

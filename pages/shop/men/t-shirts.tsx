@@ -1,22 +1,20 @@
-import type { GetServerSidePropsContext, NextPage } from "next";
+import type { NextPage } from "next";
 import { useRef, useState } from "react";
 
-import serverClient from "../../../util/axios-client/server-client";
 import {
   MainCategory,
   MenCategory,
-} from "../../../util/enums-types/product-category";
+} from "../../../utils/enums-types/product-category";
 import useGetMoreProducts, {
-  ProductProps,
-} from "../../../util/react-hooks/get-more-products";
+  PageProductProps,
+} from "../../../utils/react-hooks/get-more-products";
 
-import { useLastElementRef } from "../../../util/react-hooks/last-elem-ref";
+import { useLastElementRef } from "../../../utils/react-hooks/last-elem-ref";
 import RenderSubCatImage from "../../../components/shop/render-sub-cat-image";
-import browserClient from "../../../util/axios-client/browser-client";
 import axios from "axios";
 
 interface PageProps {
-  startProducts: ProductProps[];
+  startProducts: PageProductProps[];
 }
 
 const Men_T_shirts: NextPage<PageProps> = ({ startProducts }) => {

@@ -1,12 +1,19 @@
 import axios from "axios";
 import { GetStaticPropsContext, NextPage } from "next";
 import Image from "next/image";
-import { useState } from "react";
+import React, { useState } from "react";
 
 import {
   PageProductProps,
   PageColorProps,
-} from "../../util/react-hooks/get-more-products";
+} from "../../utils/react-hooks/get-more-products";
+import SelectSize from "../../components/shop/select-size";
+import SelectQuantity from "../../components/shop/select-quantity";
+import {
+  Errors,
+  onChangeErrorCheck,
+} from "../../utils/react-hooks/input-error-check";
+import { inputNames } from "../../utils/enums-types/input-names";
 
 interface PageProps {
   product: PageProductProps;
@@ -14,9 +21,26 @@ interface PageProps {
 
 const ProductDetail: NextPage<PageProps> = ({ product }) => {
   const { productInfo, colorPropsList } = product;
+
   const [currentColor, setCurrentColor] = useState<PageColorProps>(
     colorPropsList[0]
   );
+  const [selectedSize, setSelectedSize] = useState<string | null>();
+  const [quantity, setQuantity] = useState<string>("1");
+  const [errors, setErrors] = useState<Errors>({});
+
+  const sizeHandler = (e: React.MouseEvent<HTMLElement>, size: string) => {
+    setSelectedSize(size);
+    onChangeErrorCheck(inputNames.size, size, setErrors);
+  };
+
+  const addToCartHandler = () => {
+    console.log(selectedSize, quantity, currentColor.colorName);
+    if (!selectedSize) {
+      setErrors({ [inputNames.size]: "please select a size" });
+      return;
+    }
+  };
 
   return (
     <main>
@@ -47,7 +71,7 @@ const ProductDetail: NextPage<PageProps> = ({ product }) => {
       <div>{productInfo.description}</div>
       <div>{colorPropsList[0].sizes!["small"]}</div>
       <div>
-        <button>Add to cart</button>
+        <button onClick={addToCartHandler}>Add to cart</button>
       </div>
       <div>
         {colorPropsList.map((prop, index) => {
@@ -63,13 +87,20 @@ const ProductDetail: NextPage<PageProps> = ({ product }) => {
           );
         })}
       </div>
+      <SelectSize selectedSize={selectedSize} sizeHandler={sizeHandler} />
+      {errors[inputNames.size]}
+      <SelectQuantity
+        quantity={quantity}
+        totalQty={selectedSize ? currentColor.sizes![selectedSize] : 0}
+        setQuantity={setQuantity}
+      />
     </main>
   );
 };
 
 export default ProductDetail;
 
-export async function getStaticProps(context: GetStaticPropsContext) {
+export async function getServerSideProps(context: GetStaticPropsContext) {
   const params = context.params?.product_id as string;
   const [productId, category] = params.split("-");
 
@@ -81,20 +112,5 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
   return {
     props: { product: data.product },
-    revalidate: 3600,
-  };
-}
-
-export async function getStaticPaths() {
-  // const { data } = await axios.get("http://localhost:8080/shop/products", {
-  //   withCredentials: true,
-  // });
-  // //   console.log(data);
-  // const paths = data.map((product) => ({ params: { productId: product._id } }));
-  // //   console.log(paths);
-
-  return {
-    paths: [],
-    fallback: "blocking",
   };
 }

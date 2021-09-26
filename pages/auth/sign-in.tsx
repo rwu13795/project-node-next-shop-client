@@ -3,11 +3,11 @@ import { useRouter } from "next/dist/client/router";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-import { selectIsLoggedIn } from "../../store/authSlice";
-import serverClient from "../../util/axios-client/server-client";
+import { selectIsLoggedIn } from "../../utils/redux-store/userSlice";
+import serverClient from "../../utils/axios-client/server-client";
 import AuthForm from "../../components/auth/auth-form";
-import { inputTypes } from "../../util/enums-types/input-types";
-import { inputNames } from "../../util/enums-types/input-names";
+import { inputTypes } from "../../utils/enums-types/input-types";
+import { inputNames } from "../../utils/enums-types/input-names";
 
 export const inputFieldsArray = [inputNames.email, inputNames.password];
 

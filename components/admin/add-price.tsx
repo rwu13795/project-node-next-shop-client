@@ -1,5 +1,5 @@
-import { inputNames } from "../../util/enums-types/input-names";
-import { ReducerProductInfo } from "../../util/react-hooks/add-product-reducer";
+import { inputNames } from "../../utils/enums-types/input-names";
+import { ReducerProductInfo } from "../../utils/react-hooks/add-product-reducer";
 import { AddInfoEvents } from "../../pages/admin/add-product";
 
 interface Props {

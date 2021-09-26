@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { useRouter } from "next/dist/client/router";
 import { useDispatch } from "react-redux";
 
-import { getAuthStatus } from "../../store/authSlice";
+import { getAuthStatus } from "../../utils/redux-store/userSlice";
 
 export default function Redirect_signedUp_to_homePage(): JSX.Element {
   const router = useRouter();
