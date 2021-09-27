@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 
 import ProductDetail from "./product-detail";
 import { PageProductProps } from "../../utils/react-hooks/get-more-products";
+import { CartItem } from "../../utils/redux-store/userSlice";
 import browserClient from "../../utils/axios-client/browser-client";
 
 const style = {
@@ -30,9 +31,15 @@ interface Props {
   category: string;
   productId: string;
   index: number;
+  editItem: CartItem;
 }
 
-export default function EditDetailModal({ category, productId, index }: Props) {
+export default function EditDetailModal({
+  category,
+  productId,
+  index,
+  editItem,
+}: Props) {
   const client = browserClient();
 
   const [open, setOpen] = useState(false);
@@ -83,6 +90,7 @@ export default function EditDetailModal({ category, productId, index }: Props) {
                 editMode={true}
                 index={index}
                 handleClose={handleClose}
+                editItem={editItem}
               />
             )}
           </Box>

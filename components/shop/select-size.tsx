@@ -34,6 +34,8 @@ export default function SelectSize({
   selectedSize,
   sizeHandler,
 }: Props): JSX.Element {
+  console.log("size editMode", selectedSize);
+
   return (
     <div>
       <ToggleButtonGroup

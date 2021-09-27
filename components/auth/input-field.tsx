@@ -10,7 +10,7 @@ interface Props {
   inputError: string;
 }
 
-export default function AuthInputField(props: Props) {
+export default function FormInputField(props: Props) {
   const {
     inputName,
     inputValue,

@@ -1,19 +1,29 @@
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from "@mui/material";
 import React, { Dispatch, SetStateAction, useState } from "react";
+import { useDispatch } from "react-redux";
+import { directChangeQty } from "../../utils/redux-store/userSlice";
 
 interface Props {
   quantity: string;
   totalQty: number;
-  setQuantity: Dispatch<SetStateAction<string>>;
+  setQuantity?: Dispatch<SetStateAction<string>>;
+  directChange?: boolean;
+  index?: number;
 }
 
 export default function SelectQuantity({
   quantity,
   totalQty,
   setQuantity,
+  directChange,
+  index,
 }: Props): JSX.Element {
-  console.log(totalQty);
-
   const [qtyArray] = useState<string[]>(() => {
     let arr = [];
     if (totalQty > 0 && totalQty <= 5) {
@@ -26,6 +36,20 @@ export default function SelectQuantity({
     }
   });
 
+  const dispatch = useDispatch();
+
+  const changeHandler = (e: SelectChangeEvent<string>) => {
+    if (directChange && index !== undefined) {
+      console.log("direct change index", index);
+      dispatch(directChangeQty({ quantity: parseInt(e.target.value), index }));
+      return;
+    }
+    if (setQuantity) {
+      setQuantity(e.target.value);
+      return;
+    }
+  };
+
   return (
     <FormControl variant="standard" sx={{ m: 0, minWidth: 120, boxShadow: 0 }}>
       <InputLabel style={{ fontSize: "1rem" }}>Quantity</InputLabel>
@@ -33,7 +57,7 @@ export default function SelectQuantity({
         value={quantity}
         label="Quantity"
         sx={{ m: 0, minWidth: 130 }}
-        onChange={(e) => setQuantity(e.target.value)}
+        onChange={changeHandler}
         disabled={totalQty === 0}
       >
         {qtyArray.map((q) => {

@@ -8,6 +8,7 @@ import {
 } from "../../utils/redux-store/userSlice";
 
 import { Collapse, Box, Fade, Paper } from "@mui/material";
+import CartDetail from "./cart-detail";
 
 export default function CartIcon(): JSX.Element {
   const newItemAdded = useSelector(selectChangeInCart);
@@ -50,15 +51,21 @@ export default function CartIcon(): JSX.Element {
           <Collapse in={showCart}>
             <div
               style={{
-                height: "200px",
-                width: "200px",
+                minHeight: "200px",
+                minWidth: "200px",
                 border: "red solid 2px",
                 boxShadow: "1rem",
                 marginTop: "0.5rem",
                 backgroundColor: "pink",
               }}
             >
-              <div>Showing cart</div>
+              <div>
+                <CartDetail
+                  cart={cart}
+                  summaryMode={true}
+                  cartDropDown={true}
+                />
+              </div>
               <div>
                 <button onClick={() => setShowCart(false)}>Close</button>
               </div>

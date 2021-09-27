@@ -1,40 +1,39 @@
 import { NextPage } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { useSelector } from "react-redux";
 
-import { selectCart } from "../../utils/redux-store/userSlice";
-import EditDetailModal from "../../components/shop/edit-detail-modal";
+import {
+  selectCart,
+  selectCurrentUser,
+  selectIsLoggedIn,
+} from "../../utils/redux-store/userSlice";
+import CartDetail from "../../components/shop/cart-detail";
 
-const Cart: NextPage = ({}) => {
+const CartPage: NextPage = ({}) => {
   const cart = useSelector(selectCart);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const currentUser = useSelector(selectCurrentUser);
 
   return (
     <main>
       <h2>Shopping Cart</h2>
-      {cart.map((item, index) => {
-        return (
-          <div key={item.productId + item.size}>
-            <Image
-              src={item.imageUrl}
-              alt={item.title}
-              width={150}
-              height={150}
-            />
-            <div>{item.title}</div>
-            <div>${item.price}</div>
-            <div>size: {item.size}</div>
-            <div>qty: {item.quantity}</div>
-            <EditDetailModal
-              category={item.main_cat}
-              productId={item.productId}
-              index={index}
-            />
-            <hr />
-          </div>
-        );
-      })}
+      <CartDetail cart={cart} />
+      <div>
+        <Link
+          href={
+            isLoggedIn && currentUser.userId
+              ? `/shop/checkout?userId=${currentUser.userId}`
+              : "/shop/login-checkout"
+          }
+        >
+          <a>
+            <button>Check Out</button>
+          </a>
+        </Link>
+      </div>
     </main>
   );
 };
 
-export default Cart;
+export default CartPage;

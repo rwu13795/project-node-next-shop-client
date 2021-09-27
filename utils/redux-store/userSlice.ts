@@ -8,7 +8,7 @@ import type { RootState } from "./index";
 
 import browserClient from "../axios-client/browser-client";
 
-interface CartItem {
+export interface CartItem {
   imageUrl: string;
   title: string;
   main_cat: string;
@@ -17,6 +17,7 @@ interface CartItem {
   size: string;
   price: number;
   colorName: string;
+  totalQty: number;
 }
 
 interface CurrentUser {
@@ -146,6 +147,17 @@ const removeFromCartSession = createAsyncThunk(
   }
 );
 
+const directChangeQty = createAsyncThunk(
+  "user/directChangeQty",
+  async ({ quantity, index }: { quantity: number; index: number }) => {
+    const response = await client.post(serverUrl + "/shop/change-quantity", {
+      quantity,
+      index,
+    });
+    return response.data;
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -234,12 +246,26 @@ const userSlice = createSlice({
           state.changeInCart = true;
           console.log(state.currentUser.cart);
         }
+      )
+      .addCase(
+        directChangeQty.fulfilled,
+        (state, action: PayloadAction<UserState>): void => {
+          state.currentUser = action.payload.currentUser;
+          console.log("change qty success");
+        }
       );
   },
 });
 
 export const { clearAuthErrors, setChangeInCart } = userSlice.actions;
-export { signIn, signOut, signUp, getAuthStatus, addToCartSession };
+export {
+  signIn,
+  signOut,
+  signUp,
+  getAuthStatus,
+  addToCartSession,
+  directChangeQty,
+};
 
 export default userSlice.reducer;
 

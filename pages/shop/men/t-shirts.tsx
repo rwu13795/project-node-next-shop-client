@@ -17,7 +17,7 @@ interface PageProps {
   startProducts: PageProductProps[];
 }
 
-const Men_T_shirts: NextPage<PageProps> = ({ startProducts }) => {
+const MenTshirtsPage: NextPage<PageProps> = ({ startProducts }) => {
   // if (process.browser) {
   //   // set the scroll back to top manaully, otherwise, the 1st and 2nd pages will
   //   // be fetched when user refresh the page
@@ -58,7 +58,7 @@ const Men_T_shirts: NextPage<PageProps> = ({ startProducts }) => {
   );
 };
 
-export default Men_T_shirts;
+export default MenTshirtsPage;
 
 // export async function getServerSideProps(context: GetServerSidePropsContext) {
 //   const client = serverClient(context);

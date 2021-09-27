@@ -22,7 +22,7 @@ interface PageProps {
   product?: PageProductProps;
 }
 
-const Product: NextPage<PageProps> = ({ product }) => {
+const ProductDetailPage: NextPage<PageProps> = ({ product }) => {
   return !product ? (
     <h1>No product found</h1>
   ) : (
@@ -30,7 +30,7 @@ const Product: NextPage<PageProps> = ({ product }) => {
   );
 };
 
-export default Product;
+export default ProductDetailPage;
 
 export async function getServerSideProps(context: GetStaticPropsContext) {
   const params = context.params?.product_id as string;

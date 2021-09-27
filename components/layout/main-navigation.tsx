@@ -11,7 +11,7 @@ import {
   signOut,
 } from "../../utils/redux-store/userSlice";
 import SignInModal from "../auth/sign-in-modal";
-import CartIcon from "../shop/cart";
+import CartIcon from "../shop/cart-icon";
 
 interface Props {
   page?: string;

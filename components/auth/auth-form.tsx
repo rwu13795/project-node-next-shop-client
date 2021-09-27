@@ -18,7 +18,7 @@ import {
   selectAuthErrors,
   selectLoadingStatus,
 } from "../../utils/redux-store/userSlice";
-import AuthInputField from "./input-field";
+import FormInputField from "./input-field";
 import Redirect_signedUp_to_homePage from "./redirect-signed-up";
 import { inputTypes } from "../../utils/enums-types/input-types";
 import { CircularProgress } from "@mui/material";
@@ -103,7 +103,7 @@ export default function AuthForm({
   const renderFields = () => {
     return inputFieldsArray.map((inputName) => {
       return (
-        <AuthInputField
+        <FormInputField
           key={inputName}
           inputName={inputName}
           inputValue={inputValue[inputName]}

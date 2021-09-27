@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   PageColorProps,
@@ -13,12 +13,17 @@ import {
   Errors,
   onChangeErrorCheck,
 } from "../../utils/react-hooks/input-error-check";
-import { addToCartSession } from "../../utils/redux-store/userSlice";
+import {
+  addToCartSession,
+  CartItem,
+  selectCart,
+} from "../../utils/redux-store/userSlice";
 
 interface Props {
   product: PageProductProps;
   editMode?: boolean;
   index?: number;
+  editItem?: CartItem;
   handleClose?: () => void; // the function to close the modal onClick "Update"
 }
 
@@ -26,16 +31,27 @@ export default function ProductDetail({
   product,
   editMode,
   index,
+  editItem,
   handleClose,
 }: Props): JSX.Element {
   const { productInfo, colorPropsList } = product;
   const dispatch = useDispatch();
+  // const cartState = useSelector(selectCart);
+
+  // console.log(cartState);
 
   const [currentColor, setCurrentColor] = useState<PageColorProps>(
     colorPropsList[0]
   );
-  const [selectedSize, setSelectedSize] = useState<string | null>();
-  const [quantity, setQuantity] = useState<string>("1");
+  // if in editMode, initailize the props with the selected info in the current cart
+  const [selectedSize, setSelectedSize] = useState<string | undefined>(() => {
+    if (editMode && editItem) return editItem.size;
+  });
+  const [quantity, setQuantity] = useState<string>(() => {
+    if (editMode && editItem) {
+      return editItem.quantity.toString();
+    } else return "1";
+  });
   const [errors, setErrors] = useState<Errors>({});
 
   const sizeHandler = (e: React.MouseEvent<HTMLElement>, size: string) => {
@@ -58,6 +74,7 @@ export default function ProductDetail({
       quantity: parseInt(quantity),
       size: selectedSize,
       colorName: currentColor.colorName,
+      totalQty: currentColor.sizes[selectedSize],
     };
     if (editMode && handleClose) {
       handleClose();

@@ -15,16 +15,20 @@ export enum inputNames {
   small = "small",
   medium = "medium",
   large = "large",
-  // sign-in-up
+
+  // user info
   email = "email",
   password = "password",
   confirm_password = "confirm_password",
   first_name = "first_name",
   last_name = "last_name",
-  street = "street",
+  address_1 = "address_1",
+  address_2 = "address_2",
   city = "city",
   state = "state",
   zip_code = "zip_code",
+  phone = "phone",
+
   // cart
   size = "size",
   quantity = "quantity",
