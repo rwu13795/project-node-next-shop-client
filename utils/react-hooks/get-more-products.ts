@@ -4,21 +4,23 @@ import browserClient from "../../utils/axios-client/browser-client";
 
 export interface PageColorProps {
   imageFiles: string[];
-  colorName?: string;
-  colorCode?: string;
-  sizes?: { [name: string]: number };
-  imageCount?: number;
+  colorName: string;
+  colorCode: string;
+  sizes: { [name: string]: number };
+  imageCount: number;
+}
+
+export interface PageProductInfo {
+  title: string;
+  main_cat: string;
+  sub_cat?: string;
+  price: number;
+  description?: string;
 }
 
 export interface PageProductProps {
   _id: string;
-  productInfo: {
-    title: string;
-    main_cat: string;
-    sub_cat?: string;
-    price?: number;
-    description?: string;
-  };
+  productInfo: PageProductInfo;
   colorPropsList: PageColorProps[];
 }
 

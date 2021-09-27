@@ -11,7 +11,7 @@ import {
   signOut,
 } from "../../utils/redux-store/userSlice";
 import SignInModal from "../auth/sign-in-modal";
-import Cart from "../shop/cart";
+import CartIcon from "../shop/cart";
 
 interface Props {
   page?: string;
@@ -69,7 +69,7 @@ export default function MainNavigation({ page }: Props) {
             ) : (
               <SignInModal />
             )}
-            <Cart />
+            <CartIcon />
           </div>
         </section>
       </main>
