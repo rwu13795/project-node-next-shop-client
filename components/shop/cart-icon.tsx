@@ -11,7 +11,7 @@ import { Collapse, Box, Fade, Paper } from "@mui/material";
 import CartDetail from "./cart-detail";
 
 export default function CartIcon(): JSX.Element {
-  const newItemAdded = useSelector(selectChangeInCart);
+  const changeInCart = useSelector(selectChangeInCart);
   const cart = useSelector(selectCart);
   const dispatch = useDispatch();
   const router = useRouter();
@@ -19,14 +19,14 @@ export default function CartIcon(): JSX.Element {
   const [showCart, setShowCart] = useState<boolean>(false);
 
   useEffect(() => {
-    if (newItemAdded) {
+    if (changeInCart) {
       setShowCart(true);
       setTimeout(() => {
         dispatch(setChangeInCart(false));
         setShowCart(false);
       }, 5000);
     }
-  }, [newItemAdded, dispatch]);
+  }, [changeInCart, dispatch]);
 
   return (
     <div

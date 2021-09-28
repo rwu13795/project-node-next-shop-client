@@ -5,4 +5,5 @@ export enum inputTypes {
   resetToken = "resetToken",
   addressInfo = "addressInfo",
   paymentInfo = "paymentInfo",
+  placeOrder = "placeOrder",
 }

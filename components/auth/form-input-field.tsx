@@ -6,8 +6,8 @@ interface Props {
   onFocus: (e: FocusEvent<HTMLInputElement>) => void;
   onBlur: (e: FocusEvent<HTMLInputElement>) => void;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  authError: string;
   inputError: string;
+  authError?: string;
 }
 
 export default function FormInputField(props: Props) {

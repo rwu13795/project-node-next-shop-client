@@ -1,6 +1,6 @@
 import {
-  Action,
   createAsyncThunk,
+  createSelector,
   createSlice,
   PayloadAction,
 } from "@reduxjs/toolkit";
@@ -141,9 +141,11 @@ const addToCartSession = createAsyncThunk(
 
 const removeFromCartSession = createAsyncThunk(
   "user/removeFromCartSession",
-  async (cart: CartItem[]) => {
-    const response = await client.post(serverUrl + "/shop/remove-from-cart");
-    return;
+  async (index: number) => {
+    const response = await client.post(serverUrl + "/shop/remove-from-cart", {
+      index,
+    });
+    return response.data;
   }
 );
 
@@ -244,14 +246,21 @@ const userSlice = createSlice({
         (state, action: PayloadAction<UserState>): void => {
           state.currentUser = action.payload.currentUser;
           state.changeInCart = true;
-          console.log(state.currentUser.cart);
         }
       )
       .addCase(
         directChangeQty.fulfilled,
         (state, action: PayloadAction<UserState>): void => {
           state.currentUser = action.payload.currentUser;
-          console.log("change qty success");
+        }
+      )
+      //////////////////////
+      // REMOVE FROM CART //
+      //////////////////////
+      .addCase(
+        removeFromCartSession.fulfilled,
+        (state, action: PayloadAction<UserState>): void => {
+          state.currentUser = action.payload.currentUser;
         }
       );
   },
@@ -265,14 +274,37 @@ export {
   getAuthStatus,
   addToCartSession,
   directChangeQty,
+  removeFromCartSession,
 };
 
 export default userSlice.reducer;
 
+// create the selectors which select the root of the state
+// and use this inside the "createSelector"
+const selectUser = (state: RootState) => state.user;
+
 export const selectCurrentUser = (state: RootState) => state.user.currentUser;
 export const selectIsLoggedIn = (state: RootState) => state.user.isLoggedIn;
-export const selectLoadingStatus = (state: RootState) =>
-  state.user.loadingStatus;
 export const selectAuthErrors = (state: RootState) => state.user.authErrors;
-export const selectCart = (state: RootState) => state.user.currentUser.cart;
-export const selectChangeInCart = (state: RootState) => state.user.changeInCart;
+// use the "createSelector" to create a memoized selector
+// so the the selector will not re-select if the un-related state change in the same page
+export const selectLoadingStatus = createSelector(
+  [selectUser],
+  (userState) => userState.loadingStatus
+);
+export const selectCart = createSelector(
+  [selectCurrentUser],
+  (currentUser) => currentUser.cart
+);
+export const selectChangeInCart = createSelector(
+  [selectUser],
+  (userState) => userState.changeInCart
+);
+export const selectTotalAmount = createSelector([selectCart], (cart) => {
+  let total = 0;
+  for (let item of cart) {
+    total = item.price * item.quantity + total;
+  }
+  console.log(total);
+  return total;
+});

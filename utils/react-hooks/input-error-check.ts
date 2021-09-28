@@ -38,7 +38,45 @@ export const onBlurErrorCheck = (
       /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!regex.test(value.toLowerCase())) {
       setErrors((prev) => {
-        return { ...prev, [inputNames.email]: "Enter a valid email address." };
+        return {
+          ...prev,
+          [inputNames.email]: "Please enter a valid email address",
+        };
+      });
+    }
+  }
+
+  if (touched[inputName]) {
+    const regex = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~123456789]/;
+    if (inputName === inputNames.first_name && value !== "") {
+      if (regex.test(value)) {
+        setErrors((prev) => {
+          return {
+            ...prev,
+            [inputNames.first_name]: "Please enter a valid name",
+          };
+        });
+      }
+    }
+    if (inputName === inputNames.last_name && value !== "") {
+      if (regex.test(value)) {
+        setErrors((prev) => {
+          return {
+            ...prev,
+            [inputNames.last_name]: "Please enter a valid name",
+          };
+        });
+      }
+    }
+  }
+
+  if (touched[inputName] && inputName === inputNames.zip_code && value !== "") {
+    if (value.length !== 5) {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          [inputNames.zip_code]: "Zipcode should be 5-digit numbers",
+        };
       });
     }
   }

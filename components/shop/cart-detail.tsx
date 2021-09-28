@@ -1,6 +1,14 @@
 import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
-import { CartItem } from "../../utils/redux-store/userSlice";
+import {
+  CartItem,
+  removeFromCartSession,
+  selectChangeInCart,
+  selectTotalAmount,
+  setChangeInCart,
+} from "../../utils/redux-store/userSlice";
 import EditDetailModal from "../../components/shop/edit-detail-modal";
 import SelectQuantity from "./select-quantity";
 
@@ -15,6 +23,28 @@ export default function CartDetail({
   summaryMode,
   cartDropDown,
 }: Props): JSX.Element {
+  const dispatch = useDispatch();
+  const totalAmount = useSelector(selectTotalAmount);
+
+  // const [total, setTotal] = useState<number>(() => {
+  //   let total = 0;
+  //   for (let item of cart) {
+  //     total = item.price * item.quantity + total;
+  //   }
+  //   console.log(total);
+  //   return total;
+  // });
+
+  // useEffect(() => {
+  //   if (changeInCart) {
+  //     let total = 0;
+  //     for (let item of cart) {
+  //       total = item.price * item.quantity + total;
+  //     }
+  //     setTotal(total);
+  //   }
+  // }, [changeInCart, cart, dispatch]);
+
   return (
     <div>
       {cart.map((item, index) => {
@@ -38,7 +68,6 @@ export default function CartDetail({
                 index={index}
               />
             )}
-
             <div>qty: {item.quantity}</div>
             <div>Subtotal: ${item.quantity * item.price}</div>
             {!summaryMode && (
@@ -49,10 +78,20 @@ export default function CartDetail({
                 editItem={cart[index]}
               />
             )}
+            {!cartDropDown && (
+              <button
+                onClick={() => {
+                  dispatch(removeFromCartSession(index));
+                }}
+              >
+                remove
+              </button>
+            )}
             <hr />
           </div>
         );
       })}
+      <h3>Total: ${totalAmount}</h3>
     </div>
   );
 }
