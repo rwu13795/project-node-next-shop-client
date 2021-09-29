@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -18,6 +18,7 @@ import {
   CartItem,
   selectCart,
 } from "../../utils/redux-store/userSlice";
+import { Button } from "@mui/material";
 
 interface Props {
   product: PageProductProps;
@@ -134,9 +135,9 @@ export default function ProductDetail({
         setQuantity={setQuantity}
       />
       <div>
-        <button onClick={addToCartHandler}>
+        <Button variant="contained" onClick={addToCartHandler}>
           {editMode ? "Update" : "Add to cart"}
-        </button>
+        </Button>
       </div>
     </main>
   );

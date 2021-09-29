@@ -3,6 +3,8 @@ import ToggleButton, { ToggleButtonProps } from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 import { styled } from "@mui/material/styles";
+import { theme } from "../../styles/mui-theme";
+import { ToggleButtonStyled } from "../../styles/mui-custom-styled-components";
 
 interface Props {
   selectedSize: string | null | undefined;
@@ -12,23 +14,21 @@ interface Props {
 // MUI 5.0 new method "styled" to customize the MUI component
 // DO not use the "makeStyles" method, warning will keep popping up while using this
 // method in NextJS page
-const StyledToggleButton = styled(ToggleButton)<ToggleButtonProps>(
-  ({ theme }) => ({
-    "&.Mui-selected": {
-      backgroundColor: "black",
-      color: "#ffffff",
-      "&:hover": { backgroundColor: "black" },
-      "&:active": { backgroundColor: "grey" },
-    },
-    // "&:hover": {
-    //   backgroundColor: "grey",
-    //   color: "white",
-    // },
-    "&:active": {
-      backgroundColor: "grey",
-    },
-  })
-);
+const StyledToggleButton = styled(ToggleButton)<ToggleButtonProps>(({}) => ({
+  "&.Mui-selected": {
+    backgroundColor: "black",
+    color: "#ffffff",
+    "&:hover": { backgroundColor: "black" },
+    "&:active": { backgroundColor: "grey" },
+  },
+  // "&:hover": {
+  //   backgroundColor: "grey",
+  //   color: "white",
+  // },
+  "&:active": {
+    backgroundColor: "grey",
+  },
+}));
 
 export default function SelectSize({
   selectedSize,
@@ -44,15 +44,15 @@ export default function SelectSize({
         onChange={sizeHandler}
         aria-label="select a size"
       >
-        <StyledToggleButton value="small" aria-label="small">
+        <ToggleButtonStyled value="small" aria-label="small">
           small
-        </StyledToggleButton>
-        <StyledToggleButton value="medium" aria-label="medium">
+        </ToggleButtonStyled>
+        <ToggleButtonStyled value="medium" aria-label="medium">
           Medium
-        </StyledToggleButton>
-        <StyledToggleButton value="large" aria-label="large">
+        </ToggleButtonStyled>
+        <ToggleButtonStyled value="large" aria-label="large">
           Large
-        </StyledToggleButton>
+        </ToggleButtonStyled>
       </ToggleButtonGroup>
     </div>
   );

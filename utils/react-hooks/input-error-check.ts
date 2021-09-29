@@ -70,12 +70,49 @@ export const onBlurErrorCheck = (
     }
   }
 
+  if (touched[inputName]) {
+    const regex = /[ `!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?~]/;
+    if (inputName === inputNames.address_1 && value !== "") {
+      if (regex.test(value)) {
+        setErrors((prev) => {
+          return {
+            ...prev,
+            [inputNames.address_1]: "Please enter a valid address",
+          };
+        });
+      }
+    }
+    if (inputName === inputNames.address_2 && value !== "") {
+      if (regex.test(value)) {
+        setErrors((prev) => {
+          return {
+            ...prev,
+            [inputNames.address_2]: "Please enter a valid address",
+          };
+        });
+      }
+    }
+  }
+
   if (touched[inputName] && inputName === inputNames.zip_code && value !== "") {
-    if (value.length !== 5) {
+    const regex = /^[0-9]{5}$/;
+    if (!regex.test(value)) {
       setErrors((prev) => {
         return {
           ...prev,
           [inputNames.zip_code]: "Zipcode should be 5-digit numbers",
+        };
+      });
+    }
+  }
+
+  if (touched[inputName] && inputName === inputNames.phone && value !== "") {
+    const regex = /^[0-9]{9,15}$/;
+    if (!regex.test(value)) {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          [inputNames.phone]: "Please enter valid phone numbers",
         };
       });
     }

@@ -7,7 +7,19 @@ import {
 import type { RootState } from "./index";
 
 import browserClient from "../axios-client/browser-client";
+import { inputNames } from "../enums-types/input-names";
 
+interface UserAddressFields {
+  [inputNames.address_1]: string;
+  [inputNames.address_2]: string;
+  [inputNames.state]: string;
+  [inputNames.city]: string;
+  [inputNames.zip_code]: string;
+}
+
+// the totalQty of a specific product was added to the cart also when
+// user add this product to cart, so that I can map the "SelectQuantity"
+// in the cartDetail without making request to the server again
 export interface CartItem {
   imageUrl: string;
   title: string;
@@ -17,20 +29,25 @@ export interface CartItem {
   size: string;
   price: number;
   colorName: string;
-  totalQty: number;
+  totalQty?: number;
 }
 
-interface CurrentUser {
+export interface CurrentUser {
   username: string;
   cart: CartItem[];
   email?: string;
   userId?: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  shippingAddress?: UserAddressFields;
 }
 
 interface AuthErrors {
   [inputName: string]: string;
 }
 
+// need to add address
 interface SignUpBody {
   email: string;
   password: string;
@@ -51,8 +68,6 @@ interface UserState {
   authErrors: AuthErrors;
 }
 
-const serverUrl = "http://localhost:5000/api";
-
 const initialState: UserState = {
   currentUser: { username: "", cart: [] },
   isLoggedIn: false,
@@ -62,6 +77,7 @@ const initialState: UserState = {
 };
 
 const client = browserClient();
+const serverUrl = "http://localhost:5000/api";
 
 const getAuthStatus = createAsyncThunk("user/getAuthStatus", async () => {
   const response = await client.get<UserState>(serverUrl + "/auth/auth-status");
@@ -159,6 +175,11 @@ const directChangeQty = createAsyncThunk(
     return response.data;
   }
 );
+
+const clearCartSession = createAsyncThunk("user/clearCartSession", async () => {
+  const response = await client.post(serverUrl + "/shop/clear-cart");
+  return response.data;
+});
 
 const userSlice = createSlice({
   name: "user",
@@ -262,6 +283,12 @@ const userSlice = createSlice({
         (state, action: PayloadAction<UserState>): void => {
           state.currentUser = action.payload.currentUser;
         }
+      )
+      .addCase(
+        clearCartSession.fulfilled,
+        (state, action: PayloadAction<UserState>): void => {
+          state.currentUser = action.payload.currentUser;
+        }
       );
   },
 });
@@ -275,6 +302,7 @@ export {
   addToCartSession,
   directChangeQty,
   removeFromCartSession,
+  clearCartSession,
 };
 
 export default userSlice.reducer;
@@ -284,10 +312,13 @@ export default userSlice.reducer;
 const selectUser = (state: RootState) => state.user;
 
 export const selectCurrentUser = (state: RootState) => state.user.currentUser;
-export const selectIsLoggedIn = (state: RootState) => state.user.isLoggedIn;
 export const selectAuthErrors = (state: RootState) => state.user.authErrors;
 // use the "createSelector" to create a memoized selector
 // so the the selector will not re-select if the un-related state change in the same page
+export const selectIsLoggedIn = createSelector(
+  [selectUser],
+  (userState) => userState.isLoggedIn
+);
 export const selectLoadingStatus = createSelector(
   [selectUser],
   (userState) => userState.loadingStatus
@@ -305,6 +336,5 @@ export const selectTotalAmount = createSelector([selectCart], (cart) => {
   for (let item of cart) {
     total = item.price * item.quantity + total;
   }
-  console.log(total);
   return total;
 });

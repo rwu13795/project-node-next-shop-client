@@ -63,6 +63,9 @@ export default function CartDetail({
             {!cartDropDown && (
               <SelectQuantity
                 quantity={item.quantity.toString()}
+                // the totalQty of a specific product was added to the cart also when
+                // user add this product to cart, so that I can map the "SelectQuantity"
+                // in the cartDetail without making request to the server again
                 totalQty={item.totalQty}
                 directChange={true}
                 index={index}
