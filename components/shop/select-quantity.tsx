@@ -24,15 +24,15 @@ export default function SelectQuantity({
   directChange,
   index,
 }: Props): JSX.Element {
-  const [qtyArray] = useState<string[]>(() => {
+  const [qtyArray] = useState<number[]>(() => {
     let arr = [];
     if (totalQty > 0 && totalQty <= 5) {
       for (let i = 1; i <= totalQty; i++) {
-        arr.push(i.toString());
+        arr.push(i);
       }
       return arr;
     } else {
-      return ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+      return [1, 2, 3, 4, 5, 6, 7, 8, 9];
     }
   });
 
@@ -55,6 +55,7 @@ export default function SelectQuantity({
       <InputLabel style={{ fontSize: "1rem" }}>Quantity</InputLabel>
       <Select
         value={quantity}
+        type="number"
         label="Quantity"
         sx={{ m: 0, minWidth: 130 }}
         onChange={changeHandler}

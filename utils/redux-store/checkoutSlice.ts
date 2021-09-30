@@ -4,7 +4,6 @@ import {
   createSlice,
   PayloadAction,
 } from "@reduxjs/toolkit";
-import { StripeCardElement } from "@stripe/stripe-js";
 import { RootState } from ".";
 import browserClient from "../axios-client/browser-client";
 
@@ -12,10 +11,36 @@ import { inputNames } from "../enums-types/input-names";
 import { InputValue } from "../react-hooks/input-error-check";
 import { CurrentUser } from "./userSlice";
 
+interface PaymentDetail {
+  payment_processer: string;
+  payment_method: string | null | undefined;
+  payment_id: string | null | undefined;
+  payment_status: string | null | undefined;
+}
+
+interface CheckoutAddressInfo {
+  [inputNames.first_name]: string;
+  [inputNames.last_name]: string;
+  [inputNames.address_1]: string;
+  [inputNames.address_2]: string;
+  [inputNames.state]: string;
+  [inputNames.city]: string;
+  [inputNames.zip_code]: string;
+}
+
+// have to use InputValue interface for all these states
+// otherwise, I could map all these values dynamically using the
+// [inputName]: inputValue (computed properties)
 interface CheckoutState {
   shippingAddress: InputValue;
   billingAddress: InputValue;
   contactInfo: InputValue;
+}
+
+interface CreateOrderBody {
+  currentUser: CurrentUser;
+  totalAmount: number;
+  paymentDetail: PaymentDetail;
 }
 
 export const addressFields = [
@@ -41,32 +66,42 @@ const initializeValue = (inputFields: string[]) => {
   return initialValue;
 };
 
-const shippingAddress = initializeValue(addressFields);
-const billingAddress = initializeValue(addressFields);
-const contactInfo = initializeValue(contactFields);
+// need put "as CheckoutAddressInfo" behind the "initializeValue" function call
+// to override the [name: string] computed property signatures
+const initialShippingAddress = initializeValue(addressFields);
+const initialBillingAddress = initializeValue(addressFields);
+const initialContactInfo = initializeValue(contactFields);
 
 const initialState: CheckoutState = {
-  shippingAddress,
-  billingAddress,
-  contactInfo,
+  shippingAddress: initialShippingAddress,
+  billingAddress: initialBillingAddress,
+  contactInfo: initialContactInfo,
 };
 
 const createOrderHistory = createAsyncThunk<
   void,
-  CurrentUser,
+  CreateOrderBody,
   { state: RootState }
->("checkout/createOrderHistory", async (currentUser: CurrentUser, thunkAPI) => {
-  const state = thunkAPI.getState();
+>(
+  "checkout/createOrderHistory",
+  async ({ currentUser, totalAmount, paymentDetail }, thunkAPI) => {
+    const state = thunkAPI.getState();
 
-  const response = await client.post(serverUrl + "/shop/create-order-history", {
-    currentUser,
-    shippingAddress: state.checkout.shippingAddress,
-    billingAddress: state.checkout.billingAddress,
-    contactInfo: state.checkout.contactInfo,
-  });
+    const response = await client.post(
+      serverUrl + "/shop/create-order-history",
+      {
+        currentUser,
+        shippingAddress: state.checkout.shippingAddress,
+        billingAddress: state.checkout.billingAddress,
+        contactInfo: state.checkout.contactInfo,
+        totalAmount,
+        paymentDetail,
+      }
+    );
 
-  console.log(response.data);
-});
+    console.log(response.data);
+  }
+);
 
 const checkoutSlice = createSlice({
   name: "checkout",
@@ -94,12 +129,28 @@ const checkoutSlice = createSlice({
     setShippingAsBilling(state, action: PayloadAction<InputValue>) {
       state.billingAddress = action.payload;
     },
-    clearBillingAddress(state, action: PayloadAction<boolean>) {
+    toggleBillingAddress(state, action: PayloadAction<boolean>) {
       if (action.payload === true) {
         state.billingAddress = state.shippingAddress;
       } else {
-        state.billingAddress = billingAddress;
+        state.billingAddress = initialBillingAddress;
       }
+    },
+    loadUserInfo(
+      state,
+      action: PayloadAction<{
+        addressInfo: InputValue;
+        contactInfo: InputValue;
+      }>
+    ) {
+      state.shippingAddress = action.payload.addressInfo;
+      state.billingAddress = action.payload.addressInfo;
+      state.contactInfo = action.payload.contactInfo;
+    },
+    clearCheckoutInfo(state) {
+      state.shippingAddress = initialShippingAddress;
+      state.billingAddress = initialBillingAddress;
+      state.contactInfo = initialContactInfo;
     },
   },
   // extraReducers: (builder) => {
@@ -121,7 +172,9 @@ export const {
   setShippingAddress,
   setBillingAddress,
   setShippingAsBilling,
-  clearBillingAddress,
+  toggleBillingAddress,
+  loadUserInfo,
+  clearCheckoutInfo,
 } = checkoutSlice.actions;
 export { createOrderHistory };
 

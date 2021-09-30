@@ -4,11 +4,22 @@ import React, {
   FocusEvent,
   SetStateAction,
   Dispatch,
-  useRef,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
-import { Checkbox, TextField } from "@mui/material";
+import { StripeCardElement, TokenResult } from "@stripe/stripe-js";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+
+import {
+  Checkbox,
+  TextField,
+  CircularProgress,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from "@mui/material";
 
 import {
   InputValue,
@@ -25,16 +36,7 @@ import {
   selectLoadingStatus,
 } from "../../utils/redux-store/userSlice";
 import FormInputField from "../auth/form-input-field";
-
 import { inputTypes } from "../../utils/enums-types/input-types";
-import {
-  CircularProgress,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-} from "@mui/material";
 import {
   selectBillingAddress,
   selectShippingAddress,
@@ -44,12 +46,11 @@ import {
   setShippingAddress,
   setBillingAddress,
   setContactInfo,
-  clearBillingAddress,
+  toggleBillingAddress,
 } from "../../utils/redux-store/checkoutSlice";
 import { AllowedStages } from "../../pages/shop/checkout";
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { TextFieldStyled } from "../../styles/mui-custom-styled-components";
-import { StripeCardElement, TokenResult } from "@stripe/stripe-js";
+import SelectState from "../auth/select-state";
 
 interface Props {
   stage: string;
@@ -160,7 +161,7 @@ export default function CheckoutForm({
   };
 
   const checkboxHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(clearBillingAddress(!boxChecked));
+    dispatch(toggleBillingAddress(!boxChecked));
     setBoxChecked((prev) => !prev);
   };
 
@@ -178,31 +179,16 @@ export default function CheckoutForm({
           inputError={errors[inputName]}
         />
       ) : (
-        <FormControl
-          key={inputName}
-          variant="standard"
-          sx={{ m: 0, minWidth: 120, boxShadow: 0 }}
-        >
-          <InputLabel style={{ fontSize: "1rem" }}>STATE</InputLabel>
-          <Select
+        <div key={inputName}>
+          <SelectState
             value={inputValue[inputName]}
-            name={inputName}
-            label="STATE"
-            sx={{ m: 0, minWidth: 130 }}
-            onFocus={onFocusHandler}
-            onBlur={onBlurHandler}
-            onChange={onChangeHandler}
-          >
-            {stateArray.map((state) => {
-              return (
-                <MenuItem key={state} value={state}>
-                  {state}
-                </MenuItem>
-              );
-            })}
-          </Select>
+            inputName={inputName}
+            onFocusHandler={onFocusHandler}
+            onBlurHandler={onBlurHandler}
+            onChangeHandler={onChangeHandler}
+          />
           {errors[inputName]}
-        </FormControl>
+        </div>
       );
     });
   };

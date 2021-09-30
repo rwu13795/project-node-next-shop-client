@@ -45,6 +45,7 @@ export default function CartIcon(): JSX.Element {
         style={{
           position: "absolute",
           right: "1rem",
+          zIndex: 99,
         }}
       >
         <Box>
@@ -66,7 +67,11 @@ export default function CartIcon(): JSX.Element {
                   cartDropDown={true}
                 />
               </div>
+
               <div>
+                <button onClick={() => router.push("/shop/cart")}>
+                  Go To Cart
+                </button>
                 <button onClick={() => setShowCart(false)}>Close</button>
               </div>
             </div>

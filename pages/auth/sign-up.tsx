@@ -12,6 +12,12 @@ const inputFieldsArray = [
   inputNames.confirm_password,
   inputNames.first_name,
   inputNames.last_name,
+  inputNames.address_1,
+  inputNames.address_2,
+  inputNames.city,
+  inputNames.state,
+  inputNames.zip_code,
+  inputNames.phone,
 ];
 
 const SignUpPage: NextPage = ({}) => {

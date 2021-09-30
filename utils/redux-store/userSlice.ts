@@ -29,7 +29,7 @@ export interface CartItem {
   size: string;
   price: number;
   colorName: string;
-  totalQty?: number;
+  totalQty: number;
 }
 
 export interface CurrentUser {
@@ -40,7 +40,7 @@ export interface CurrentUser {
   firstName?: string;
   lastName?: string;
   phone?: string;
-  shippingAddress?: UserAddressFields;
+  addressInfo?: UserAddressFields;
 }
 
 interface AuthErrors {
@@ -52,8 +52,10 @@ interface SignUpBody {
   email: string;
   password: string;
   confirm_password: string;
-  first_name: string;
-  last_name: string;
+  firstName?: string;
+  lastName?: string;
+  phone: string;
+  addressInfo: UserAddressFields;
 }
 interface SignInBody {
   email: string;
@@ -122,8 +124,10 @@ const signUp = createAsyncThunk(
         email: signUpBody.email,
         password: signUpBody.password,
         confirm_password: signUpBody.confirm_password,
-        first_name: signUpBody.first_name,
-        last_name: signUpBody.last_name,
+        firstName: signUpBody.firstName,
+        lastName: signUpBody.lastName,
+        phone: signUpBody.phone,
+        addressInfo: signUpBody.addressInfo,
       });
       return response.data;
     } catch (err: any) {
@@ -336,5 +340,5 @@ export const selectTotalAmount = createSelector([selectCart], (cart) => {
   for (let item of cart) {
     total = item.price * item.quantity + total;
   }
-  return total;
+  return Math.round(total * 100) / 100;
 });

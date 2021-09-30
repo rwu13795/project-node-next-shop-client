@@ -1,5 +1,4 @@
 import { NextPage } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 
@@ -19,19 +18,21 @@ const CartPage: NextPage = ({}) => {
     <main>
       <h2>Shopping Cart</h2>
       <CartDetail cart={cart} />
-      <div>
-        <Link
-          href={
-            isLoggedIn && currentUser.userId
-              ? `/shop/checkout?userId=${currentUser.userId}`
-              : "/shop/login-checkout"
-          }
-        >
-          <a>
-            <button>Check Out</button>
-          </a>
-        </Link>
-      </div>
+      {cart.length > 0 && (
+        <div>
+          <Link
+            href={
+              isLoggedIn && currentUser.userId
+                ? "/shop/checkout"
+                : "/shop/login-checkout"
+            }
+          >
+            <a>
+              <button>Check Out</button>
+            </a>
+          </Link>
+        </div>
+      )}
     </main>
   );
 };

@@ -33,88 +33,94 @@ export const onBlurErrorCheck = (
     });
   }
 
-  if (touched[inputName] && inputName === inputNames.email && value !== "") {
-    const regex =
+  if (touched[inputName] && value !== "") {
+    const regex_email =
       /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (!regex.test(value.toLowerCase())) {
-      setErrors((prev) => {
-        return {
-          ...prev,
-          [inputNames.email]: "Please enter a valid email address",
-        };
-      });
-    }
-  }
+    const regex_name = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~123456789]/;
+    const regex_address = /[`!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?~]/;
+    const regex_zipcode = /^[0-9]{5}$/;
+    const regex_phone = /^[0-9]{9,15}$/;
 
-  if (touched[inputName]) {
-    const regex = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~123456789]/;
-    if (inputName === inputNames.first_name && value !== "") {
-      if (regex.test(value)) {
-        setErrors((prev) => {
-          return {
-            ...prev,
-            [inputNames.first_name]: "Please enter a valid name",
-          };
-        });
+    switch (inputName) {
+      case inputNames.email: {
+        if (!regex_email.test(value.toLowerCase())) {
+          setErrors((prev) => {
+            return {
+              ...prev,
+              [inputNames.email]: "Please enter a valid email address",
+            };
+          });
+        }
+        break;
       }
-    }
-    if (inputName === inputNames.last_name && value !== "") {
-      if (regex.test(value)) {
-        setErrors((prev) => {
-          return {
-            ...prev,
-            [inputNames.last_name]: "Please enter a valid name",
-          };
-        });
+      case inputNames.first_name: {
+        if (regex_name.test(value)) {
+          setErrors((prev) => {
+            return {
+              ...prev,
+              [inputNames.first_name]: "Please enter a valid name",
+            };
+          });
+        }
+        break;
       }
-    }
-  }
-
-  if (touched[inputName]) {
-    const regex = /[ `!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?~]/;
-    if (inputName === inputNames.address_1 && value !== "") {
-      if (regex.test(value)) {
-        setErrors((prev) => {
-          return {
-            ...prev,
-            [inputNames.address_1]: "Please enter a valid address",
-          };
-        });
+      case inputNames.last_name: {
+        if (regex_name.test(value)) {
+          setErrors((prev) => {
+            return {
+              ...prev,
+              [inputNames.last_name]: "Please enter a valid name",
+            };
+          });
+        }
+        break;
       }
-    }
-    if (inputName === inputNames.address_2 && value !== "") {
-      if (regex.test(value)) {
-        setErrors((prev) => {
-          return {
-            ...prev,
-            [inputNames.address_2]: "Please enter a valid address",
-          };
-        });
+      case inputNames.address_1: {
+        if (regex_address.test(value)) {
+          setErrors((prev) => {
+            return {
+              ...prev,
+              [inputNames.address_1]: "Please enter a valid address",
+            };
+          });
+        }
+        break;
       }
-    }
-  }
-
-  if (touched[inputName] && inputName === inputNames.zip_code && value !== "") {
-    const regex = /^[0-9]{5}$/;
-    if (!regex.test(value)) {
-      setErrors((prev) => {
-        return {
-          ...prev,
-          [inputNames.zip_code]: "Zipcode should be 5-digit numbers",
-        };
-      });
-    }
-  }
-
-  if (touched[inputName] && inputName === inputNames.phone && value !== "") {
-    const regex = /^[0-9]{9,15}$/;
-    if (!regex.test(value)) {
-      setErrors((prev) => {
-        return {
-          ...prev,
-          [inputNames.phone]: "Please enter valid phone numbers",
-        };
-      });
+      case inputNames.address_2: {
+        if (regex_address.test(value)) {
+          setErrors((prev) => {
+            return {
+              ...prev,
+              [inputNames.address_2]: "Please enter a valid address",
+            };
+          });
+        }
+        break;
+      }
+      case inputNames.zip_code: {
+        if (!regex_zipcode.test(value)) {
+          setErrors((prev) => {
+            return {
+              ...prev,
+              [inputNames.zip_code]: "Zipcode should be 5-digit numbers",
+            };
+          });
+        }
+        break;
+      }
+      case inputNames.phone: {
+        if (!regex_phone.test(value)) {
+          setErrors((prev) => {
+            return {
+              ...prev,
+              [inputNames.phone]: "Please enter valid phone numbers",
+            };
+          });
+        }
+        break;
+      }
+      default:
+        break;
     }
   }
 };

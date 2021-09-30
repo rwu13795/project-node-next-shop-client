@@ -21,7 +21,8 @@ import {
 import FormInputField from "./form-input-field";
 import Redirect_signedUp_to_homePage from "./redirect-signed-up";
 import { inputTypes } from "../../utils/enums-types/input-types";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, SelectChangeEvent } from "@mui/material";
+import SelectState from "./select-state";
 
 interface Props {
   inputType: string; // "signIn" | "signUp" | resetPassword" | "resetToken"
@@ -65,8 +66,10 @@ export default function AuthForm({
     onBlurErrorCheck(name, value, touched, setErrors);
   };
 
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.currentTarget;
+  const onChangeHandler = (
+    e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>
+  ) => {
+    const { name, value } = e.target;
 
     dispatch(clearAuthErrors(name));
     setInputValue((prev) => {
@@ -93,15 +96,23 @@ export default function AuthForm({
         email: inputValue[inputNames.email],
         password: inputValue[inputNames.password],
         confirm_password: inputValue[inputNames.confirm_password],
-        first_name: inputValue[inputNames.first_name],
-        last_name: inputValue[inputNames.last_name],
+        firstName: inputValue[inputNames.first_name],
+        lastName: inputValue[inputNames.last_name],
+        phone: inputValue[inputNames.phone],
+        addressInfo: {
+          address_1: inputValue[inputNames.address_1],
+          address_2: inputValue[inputNames.address_2],
+          city: inputValue[inputNames.city],
+          state: inputValue[inputNames.state],
+          zip_code: inputValue[inputNames.zip_code],
+        },
       })
     );
   };
 
   const renderFields = () => {
     return inputFieldsArray.map((inputName) => {
-      return (
+      return inputName !== "state" ? (
         <FormInputField
           key={inputName}
           inputName={inputName}
@@ -112,6 +123,17 @@ export default function AuthForm({
           authError={authErrors[inputName]}
           inputError={errors[inputName]}
         />
+      ) : (
+        <div key={inputName}>
+          <SelectState
+            value={inputValue[inputName]}
+            inputName={inputName}
+            onFocusHandler={onFocusHandler}
+            onBlurHandler={onBlurHandler}
+            onChangeHandler={onChangeHandler}
+          />
+          {errors[inputName]}
+        </div>
       );
     });
   };

@@ -26,24 +26,9 @@ export default function CartDetail({
   const dispatch = useDispatch();
   const totalAmount = useSelector(selectTotalAmount);
 
-  // const [total, setTotal] = useState<number>(() => {
-  //   let total = 0;
-  //   for (let item of cart) {
-  //     total = item.price * item.quantity + total;
-  //   }
-  //   console.log(total);
-  //   return total;
-  // });
-
-  // useEffect(() => {
-  //   if (changeInCart) {
-  //     let total = 0;
-  //     for (let item of cart) {
-  //       total = item.price * item.quantity + total;
-  //     }
-  //     setTotal(total);
-  //   }
-  // }, [changeInCart, cart, dispatch]);
+  if (cart.length <= 0) {
+    return <h1>There Are No Items In Your Shopping Cart.</h1>;
+  }
 
   return (
     <div>

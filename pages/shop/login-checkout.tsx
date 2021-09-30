@@ -17,9 +17,10 @@ const LoginCheckoutPage: NextPage = ({}) => {
   const currentUser = useSelector(selectCurrentUser);
   const router = useRouter();
 
+  // if guest user signed in, push user to the checkout page
   useEffect(() => {
     if (isLoggedIn && currentUser.userId) {
-      router.push(`/shop/checkout?userId=${currentUser.userId}`);
+      router.push("/shop/checkout");
     }
   }, [isLoggedIn, router, currentUser.userId]);
 

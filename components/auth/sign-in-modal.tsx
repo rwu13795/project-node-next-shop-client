@@ -22,7 +22,7 @@ const style = {
   p: 4,
 };
 
-export default function SignInModal() {
+export default function SignInModal(): JSX.Element {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

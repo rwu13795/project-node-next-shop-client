@@ -131,7 +131,7 @@ export default function ProductDetail({
       {errors[inputNames.size]}
       <SelectQuantity
         quantity={quantity}
-        totalQty={selectedSize ? currentColor.sizes![selectedSize] : 0}
+        totalQty={selectedSize ? currentColor.sizes[selectedSize] : 0}
         setQuantity={setQuantity}
       />
       <div>
