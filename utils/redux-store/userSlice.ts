@@ -68,6 +68,7 @@ interface UserState {
   changeInCart: boolean;
   loadingStatus: string;
   authErrors: AuthErrors;
+  csrfToken: string;
 }
 
 const initialState: UserState = {
@@ -76,6 +77,7 @@ const initialState: UserState = {
   changeInCart: false,
   loadingStatus: "idle",
   authErrors: {},
+  csrfToken: "",
 };
 
 const client = browserClient();
@@ -87,15 +89,15 @@ const getAuthStatus = createAsyncThunk("user/getAuthStatus", async () => {
   return response.data;
 });
 
-const signIn = createAsyncThunk(
+const signIn = createAsyncThunk<UserState, SignInBody, { state: RootState }>(
   "user/signIn",
   async (
-    signInBody: SignInBody,
+    signInBody,
     // NOTE//
     // if you need to customize the contents of the rejected action, you should
     // catch any errors yourself, and then return a new value using the
     // thunkAPI.rejectWithValue
-    { rejectWithValue }
+    thunkAPI
   ) => {
     try {
       const response = await client.post(serverUrl + "/auth/sign-in", {
@@ -105,7 +107,7 @@ const signIn = createAsyncThunk(
       return response.data;
     } catch (err: any) {
       // catch the error sent from the server manually, and put in inside the action.payload
-      return rejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err.response.data);
     }
   }
 );
@@ -116,9 +118,9 @@ const signOut = createAsyncThunk("user/signOut", async () => {
   return;
 });
 
-const signUp = createAsyncThunk(
+const signUp = createAsyncThunk<UserState, SignUpBody, { state: RootState }>(
   "user/signUp",
-  async (signUpBody: SignUpBody, { rejectWithValue }) => {
+  async (signUpBody, thunkAPI) => {
     try {
       const response = await client.post(serverUrl + "/auth/sign-up", {
         email: signUpBody.email,
@@ -132,36 +134,31 @@ const signUp = createAsyncThunk(
       return response.data;
     } catch (err: any) {
       // catch the error sent from the server manually, and put in inside the action.payload
-      return rejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err.response.data);
     }
   }
 );
 
-const addToCartSession = createAsyncThunk(
-  "user/addToCartSession",
-  async ({
-    item,
-    editMode,
-    index,
-  }: {
+const addToCartSession = createAsyncThunk<
+  UserState,
+  {
     item: CartItem;
     editMode?: boolean;
     index?: number;
-  }) => {
-    const response = await client.post(serverUrl + "/shop/add-to-cart", {
-      item,
-      editMode,
-      index,
-    });
-
-    console.log(response.data);
-    return response.data;
   }
-);
+>("user/addToCartSession", async ({ item, editMode, index }) => {
+  const response = await client.post(serverUrl + "/shop/add-to-cart", {
+    item,
+    editMode,
+    index,
+  });
 
-const removeFromCartSession = createAsyncThunk(
+  return response.data;
+});
+
+const removeFromCartSession = createAsyncThunk<UserState, number>(
   "user/removeFromCartSession",
-  async (index: number) => {
+  async (index) => {
     const response = await client.post(serverUrl + "/shop/remove-from-cart", {
       index,
     });
@@ -169,16 +166,16 @@ const removeFromCartSession = createAsyncThunk(
   }
 );
 
-const directChangeQty = createAsyncThunk(
-  "user/directChangeQty",
-  async ({ quantity, index }: { quantity: number; index: number }) => {
-    const response = await client.post(serverUrl + "/shop/change-quantity", {
-      quantity,
-      index,
-    });
-    return response.data;
-  }
-);
+const directChangeQty = createAsyncThunk<
+  UserState,
+  { quantity: number; index: number }
+>("user/directChangeQty", async ({ quantity, index }) => {
+  const response = await client.post(serverUrl + "/shop/change-quantity", {
+    quantity,
+    index,
+  });
+  return response.data;
+});
 
 const clearCartSession = createAsyncThunk("user/clearCartSession", async () => {
   const response = await client.post(serverUrl + "/shop/clear-cart");
@@ -195,6 +192,9 @@ const userSlice = createSlice({
     setChangeInCart(state, action: PayloadAction<boolean>) {
       state.changeInCart = action.payload;
     },
+    setCsrfToken(state, action: PayloadAction<string>) {
+      state.csrfToken = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -207,6 +207,7 @@ const userSlice = createSlice({
           // remember to add the state type as return type
           state.currentUser = action.payload.currentUser;
           state.isLoggedIn = action.payload.isLoggedIn;
+          state.csrfToken = action.payload.csrfToken;
           console.log("in redux getAuthStatus---------->", state.currentUser);
         }
       )
@@ -297,7 +298,8 @@ const userSlice = createSlice({
   },
 });
 
-export const { clearAuthErrors, setChangeInCart } = userSlice.actions;
+export const { clearAuthErrors, setChangeInCart, setCsrfToken } =
+  userSlice.actions;
 export {
   signIn,
   signOut,
@@ -342,3 +344,7 @@ export const selectTotalAmount = createSelector([selectCart], (cart) => {
   }
   return Math.round(total * 100) / 100;
 });
+export const selectCsrfToken = createSelector(
+  [selectUser],
+  (userState) => userState.csrfToken
+);

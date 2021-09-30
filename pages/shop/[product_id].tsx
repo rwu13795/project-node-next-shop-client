@@ -1,7 +1,7 @@
 import axios from "axios";
-import { GetStaticPropsContext, NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from "next";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import {
@@ -15,14 +15,25 @@ import {
   onChangeErrorCheck,
 } from "../../utils/react-hooks/input-error-check";
 import { inputNames } from "../../utils/enums-types/input-names";
-import { addToCartSession } from "../../utils/redux-store/userSlice";
+import {
+  addToCartSession,
+  setCsrfToken,
+} from "../../utils/redux-store/userSlice";
 import ProductDetail from "../../components/shop/product-detail";
+import serverClient from "../../utils/axios-client/server-client";
 
 interface PageProps {
+  csrfToken: string;
   product?: PageProductProps;
 }
 
-const ProductDetailPage: NextPage<PageProps> = ({ product }) => {
+const ProductDetailPage: NextPage<PageProps> = ({ product, csrfToken }) => {
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   console.log(csrfToken);
+  //   dispatch(setCsrfToken(csrfToken));
+  // }, [csrfToken, dispatch]);
+
   return !product ? (
     <h1>No product found</h1>
   ) : (
@@ -32,15 +43,16 @@ const ProductDetailPage: NextPage<PageProps> = ({ product }) => {
 
 export default ProductDetailPage;
 
-export async function getServerSideProps(context: GetStaticPropsContext) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const params = context.params?.product_id as string;
   const [productId, category] = params.split("-");
 
+  const client = serverClient(context);
+
   try {
-    const { data } = await axios.get<PageProps | undefined>(
+    const { data } = await client.get(
       `http://localhost:5000/api/products/detail/${category}/${productId}`
     );
-    console.log(data?.product);
 
     return {
       props: { product: data?.product },

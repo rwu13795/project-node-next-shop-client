@@ -8,6 +8,7 @@ import { Button } from "@mui/material";
 import browserClient from "../../utils/axios-client/browser-client";
 import { createOrderHistory } from "../../utils/redux-store/checkoutSlice";
 import {
+  selectCsrfToken,
   selectCurrentUser,
   selectTotalAmount,
 } from "../../utils/redux-store/userSlice";
@@ -28,6 +29,9 @@ export default function CheckoutStage_3({
 
   const currentUser = useSelector(selectCurrentUser);
   const totalAmount = useSelector(selectTotalAmount);
+  const csrfToken = useSelector(selectCsrfToken);
+
+  console.log("token in checkout", csrfToken);
 
   const [processing, setProcessing] = useState<boolean>(false);
 
@@ -42,6 +46,7 @@ export default function CheckoutStage_3({
         "http://localhost:5000/api/shop/stripe-payment",
         {
           totalAmount,
+          csrfToken,
         }
       );
       paymentIntent = data;

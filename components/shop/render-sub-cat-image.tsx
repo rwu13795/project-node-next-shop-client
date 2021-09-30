@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -43,7 +43,7 @@ const RenderImage = ({
 }: {
   p: PageProductProps;
   url: string;
-  setIsRedirecting: any;
+  setIsRedirecting: Dispatch<SetStateAction<boolean>>;
 }) => {
   return (
     <Link href={`/shop/${p._id}-${p.productInfo.main_cat}`}>

@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { SyntheticEvent, useEffect, useState } from "react";
 
 import { TokenResult } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import { stripePromise } from "../../utils/helper-functions/load-stripe";
 
 import { Box, Tab } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
@@ -76,51 +78,53 @@ const CheckoutPage: NextPage = ({}) => {
   };
 
   return (
-    <main>
-      <h1>Check Out Page</h1>
-      {cart.length > 0 && (
-        <Box sx={{ width: "100%", typography: "body1" }}>
-          <TabContext value={stage}>
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <TabList onChange={tagChangeHandler}>
-                <Tab label="SHIPPING INFO" value={inputTypes.addressInfo} />
-                <Tab
-                  label="PAYMENT INFO"
-                  value={inputTypes.paymentInfo}
-                  disabled={!allowedStages.two}
+    <Elements stripe={stripePromise}>
+      <main>
+        <h1>Check Out Page</h1>
+        {cart.length > 0 && (
+          <Box sx={{ width: "100%", typography: "body1" }}>
+            <TabContext value={stage}>
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <TabList onChange={tagChangeHandler}>
+                  <Tab label="SHIPPING INFO" value={inputTypes.addressInfo} />
+                  <Tab
+                    label="PAYMENT INFO"
+                    value={inputTypes.paymentInfo}
+                    disabled={!allowedStages.two}
+                  />
+                  <Tab
+                    label="PLACE ORDER"
+                    value={inputTypes.placeOrder}
+                    disabled={!allowedStages.three}
+                  />
+                </TabList>
+              </Box>
+              <TabPanel value={inputTypes.addressInfo}>
+                <CheckoutStage_1
+                  setStage={setStage}
+                  setAllowedStages={setAllowedStages}
                 />
-                <Tab
-                  label="PLACE ORDER"
-                  value={inputTypes.placeOrder}
-                  disabled={!allowedStages.three}
+              </TabPanel>
+              <TabPanel value={inputTypes.paymentInfo}>
+                <CheckoutStage_2
+                  setStage={setStage}
+                  setAllowedStages={setAllowedStages}
+                  setStripeCardToken={setStripeCardToken}
                 />
-              </TabList>
-            </Box>
-            <TabPanel value={inputTypes.addressInfo}>
-              <CheckoutStage_1
-                setStage={setStage}
-                setAllowedStages={setAllowedStages}
-              />
-            </TabPanel>
-            <TabPanel value={inputTypes.paymentInfo}>
-              <CheckoutStage_2
-                setStage={setStage}
-                setAllowedStages={setAllowedStages}
-                setStripeCardToken={setStripeCardToken}
-              />
-            </TabPanel>
-            <TabPanel value={inputTypes.placeOrder}>
-              <CheckoutStage_3 stripeCardToken={stripeCardToken} />
-            </TabPanel>
-          </TabContext>
-        </Box>
-      )}
+              </TabPanel>
+              <TabPanel value={inputTypes.placeOrder}>
+                <CheckoutStage_3 stripeCardToken={stripeCardToken} />
+              </TabPanel>
+            </TabContext>
+          </Box>
+        )}
 
-      <hr></hr>
-      <div>Order Summary</div>
-      <CartDetail cart={cart} summaryMode={true} />
-      <hr />
-    </main>
+        <hr></hr>
+        <div>Order Summary</div>
+        <CartDetail cart={cart} summaryMode={true} />
+        <hr />
+      </main>
+    </Elements>
   );
 };
 
