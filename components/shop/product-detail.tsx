@@ -58,7 +58,7 @@ export default function ProductDetail({
   const [quantity, setQuantity] = useState<number>(() => {
     if (editMode && editItem) {
       return editItem.quantity;
-    } else return 1;
+    } else return 0;
   });
   const [errors, setErrors] = useState<Errors>({});
 
@@ -73,6 +73,10 @@ export default function ProductDetail({
       setErrors({ [inputNames.size]: "please select a size" });
       return;
     }
+    if (quantity === 0) {
+      setErrors({ [inputNames.quantity]: "please select quantities" });
+      return;
+    }
 
     const item = {
       imageUrl: currentColor.imageFiles[0],
@@ -83,7 +87,8 @@ export default function ProductDetail({
       quantity: quantity,
       size: selectedSize,
       colorName: currentColor.colorName,
-      totalQty: currentColor.sizes[selectedSize],
+      availableQty: currentColor.sizes[selectedSize],
+      stockErrors: {},
     };
     if (editMode && handleClose) {
       handleClose();
@@ -148,9 +153,11 @@ export default function ProductDetail({
       <SelectQuantity
         quantity={quantity}
         disabled={selectedSize === ""}
-        totalQty={selectedSize === "" ? 0 : currentColor.sizes[selectedSize]}
+        availableQty={currentColor.sizes[selectedSize]}
         setQuantity={setQuantity}
+        setErrors={setErrors}
       />
+      {errors[inputNames.quantity]}
       <div>
         <Button variant="contained" onClick={addToCartHandler}>
           {editMode ? "Update" : "Add to cart"}

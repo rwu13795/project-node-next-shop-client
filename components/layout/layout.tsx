@@ -1,10 +1,14 @@
 import { ThemeProvider } from "@mui/material/styles";
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { theme } from "../../styles/mui-theme";
 import MainNavigation from "./main-navigation";
-import { getAuthStatus } from "../../utils/redux-store/userSlice";
+import {
+  checkStock,
+  getUserStatus,
+  selectIsLoggedIn,
+} from "../../utils/redux-store/userSlice";
 
 interface Prop {
   children: React.ReactNode;
@@ -18,7 +22,8 @@ export default function Layout(props: Prop): JSX.Element {
 
   useEffect(() => {
     console.log("getting user auth in Layout");
-    dispatch(getAuthStatus());
+    dispatch(getUserStatus());
+    dispatch(checkStock());
   }, [dispatch]);
 
   console.log("in layout -- current page:", props.page);

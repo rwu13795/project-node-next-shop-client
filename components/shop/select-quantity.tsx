@@ -5,15 +5,21 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { directChangeQty } from "../../utils/redux-store/userSlice";
+import { inputNames } from "../../utils/enums-types/input-names";
+import { Errors } from "../../utils/helper-functions/input-error-check";
+import {
+  clearStockErrors,
+  directChangeQty,
+} from "../../utils/redux-store/userSlice";
 
 interface Props {
   quantity: number;
   disabled: boolean;
-  totalQty: number;
+  availableQty: number | undefined;
   setQuantity?: Dispatch<SetStateAction<number>>;
+  setErrors?: Dispatch<SetStateAction<Errors>>;
   directChange?: boolean;
   index?: number;
 }
@@ -21,38 +27,47 @@ interface Props {
 export default function SelectQuantity({
   quantity,
   disabled,
-  totalQty,
+  availableQty,
   setQuantity,
+  setErrors,
   directChange,
   index,
 }: Props): JSX.Element {
-  const [qtyArray] = useState<number[]>(() => {
+  const dispatch = useDispatch();
+
+  const [qtyArray, setQtyArray] = useState<number[]>([
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+  ]);
+
+  useEffect(() => {
     let arr = [];
-    console.log(totalQty);
-    if (totalQty > 0 && totalQty <= 5) {
-      for (let i = 1; i <= totalQty; i++) {
+    if (!availableQty) {
+      return;
+    }
+    if (availableQty > 0 && availableQty <= 9) {
+      for (let i = 0; i <= availableQty; i++) {
         arr.push(i);
       }
-      return arr;
-    } else if (totalQty <= 0) {
-      return [0];
+      setQtyArray(arr);
+    } else if (availableQty <= 0) {
+      setQtyArray([0]);
     } else {
-      return [1, 2, 3, 4, 5, 6, 7, 8, 9];
+      setQtyArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
     }
-  });
-
-  const dispatch = useDispatch();
+  }, [availableQty]);
 
   const changeHandler = (e: SelectChangeEvent<number>) => {
     if (directChange && index !== undefined) {
       if (typeof e.target.value === "number") {
         dispatch(directChangeQty({ quantity: e.target.value, index }));
+        dispatch(clearStockErrors(index));
         return;
       }
     }
-    if (setQuantity) {
+    if (setQuantity && setErrors) {
       if (typeof e.target.value === "number") {
         setQuantity(e.target.value);
+        setErrors({ [inputNames.quantity]: "" });
         return;
       }
     }
@@ -67,7 +82,7 @@ export default function SelectQuantity({
         label="Quantity"
         sx={{ m: 0, minWidth: 130 }}
         onChange={changeHandler}
-        disabled={totalQty === 0 || disabled}
+        disabled={availableQty === 0 || disabled}
       >
         {qtyArray.map((q) => {
           return (

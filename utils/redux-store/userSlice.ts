@@ -21,9 +21,6 @@ interface UserInfo {
   [inputNames.phone]: string;
 }
 
-// the totalQty of a specific product was added to the cart also when
-// user add this product to cart, so that I can map the "SelectQuantity"
-// in the cartDetail without making request to the server again
 export interface CartItem {
   imageUrl: string;
   title: string;
@@ -33,7 +30,11 @@ export interface CartItem {
   size: string;
   price: number;
   colorName: string;
-  totalQty: number;
+  availableQty: number;
+  stockErrors: {
+    outOfStock?: string;
+    notEnough?: string;
+  };
 }
 
 export interface CurrentUser {
@@ -81,8 +82,8 @@ const initialState: UserState = {
 const client = browserClient();
 const serverUrl = "http://localhost:5000/api";
 
-const getAuthStatus = createAsyncThunk("user/getAuthStatus", async () => {
-  const response = await client.get<UserState>(serverUrl + "/auth/auth-status");
+const getUserStatus = createAsyncThunk("user/getUserStatus", async () => {
+  const response = await client.get<UserState>(serverUrl + "/auth/user-status");
 
   return response.data;
 });
@@ -206,6 +207,11 @@ const updateUserInfo = createAsyncThunk<
   return response.data;
 });
 
+const checkStock = createAsyncThunk<CartItem[]>("user/checkStock", async () => {
+  const response = await client.get(serverUrl + "/shop/check-stock");
+  return response.data;
+});
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -222,6 +228,9 @@ const userSlice = createSlice({
     setLoadingStatus(state, action: PayloadAction<string>) {
       state.loadingStatus = action.payload;
     },
+    clearStockErrors(state, action: PayloadAction<number>) {
+      state.currentUser.cart[action.payload].stockErrors = {};
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -229,13 +238,13 @@ const userSlice = createSlice({
       // GET AUTH //
       //////////////
       .addCase(
-        getAuthStatus.fulfilled,
+        getUserStatus.fulfilled,
         (state, action: PayloadAction<UserState>): void => {
           // remember to add the state type as return type
           state.currentUser = action.payload.currentUser;
           state.isLoggedIn = action.payload.isLoggedIn;
           state.csrfToken = action.payload.csrfToken;
-          console.log("in redux getAuthStatus---------->", state.currentUser);
+          console.log("in redux getUserStatus---------->", state.currentUser);
         }
       )
       /////////////
@@ -339,7 +348,29 @@ const userSlice = createSlice({
       )
       .addCase(updateUserInfo.pending, (state): void => {
         state.loadingStatus = "loading";
-      });
+      })
+      /////////////////
+      // CHECK STOCK //
+      /////////////////
+      .addCase(
+        checkStock.fulfilled,
+        (state, action: PayloadAction<CartItem[]>): void => {
+          state.currentUser.cart = action.payload;
+          for (let item of state.currentUser.cart) {
+            if (!item.stockErrors) {
+              item.stockErrors = {};
+            }
+            if (item.quantity > item.availableQty && item.availableQty > 0) {
+              item.stockErrors.notEnough = `Previously selected quantities (${item.quantity}) not available`;
+              item.quantity = item.availableQty;
+            }
+            if (item.availableQty === 0) {
+              item.stockErrors.outOfStock = "Out of stock";
+              item.quantity = 0;
+            }
+          }
+        }
+      );
   },
 });
 
@@ -348,17 +379,19 @@ export const {
   setChangeInCart,
   setCsrfToken,
   setLoadingStatus,
+  clearStockErrors,
 } = userSlice.actions;
 export {
   signIn,
   signOut,
   signUp,
-  getAuthStatus,
+  getUserStatus,
   addToCartSession,
   directChangeQty,
   removeFromCartSession,
   clearCartSession,
   updateUserInfo,
+  checkStock,
 };
 
 export default userSlice.reducer;

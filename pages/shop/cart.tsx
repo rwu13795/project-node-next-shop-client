@@ -1,8 +1,10 @@
 import { NextPage } from "next";
+import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
+  removeFromCartSession,
   selectCart,
   selectCurrentUser,
   selectIsLoggedIn,
@@ -10,9 +12,25 @@ import {
 import CartDetail from "../../components/shop/cart-detail";
 
 const CartPage: NextPage = ({}) => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   const cart = useSelector(selectCart);
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const currentUser = useSelector(selectCurrentUser);
+
+  const preCheckoutHandler = () => {
+    for (let i = 0; i < cart.length; i++) {
+      if (cart[i].quantity === 0) {
+        dispatch(removeFromCartSession(i));
+      }
+    }
+    router.push(
+      isLoggedIn && currentUser.userId
+        ? "/shop/checkout"
+        : "/shop/login-checkout"
+    );
+  };
 
   return (
     <main>
@@ -20,17 +38,7 @@ const CartPage: NextPage = ({}) => {
       <CartDetail cart={cart} />
       {cart.length > 0 && (
         <div>
-          <Link
-            href={
-              isLoggedIn && currentUser.userId
-                ? "/shop/checkout"
-                : "/shop/login-checkout"
-            }
-          >
-            <a>
-              <button>Check Out</button>
-            </a>
-          </Link>
+          <button onClick={preCheckoutHandler}>Check Out</button>
         </div>
       )}
     </main>

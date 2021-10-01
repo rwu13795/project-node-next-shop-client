@@ -26,23 +26,29 @@ const LoginCheckoutPage: NextPage = ({}) => {
 
   return (
     <main>
-      <h1>SIGN IN</h1>
-      <div>
-        RETURNING CUSTOMER
-        <AuthForm
-          inputType={inputTypes.signIn}
-          inputFieldsArray={inputFieldsArray}
-        />
-      </div>
-      <hr></hr>
-      <div>
-        GUEST CHECKOUT
-        <Link href="/shop/checkout">
-          <a>
-            <button>CHECKOUT AS GUEST</button>
-          </a>
-        </Link>
-      </div>
+      {currentUser.cart.length > 0 ? (
+        <div>
+          <h1>SIGN IN</h1>
+          <div>
+            RETURNING CUSTOMER
+            <AuthForm
+              inputType={inputTypes.signIn}
+              inputFieldsArray={inputFieldsArray}
+            />
+          </div>
+          <hr></hr>
+          <div>
+            GUEST CHECKOUT
+            <Link href="/shop/checkout">
+              <a>
+                <button>CHECKOUT AS GUEST</button>
+              </a>
+            </Link>
+          </div>
+        </div>
+      ) : (
+        <h2>There Is No Item In Your Shopping Cart.</h2>
+      )}
     </main>
   );
 };

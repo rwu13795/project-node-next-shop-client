@@ -27,12 +27,13 @@ export default function CartDetail({
   const totalAmount = useSelector(selectTotalAmount);
 
   if (cart.length <= 0) {
-    return <h1>There Are No Items In Your Shopping Cart.</h1>;
+    return <h1>There Is No Item In Your Shopping Cart.</h1>;
   }
 
   return (
     <div>
       {cart.map((item, index) => {
+        console.log(item.stockErrors);
         return (
           <div key={item.productId + item.size + item.colorName}>
             <Image
@@ -52,7 +53,7 @@ export default function CartDetail({
                 // the totalQty of a specific product was added to the cart also when
                 // user add this product to cart, so that I can map the "SelectQuantity"
                 // in the cartDetail without making request to the server again
-                totalQty={item.totalQty}
+                availableQty={item.availableQty}
                 directChange={true}
                 index={index}
               />
@@ -75,6 +76,12 @@ export default function CartDetail({
               >
                 remove
               </button>
+            )}
+            {item.stockErrors?.notEnough && (
+              <div style={{ color: "red" }}>{item.stockErrors.notEnough}</div>
+            )}
+            {item.stockErrors?.outOfStock && (
+              <div style={{ color: "red" }}>{item.stockErrors.outOfStock}</div>
             )}
             <hr />
           </div>

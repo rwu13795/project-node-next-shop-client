@@ -23,16 +23,16 @@ import ProductDetail from "../../components/shop/product-detail";
 import serverClient from "../../utils/axios-client/server-client";
 
 interface PageProps {
-  csrfToken: string;
   product?: PageProductProps;
 }
 
-const ProductDetailPage: NextPage<PageProps> = ({ product, csrfToken }) => {
+const ProductDetailPage: NextPage<PageProps> = ({ product }) => {
   // const dispatch = useDispatch();
   // useEffect(() => {
   //   console.log(csrfToken);
   //   dispatch(setCsrfToken(csrfToken));
   // }, [csrfToken, dispatch]);
+  console.log(product);
 
   return !product ? (
     <h1>No product found</h1>

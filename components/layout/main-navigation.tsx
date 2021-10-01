@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./main-navigation.module.css";
 import {
-  getAuthStatus,
+  getUserStatus,
   selectCurrentUser,
   selectIsLoggedIn,
   signOut,
@@ -27,7 +27,7 @@ export default function MainNavigation({ page }: Props) {
     // re-acquire a "guest" session after signing out
     // have to wait a few seconds for the mongoDB destoying the old session
     setTimeout(() => {
-      dispatch(getAuthStatus());
+      dispatch(getUserStatus());
     }, 2000);
   };
 
