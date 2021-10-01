@@ -52,6 +52,7 @@ export default function CheckoutStage_3({
       paymentIntent = data;
     } catch (err) {
       console.log(err);
+      return;
     }
     //////////
     // NOTE //

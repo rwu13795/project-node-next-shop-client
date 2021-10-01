@@ -2,7 +2,7 @@ import type { GetServerSidePropsContext, NextPage } from "next";
 
 import serverClient from "../../utils/axios-client/server-client";
 
-import AuthForm from "../../components/auth/auth-form";
+import AuthForm from "../../components/auth/sign-in-up";
 import { inputTypes } from "../../utils/enums-types/input-types";
 import { inputNames } from "../../utils/enums-types/input-names";
 
@@ -22,7 +22,10 @@ const inputFieldsArray = [
 
 const SignUpPage: NextPage = ({}) => {
   return (
-    <AuthForm inputType={inputTypes.signUp} inputFields={inputFieldsArray} />
+    <AuthForm
+      inputType={inputTypes.signUp}
+      inputFieldsArray={inputFieldsArray}
+    />
   );
 };
 
@@ -50,5 +53,5 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     };
   }
 
-  return { props: {} };
+  return { props: { page: "sign-up" } };
 }

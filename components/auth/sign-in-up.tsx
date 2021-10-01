@@ -8,9 +8,12 @@ import {
   onChangeErrorCheck,
   onFocusErrorCheck,
   onSubmitErrorCheck,
-} from "../../utils/react-hooks/input-error-check";
+} from "../../utils/helper-functions/input-error-check";
 import { inputNames } from "../../utils/enums-types/input-names";
-import { Touched, Errors } from "../../utils/react-hooks/input-error-check";
+import {
+  Touched,
+  Errors,
+} from "../../utils/helper-functions/input-error-check";
 import {
   signIn,
   signUp,
@@ -18,28 +21,26 @@ import {
   selectAuthErrors,
   selectLoadingStatus,
 } from "../../utils/redux-store/userSlice";
-import FormInputField from "./form-input-field";
 import Redirect_signedUp_to_homePage from "./redirect-signed-up";
 import { inputTypes } from "../../utils/enums-types/input-types";
-import { CircularProgress, SelectChangeEvent } from "@mui/material";
-import SelectState from "./select-state";
+import { Button, CircularProgress, SelectChangeEvent } from "@mui/material";
+import renderInputFields from "../../utils/helper-functions/render-input-fields";
 
 interface Props {
-  inputType: string; // "signIn" | "signUp" | resetPassword" | "resetToken"
-  inputFields: string[]; // contains inputNames
-  handleClose?: () => void; // MUI modal function to close the modal
+  inputType: string; // "signIn" | "signUp"
+  inputFieldsArray: string[]; // contains inputNames
+  modalHandleClose?: () => void; // MUI modal function to close the modal
 }
 
 export default function AuthForm({
   inputType,
-  inputFields,
-  handleClose,
+  inputFieldsArray,
+  modalHandleClose,
 }: Props): JSX.Element {
   const dispatch = useDispatch();
   const authErrors = useSelector(selectAuthErrors);
   const loadingStatus = useSelector(selectLoadingStatus);
 
-  const [inputFieldsArray] = useState<string[]>(inputFields);
   const [errors, setErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Touched>({});
   // since these interfaces only contain [signature: string] as propperties keys
@@ -50,7 +51,7 @@ export default function AuthForm({
   // warning: A component is changing an uncontrolled input to be controlled
   const [inputValue, setInputValue] = useState<InputValue>(() => {
     let initialValue: InputValue = {};
-    for (let name of inputFields) {
+    for (let name of inputFieldsArray) {
       initialValue = { ...initialValue, [name]: "" };
     }
     return initialValue;
@@ -96,10 +97,10 @@ export default function AuthForm({
         email: inputValue[inputNames.email],
         password: inputValue[inputNames.password],
         confirm_password: inputValue[inputNames.confirm_password],
-        firstName: inputValue[inputNames.first_name],
-        lastName: inputValue[inputNames.last_name],
-        phone: inputValue[inputNames.phone],
-        addressInfo: {
+        userInfo: {
+          first_name: inputValue[inputNames.first_name],
+          last_name: inputValue[inputNames.last_name],
+          phone: inputValue[inputNames.phone],
           address_1: inputValue[inputNames.address_1],
           address_2: inputValue[inputNames.address_2],
           city: inputValue[inputNames.city],
@@ -110,96 +111,77 @@ export default function AuthForm({
     );
   };
 
-  const renderFields = () => {
-    return inputFieldsArray.map((inputName) => {
-      return inputName !== "state" ? (
-        <FormInputField
-          key={inputName}
-          inputName={inputName}
-          inputValue={inputValue[inputName]}
-          onFocus={onFocusHandler}
-          onBlur={onBlurHandler}
-          onChange={onChangeHandler}
-          authError={authErrors[inputName]}
-          inputError={errors[inputName]}
-        />
-      ) : (
-        <div key={inputName}>
-          <SelectState
-            value={inputValue[inputName]}
-            inputName={inputName}
-            onFocusHandler={onFocusHandler}
-            onBlurHandler={onBlurHandler}
-            onChangeHandler={onChangeHandler}
-          />
-          {errors[inputName]}
-        </div>
-      );
-    });
+  const inputFields = (fields: string[], inputValue: InputValue) => {
+    return renderInputFields(
+      fields,
+      inputValue,
+      errors,
+      onFocusHandler,
+      onBlurHandler,
+      onChangeHandler,
+      authErrors
+    );
   };
 
   let content;
-  switch (inputType) {
-    case inputTypes.signIn: {
-      content = (
+  if (inputType === inputTypes.signIn) {
+    content = (
+      <div>
+        {inputFields(inputFieldsArray, inputValue)}
         <div>
-          {renderFields()}
-          <div>
-            <button
-              onClick={singInHandler}
-              disabled={loadingStatus === "loading"}
-            >
-              Sign In
-            </button>
-            {loadingStatus === "loading" && (
-              <CircularProgress
-                size={45}
-                sx={{
-                  position: "absolute",
-                  top: "40%",
-                  left: "46%",
-                  // marginTop: "-12px",
-                  // marginLeft: "-12px",
-                }}
-              />
-            )}
-          </div>
-          <hr />
-          <div>
-            <Link href="/auth/sign-up">
-              <a onClick={handleClose}>Create a new account</a>
-            </Link>
-          </div>
+          <button
+            onClick={singInHandler}
+            disabled={loadingStatus === "loading"}
+          >
+            Sign In
+          </button>
+          {loadingStatus === "loading" && (
+            <CircularProgress
+              size={45}
+              sx={{
+                position: "absolute",
+                top: "40%",
+                left: "46%",
+                // marginTop: "-12px",
+                // marginLeft: "-12px",
+              }}
+            />
+          )}
         </div>
-      );
-      break;
-    }
-    case inputTypes.signUp: {
-      content =
-        loadingStatus !== "succeeded" ? (
+        <hr />
+        <div>
+          <Link href="/auth/sign-up">
+            <a onClick={modalHandleClose}>Create a new account</a>
+          </Link>
+        </div>
+      </div>
+    );
+  } else {
+    content =
+      loadingStatus !== "succeeded" ? (
+        <div>
+          <Link href="/auth/sign-in">
+            <a>
+              <Button variant="contained">Sign In</Button>
+            </a>
+          </Link>
+          <span> Have a existing account?</span>
+          <hr />
+          {inputFields(inputFieldsArray, inputValue)}
           <div>
-            {renderFields()}{" "}
-            {loadingStatus === "loading" && <CircularProgress />}
-            <div>
-              <button
-                onClick={singUpHandler}
-                disabled={loadingStatus !== "idle"}
-              >
-                CREATE ACCOUNT
-              </button>
-            </div>
+            <Button
+              variant="contained"
+              onClick={singUpHandler}
+              disabled={loadingStatus !== "idle"}
+            >
+              CREATE ACCOUNT
+            </Button>
           </div>
-        ) : (
-          <Redirect_signedUp_to_homePage />
-        );
-      break;
-    }
-    case inputTypes.resetPassword: {
-      break;
-    }
-    case inputTypes.resetToken: {
-      break;
-    }
+          {loadingStatus === "loading" && <CircularProgress />}
+        </div>
+      ) : (
+        <Redirect_signedUp_to_homePage />
+      );
   }
 
   return <main>{content}</main>;

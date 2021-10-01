@@ -6,6 +6,10 @@ import {
   ToggleButtonProps,
 } from "@mui/material";
 
+// MUI 5.0 new method "styled" to customize the MUI component
+// DO not use the "makeStyles" method, warning will keep popping up while using this
+// method in NextJS page
+
 export const ToggleButtonStyled = styled(ToggleButton)<ToggleButtonProps>(
   ({}) => ({
     "&.Mui-selected": {

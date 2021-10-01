@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 import { selectIsLoggedIn } from "../../utils/redux-store/userSlice";
 import serverClient from "../../utils/axios-client/server-client";
-import AuthForm from "../../components/auth/auth-form";
+import AuthForm from "../../components/auth/sign-in-up";
 import { inputTypes } from "../../utils/enums-types/input-types";
 import { inputNames } from "../../utils/enums-types/input-names";
 
@@ -23,7 +23,10 @@ const SignInPage: NextPage = ({}) => {
   });
 
   return (
-    <AuthForm inputType={inputTypes.signIn} inputFields={inputFieldsArray} />
+    <AuthForm
+      inputType={inputTypes.signIn}
+      inputFieldsArray={inputFieldsArray}
+    />
   );
 };
 

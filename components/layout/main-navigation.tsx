@@ -67,7 +67,7 @@ export default function MainNavigation({ page }: Props) {
                 <button onClick={signOutHandler}>Sign Out</button>
               </Fragment>
             ) : (
-              <SignInModal />
+              <SignInModal page={page} />
             )}
             <CartIcon />
           </div>

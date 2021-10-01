@@ -5,33 +5,17 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { styled } from "@mui/material/styles";
 import { theme } from "../../styles/mui-theme";
 import { ToggleButtonStyled } from "../../styles/mui-custom-styled-components";
+import { PageColorProps } from "../../utils/react-hooks/get-more-products";
 
 interface Props {
-  selectedSize: string | null | undefined;
+  selectedSize: string;
+  currentColor: PageColorProps;
   sizeHandler: (event: React.MouseEvent<HTMLElement>, size: string) => void;
 }
 
-// MUI 5.0 new method "styled" to customize the MUI component
-// DO not use the "makeStyles" method, warning will keep popping up while using this
-// method in NextJS page
-const StyledToggleButton = styled(ToggleButton)<ToggleButtonProps>(({}) => ({
-  "&.Mui-selected": {
-    backgroundColor: "black",
-    color: "#ffffff",
-    "&:hover": { backgroundColor: "black" },
-    "&:active": { backgroundColor: "grey" },
-  },
-  // "&:hover": {
-  //   backgroundColor: "grey",
-  //   color: "white",
-  // },
-  "&:active": {
-    backgroundColor: "grey",
-  },
-}));
-
 export default function SelectSize({
   selectedSize,
+  currentColor,
   sizeHandler,
 }: Props): JSX.Element {
   console.log("size editMode", selectedSize);
@@ -44,13 +28,25 @@ export default function SelectSize({
         onChange={sizeHandler}
         aria-label="select a size"
       >
-        <ToggleButtonStyled value="small" aria-label="small">
+        <ToggleButtonStyled
+          value="small"
+          aria-label="small"
+          disabled={currentColor.sizes["small"] <= 0}
+        >
           small
         </ToggleButtonStyled>
-        <ToggleButtonStyled value="medium" aria-label="medium">
+        <ToggleButtonStyled
+          value="medium"
+          aria-label="medium"
+          disabled={currentColor.sizes["medium"] <= 0}
+        >
           Medium
         </ToggleButtonStyled>
-        <ToggleButtonStyled value="large" aria-label="large">
+        <ToggleButtonStyled
+          value="large"
+          aria-label="large"
+          disabled={currentColor.sizes["large"] <= 0}
+        >
           Large
         </ToggleButtonStyled>
       </ToggleButtonGroup>

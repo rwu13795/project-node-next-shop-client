@@ -4,7 +4,7 @@ import { useRouter } from "next/dist/client/router";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-import AuthForm from "../../components/auth/auth-form";
+import AuthForm from "../../components/auth/sign-in-up";
 import { inputTypes } from "../../utils/enums-types/input-types";
 import {
   selectCurrentUser,
@@ -31,7 +31,7 @@ const LoginCheckoutPage: NextPage = ({}) => {
         RETURNING CUSTOMER
         <AuthForm
           inputType={inputTypes.signIn}
-          inputFields={inputFieldsArray}
+          inputFieldsArray={inputFieldsArray}
         />
       </div>
       <hr></hr>

@@ -2,7 +2,7 @@ import { ChangeEvent, Dispatch, Fragment, SetStateAction } from "react";
 
 import SelectColor from "./select-color";
 import { inputNames } from "../../utils/enums-types/input-names";
-import { Errors } from "../../utils/react-hooks/input-error-check";
+import { Errors } from "../../utils/helper-functions/input-error-check";
 import AddImage from "./add-image";
 import {
   ActionType,

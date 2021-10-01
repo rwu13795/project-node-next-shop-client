@@ -2,7 +2,7 @@ import { Fragment, ChangeEvent, MouseEvent, Dispatch } from "react";
 import Image from "next/image";
 
 import { inputNames } from "../../utils/enums-types/input-names";
-import { Errors } from "../../utils/react-hooks/input-error-check";
+import { Errors } from "../../utils/helper-functions/input-error-check";
 import {
   ActionType,
   ReducerColorProps,

@@ -21,6 +21,8 @@ export default function Layout(props: Prop): JSX.Element {
     dispatch(getAuthStatus());
   }, [dispatch]);
 
+  console.log("in layout -- current page:", props.page);
+
   // NOTE //
   // MUI theme only works on MUI component which is inside a normal React component
   // it does not work on Next pages. In order to make the MUI theme works for the MUI

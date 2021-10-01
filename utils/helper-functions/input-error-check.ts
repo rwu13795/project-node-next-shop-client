@@ -97,6 +97,17 @@ export const onBlurErrorCheck = (
         }
         break;
       }
+      case inputNames.city: {
+        if (regex_address.test(value)) {
+          setErrors((prev) => {
+            return {
+              ...prev,
+              [inputNames.city]: "Please enter a valid address",
+            };
+          });
+        }
+        break;
+      }
       case inputNames.zip_code: {
         if (!regex_zipcode.test(value)) {
           setErrors((prev) => {

@@ -8,13 +8,17 @@ import type { RootState } from "./index";
 
 import browserClient from "../axios-client/browser-client";
 import { inputNames } from "../enums-types/input-names";
+import { InputValue } from "../helper-functions/input-error-check";
 
-interface UserAddressFields {
+interface UserInfo {
+  [inputNames.first_name]: string;
+  [inputNames.last_name]: string;
   [inputNames.address_1]: string;
   [inputNames.address_2]: string;
-  [inputNames.state]: string;
   [inputNames.city]: string;
+  [inputNames.state]: string;
   [inputNames.zip_code]: string;
+  [inputNames.phone]: string;
 }
 
 // the totalQty of a specific product was added to the cart also when
@@ -37,13 +41,10 @@ export interface CurrentUser {
   cart: CartItem[];
   email?: string;
   userId?: string;
-  firstName?: string;
-  lastName?: string;
-  phone?: string;
-  addressInfo?: UserAddressFields;
+  userInfo?: UserInfo;
 }
 
-interface AuthErrors {
+export interface AuthErrors {
   [inputName: string]: string;
 }
 
@@ -52,10 +53,7 @@ interface SignUpBody {
   email: string;
   password: string;
   confirm_password: string;
-  firstName?: string;
-  lastName?: string;
-  phone: string;
-  addressInfo: UserAddressFields;
+  userInfo: UserInfo;
 }
 interface SignInBody {
   email: string;
@@ -126,10 +124,7 @@ const signUp = createAsyncThunk<UserState, SignUpBody, { state: RootState }>(
         email: signUpBody.email,
         password: signUpBody.password,
         confirm_password: signUpBody.confirm_password,
-        firstName: signUpBody.firstName,
-        lastName: signUpBody.lastName,
-        phone: signUpBody.phone,
-        addressInfo: signUpBody.addressInfo,
+        userInfo: signUpBody.userInfo,
       });
       return response.data;
     } catch (err: any) {
@@ -182,6 +177,35 @@ const clearCartSession = createAsyncThunk("user/clearCartSession", async () => {
   return response.data;
 });
 
+const updateUserInfo = createAsyncThunk<
+  UserState,
+  { inputValue: InputValue },
+  { state: RootState }
+>("user/updateUserInfo", async ({ inputValue }, thunkAPI) => {
+  // compare the values before sending them to server, if nothing changes
+  // return an "no_change" authErrors to the "fullfilled"
+  let userInfo = thunkAPI.getState().user.currentUser.userInfo;
+  if (userInfo !== undefined) {
+    let noChange = true;
+    for (let [key, value] of Object.entries(userInfo)) {
+      if (value !== inputValue[key]) {
+        noChange = false;
+        break;
+      }
+    }
+    if (noChange) {
+      return { authErrors: { no_change: "no_change" } };
+    }
+  }
+
+  const response = await client.post(serverUrl + "/auth/update-info", {
+    update: inputValue,
+    csrfToken: thunkAPI.getState().user.csrfToken,
+    userId: thunkAPI.getState().user.currentUser.userId,
+  });
+  return response.data;
+});
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -194,6 +218,9 @@ const userSlice = createSlice({
     },
     setCsrfToken(state, action: PayloadAction<string>) {
       state.csrfToken = action.payload;
+    },
+    setLoadingStatus(state, action: PayloadAction<string>) {
+      state.loadingStatus = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -294,12 +321,34 @@ const userSlice = createSlice({
         (state, action: PayloadAction<UserState>): void => {
           state.currentUser = action.payload.currentUser;
         }
-      );
+      )
+      /////////////////
+      // UPDATE INFO //
+      /////////////////
+      .addCase(
+        updateUserInfo.fulfilled,
+        (state, action: PayloadAction<UserState>): void => {
+          if (action.payload.authErrors !== undefined) {
+            state.authErrors["no_change"] = "You did not change anything";
+            state.loadingStatus = "idle";
+          } else {
+            state.currentUser = action.payload.currentUser;
+            state.loadingStatus = "succeeded";
+          }
+        }
+      )
+      .addCase(updateUserInfo.pending, (state): void => {
+        state.loadingStatus = "loading";
+      });
   },
 });
 
-export const { clearAuthErrors, setChangeInCart, setCsrfToken } =
-  userSlice.actions;
+export const {
+  clearAuthErrors,
+  setChangeInCart,
+  setCsrfToken,
+  setLoadingStatus,
+} = userSlice.actions;
 export {
   signIn,
   signOut,
@@ -309,6 +358,7 @@ export {
   directChangeQty,
   removeFromCartSession,
   clearCartSession,
+  updateUserInfo,
 };
 
 export default userSlice.reducer;

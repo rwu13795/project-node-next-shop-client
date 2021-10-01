@@ -10,15 +10,17 @@ import { useDispatch } from "react-redux";
 import { directChangeQty } from "../../utils/redux-store/userSlice";
 
 interface Props {
-  quantity: string;
+  quantity: number;
+  disabled: boolean;
   totalQty: number;
-  setQuantity?: Dispatch<SetStateAction<string>>;
+  setQuantity?: Dispatch<SetStateAction<number>>;
   directChange?: boolean;
   index?: number;
 }
 
 export default function SelectQuantity({
   quantity,
+  disabled,
   totalQty,
   setQuantity,
   directChange,
@@ -26,11 +28,14 @@ export default function SelectQuantity({
 }: Props): JSX.Element {
   const [qtyArray] = useState<number[]>(() => {
     let arr = [];
+    console.log(totalQty);
     if (totalQty > 0 && totalQty <= 5) {
       for (let i = 1; i <= totalQty; i++) {
         arr.push(i);
       }
       return arr;
+    } else if (totalQty <= 0) {
+      return [0];
     } else {
       return [1, 2, 3, 4, 5, 6, 7, 8, 9];
     }
@@ -38,15 +43,18 @@ export default function SelectQuantity({
 
   const dispatch = useDispatch();
 
-  const changeHandler = (e: SelectChangeEvent<string>) => {
+  const changeHandler = (e: SelectChangeEvent<number>) => {
     if (directChange && index !== undefined) {
-      console.log("direct change index", index);
-      dispatch(directChangeQty({ quantity: parseInt(e.target.value), index }));
-      return;
+      if (typeof e.target.value === "number") {
+        dispatch(directChangeQty({ quantity: e.target.value, index }));
+        return;
+      }
     }
     if (setQuantity) {
-      setQuantity(e.target.value);
-      return;
+      if (typeof e.target.value === "number") {
+        setQuantity(e.target.value);
+        return;
+      }
     }
   };
 
@@ -59,7 +67,7 @@ export default function SelectQuantity({
         label="Quantity"
         sx={{ m: 0, minWidth: 130 }}
         onChange={changeHandler}
-        disabled={totalQty === 0}
+        disabled={totalQty === 0 || disabled}
       >
         {qtyArray.map((q) => {
           return (

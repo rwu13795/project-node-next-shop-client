@@ -47,7 +47,8 @@ export default function CartDetail({
             <div>size: {item.size}</div>
             {!cartDropDown && (
               <SelectQuantity
-                quantity={item.quantity.toString()}
+                quantity={item.quantity}
+                disabled={item.size === ""}
                 // the totalQty of a specific product was added to the cart also when
                 // user add this product to cart, so that I can map the "SelectQuantity"
                 // in the cartDetail without making request to the server again

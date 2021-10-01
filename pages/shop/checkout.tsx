@@ -50,17 +50,17 @@ const CheckoutPage: NextPage = ({}) => {
       dispatch(
         loadUserInfo({
           addressInfo: {
-            [inputNames.first_name]: currentUser.firstName!,
-            [inputNames.last_name]: currentUser.lastName!,
-            [inputNames.address_1]: currentUser.addressInfo!.address_1,
-            [inputNames.address_2]: currentUser.addressInfo!.address_2,
-            [inputNames.state]: currentUser.addressInfo!.state,
-            [inputNames.city]: currentUser.addressInfo!.city,
-            [inputNames.zip_code]: currentUser.addressInfo!.zip_code,
+            [inputNames.first_name]: currentUser.userInfo!.first_name,
+            [inputNames.last_name]: currentUser.userInfo!.last_name,
+            [inputNames.address_1]: currentUser.userInfo!.address_1,
+            [inputNames.address_2]: currentUser.userInfo!.address_2,
+            [inputNames.city]: currentUser.userInfo!.city,
+            [inputNames.state]: currentUser.userInfo!.state,
+            [inputNames.zip_code]: currentUser.userInfo!.zip_code,
           },
           contactInfo: {
             [inputNames.email]: currentUser.email!,
-            [inputNames.phone]: currentUser.phone!,
+            [inputNames.phone]: currentUser.userInfo!.phone,
           },
         })
       );

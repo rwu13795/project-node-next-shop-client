@@ -1,11 +1,13 @@
 import { useState } from "react";
+import Link from "next/link";
+
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 
-import AuthForm from "./auth-form";
+import AuthForm from "./sign-in-up";
 import { inputFieldsArray } from "../../pages/auth/sign-in";
 import { inputTypes } from "../../utils/enums-types/input-types";
 
@@ -22,12 +24,18 @@ const style = {
   p: 4,
 };
 
-export default function SignInModal(): JSX.Element {
+export default function SignInModal({ page }: { page?: string }): JSX.Element {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  return (
+  return page === "sign-up" ? (
+    <Link href="/auth/sign-in">
+      <a>
+        <Button variant="contained">Sign In</Button>{" "}
+      </a>
+    </Link>
+  ) : (
     <div>
       <Button variant="contained" onClick={handleOpen}>
         Sign In
@@ -47,8 +55,8 @@ export default function SignInModal(): JSX.Element {
           <Box sx={style}>
             <AuthForm
               inputType={inputTypes.signIn}
-              inputFields={inputFieldsArray}
-              handleClose={handleClose}
+              inputFieldsArray={inputFieldsArray}
+              modalHandleClose={handleClose}
             />
           </Box>
         </Fade>

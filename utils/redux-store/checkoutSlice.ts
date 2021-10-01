@@ -8,7 +8,7 @@ import { RootState } from ".";
 import browserClient from "../axios-client/browser-client";
 
 import { inputNames } from "../enums-types/input-names";
-import { InputValue } from "../react-hooks/input-error-check";
+import { InputValue } from "../helper-functions/input-error-check";
 import { CurrentUser } from "./userSlice";
 
 interface PaymentDetail {
@@ -16,16 +16,6 @@ interface PaymentDetail {
   payment_method: string | null | undefined;
   payment_id: string | null | undefined;
   payment_status: string | null | undefined;
-}
-
-interface CheckoutAddressInfo {
-  [inputNames.first_name]: string;
-  [inputNames.last_name]: string;
-  [inputNames.address_1]: string;
-  [inputNames.address_2]: string;
-  [inputNames.state]: string;
-  [inputNames.city]: string;
-  [inputNames.zip_code]: string;
 }
 
 // have to use InputValue interface for all these states
@@ -48,8 +38,8 @@ export const addressFields = [
   inputNames.last_name,
   inputNames.address_1,
   inputNames.address_2,
-  inputNames.state,
   inputNames.city,
+  inputNames.state,
   inputNames.zip_code,
 ];
 

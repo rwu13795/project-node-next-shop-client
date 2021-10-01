@@ -13,7 +13,7 @@ import SelectQuantity from "../../components/shop/select-quantity";
 import {
   Errors,
   onChangeErrorCheck,
-} from "../../utils/react-hooks/input-error-check";
+} from "../../utils/helper-functions/input-error-check";
 import { inputNames } from "../../utils/enums-types/input-names";
 import {
   addToCartSession,

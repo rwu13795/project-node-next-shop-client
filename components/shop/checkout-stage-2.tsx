@@ -17,10 +17,11 @@ import {
   onChangeErrorCheck,
   onFocusErrorCheck,
   onSubmitErrorCheck,
-} from "../../utils/react-hooks/input-error-check";
-import { inputNames } from "../../utils/enums-types/input-names";
-import { Touched, Errors } from "../../utils/react-hooks/input-error-check";
-import FormInputField from "../auth/form-input-field";
+} from "../../utils/helper-functions/input-error-check";
+import {
+  Touched,
+  Errors,
+} from "../../utils/helper-functions/input-error-check";
 import { inputTypes } from "../../utils/enums-types/input-types";
 import {
   selectBillingAddress,
@@ -30,7 +31,7 @@ import {
 } from "../../utils/redux-store/checkoutSlice";
 import { AllowedStages } from "../../pages/shop/checkout";
 import { TextFieldStyled } from "../../styles/mui-custom-styled-components";
-import SelectState from "../auth/select-state";
+import renderInputFields from "../../utils/helper-functions/render-input-fields";
 
 interface Props {
   setStage: Dispatch<SetStateAction<string>>;
@@ -115,32 +116,15 @@ export default function CheckoutStage_2({
     setErrors({});
   };
 
-  const renderFields = () => {
-    return addressFields.map((inputName) => {
-      return inputName !== inputNames.state ? (
-        <FormInputField
-          key={inputName}
-          inputName={inputName}
-          inputValue={billingAddress[inputName]}
-          onFocus={onFocusHandler}
-          onBlur={onBlurHandler}
-          onChange={onChangeHandler}
-          // authError={authErrors[inputName]}
-          inputError={errors[inputName]}
-        />
-      ) : (
-        <div key={inputName}>
-          <SelectState
-            value={billingAddress[inputName]}
-            inputName={inputName}
-            onFocusHandler={onFocusHandler}
-            onBlurHandler={onBlurHandler}
-            onChangeHandler={onChangeHandler}
-          />
-          {errors[inputName]}
-        </div>
-      );
-    });
+  const inputFields = (fields: string[], inputValue: InputValue) => {
+    return renderInputFields(
+      fields,
+      inputValue,
+      errors,
+      onFocusHandler,
+      onBlurHandler,
+      onChangeHandler
+    );
   };
 
   return (
@@ -151,7 +135,7 @@ export default function CheckoutStage_2({
           <Checkbox onChange={checkboxHandler} checked={boxChecked} />
           USE MY SHIPPING ADDRESS FOR BILLING
         </div>
-        {renderFields()}
+        {inputFields(addressFields, billingAddress)}
         <div style={{ border: "red 2px solid" }}>
           <TextFieldStyled
             label="CARD"

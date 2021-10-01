@@ -12,7 +12,7 @@ import { inputNames } from "../../utils/enums-types/input-names";
 import {
   Errors,
   onChangeErrorCheck,
-} from "../../utils/react-hooks/input-error-check";
+} from "../../utils/helper-functions/input-error-check";
 import {
   addToCartSession,
   CartItem,
@@ -35,7 +35,7 @@ export default function ProductDetail({
   editItem,
   handleClose,
 }: Props): JSX.Element {
-  const { productInfo, colorPropsList } = product;
+  const { productInfo, colorPropsList, _id } = product;
   const dispatch = useDispatch();
   // const cartState = useSelector(selectCart);
 
@@ -45,13 +45,20 @@ export default function ProductDetail({
     colorPropsList[0]
   );
   // if in editMode, initailize the props with the selected info in the current cart
-  const [selectedSize, setSelectedSize] = useState<string | undefined>(() => {
+  const [selectedSize, setSelectedSize] = useState<string>(() => {
     if (editMode && editItem) return editItem.size;
+    // for (let [key, value] of Object.entries(colorPropsList[0].sizes)) {
+    //   if (value > 0) {
+    //     return key;
+    //   }
+    // }
+    // return "medium";
+    return "";
   });
-  const [quantity, setQuantity] = useState<string>(() => {
+  const [quantity, setQuantity] = useState<number>(() => {
     if (editMode && editItem) {
-      return editItem.quantity.toString();
-    } else return "1";
+      return editItem.quantity;
+    } else return 1;
   });
   const [errors, setErrors] = useState<Errors>({});
 
@@ -66,13 +73,14 @@ export default function ProductDetail({
       setErrors({ [inputNames.size]: "please select a size" });
       return;
     }
+
     const item = {
       imageUrl: currentColor.imageFiles[0],
       title: productInfo.title,
       main_cat: productInfo.main_cat,
-      productId: product._id,
+      productId: _id,
       price: productInfo.price,
-      quantity: parseInt(quantity),
+      quantity: quantity,
       size: selectedSize,
       colorName: currentColor.colorName,
       totalQty: currentColor.sizes[selectedSize],
@@ -82,6 +90,10 @@ export default function ProductDetail({
     }
     dispatch(addToCartSession({ item, editMode, index }));
   };
+
+  ///
+  console.log(currentColor.sizes);
+  ////
 
   return (
     <main>
@@ -127,11 +139,16 @@ export default function ProductDetail({
           );
         })}
       </div>
-      <SelectSize selectedSize={selectedSize} sizeHandler={sizeHandler} />
+      <SelectSize
+        selectedSize={selectedSize}
+        sizeHandler={sizeHandler}
+        currentColor={currentColor}
+      />
       {errors[inputNames.size]}
       <SelectQuantity
         quantity={quantity}
-        totalQty={selectedSize ? currentColor.sizes[selectedSize] : 0}
+        disabled={selectedSize === ""}
+        totalQty={selectedSize === "" ? 0 : currentColor.sizes[selectedSize]}
         setQuantity={setQuantity}
       />
       <div>

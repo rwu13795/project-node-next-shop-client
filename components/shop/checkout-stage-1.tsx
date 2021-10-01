@@ -15,10 +15,12 @@ import {
   onChangeErrorCheck,
   onFocusErrorCheck,
   onSubmitErrorCheck,
-} from "../../utils/react-hooks/input-error-check";
+} from "../../utils/helper-functions/input-error-check";
 import { inputNames } from "../../utils/enums-types/input-names";
-import { Touched, Errors } from "../../utils/react-hooks/input-error-check";
-import FormInputField from "../auth/form-input-field";
+import {
+  Touched,
+  Errors,
+} from "../../utils/helper-functions/input-error-check";
 import { inputTypes } from "../../utils/enums-types/input-types";
 import {
   selectShippingAddress,
@@ -29,8 +31,7 @@ import {
   setContactInfo,
 } from "../../utils/redux-store/checkoutSlice";
 import { AllowedStages } from "../../pages/shop/checkout";
-
-import SelectState from "../auth/select-state";
+import renderInputFields from "../../utils/helper-functions/render-input-fields";
 
 interface Props {
   setStage: Dispatch<SetStateAction<string>>;
@@ -47,7 +48,6 @@ export default function CheckoutStage_1({
 
   const [errors, setErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Touched>({});
-  const [boxChecked, setBoxChecked] = useState<boolean>(true);
 
   const onFocusHandler = (e: FocusEvent<HTMLInputElement>) => {
     const { name } = e.currentTarget;
@@ -82,41 +82,52 @@ export default function CheckoutStage_1({
     setAllowedStages({ two: true, three: false });
   };
 
-  const renderFields = (fieldsArray: string[], inputValue: InputValue) => {
-    return fieldsArray.map((inputName) => {
-      return inputName !== inputNames.state ? (
-        <FormInputField
-          key={inputName}
-          inputName={inputName}
-          inputValue={inputValue[inputName]}
-          onFocus={onFocusHandler}
-          onBlur={onBlurHandler}
-          onChange={onChangeHandler}
-          // authError={authErrors[inputName]}
-          inputError={errors[inputName]}
-        />
-      ) : (
-        <div key={inputName}>
-          <SelectState
-            value={inputValue[inputName]}
-            inputName={inputName}
-            onFocusHandler={onFocusHandler}
-            onBlurHandler={onBlurHandler}
-            onChangeHandler={onChangeHandler}
-          />
-          {errors[inputName]}
-        </div>
-      );
-    });
+  // const renderFields = (fieldsArray: string[], inputValue: InputValue) => {
+  //   return fieldsArray.map((inputName) => {
+  //     return inputName !== inputNames.state ? (
+  //       <FormInputField
+  //         key={inputName}
+  //         inputName={inputName}
+  //         inputValue={inputValue[inputName]}
+  //         onFocus={onFocusHandler}
+  //         onBlur={onBlurHandler}
+  //         onChange={onChangeHandler}
+  //         // authError={authErrors[inputName]}
+  //         inputError={errors[inputName]}
+  //       />
+  //     ) : (
+  //       <div key={inputName}>
+  //         <SelectState
+  //           value={inputValue[inputName]}
+  //           inputName={inputName}
+  //           onFocusHandler={onFocusHandler}
+  //           onBlurHandler={onBlurHandler}
+  //           onChangeHandler={onChangeHandler}
+  //         />
+  //         {errors[inputName]}
+  //       </div>
+  //     );
+  //   });
+  // };
+
+  const inputFields = (fields: string[], inputValue: InputValue) => {
+    return renderInputFields(
+      fields,
+      inputValue,
+      errors,
+      onFocusHandler,
+      onBlurHandler,
+      onChangeHandler
+    );
   };
 
   return (
     <main>
       <div>
         <h3>SHIPPING ADDRESS</h3>
-        {renderFields(addressFields, shippingAddress)}
+        {inputFields(addressFields, shippingAddress)}
         <h3>CONTACT INFO</h3>
-        {renderFields(contactFields, contactInfo)}
+        {inputFields(contactFields, contactInfo)}
       </div>
       <div>
         <button onClick={stageChangeHandler}>CONTINUE</button>

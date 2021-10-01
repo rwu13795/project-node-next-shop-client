@@ -3,7 +3,7 @@ import { useState } from "react";
 import browserClient from "../../utils/axios-client/browser-client";
 import { inputNames } from "../enums-types/input-names";
 import { ReducerColorProps, ReducerProductInfo } from "./add-product-reducer";
-import { Errors } from "./input-error-check";
+import { Errors } from "../helper-functions/input-error-check";
 
 interface ColorPropsForUpload {
   colorName: string;

@@ -6,7 +6,7 @@ import { AddInfoEvents } from "../../pages/admin/add-product";
 import {
   Errors,
   onChangeErrorCheck,
-} from "../../utils/react-hooks/input-error-check";
+} from "../../utils/helper-functions/input-error-check";
 
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
