@@ -32,4 +32,7 @@ export enum inputNames {
   // cart
   size = "size",
   quantity = "quantity",
+
+  // admin
+  admin_id = "admin_id",
 }

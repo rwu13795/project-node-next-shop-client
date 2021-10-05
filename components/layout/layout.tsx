@@ -3,12 +3,15 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { theme } from "../../styles/mui-theme";
+import styles from "./layout.module.css";
+
 import MainNavigation from "./main-navigation";
 import {
   checkStock,
   getUserStatus,
   selectIsLoggedIn,
 } from "../../utils/redux-store/userSlice";
+import Footer from "./footer";
 
 interface Prop {
   children: React.ReactNode;
@@ -21,10 +24,10 @@ export default function Layout(props: Prop): JSX.Element {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("getting user auth in Layout");
+    if (props.page !== "admin") console.log("getting user auth in Layout");
     dispatch(getUserStatus());
     dispatch(checkStock());
-  }, [dispatch]);
+  }, [dispatch, props.page]);
 
   console.log("in layout -- current page:", props.page);
 
@@ -36,9 +39,14 @@ export default function Layout(props: Prop): JSX.Element {
   return (
     // the <ThemeProvider> here will provide theme for all MUI components inside
     // all the pages
-    <ThemeProvider theme={theme}>
-      <MainNavigation page={props.page} />
-      <main>{props.children}</main>
-    </ThemeProvider>
+    <main style={{ position: "relative", minHeight: "100vh" }}>
+      <ThemeProvider theme={theme}>
+        <MainNavigation page={props.page} />
+        <div className={styles.body}>
+          <main>{props.children}</main>
+        </div>
+        <Footer />
+      </ThemeProvider>
+    </main>
   );
 }

@@ -2,7 +2,7 @@ import type { GetServerSidePropsContext, NextPage } from "next";
 
 import serverClient from "../../utils/axios-client/server-client";
 
-import AuthForm from "../../components/auth/sign-in-up";
+import AuthForm from "../../components/auth/sign-in-up-form";
 import { inputTypes } from "../../utils/enums-types/input-types";
 import { inputNames } from "../../utils/enums-types/input-names";
 
@@ -37,7 +37,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   // if the user loads this sign-in page directly using the url
   // I should check the user-auth before rendering the page
   const { data } = await client.get(
-    "http://localhost:5000/api/auth/auth-status"
+    "http://localhost:5000/api/auth/user-status"
   );
 
   console.log(data);

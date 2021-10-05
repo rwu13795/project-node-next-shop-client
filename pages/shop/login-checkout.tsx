@@ -4,7 +4,7 @@ import { useRouter } from "next/dist/client/router";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-import AuthForm from "../../components/auth/sign-in-up";
+import AuthForm from "../../components/auth/sign-in-up-form";
 import { inputTypes } from "../../utils/enums-types/input-types";
 import {
   selectCurrentUser,

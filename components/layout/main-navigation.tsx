@@ -12,6 +12,7 @@ import {
 } from "../../utils/redux-store/userSlice";
 import SignInModal from "../auth/sign-in-modal";
 import CartIcon from "../shop/cart-icon";
+import { useRouter } from "next/dist/client/router";
 
 interface Props {
   page?: string;
@@ -21,14 +22,13 @@ export default function MainNavigation({ page }: Props) {
   const currentUser = useSelector(selectCurrentUser);
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const signOutHandler = async () => {
     dispatch(signOut());
     // re-acquire a "guest" session after signing out
     // have to wait a few seconds for the mongoDB destoying the old session
-    setTimeout(() => {
-      dispatch(getUserStatus());
-    }, 2000);
+    router.push("/");
   };
 
   return (
@@ -40,7 +40,7 @@ export default function MainNavigation({ page }: Props) {
               <a>logo</a>
             </Link>
           </div>
-          {page !== "a" && (
+          {page !== "admin" && (
             <Fragment>
               <div>
                 <Link href="/shop/women">
@@ -57,20 +57,20 @@ export default function MainNavigation({ page }: Props) {
                   <a>KIDS</a>
                 </Link>
               </div>
+
+              <div style={{ textAlign: "right" }}>
+                {isLoggedIn ? (
+                  <Fragment>
+                    <div>Welcome back {currentUser.username}</div>
+                    <button onClick={signOutHandler}>Sign Out</button>
+                  </Fragment>
+                ) : (
+                  <SignInModal page={page} />
+                )}
+                <CartIcon />
+              </div>
             </Fragment>
           )}
-
-          <div style={{ textAlign: "right" }}>
-            {isLoggedIn ? (
-              <Fragment>
-                <div>Welcome back {currentUser.username}</div>
-                <button onClick={signOutHandler}>Sign Out</button>
-              </Fragment>
-            ) : (
-              <SignInModal page={page} />
-            )}
-            <CartIcon />
-          </div>
         </section>
       </main>
     </Fragment>

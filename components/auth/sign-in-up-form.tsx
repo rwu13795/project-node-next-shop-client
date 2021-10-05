@@ -79,6 +79,7 @@ export default function AuthForm({
     onChangeErrorCheck(name, value, setErrors);
   };
 
+  /* * *  User sign in/up   * * */
   const singInHandler = () => {
     const hasError = onSubmitErrorCheck(inputValue, errors, setErrors);
     if (hasError) return;
@@ -87,7 +88,6 @@ export default function AuthForm({
       signIn({ email: inputValue.email, password: inputValue.password })
     );
   };
-
   const singUpHandler = () => {
     const hasError = onSubmitErrorCheck(inputValue, errors, setErrors);
     if (hasError) return;
@@ -111,6 +111,10 @@ export default function AuthForm({
     );
   };
 
+  /* * *  Admin sign in/up   * * */
+  const adminSignInHandler = () => {};
+  const adminRegisterHandler = () => {};
+
   const inputFields = (fields: string[], inputValue: InputValue) => {
     return renderInputFields(
       fields,
@@ -124,64 +128,127 @@ export default function AuthForm({
   };
 
   let content;
-  if (inputType === inputTypes.signIn) {
-    content = (
-      <div>
-        {inputFields(inputFieldsArray, inputValue)}
+  switch (inputType) {
+    case inputTypes.signIn: {
+      content = (
         <div>
-          <button
-            onClick={singInHandler}
-            disabled={loadingStatus === "loading"}
-          >
-            Sign In
-          </button>
-          {loadingStatus === "loading" && (
-            <CircularProgress
-              size={45}
-              sx={{
-                position: "absolute",
-                top: "40%",
-                left: "46%",
-                // marginTop: "-12px",
-                // marginLeft: "-12px",
-              }}
-            />
-          )}
-        </div>
-        <hr />
-        <div>
-          <Link href="/auth/sign-up">
-            <a onClick={modalHandleClose}>Create a new account</a>
-          </Link>
-        </div>
-      </div>
-    );
-  } else {
-    content =
-      loadingStatus !== "succeeded" ? (
-        <div>
-          <Link href="/auth/sign-in">
-            <a>
-              <Button variant="contained">Sign In</Button>
-            </a>
-          </Link>
-          <span> Have a existing account?</span>
-          <hr />
           {inputFields(inputFieldsArray, inputValue)}
           <div>
-            <Button
-              variant="contained"
-              onClick={singUpHandler}
-              disabled={loadingStatus !== "idle"}
+            <button
+              onClick={singInHandler}
+              disabled={loadingStatus === "loading"}
             >
-              CREATE ACCOUNT
-            </Button>
+              Sign In
+            </button>
+            {loadingStatus === "loading" && (
+              <CircularProgress
+                size={45}
+                sx={{
+                  position: "absolute",
+                  top: "40%",
+                  left: "46%",
+                  // marginTop: "-12px",
+                  // marginLeft: "-12px",
+                }}
+              />
+            )}
           </div>
-          {loadingStatus === "loading" && <CircularProgress />}
+          <hr />
+          <div>
+            <Link href="/auth/sign-up">
+              <a onClick={modalHandleClose}>Create a new account</a>
+            </Link>
+          </div>
         </div>
-      ) : (
-        <Redirect_signedUp_to_homePage />
       );
+      break;
+    }
+    case inputTypes.signUp: {
+      content =
+        loadingStatus !== "succeeded" ? (
+          <div>
+            <Link href="/auth/sign-in">
+              <a>
+                <Button variant="contained">Sign In</Button>
+              </a>
+            </Link>
+            <span> Have a existing account?</span>
+            <hr />
+            {inputFields(inputFieldsArray, inputValue)}
+            <div>
+              <Button
+                variant="contained"
+                onClick={singUpHandler}
+                disabled={loadingStatus !== "idle"}
+              >
+                CREATE ACCOUNT
+              </Button>
+            </div>
+            {loadingStatus === "loading" && <CircularProgress />}
+          </div>
+        ) : (
+          <Redirect_signedUp_to_homePage />
+        );
+      break;
+    }
+    case inputTypes.adminSignIn: {
+      content = (
+        <div>
+          {inputFields(inputFieldsArray, inputValue)}
+          <div>
+            <button
+              onClick={adminSignInHandler}
+              disabled={loadingStatus === "loading"}
+            >
+              Sign In
+            </button>
+            {loadingStatus === "loading" && (
+              <CircularProgress
+                size={45}
+                sx={{
+                  position: "absolute",
+                  top: "40%",
+                  left: "46%",
+                  // marginTop: "-12px",
+                  // marginLeft: "-12px",
+                }}
+              />
+            )}
+          </div>
+        </div>
+      );
+      break;
+    }
+    case inputTypes.adminRegister: {
+      content = (
+        <div>
+          {inputFields(inputFieldsArray, inputValue)}
+          <div>
+            <button
+              onClick={adminRegisterHandler}
+              disabled={loadingStatus === "loading"}
+            >
+              Register
+            </button>
+            {loadingStatus === "loading" && (
+              <CircularProgress
+                size={45}
+                sx={{
+                  position: "absolute",
+                  top: "40%",
+                  left: "46%",
+                  // marginTop: "-12px",
+                  // marginLeft: "-12px",
+                }}
+              />
+            )}
+          </div>
+        </div>
+      );
+      break;
+    }
+    default:
+      break;
   }
 
   return <main>{content}</main>;

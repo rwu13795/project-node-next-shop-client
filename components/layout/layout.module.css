@@ -1,0 +1,8 @@
+.page_container {
+  position: "relative";
+  min-height: "100vh";
+}
+
+.body {
+  padding-bottom: 3.5rem;
+}

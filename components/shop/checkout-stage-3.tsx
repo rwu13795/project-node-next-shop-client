@@ -8,9 +8,11 @@ import { Button } from "@mui/material";
 import browserClient from "../../utils/axios-client/browser-client";
 import { createOrderHistory } from "../../utils/redux-store/checkoutSlice";
 import {
+  clearCartSession,
   selectCsrfToken,
   selectCurrentUser,
   selectTotalAmount,
+  updateQuantity,
 } from "../../utils/redux-store/userSlice";
 import { useState } from "react";
 import PaymentProcessingModal from "./payment-processing-modal";
@@ -82,6 +84,7 @@ export default function CheckoutStage_3({
           },
         })
       );
+      dispatch(updateQuantity());
       router.push("/shop/payment-successful");
     }
   };

@@ -86,23 +86,27 @@ export default function addProductReducer(
     case Actions.addImage: {
       const { listIndex, newImage } = action.payload;
       return produce(state, (newState) => {
-        newState.colorPropsList[listIndex].imageFiles.push(newImage);
-        newState.colorPropsList[listIndex].imageCount =
-          newState.colorPropsList[listIndex].imageFiles.length;
+        if (newImage !== undefined) {
+          newState.colorPropsList[listIndex].imageFiles.push(newImage);
+          newState.colorPropsList[listIndex].imageCount =
+            newState.colorPropsList[listIndex].imageFiles.length;
+        }
       });
     }
     case Actions.replaceImage: {
       const { listIndex, newImage, imageIndex, editMode } = action.payload;
       return produce(state, (newState) => {
-        let oldImage =
-          newState.colorPropsList[listIndex].imageFiles[imageIndex];
-        if (editMode && typeof oldImage === "string") {
-          if (newState.deletedImages === undefined) {
-            newState.deletedImages = [];
+        if (newImage !== undefined) {
+          let oldImage =
+            newState.colorPropsList[listIndex].imageFiles[imageIndex];
+          if (editMode && typeof oldImage === "string") {
+            if (newState.deletedImages === undefined) {
+              newState.deletedImages = [];
+            }
+            newState.deletedImages.push(oldImage);
           }
-          newState.deletedImages.push(oldImage);
+          newState.colorPropsList[listIndex].imageFiles[imageIndex] = newImage;
         }
-        newState.colorPropsList[listIndex].imageFiles[imageIndex] = newImage;
       });
     }
     case Actions.removeImage: {

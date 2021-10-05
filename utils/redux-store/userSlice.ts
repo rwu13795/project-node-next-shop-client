@@ -212,6 +212,11 @@ const checkStock = createAsyncThunk<CartItem[]>("user/checkStock", async () => {
   return response.data;
 });
 
+const updateQuantity = createAsyncThunk("user/updateQuantity", async () => {
+  const response = await client.put(serverUrl + "/products/update-quantity");
+  console.log(response);
+});
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -392,6 +397,7 @@ export {
   clearCartSession,
   updateUserInfo,
   checkStock,
+  updateQuantity,
 };
 
 export default userSlice.reducer;

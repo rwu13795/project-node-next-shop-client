@@ -5,8 +5,8 @@ import { clearCartSession } from "../../utils/redux-store/userSlice";
 
 const PaymentSuccessful: NextPage = ({}) => {
   const dispatch = useDispatch();
-  dispatch(clearCheckoutInfo());
   dispatch(clearCartSession());
+  dispatch(clearCheckoutInfo());
 
   return <h1>Thank you for the purchase!</h1>;
 };
