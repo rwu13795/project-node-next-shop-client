@@ -7,7 +7,7 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 
-import AuthForm from "./sign-in-up-form";
+import AuthForm from "./auth-form";
 import { inputFieldsArray } from "../../pages/auth/sign-in";
 import { inputTypes } from "../../utils/enums-types/input-types";
 

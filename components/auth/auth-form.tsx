@@ -2,6 +2,8 @@ import React, { useState, ChangeEvent, FocusEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 
+import { Button, CircularProgress, SelectChangeEvent } from "@mui/material";
+
 import {
   InputValue,
   onBlurErrorCheck,
@@ -19,12 +21,20 @@ import {
   signUp,
   clearAuthErrors,
   selectAuthErrors,
-  selectLoadingStatus,
+  selectLoadingStatus_user,
+  AuthErrors,
 } from "../../utils/redux-store/userSlice";
 import Redirect_signedUp_to_homePage from "./redirect-signed-up";
 import { inputTypes } from "../../utils/enums-types/input-types";
-import { Button, CircularProgress, SelectChangeEvent } from "@mui/material";
 import renderInputFields from "../../utils/helper-functions/render-input-fields";
+import {
+  AdminErrors,
+  adminRegister,
+  adminSignIn,
+  clearAdminErrors,
+  selectAdminErrors,
+  selectLoadingStatus_admin,
+} from "../../utils/redux-store/adminSlice";
 
 interface Props {
   inputType: string; // "signIn" | "signUp"
@@ -39,7 +49,9 @@ export default function AuthForm({
 }: Props): JSX.Element {
   const dispatch = useDispatch();
   const authErrors = useSelector(selectAuthErrors);
-  const loadingStatus = useSelector(selectLoadingStatus);
+  const adminErrors = useSelector(selectAdminErrors);
+  const loadingStatus_user = useSelector(selectLoadingStatus_user);
+  const loadingStatus_admin = useSelector(selectLoadingStatus_admin);
 
   const [errors, setErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Touched>({});
@@ -73,6 +85,7 @@ export default function AuthForm({
     const { name, value } = e.target;
 
     dispatch(clearAuthErrors(name));
+    dispatch(clearAdminErrors(name));
     setInputValue((prev) => {
       return { ...prev, [name]: value };
     });
@@ -83,7 +96,6 @@ export default function AuthForm({
   const singInHandler = () => {
     const hasError = onSubmitErrorCheck(inputValue, errors, setErrors);
     if (hasError) return;
-
     dispatch(
       signIn({ email: inputValue.email, password: inputValue.password })
     );
@@ -91,7 +103,6 @@ export default function AuthForm({
   const singUpHandler = () => {
     const hasError = onSubmitErrorCheck(inputValue, errors, setErrors);
     if (hasError) return;
-
     dispatch(
       signUp({
         email: inputValue[inputNames.email],
@@ -112,10 +123,34 @@ export default function AuthForm({
   };
 
   /* * *  Admin sign in/up   * * */
-  const adminSignInHandler = () => {};
-  const adminRegisterHandler = () => {};
+  const adminSignInHandler = () => {
+    const hasError = onSubmitErrorCheck(inputValue, errors, setErrors);
+    if (hasError) return;
+    console.log("adminSignIn");
+    dispatch(
+      adminSignIn({
+        admin_id: inputValue[inputNames.admin_id],
+        password: inputValue[inputNames.password],
+      })
+    );
+  };
+  const adminRegisterHandler = () => {
+    const hasError = onSubmitErrorCheck(inputValue, errors, setErrors);
+    if (hasError) return;
+    dispatch(
+      adminRegister({
+        admin_id: inputValue[inputNames.admin_id],
+        password: inputValue[inputNames.password],
+        confirm_password: inputValue[inputNames.confirm_password],
+      })
+    );
+  };
 
-  const inputFields = (fields: string[], inputValue: InputValue) => {
+  const inputFields = (
+    fields: string[],
+    inputValue: InputValue,
+    requestError: AuthErrors | AdminErrors
+  ) => {
     return renderInputFields(
       fields,
       inputValue,
@@ -123,7 +158,7 @@ export default function AuthForm({
       onFocusHandler,
       onBlurHandler,
       onChangeHandler,
-      authErrors
+      requestError
     );
   };
 
@@ -132,15 +167,15 @@ export default function AuthForm({
     case inputTypes.signIn: {
       content = (
         <div>
-          {inputFields(inputFieldsArray, inputValue)}
+          {inputFields(inputFieldsArray, inputValue, authErrors)}
           <div>
             <button
               onClick={singInHandler}
-              disabled={loadingStatus === "loading"}
+              disabled={loadingStatus_user === "loading"}
             >
               Sign In
             </button>
-            {loadingStatus === "loading" && (
+            {loadingStatus_user === "loading" && (
               <CircularProgress
                 size={45}
                 sx={{
@@ -165,7 +200,7 @@ export default function AuthForm({
     }
     case inputTypes.signUp: {
       content =
-        loadingStatus !== "succeeded" ? (
+        loadingStatus_user !== "succeeded" ? (
           <div>
             <Link href="/auth/sign-in">
               <a>
@@ -174,17 +209,17 @@ export default function AuthForm({
             </Link>
             <span> Have a existing account?</span>
             <hr />
-            {inputFields(inputFieldsArray, inputValue)}
+            {inputFields(inputFieldsArray, inputValue, authErrors)}
             <div>
               <Button
                 variant="contained"
                 onClick={singUpHandler}
-                disabled={loadingStatus !== "idle"}
+                disabled={loadingStatus_user !== "idle"}
               >
                 CREATE ACCOUNT
               </Button>
             </div>
-            {loadingStatus === "loading" && <CircularProgress />}
+            {loadingStatus_user === "loading" && <CircularProgress />}
           </div>
         ) : (
           <Redirect_signedUp_to_homePage />
@@ -194,15 +229,15 @@ export default function AuthForm({
     case inputTypes.adminSignIn: {
       content = (
         <div>
-          {inputFields(inputFieldsArray, inputValue)}
+          {inputFields(inputFieldsArray, inputValue, adminErrors)}
           <div>
             <button
               onClick={adminSignInHandler}
-              disabled={loadingStatus === "loading"}
+              disabled={loadingStatus_admin === "loading"}
             >
               Sign In
             </button>
-            {loadingStatus === "loading" && (
+            {loadingStatus_admin === "loading" && (
               <CircularProgress
                 size={45}
                 sx={{
@@ -222,15 +257,15 @@ export default function AuthForm({
     case inputTypes.adminRegister: {
       content = (
         <div>
-          {inputFields(inputFieldsArray, inputValue)}
+          {inputFields(inputFieldsArray, inputValue, adminErrors)}
           <div>
             <button
               onClick={adminRegisterHandler}
-              disabled={loadingStatus === "loading"}
+              disabled={loadingStatus_admin === "loading"}
             >
               Register
             </button>
-            {loadingStatus === "loading" && (
+            {loadingStatus_admin === "loading" && (
               <CircularProgress
                 size={45}
                 sx={{

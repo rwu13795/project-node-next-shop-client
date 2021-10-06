@@ -2,7 +2,7 @@ import type { GetServerSidePropsContext, NextPage } from "next";
 
 import serverClient from "../../utils/axios-client/server-client";
 
-import AuthForm from "../../components/auth/sign-in-up-form";
+import AuthForm from "../../components/auth/auth-form";
 import { inputTypes } from "../../utils/enums-types/input-types";
 import { inputNames } from "../../utils/enums-types/input-names";
 

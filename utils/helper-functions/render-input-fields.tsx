@@ -6,6 +6,7 @@ import { Errors, InputValue } from "./input-error-check";
 import FormInputField from "../../components/auth/form-input-field";
 import SelectState from "../../components/auth/select-state";
 import { AuthErrors } from "../redux-store/userSlice";
+import { AdminErrors } from "../redux-store/adminSlice";
 
 export default function renderInputFields(
   fieldsArray: string[],
@@ -16,7 +17,7 @@ export default function renderInputFields(
   onChangeHandler: (
     e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>
   ) => void,
-  authErrors?: AuthErrors
+  authErrors?: AuthErrors | AdminErrors
 ): JSX.Element[] {
   return fieldsArray.map((inputName) => {
     return inputName !== inputNames.state ? (

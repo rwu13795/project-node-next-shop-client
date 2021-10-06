@@ -26,7 +26,15 @@ export default function Layout(props: Prop): JSX.Element {
   useEffect(() => {
     if (props.page !== "admin") console.log("getting user auth in Layout");
     dispatch(getUserStatus());
-    dispatch(checkStock());
+
+    // delay the checkstock for 1.5 second, so that the session can be created
+    // and checkStock won't trigger a duplicated session in the shop route
+    const timerId = setTimeout(() => {
+      dispatch(checkStock());
+    }, 2000);
+    return () => {
+      clearTimeout(timerId);
+    };
   }, [dispatch, props.page]);
 
   console.log("in layout -- current page:", props.page);

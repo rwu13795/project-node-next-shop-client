@@ -1,14 +1,14 @@
 import { NextPage } from "next";
 
-const AdmimHomePage: NextPage = () => {
+const AdmimProductsListPage: NextPage = () => {
   return (
     <main>
-      <div>Home page</div>
+      <div>Products list</div>
     </main>
   );
 };
 
-export default AdmimHomePage;
+export default AdmimProductsListPage;
 
 export function getStaticProps() {
   return { props: { page: "admin" } };

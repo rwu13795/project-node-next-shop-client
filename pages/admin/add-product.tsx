@@ -149,7 +149,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   if (!productId) {
     return {
-      props: {},
+      props: { page: "admin" },
     };
   }
 
@@ -166,6 +166,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         product: data.product || null,
         editMode: productId ? true : false,
         // csrfToken: data.csrfToken,
+        page: "admin",
       },
     };
   } catch (err) {
@@ -173,7 +174,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       "in add-product page catch error - something went wrong in the server"
     );
     return {
-      props: {},
+      props: { page: "admin" },
     };
   }
 }

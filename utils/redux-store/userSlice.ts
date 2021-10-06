@@ -49,7 +49,6 @@ export interface AuthErrors {
   [inputName: string]: string;
 }
 
-// need to add address
 interface SignUpBody {
   email: string;
   password: string;
@@ -414,7 +413,7 @@ export const selectIsLoggedIn = createSelector(
   [selectUser],
   (userState) => userState.isLoggedIn
 );
-export const selectLoadingStatus = createSelector(
+export const selectLoadingStatus_user = createSelector(
   [selectUser],
   (userState) => userState.loadingStatus
 );
