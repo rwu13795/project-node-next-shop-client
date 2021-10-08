@@ -129,7 +129,7 @@ export default function AuthForm({
     console.log("adminSignIn");
     dispatch(
       adminSignIn({
-        admin_id: inputValue[inputNames.admin_id],
+        admin_username: inputValue[inputNames.admin_username],
         password: inputValue[inputNames.password],
       })
     );
@@ -139,7 +139,7 @@ export default function AuthForm({
     if (hasError) return;
     dispatch(
       adminRegister({
-        admin_id: inputValue[inputNames.admin_id],
+        admin_username: inputValue[inputNames.admin_username],
         password: inputValue[inputNames.password],
         confirm_password: inputValue[inputNames.confirm_password],
       })

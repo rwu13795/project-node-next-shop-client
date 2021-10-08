@@ -5,15 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Button } from "@mui/material";
 
-import browserClient from "../../utils/axios-client/browser-client";
-import { createOrderHistory } from "../../utils/redux-store/checkoutSlice";
+import browserClient from "../../../utils/axios-client/browser-client";
+import { createOrderHistory } from "../../../utils/redux-store/checkoutSlice";
 import {
   clearCartSession,
   selectCsrfToken,
   selectCurrentUser,
   selectTotalAmount,
   updateQuantity,
-} from "../../utils/redux-store/userSlice";
+} from "../../../utils/redux-store/userSlice";
 import { useState } from "react";
 import PaymentProcessingModal from "./payment-processing-modal";
 
@@ -44,6 +44,9 @@ export default function CheckoutStage_3({
 
     let paymentIntent;
     try {
+      // the paymentIntent response will be used immediately, so I do no use the
+      // createAsyncThunk to make this request, and the csrfToken is selected from
+      // the userSlice
       const { data } = await client.post(
         "http://localhost:5000/api/shop/stripe-payment",
         {

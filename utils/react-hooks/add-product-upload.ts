@@ -21,6 +21,8 @@ const useUpload = ({
   onSuccess,
   productId,
   deletedImgaes,
+  admin_username,
+  csrfToken,
 }: {
   colorPropsList: ReducerColorProps[];
   productInfo: ReducerProductInfo;
@@ -28,6 +30,8 @@ const useUpload = ({
   onSuccess: Function;
   productId: string;
   deletedImgaes?: string[];
+  admin_username: string;
+  csrfToken: string;
 }) => {
   const client = browserClient();
 
@@ -84,6 +88,8 @@ const useUpload = ({
         colorPropsListFromClient: colorPropsUpload,
         deletedImgaes,
         productId,
+        admin_username,
+        csrfToken,
       };
 
       // the "body" cannot be put inside "req.body" directly while using FormData,
@@ -94,7 +100,7 @@ const useUpload = ({
       const response = await client.post(
         editMode
           ? "http://localhost:5000/api/admin/edit-product"
-          : "http://localhost:5000/api/admin/post-new-product",
+          : "http://localhost:5000/api/admin/add-product",
         formData
       );
 

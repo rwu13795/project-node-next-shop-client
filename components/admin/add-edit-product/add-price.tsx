@@ -1,6 +1,6 @@
-import { inputNames } from "../../utils/enums-types/input-names";
-import { ReducerProductInfo } from "../../utils/react-hooks/add-product-reducer";
-import { AddInfoEvents } from "../../pages/admin/add-product";
+import { inputNames } from "../../../utils/enums-types/input-names";
+import { ReducerProductInfo } from "../../../utils/react-hooks/add-product-reducer";
+import { AddInfoEvents } from "../../../pages/admin/add-product";
 
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;

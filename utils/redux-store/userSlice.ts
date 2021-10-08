@@ -40,6 +40,7 @@ export interface CartItem {
 export interface CurrentUser {
   username: string;
   cart: CartItem[];
+  isLoggedIn: boolean | undefined;
   email?: string;
   userId?: string;
   userInfo?: UserInfo;
@@ -62,7 +63,6 @@ interface SignInBody {
 
 interface UserState {
   currentUser: CurrentUser;
-  isLoggedIn: boolean;
   changeInCart: boolean;
   loadingStatus: string;
   authErrors: AuthErrors;
@@ -70,8 +70,7 @@ interface UserState {
 }
 
 const initialState: UserState = {
-  currentUser: { username: "", cart: [] },
-  isLoggedIn: false,
+  currentUser: { username: "", cart: [], isLoggedIn: undefined },
   changeInCart: false,
   loadingStatus: "idle",
   authErrors: {},
@@ -226,9 +225,6 @@ const userSlice = createSlice({
     setChangeInCart(state, action: PayloadAction<boolean>) {
       state.changeInCart = action.payload;
     },
-    setCsrfToken(state, action: PayloadAction<string>) {
-      state.csrfToken = action.payload;
-    },
     setLoadingStatus(state, action: PayloadAction<string>) {
       state.loadingStatus = action.payload;
     },
@@ -246,7 +242,6 @@ const userSlice = createSlice({
         (state, action: PayloadAction<UserState>): void => {
           // remember to add the state type as return type
           state.currentUser = action.payload.currentUser;
-          state.isLoggedIn = action.payload.isLoggedIn;
           state.csrfToken = action.payload.csrfToken;
           console.log("in redux getUserStatus---------->", state.currentUser);
         }
@@ -258,7 +253,6 @@ const userSlice = createSlice({
         signIn.fulfilled,
         (state, action: PayloadAction<UserState>): void => {
           state.currentUser = action.payload.currentUser;
-          state.isLoggedIn = action.payload.isLoggedIn;
           state.loadingStatus = "succeeded";
         }
       )
@@ -278,7 +272,7 @@ const userSlice = createSlice({
       // SIGN OUT //
       //////////////
       .addCase(signOut.fulfilled, (state, action): void => {
-        state.isLoggedIn = false;
+        state.currentUser.isLoggedIn = false;
         state.loadingStatus = "idle";
       })
       /////////////
@@ -288,7 +282,6 @@ const userSlice = createSlice({
         signUp.fulfilled,
         (state, action: PayloadAction<UserState>): void => {
           state.currentUser = action.payload.currentUser;
-          state.isLoggedIn = action.payload.isLoggedIn;
           state.loadingStatus = "succeeded";
         }
       )
@@ -381,7 +374,6 @@ const userSlice = createSlice({
 export const {
   clearAuthErrors,
   setChangeInCart,
-  setCsrfToken,
   setLoadingStatus,
   clearStockErrors,
 } = userSlice.actions;
@@ -410,8 +402,8 @@ export const selectAuthErrors = (state: RootState) => state.user.authErrors;
 // use the "createSelector" to create a memoized selector
 // so the the selector will not re-select if the un-related state change in the same page
 export const selectIsLoggedIn = createSelector(
-  [selectUser],
-  (userState) => userState.isLoggedIn
+  [selectCurrentUser],
+  (currentUser) => currentUser.isLoggedIn
 );
 export const selectLoadingStatus_user = createSelector(
   [selectUser],

@@ -7,12 +7,12 @@ import {
 } from "@mui/material";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { inputNames } from "../../utils/enums-types/input-names";
-import { Errors } from "../../utils/helper-functions/input-error-check";
+import { inputNames } from "../../../utils/enums-types/input-names";
+import { Errors } from "../../../utils/helper-functions/input-error-check";
 import {
   clearStockErrors,
   directChangeQty,
-} from "../../utils/redux-store/userSlice";
+} from "../../../utils/redux-store/userSlice";
 
 interface Props {
   quantity: number;

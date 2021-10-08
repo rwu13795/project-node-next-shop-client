@@ -8,32 +8,22 @@ import {
   PageProductProps,
   PageColorProps,
 } from "../../utils/react-hooks/get-more-products";
-import SelectSize from "../../components/shop/select-size";
-import SelectQuantity from "../../components/shop/select-quantity";
+import SelectSize from "../../components/shop/product/select-size";
+import SelectQuantity from "../../components/shop/product/select-quantity";
 import {
   Errors,
   onChangeErrorCheck,
 } from "../../utils/helper-functions/input-error-check";
 import { inputNames } from "../../utils/enums-types/input-names";
-import {
-  addToCartSession,
-  setCsrfToken,
-} from "../../utils/redux-store/userSlice";
-import ProductDetail from "../../components/shop/product-detail";
+import { addToCartSession } from "../../utils/redux-store/userSlice";
+import ProductDetail from "../../components/shop/product/product-detail";
 import serverClient from "../../utils/axios-client/server-client";
 
 interface PageProps {
-  product?: PageProductProps;
+  product: PageProductProps;
 }
 
 const ProductDetailPage: NextPage<PageProps> = ({ product }) => {
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   console.log(csrfToken);
-  //   dispatch(setCsrfToken(csrfToken));
-  // }, [csrfToken, dispatch]);
-  console.log(product);
-
   return !product ? (
     <h1>No product found</h1>
   ) : (
@@ -44,18 +34,17 @@ const ProductDetailPage: NextPage<PageProps> = ({ product }) => {
 export default ProductDetailPage;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const params = context.params?.product_id as string;
-  const [productId, category] = params.split("-");
+  const productId = context.params?.product_id as string;
 
   const client = serverClient(context);
 
   try {
-    const { data } = await client.get(
-      `http://localhost:5000/api/products/detail/${category}/${productId}`
+    const { data }: { data: PageProps } = await client.get(
+      `http://localhost:5000/api/products/detail/${productId}`
     );
 
     return {
-      props: { product: data?.product },
+      props: { product: data.product },
     };
   } catch (err) {
     console.log(err);

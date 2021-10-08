@@ -7,21 +7,21 @@ import {
 } from "@mui/material";
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 
-import { ReducerProductInfo } from "../../utils/react-hooks/add-product-reducer";
-import { inputNames } from "../../utils/enums-types/input-names";
-import { AddInfoEvents } from "../../pages/admin/add-product";
+import { ReducerProductInfo } from "../../../utils/react-hooks/add-product-reducer";
+import { inputNames } from "../../../utils/enums-types/input-names";
+import { AddInfoEvents } from "../../../pages/admin/add-product";
 import {
   Errors,
   onChangeErrorCheck,
-} from "../../utils/helper-functions/input-error-check";
+} from "../../../utils/helper-functions/input-error-check";
 import {
   mainCatArray,
   menCatArray,
   womenCatArray,
   kidsCatArray,
   MainCategory,
-} from "../../utils/enums-types/product-category";
-import { capitalize } from "../../utils/helper-functions/capitalize-first-letter";
+} from "../../../utils/enums-types/product-category";
+import { capitalize } from "../../../utils/helper-functions/capitalize-first-letter";
 
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;

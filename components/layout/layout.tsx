@@ -12,6 +12,7 @@ import {
   selectIsLoggedIn,
 } from "../../utils/redux-store/userSlice";
 import Footer from "./footer";
+import { getAdminStatus } from "../../utils/redux-store/adminSlice";
 
 interface Prop {
   children: React.ReactNode;
@@ -27,10 +28,11 @@ export default function Layout(props: Prop): JSX.Element {
     if (props.page !== "admin") console.log("getting user auth in Layout");
     dispatch(getUserStatus());
 
-    // delay the checkstock for 1.5 second, so that the session can be created
+    // delay the checkstock for 2 seconds, so that the session can be created
     // and checkStock won't trigger a duplicated session in the shop route
     const timerId = setTimeout(() => {
       dispatch(checkStock());
+      dispatch(getAdminStatus());
     }, 2000);
     return () => {
       clearTimeout(timerId);

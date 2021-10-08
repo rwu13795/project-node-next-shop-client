@@ -15,13 +15,12 @@ import {
   onChangeErrorCheck,
   onFocusErrorCheck,
   onSubmitErrorCheck,
-} from "../../utils/helper-functions/input-error-check";
-import { inputNames } from "../../utils/enums-types/input-names";
+} from "../../../utils/helper-functions/input-error-check";
+import { inputNames } from "../../../utils/enums-types/input-names";
 import {
   Touched,
   Errors,
-} from "../../utils/helper-functions/input-error-check";
-import { inputTypes } from "../../utils/enums-types/input-types";
+} from "../../../utils/helper-functions/input-error-check";
 import {
   selectShippingAddress,
   selectContactInfo,
@@ -29,9 +28,11 @@ import {
   contactFields,
   setShippingAddress,
   setContactInfo,
-} from "../../utils/redux-store/checkoutSlice";
-import { AllowedStages } from "../../pages/shop/checkout";
-import renderInputFields from "../../utils/helper-functions/render-input-fields";
+} from "../../../utils/redux-store/checkoutSlice";
+
+import renderInputFields from "../../../utils/helper-functions/render-input-fields";
+import { AllowedStages } from "../../../pages/shop/checkout";
+import { inputTypes } from "../../../utils/enums-types/input-types";
 
 interface Props {
   setStage: Dispatch<SetStateAction<string>>;

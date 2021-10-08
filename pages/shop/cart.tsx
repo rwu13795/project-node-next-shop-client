@@ -9,7 +9,7 @@ import {
   selectCurrentUser,
   selectIsLoggedIn,
 } from "../../utils/redux-store/userSlice";
-import CartDetail from "../../components/shop/cart-detail";
+import CartDetail from "../../components/shop/cart/cart-detail";
 
 const CartPage: NextPage = ({}) => {
   const dispatch = useDispatch();

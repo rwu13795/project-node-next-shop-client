@@ -8,9 +8,9 @@ import {
   selectChangeInCart,
   selectTotalAmount,
   setChangeInCart,
-} from "../../utils/redux-store/userSlice";
-import EditDetailModal from "../../components/shop/edit-detail-modal";
-import SelectQuantity from "./select-quantity";
+} from "../../../utils/redux-store/userSlice";
+import EditDetailModal from "./edit-detail-modal";
+import SelectQuantity from "../product/select-quantity";
 
 interface Props {
   cart: CartItem[];

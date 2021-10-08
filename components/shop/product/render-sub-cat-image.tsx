@@ -2,7 +2,9 @@ import { Dispatch, Fragment, SetStateAction, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { PageProductProps } from "../../utils/react-hooks/get-more-products";
+import { Button, CircularProgress, SelectChangeEvent } from "@mui/material";
+
+import { PageProductProps } from "../../../utils/react-hooks/get-more-products";
 
 interface Props {
   products: PageProductProps[];
@@ -16,7 +18,11 @@ export default function RenderSubCatImage(props: Props) {
 
   return (
     <Fragment>
-      {isRedirecting && <div>Loading product</div>}
+      {isRedirecting && (
+        <div>
+          <CircularProgress />
+        </div>
+      )}
       <div>t-shirts</div>
       {products.map((p, index) => {
         let url = p.colorPropsList[0].imageFiles[0];
@@ -31,7 +37,12 @@ export default function RenderSubCatImage(props: Props) {
           </div>
         );
       })}
-      {isLoading && <h4>Loading shit load of data</h4>}
+      {isLoading && (
+        <div>
+          <h4>Loading shit load of data</h4>
+          <CircularProgress />
+        </div>
+      )}
     </Fragment>
   );
 }
@@ -46,7 +57,7 @@ const RenderImage = ({
   setIsRedirecting: Dispatch<SetStateAction<boolean>>;
 }) => {
   return (
-    <Link href={`/shop/${p._id}-${p.productInfo.main_cat}`}>
+    <Link href={`/shop/${p._id}`}>
       <a
         onClick={() => {
           setIsRedirecting(true);

@@ -5,7 +5,7 @@ import {
   selectCart,
   selectChangeInCart,
   setChangeInCart,
-} from "../../utils/redux-store/userSlice";
+} from "../../../utils/redux-store/userSlice";
 
 import { Collapse, Box, Fade, Paper } from "@mui/material";
 import CartDetail from "./cart-detail";

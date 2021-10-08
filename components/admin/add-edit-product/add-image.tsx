@@ -1,13 +1,13 @@
 import { Fragment, ChangeEvent, MouseEvent, Dispatch } from "react";
 import Image from "next/image";
 
-import { inputNames } from "../../utils/enums-types/input-names";
-import { Errors } from "../../utils/helper-functions/input-error-check";
+import { inputNames } from "../../../utils/enums-types/input-names";
+import { Errors } from "../../../utils/helper-functions/input-error-check";
 import {
   ActionType,
   ReducerColorProps,
-} from "../../utils/react-hooks/add-product-reducer";
-import { Actions } from "../../utils/enums-types/product-reducer-actions";
+} from "../../../utils/react-hooks/add-product-reducer";
+import { Actions } from "../../../utils/enums-types/product-reducer-actions";
 
 interface Props {
   colorProps: ReducerColorProps;

@@ -40,7 +40,7 @@ import {
   selectAuthErrors,
   selectCsrfToken,
   selectCurrentUser,
-  selectLoadingStatus,
+  selectLoadingStatus_user,
   updateUserInfo,
 } from "../../../utils/redux-store/userSlice";
 
@@ -60,7 +60,7 @@ const fieldsArray = [
 export default function UpdateProfile({}): JSX.Element {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
-  const loadingStatus = useSelector(selectLoadingStatus);
+  const loadingStatus = useSelector(selectLoadingStatus_user);
   const authErrors = useSelector(selectAuthErrors);
 
   const [inputValue, setInputValue] = useState<InputValue>(() => {

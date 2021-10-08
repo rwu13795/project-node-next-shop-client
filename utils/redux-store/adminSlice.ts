@@ -9,12 +9,12 @@ import { RootState } from ".";
 import browserClient from "../axios-client/browser-client";
 
 interface SignUpBody {
-  admin_id: string;
+  admin_username: string;
   password: string;
   confirm_password: string;
 }
 interface SignInBody {
-  admin_id: string;
+  admin_username: string;
   password: string;
 }
 
@@ -23,9 +23,9 @@ export interface AdminErrors {
 }
 
 interface AdminUser {
+  admin_username: string;
   admin_id: string;
-  loggedInAsAdmin: boolean;
-  _id: string;
+  loggedInAsAdmin: boolean | undefined;
 }
 
 interface AdminState {
@@ -36,7 +36,7 @@ interface AdminState {
 }
 
 const initialState: AdminState = {
-  adminUser: { admin_id: "", loggedInAsAdmin: false, _id: "" },
+  adminUser: { admin_username: "", loggedInAsAdmin: undefined, admin_id: "" },
   adminErrors: {},
   loadingStatus: "idle",
   csrfToken: "",
@@ -57,9 +57,9 @@ const adminSignIn = createAsyncThunk<
   { state: RootState }
 >("admin/adminSignIn", async (signInBody, thunkAPI) => {
   try {
-    console.log("adminSignIn in slice");
+    1;
     const response = await client.post(serverUrl + "/admin/admin-sign-in", {
-      admin_id: signInBody.admin_id,
+      admin_username: signInBody.admin_username,
       password: signInBody.password,
     });
     return response.data;
@@ -71,7 +71,6 @@ const adminSignIn = createAsyncThunk<
 
 const adminSignOut = createAsyncThunk("admin/adminSignOut", async () => {
   await client.post(serverUrl + "/admin/admin-sign-out");
-  console.log("in redux --- signing out");
   return;
 });
 
@@ -82,9 +81,27 @@ const adminRegister = createAsyncThunk<
 >("admin/adminRegister", async (signUpBody, thunkAPI) => {
   try {
     const response = await client.post(serverUrl + "/admin/admin-register", {
-      admin_id: signUpBody.admin_id,
+      admin_username: signUpBody.admin_username,
       password: signUpBody.password,
       confirm_password: signUpBody.confirm_password,
+    });
+    return response.data;
+  } catch (err: any) {
+    // catch the error sent from the server manually, and put in inside the action.payload
+    return thunkAPI.rejectWithValue(err.response.data);
+  }
+});
+
+const deleteProduct = createAsyncThunk<
+  void,
+  { productId: string; admin_username: string },
+  { state: RootState }
+>("admin/deleteProduct", async ({ productId, admin_username }, thunkAPI) => {
+  try {
+    const response = await client.post(serverUrl + "/admin/delete-product", {
+      productId,
+      csrfToken: thunkAPI.getState().admin.csrfToken,
+      admin_username,
     });
     return response.data;
   } catch (err: any) {
@@ -100,6 +117,9 @@ const adminSlice = createSlice({
     clearAdminErrors(state, action: PayloadAction<string>) {
       state.adminErrors[action.payload] = "";
     },
+    setLoadingStatus_admin(state, action: PayloadAction<string>) {
+      state.loadingStatus = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -110,7 +130,7 @@ const adminSlice = createSlice({
         getAdminStatus.fulfilled,
         (state, action: PayloadAction<AdminState>): void => {
           state.adminUser = action.payload.adminUser;
-
+          state.csrfToken = action.payload.csrfToken;
           console.log("in redux getAdminStatus---------->", state.adminUser);
         }
       )
@@ -122,6 +142,7 @@ const adminSlice = createSlice({
         (state, action: PayloadAction<AdminState>): void => {
           state.adminUser = action.payload.adminUser;
           state.loadingStatus = "succeeded";
+          console.log("in adim signin", state.adminUser);
         }
       )
       .addCase(adminSignIn.pending, (state, action): void => {
@@ -163,12 +184,34 @@ const adminSlice = createSlice({
           }
           state.loadingStatus = "idle";
         }
+      )
+      ////////////////////
+      // DELETE PRODUCT //
+      ////////////////////
+      .addCase(deleteProduct.fulfilled, (state, action): void => {
+        state.loadingStatus = "succeeded";
+      })
+      .addCase(
+        deleteProduct.rejected,
+        (state, action: PayloadAction<any>): void => {
+          for (let err of action.payload.errors) {
+            state.adminErrors[err.field] = err.message;
+            console.log(err.message);
+          }
+          state.loadingStatus = "idle";
+        }
       );
   },
 });
-export const { clearAdminErrors } = adminSlice.actions;
+export const { clearAdminErrors, setLoadingStatus_admin } = adminSlice.actions;
 
-export { adminSignIn, adminSignOut, adminRegister, getAdminStatus };
+export {
+  adminSignIn,
+  adminSignOut,
+  adminRegister,
+  getAdminStatus,
+  deleteProduct,
+};
 
 export default adminSlice.reducer;
 
@@ -185,4 +228,12 @@ export const selectAdminErrors = createSelector(
 export const selectAdminUser = createSelector(
   [selectAdmin],
   (adminState) => adminState.adminUser
+);
+export const selectLoggedInAsAdmin = createSelector(
+  [selectAdminUser],
+  (adminUser) => adminUser.loggedInAsAdmin
+);
+export const selectCsrfToken_admin = createSelector(
+  [selectAdmin],
+  (adminState) => adminState.csrfToken
 );

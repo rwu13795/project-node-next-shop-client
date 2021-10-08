@@ -1,9 +1,9 @@
-import { ReducerProductInfo } from "../../utils/react-hooks/add-product-reducer";
-import { inputNames } from "../../utils/enums-types/input-names";
-import { AddInfoEvents } from "../../pages/admin/add-product";
-import { Errors } from "../../utils/helper-functions/input-error-check";
+import { ReducerProductInfo } from "../../../utils/react-hooks/add-product-reducer";
+import { inputNames } from "../../../utils/enums-types/input-names";
+import { AddInfoEvents } from "../../../pages/admin/add-product";
+import { Errors } from "../../../utils/helper-functions/input-error-check";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { onChangeErrorCheck } from "../../utils/helper-functions/input-error-check";
+import { onChangeErrorCheck } from "../../../utils/helper-functions/input-error-check";
 
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;

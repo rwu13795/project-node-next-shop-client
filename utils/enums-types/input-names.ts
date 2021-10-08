@@ -34,5 +34,5 @@ export enum inputNames {
   quantity = "quantity",
 
   // admin
-  admin_id = "admin_id",
+  admin_username = "admin_username",
 }

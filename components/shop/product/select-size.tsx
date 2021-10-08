@@ -3,9 +3,9 @@ import ToggleButton, { ToggleButtonProps } from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 import { styled } from "@mui/material/styles";
-import { theme } from "../../styles/mui-theme";
-import { ToggleButtonStyled } from "../../styles/mui-custom-styled-components";
-import { PageColorProps } from "../../utils/react-hooks/get-more-products";
+import { theme } from "../../../styles/mui-theme";
+import { ToggleButtonStyled } from "../../../styles/mui-custom-styled-components";
+import { PageColorProps } from "../../../utils/react-hooks/get-more-products";
 
 interface Props {
   selectedSize: string;

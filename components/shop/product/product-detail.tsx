@@ -5,19 +5,19 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   PageColorProps,
   PageProductProps,
-} from "../../utils/react-hooks/get-more-products";
+} from "../../../utils/react-hooks/get-more-products";
 import SelectSize from "./select-size";
 import SelectQuantity from "./select-quantity";
-import { inputNames } from "../../utils/enums-types/input-names";
+import { inputNames } from "../../../utils/enums-types/input-names";
 import {
   Errors,
   onChangeErrorCheck,
-} from "../../utils/helper-functions/input-error-check";
+} from "../../../utils/helper-functions/input-error-check";
 import {
   addToCartSession,
   CartItem,
   selectCart,
-} from "../../utils/redux-store/userSlice";
+} from "../../../utils/redux-store/userSlice";
 import { Button } from "@mui/material";
 
 interface Props {

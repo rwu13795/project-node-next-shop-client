@@ -5,10 +5,10 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 
-import ProductDetail from "./product-detail";
-import { PageProductProps } from "../../utils/react-hooks/get-more-products";
-import { CartItem } from "../../utils/redux-store/userSlice";
-import browserClient from "../../utils/axios-client/browser-client";
+import ProductDetail from "../product/product-detail";
+import { PageProductProps } from "../../../utils/react-hooks/get-more-products";
+import { CartItem } from "../../../utils/redux-store/userSlice";
+import browserClient from "../../../utils/axios-client/browser-client";
 
 const style = {
   position: "absolute" as "absolute",
@@ -51,7 +51,7 @@ export default function EditDetailModal({
   const fetchProduct = useCallback(async () => {
     try {
       const { data } = await client.get<ProductProps>(
-        `http://localhost:5000/api/products/detail/${category}/${productId}`
+        `http://localhost:5000/api/products/detail/${productId}`
       );
       console.log(data.product);
 

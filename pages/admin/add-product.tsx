@@ -1,14 +1,14 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
-import React, { useReducer, ChangeEvent } from "react";
+import React, { useReducer, ChangeEvent, useEffect } from "react";
 import { SelectChangeEvent } from "@mui/material";
 
 import useUpload from "../../utils/react-hooks/add-product-upload";
-import SelectCategory from "../../components/admin/select-category";
-import AddTitle from "../../components/admin/add-title";
-import AddPrice from "../../components/admin/add-price";
-import AddDescription from "../../components/admin/add-description";
-import AddColorsProps from "../../components/admin/add-color-props";
+import SelectCategory from "../../components/admin/add-edit-product/select-category";
+import AddTitle from "../../components/admin/add-edit-product/add-title";
+import AddPrice from "../../components/admin/add-edit-product/add-price";
+import AddDescription from "../../components/admin/add-edit-product/add-description";
+import AddColorsProps from "../../components/admin/add-edit-product/add-color-props";
 import addProductReducer, {
   initialColorProps,
   initialProductInfo,
@@ -16,6 +16,12 @@ import addProductReducer, {
 } from "../../utils/react-hooks/add-product-reducer";
 import { Actions } from "../../utils/enums-types/product-reducer-actions";
 import serverClient from "../../utils/axios-client/server-client";
+import { useSelector } from "react-redux";
+import {
+  selectAdminUser,
+  selectCsrfToken_admin,
+  selectLoggedInAsAdmin,
+} from "../../utils/redux-store/adminSlice";
 
 const initialProductState: ProductState = {
   colorPropsList: [initialColorProps],
@@ -31,7 +37,7 @@ interface PageProps {
   productId: string;
   product: ProductState;
   editMode: boolean;
-  // csrfToken: string
+  loggedInAsAdmin: boolean;
 }
 
 const AddProductPage: NextPage<PageProps> = ({
@@ -40,6 +46,18 @@ const AddProductPage: NextPage<PageProps> = ({
   editMode,
 }) => {
   const router = useRouter();
+
+  const adminUser = useSelector(selectAdminUser);
+  const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
+  const csrfToken = useSelector(selectCsrfToken_admin);
+
+  console.log(csrfToken);
+
+  // useEffect(() => {
+  //   if (!adminUser.loggedInAsAdmin) {
+  //     router.push("/admin");
+  //   }
+  // });
 
   const [state, dispatch] = useReducer(
     addProductReducer,
@@ -62,9 +80,11 @@ const AddProductPage: NextPage<PageProps> = ({
     editMode,
     deletedImgaes: state.deletedImages,
     productId,
+    admin_username: adminUser.admin_username,
+    csrfToken,
     onSuccess: () => {
       console.log("OK");
-      // router.push("/");
+      router.push("/admin/products-list");
       // console.log(productPropList);
     },
   });
@@ -73,8 +93,15 @@ const AddProductPage: NextPage<PageProps> = ({
     await postUpload();
   };
 
-  //////////////////////////
-  // console.log(state);
+  if (loggedInAsAdmin !== true) {
+    if (loggedInAsAdmin === undefined) {
+      return <h1>Loading</h1>;
+    } else {
+      return (
+        <h1>You need to sign in as an Administrator to access this page</h1>
+      );
+    }
+  }
 
   return (
     <main>
@@ -141,25 +168,21 @@ const AddProductPage: NextPage<PageProps> = ({
 export default AddProductPage;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  // const { productId, category } = context.query;
+  const { productId } = context.query;
   const client = serverClient(context);
-
-  const productId = "614f66eff572a86ea5461927";
-  const category = "men";
 
   if (!productId) {
     return {
-      props: { page: "admin" },
+      props: { page: "admin", product: null },
     };
   }
 
   try {
     // if no productId is found in the query, that means we are NOT editting the product
     // send a arbitary id number to let Node server know
-    const { data } = await client.get(
-      `http://localhost:5000/api/products/detail/${category}/${productId}`
+    const { data }: { data: PageProps } = await client.get(
+      `http://localhost:5000/api/products/detail/${productId}`
     );
-
     return {
       props: {
         productId,
