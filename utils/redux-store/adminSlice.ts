@@ -25,7 +25,7 @@ export interface AdminErrors {
 interface AdminUser {
   admin_username: string;
   admin_id: string;
-  loggedInAsAdmin: boolean | undefined;
+  loggedInAsAdmin?: boolean;
 }
 
 interface AdminState {
@@ -36,7 +36,7 @@ interface AdminState {
 }
 
 const initialState: AdminState = {
-  adminUser: { admin_username: "", loggedInAsAdmin: undefined, admin_id: "" },
+  adminUser: { admin_username: "", admin_id: "" },
   adminErrors: {},
   loadingStatus: "idle",
   csrfToken: "",

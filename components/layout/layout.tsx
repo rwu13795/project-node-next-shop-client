@@ -21,13 +21,11 @@ interface Prop {
 
 export default function Layout(props: Prop): JSX.Element {
   // since the Layout component will be rendered on every page,
-  // I will chekc the user auth here on the first load up
+  // the user auth will be checked no matter which page is loaded up first
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (props.page !== "admin") console.log("getting user auth in Layout");
     dispatch(getUserStatus());
-
     // delay the checkstock for 2 seconds, so that the session can be created
     // and checkStock won't trigger a duplicated session in the shop route
     const timerId = setTimeout(() => {
@@ -37,9 +35,7 @@ export default function Layout(props: Prop): JSX.Element {
     return () => {
       clearTimeout(timerId);
     };
-  }, [dispatch, props.page]);
-
-  console.log("in layout -- current page:", props.page);
+  }, [dispatch]);
 
   // NOTE //
   // MUI theme only works on MUI component which is inside a normal React component

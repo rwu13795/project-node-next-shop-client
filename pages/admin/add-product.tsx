@@ -51,8 +51,6 @@ const AddProductPage: NextPage<PageProps> = ({
   const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
   const csrfToken = useSelector(selectCsrfToken_admin);
 
-  console.log(csrfToken);
-
   // useEffect(() => {
   //   if (!adminUser.loggedInAsAdmin) {
   //     router.push("/admin");

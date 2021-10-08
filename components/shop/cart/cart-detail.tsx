@@ -33,7 +33,7 @@ export default function CartDetail({
   return (
     <div>
       {cart.map((item, index) => {
-        console.log(item.stockErrors);
+        console.log(item.stockError);
         return (
           <div key={item.productId + item.size + item.colorName}>
             <Image
@@ -77,11 +77,8 @@ export default function CartDetail({
                 remove
               </button>
             )}
-            {item.stockErrors?.notEnough && (
-              <div style={{ color: "red" }}>{item.stockErrors.notEnough}</div>
-            )}
-            {item.stockErrors?.outOfStock && (
-              <div style={{ color: "red" }}>{item.stockErrors.outOfStock}</div>
+            {item.stockError && (
+              <div style={{ color: "red" }}>{item.stockError}</div>
             )}
             <hr />
           </div>

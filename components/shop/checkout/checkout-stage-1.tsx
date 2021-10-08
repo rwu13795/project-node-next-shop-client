@@ -33,6 +33,10 @@ import {
 import renderInputFields from "../../../utils/helper-functions/render-input-fields";
 import { AllowedStages } from "../../../pages/shop/checkout";
 import { inputTypes } from "../../../utils/enums-types/input-types";
+import {
+  removeFromCartSession,
+  selectCart,
+} from "../../../utils/redux-store/userSlice";
 
 interface Props {
   setStage: Dispatch<SetStateAction<string>>;
@@ -46,6 +50,7 @@ export default function CheckoutStage_1({
   const dispatch = useDispatch();
   const shippingAddress = useSelector(selectShippingAddress);
   const contactInfo = useSelector(selectContactInfo);
+  const cart = useSelector(selectCart);
 
   const [errors, setErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Touched>({});
@@ -79,6 +84,11 @@ export default function CheckoutStage_1({
     hasError = onSubmitErrorCheck(contactInfo, errors, setErrors);
     if (hasError) return;
 
+    for (let i = 0; i < cart.length; i++) {
+      if (cart[i].quantity === 0) {
+        dispatch(removeFromCartSession(i));
+      }
+    }
     setStage(inputTypes.paymentInfo);
     setAllowedStages({ two: true, three: false });
   };

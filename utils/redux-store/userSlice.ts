@@ -10,6 +10,11 @@ import browserClient from "../axios-client/browser-client";
 import { inputNames } from "../enums-types/input-names";
 import { InputValue } from "../helper-functions/input-error-check";
 
+interface StockError {
+  index?: number;
+  msg?: string;
+}
+
 interface UserInfo {
   [inputNames.first_name]: string;
   [inputNames.last_name]: string;
@@ -31,10 +36,7 @@ export interface CartItem {
   price: number;
   colorName: string;
   availableQty: number;
-  stockErrors: {
-    outOfStock?: string;
-    notEnough?: string;
-  };
+  stockError: string;
 }
 
 export interface CurrentUser {
@@ -171,10 +173,13 @@ const directChangeQty = createAsyncThunk<
   return response.data;
 });
 
-const clearCartSession = createAsyncThunk("user/clearCartSession", async () => {
-  const response = await client.post(serverUrl + "/shop/clear-cart");
-  return response.data;
-});
+const clearCartSession = createAsyncThunk<UserState>(
+  "user/clearCartSession",
+  async () => {
+    const response = await client.post(serverUrl + "/shop/clear-cart");
+    return response.data;
+  }
+);
 
 const updateUserInfo = createAsyncThunk<
   UserState,
@@ -205,13 +210,16 @@ const updateUserInfo = createAsyncThunk<
   return response.data;
 });
 
-const checkStock = createAsyncThunk<CartItem[]>("user/checkStock", async () => {
+const checkStock = createAsyncThunk<{
+  cart: CartItem[];
+  stockErrors?: StockError[];
+}>("user/checkStock", async () => {
   const response = await client.get(serverUrl + "/shop/check-stock");
   return response.data;
 });
 
-const updateQuantity = createAsyncThunk("user/updateQuantity", async () => {
-  const response = await client.put(serverUrl + "/products/update-quantity");
+const updateStock = createAsyncThunk("user/updateStock", async () => {
+  const response = await client.put(serverUrl + "/products/update-stock");
   console.log(response);
 });
 
@@ -229,7 +237,7 @@ const userSlice = createSlice({
       state.loadingStatus = action.payload;
     },
     clearStockErrors(state, action: PayloadAction<number>) {
-      state.currentUser.cart[action.payload].stockErrors = {};
+      state.currentUser.cart[action.payload].stockError = "";
     },
   },
   extraReducers: (builder) => {
@@ -351,19 +359,22 @@ const userSlice = createSlice({
       /////////////////
       .addCase(
         checkStock.fulfilled,
-        (state, action: PayloadAction<CartItem[]>): void => {
-          state.currentUser.cart = action.payload;
-          for (let item of state.currentUser.cart) {
-            if (!item.stockErrors) {
-              item.stockErrors = {};
-            }
-            if (item.quantity > item.availableQty && item.availableQty > 0) {
-              item.stockErrors.notEnough = `Previously selected quantities (${item.quantity}) not available`;
-              item.quantity = item.availableQty;
-            }
-            if (item.availableQty === 0) {
-              item.stockErrors.outOfStock = "Out of stock";
-              item.quantity = 0;
+        (
+          state,
+          action: PayloadAction<{
+            cart: CartItem[];
+            stockErrors?: StockError[];
+          }>
+        ): void => {
+          state.currentUser.cart = action.payload.cart;
+          if (action.payload.stockErrors) {
+            for (let error of action.payload.stockErrors) {
+              // NOTE //
+              // have to use "typeof" to check the index, because when index = 0
+              // it will return false for just checking "error.msg"
+              if (typeof error.index === "number" && error.msg) {
+                state.currentUser.cart[error.index].stockError = error.msg;
+              }
             }
           }
         }
@@ -388,7 +399,7 @@ export {
   clearCartSession,
   updateUserInfo,
   checkStock,
-  updateQuantity,
+  updateStock,
 };
 
 export default userSlice.reducer;

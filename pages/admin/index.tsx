@@ -3,12 +3,16 @@ import { useRouter } from "next/dist/client/router";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
+import { Button, CircularProgress, SelectChangeEvent } from "@mui/material";
+
 import AuthForm from "../../components/auth/auth-form";
 import { inputNames } from "../../utils/enums-types/input-names";
 import { inputTypes } from "../../utils/enums-types/input-types";
 import {
   getAdminStatus,
   selectAdminUser,
+  selectLoadingStatus_admin,
+  selectLoggedInAsAdmin,
 } from "../../utils/redux-store/adminSlice";
 
 const signIn_inputFieldsArray = [
@@ -26,21 +30,32 @@ const AdminPage: NextPage = () => {
 
   const router = useRouter();
   const adminUser = useSelector(selectAdminUser);
-  const [isRegistering, setIsRegistering] = useState<boolean>(false);
+  const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
 
-  console.log("adminUser in index-------------->", adminUser);
+  const [isRegistering, setIsRegistering] = useState<boolean>(false);
+  // const [loading, setLoading] = useState<boolean>(loggedInAsAdmin && true)
+
+  console.log("adminUser in index-------------->", loggedInAsAdmin);
 
   useEffect(() => {
-    if (adminUser.loggedInAsAdmin) {
+    if (loggedInAsAdmin) {
       router.push(
         `/admin/products-list?admin_username=${adminUser.admin_username}&page=1`
       );
     }
-  }, [dispatch, adminUser.loggedInAsAdmin, router, adminUser.admin_username]);
+  }, [loggedInAsAdmin, adminUser.admin_username, router]);
 
   const switchHandler = () => {
     setIsRegistering((prev) => !prev);
   };
+
+  if (loggedInAsAdmin === undefined || loggedInAsAdmin === true) {
+    return (
+      <div>
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return isRegistering ? (
     <main>

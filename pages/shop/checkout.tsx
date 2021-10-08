@@ -12,6 +12,7 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { inputNames } from "../../utils/enums-types/input-names";
 import { inputTypes } from "../../utils/enums-types/input-types";
 import {
+  checkStock,
   selectCart,
   selectCurrentUser,
   selectIsLoggedIn,
@@ -66,6 +67,12 @@ const CheckoutPage: NextPage = ({}) => {
       );
     }
   }, [isLoggedIn, currentUser, dispatch]);
+
+  useEffect(() => {
+    if (cart && cart.length > 0) {
+      dispatch(checkStock());
+    }
+  }, []);
 
   const tagChangeHandler = (event: SyntheticEvent, newValue: string) => {
     setStage(newValue);

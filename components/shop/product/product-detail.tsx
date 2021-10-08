@@ -64,7 +64,14 @@ export default function ProductDetail({
 
   const sizeHandler = (e: React.MouseEvent<HTMLElement>, size: string) => {
     setSelectedSize(size);
+    setQuantity(0);
     onChangeErrorCheck(inputNames.size, size, setErrors);
+  };
+
+  const changeColorHandler = (index: number) => {
+    setCurrentColor(colorPropsList[index]);
+    setSelectedSize("");
+    setQuantity(0);
   };
 
   const addToCartHandler = () => {
@@ -88,7 +95,7 @@ export default function ProductDetail({
       size: selectedSize,
       colorName: currentColor.colorName,
       availableQty: currentColor.sizes[selectedSize],
-      stockErrors: {},
+      stockError: "",
     };
     if (editMode && handleClose) {
       handleClose();
@@ -135,7 +142,7 @@ export default function ProductDetail({
           return (
             <button
               onClick={() => {
-                setCurrentColor(colorPropsList[index]);
+                changeColorHandler(index);
               }}
               key={index}
             >

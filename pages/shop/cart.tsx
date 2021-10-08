@@ -1,9 +1,11 @@
 import { NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
+  checkStock,
   removeFromCartSession,
   selectCart,
   selectCurrentUser,
@@ -18,6 +20,12 @@ const CartPage: NextPage = ({}) => {
   const cart = useSelector(selectCart);
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const currentUser = useSelector(selectCurrentUser);
+
+  useEffect(() => {
+    if (cart && cart.length > 0) {
+      dispatch(checkStock());
+    }
+  }, []);
 
   const preCheckoutHandler = () => {
     for (let i = 0; i < cart.length; i++) {

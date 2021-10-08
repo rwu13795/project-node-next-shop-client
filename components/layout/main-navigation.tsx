@@ -28,9 +28,10 @@ export default function MainNavigation({ page }: Props) {
     dispatch(signOut());
     // re-acquire a "guest" session after signing out
     // have to wait a few seconds for the mongoDB destoying the old session
+    console.log("signing out");
     setTimeout(() => {
-      dispatch(getUserStatus()), 1000;
-    });
+      dispatch(getUserStatus());
+    }, 2000);
     router.push("/");
   };
 

@@ -12,7 +12,7 @@ import {
   selectCsrfToken,
   selectCurrentUser,
   selectTotalAmount,
-  updateQuantity,
+  updateStock,
 } from "../../../utils/redux-store/userSlice";
 import { useState } from "react";
 import PaymentProcessingModal from "./payment-processing-modal";
@@ -87,7 +87,7 @@ export default function CheckoutStage_3({
           },
         })
       );
-      dispatch(updateQuantity());
+      dispatch(updateStock());
       router.push("/shop/payment-successful");
     }
   };
