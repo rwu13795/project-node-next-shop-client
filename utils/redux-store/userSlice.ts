@@ -64,6 +64,12 @@ interface SignInBody {
   password: string;
 }
 
+interface ResetPasswordBody {
+  old_password: string;
+  new_password: string;
+  confirm_new_password: string;
+}
+
 interface UserState {
   currentUser: CurrentUser;
   changeInCart: boolean;
@@ -83,12 +89,18 @@ const initialState: UserState = {
 const client = browserClient();
 const serverUrl = "http://localhost:5000/api";
 
+//////////////
+// GET AUTH //
+//////////////
 const getUserStatus = createAsyncThunk("user/getUserStatus", async () => {
   const response = await client.get<UserState>(serverUrl + "/auth/user-status");
 
   return response.data;
 });
 
+//////////////
+// SIGN IN  //
+//////////////
 const signIn = createAsyncThunk<UserState, SignInBody, { state: RootState }>(
   "user/signIn",
   async (
@@ -112,12 +124,18 @@ const signIn = createAsyncThunk<UserState, SignInBody, { state: RootState }>(
   }
 );
 
+//////////////
+// SIGN OUT //
+//////////////
 const signOut = createAsyncThunk("user/signOut", async () => {
   await client.post(serverUrl + "/auth/sign-out");
   console.log("in redux --- signing out");
   return;
 });
 
+/////////////
+// SIGN UP //
+/////////////
 const signUp = createAsyncThunk<UserState, SignUpBody, { state: RootState }>(
   "user/signUp",
   async (signUpBody, thunkAPI) => {
@@ -136,6 +154,9 @@ const signUp = createAsyncThunk<UserState, SignUpBody, { state: RootState }>(
   }
 );
 
+//////////
+// CART //
+//////////
 const addToCartSession = createAsyncThunk<
   UserState,
   {
@@ -182,6 +203,25 @@ const clearCartSession = createAsyncThunk<UserState>(
   }
 );
 
+///////////
+// STOCK //
+///////////
+const checkStock = createAsyncThunk<{
+  cart: CartItem[];
+  stockErrors?: StockError[];
+}>("user/checkStock", async () => {
+  const response = await client.get(serverUrl + "/shop/check-stock");
+  return response.data;
+});
+
+const updateStock = createAsyncThunk("user/updateStock", async () => {
+  const response = await client.put(serverUrl + "/products/update-stock");
+  console.log(response);
+});
+
+/////////////////
+// UPDATE INFO //
+/////////////////
 const updateUserInfo = createAsyncThunk<
   UserState,
   { inputValue: InputValue },
@@ -211,17 +251,23 @@ const updateUserInfo = createAsyncThunk<
   return response.data;
 });
 
-const checkStock = createAsyncThunk<{
-  cart: CartItem[];
-  stockErrors?: StockError[];
-}>("user/checkStock", async () => {
-  const response = await client.get(serverUrl + "/shop/check-stock");
-  return response.data;
-});
-
-const updateStock = createAsyncThunk("user/updateStock", async () => {
-  const response = await client.put(serverUrl + "/products/update-stock");
-  console.log(response);
+////////////////////
+// RESET PASSWORD //
+////////////////////
+const resetPassword = createAsyncThunk<
+  void,
+  ResetPasswordBody,
+  { state: RootState }
+>("user/resetPassword", async (body, thunkAPI) => {
+  try {
+    const csrfToken = thunkAPI.getState().user.csrfToken;
+    await client.post(serverUrl + "/auth/reset-password", {
+      ...body,
+      csrfToken,
+    });
+  } catch (err: any) {
+    return thunkAPI.rejectWithValue(err.response.data);
+  }
 });
 
 const userSlice = createSlice({
@@ -379,6 +425,24 @@ const userSlice = createSlice({
             }
           }
         }
+      )
+      ////////////////////
+      // RESET PASSWORD //
+      ////////////////////
+      .addCase(resetPassword.fulfilled, (state, action): void => {
+        state.loadingStatus = "reset_password_succeeded";
+      })
+      .addCase(resetPassword.pending, (state, action): void => {
+        state.loadingStatus = "loading";
+      })
+      .addCase(
+        resetPassword.rejected,
+        (state, action: PayloadAction<any>): void => {
+          for (let err of action.payload.errors) {
+            state.authErrors[err.field] = err.message;
+          }
+          state.loadingStatus = "idle";
+        }
       );
   },
 });
@@ -401,6 +465,7 @@ export {
   updateUserInfo,
   checkStock,
   updateStock,
+  resetPassword,
 };
 
 export default userSlice.reducer;

@@ -1,4 +1,5 @@
 import { ChangeEvent, FocusEvent } from "react";
+import { inputNames } from "../../utils/enums-types/input-names";
 
 interface Props {
   inputName: string;
@@ -8,6 +9,7 @@ interface Props {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   inputError: string;
   authError?: string;
+  label?: string;
 }
 
 export default function FormInputField(props: Props): JSX.Element {
@@ -19,12 +21,35 @@ export default function FormInputField(props: Props): JSX.Element {
     onChange,
     authError,
     inputError,
+    label,
   } = props;
+  let type: string;
+  switch (inputName) {
+    case inputNames.password:
+    case inputNames.confirm_password:
+    case inputNames.old_password:
+    case inputNames.new_password:
+    case inputNames.confirm_new_password: {
+      type = "password";
+      break;
+    }
+    case inputNames.zip_code: {
+      type = "number";
+      break;
+    }
+    default: {
+      type = inputName;
+      break;
+    }
+  }
+
   return (
     <div>
-      <label>{inputName.replace("_", " ").toUpperCase()}</label>
+      <label>
+        {label ? label : inputName.replaceAll("_", " ").toUpperCase()}
+      </label>
       <input
-        type={inputName === "confirm_password" ? "password" : inputName}
+        type={type}
         required
         name={inputName}
         value={inputValue}

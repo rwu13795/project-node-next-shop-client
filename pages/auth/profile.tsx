@@ -1,19 +1,15 @@
 import { GetServerSidePropsContext, NextPage } from "next";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Box, styled, Tab } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import UpdateProfile from "../../components/auth/user-profile/update-info";
-import { useSelector } from "react-redux";
-import {
-  CartItem,
-  selectCurrentUser,
-  selectIsLoggedIn,
-} from "../../utils/redux-store/userSlice";
-import { loadUserInfo } from "../../utils/redux-store/checkoutSlice";
-import { inputNames } from "../../utils/enums-types/input-names";
+
+import { CartItem, setLoadingStatus } from "../../utils/redux-store/userSlice";
 import serverClient from "../../utils/axios-client/server-client";
 import OrderHistory from "../../components/auth/user-profile/order-history";
+import UpdateProfile from "../../components/auth/user-profile/update-info";
+import ResetPassword from "../../components/auth/user-profile/reset-password";
 
 // export const Tab_styled = styled(Tab)(({ theme }) => ({
 //   "&.Mui-selected": {
@@ -45,14 +41,12 @@ interface PageProps {
 }
 
 const ProfilePage: NextPage<PageProps> = ({ orders, ordersTotal, notAuth }) => {
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-  const currentUser = useSelector(selectCurrentUser);
+  const dispatch = useDispatch();
 
-  console.log(orders);
-
-  const [value, setValue] = useState("1");
+  const [value, setValue] = useState("2");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    dispatch(setLoadingStatus("idle"));
     setValue(newValue);
   };
 
@@ -76,7 +70,9 @@ const ProfilePage: NextPage<PageProps> = ({ orders, ordersTotal, notAuth }) => {
         <TabPanel value={"2"}>
           <OrderHistory orders={orders!} ordersTotal={ordersTotal} />
         </TabPanel>
-        <TabPanel value={"3"}>RESET PASSWORD</TabPanel>
+        <TabPanel value={"3"}>
+          <ResetPassword />
+        </TabPanel>
       </TabContext>
     </Box>
   );

@@ -41,10 +41,11 @@ import {
   selectCsrfToken,
   selectCurrentUser,
   selectLoadingStatus_user,
+  setLoadingStatus,
   updateUserInfo,
 } from "../../../utils/redux-store/userSlice";
 
-const fieldsArray = [
+const inputFieldsArray = [
   inputNames.first_name,
   inputNames.last_name,
   inputNames.address_1,
@@ -55,22 +56,18 @@ const fieldsArray = [
   inputNames.phone,
 ];
 
+let initialValue: InputValue = {};
+for (let name of inputFieldsArray) {
+  initialValue = { ...initialValue, [name]: "" };
+}
+
 export default function UpdateProfile({}): JSX.Element {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
   const loadingStatus = useSelector(selectLoadingStatus_user);
   const authErrors = useSelector(selectAuthErrors);
 
-  const [inputValue, setInputValue] = useState<InputValue>({
-    [inputNames.first_name]: "",
-    [inputNames.last_name]: "",
-    [inputNames.address_1]: "",
-    [inputNames.address_2]: "",
-    [inputNames.city]: "",
-    [inputNames.state]: "",
-    [inputNames.zip_code]: "",
-    [inputNames.phone]: "",
-  });
+  const [inputValue, setInputValue] = useState<InputValue>(initialValue);
   const [errors, setErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Touched>({});
 
@@ -131,7 +128,7 @@ export default function UpdateProfile({}): JSX.Element {
     <main>
       <div>
         <h3>UPDATE PERSONAL INFO</h3>
-        {inputFields(fieldsArray, inputValue)}
+        {inputFields(inputFieldsArray, inputValue)}
       </div>
       <div>
         <button onClick={updateHandler}>UPDATE</button>
