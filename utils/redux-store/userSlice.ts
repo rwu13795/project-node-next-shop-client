@@ -35,6 +35,7 @@ export interface CartItem {
   size: string;
   price: number;
   colorName: string;
+  colorCode: string;
   availableQty: number;
   stockError: string;
 }

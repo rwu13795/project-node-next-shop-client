@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from "next";
 import { useEffect, useState } from "react";
 
 import { Box, styled, Tab } from "@mui/material";
@@ -6,11 +6,14 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 import UpdateProfile from "../../components/auth/user-profile/update-info";
 import { useSelector } from "react-redux";
 import {
+  CartItem,
   selectCurrentUser,
   selectIsLoggedIn,
 } from "../../utils/redux-store/userSlice";
 import { loadUserInfo } from "../../utils/redux-store/checkoutSlice";
 import { inputNames } from "../../utils/enums-types/input-names";
+import serverClient from "../../utils/axios-client/server-client";
+import OrderHistory from "../../components/auth/user-profile/order-history";
 
 // export const Tab_styled = styled(Tab)(({ theme }) => ({
 //   "&.Mui-selected": {
@@ -28,10 +31,24 @@ import { inputNames } from "../../utils/enums-types/input-names";
 //   //     backgroundColor: "grey",
 //   //   },
 // }));
+export interface Order {
+  _id: string;
+  date: string;
+  total: number;
+  items: CartItem[];
+}
 
-const ProfilePage: NextPage = ({}) => {
+interface PageProps {
+  orders: Order[] | null;
+  ordersTotal: number;
+  notAuth?: boolean;
+}
+
+const ProfilePage: NextPage<PageProps> = ({ orders, ordersTotal, notAuth }) => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const currentUser = useSelector(selectCurrentUser);
+
+  console.log(orders);
 
   const [value, setValue] = useState("1");
 
@@ -39,7 +56,7 @@ const ProfilePage: NextPage = ({}) => {
     setValue(newValue);
   };
 
-  if (!isLoggedIn) {
+  if (notAuth === true || orders === null) {
     return <h1>Sign in to see your profile</h1>;
   }
 
@@ -56,7 +73,9 @@ const ProfilePage: NextPage = ({}) => {
         <TabPanel value={"1"}>
           <UpdateProfile />
         </TabPanel>
-        <TabPanel value={"2"}>ORDER HISTORY</TabPanel>
+        <TabPanel value={"2"}>
+          <OrderHistory orders={orders!} ordersTotal={ordersTotal} />
+        </TabPanel>
         <TabPanel value={"3"}>RESET PASSWORD</TabPanel>
       </TabContext>
     </Box>
@@ -64,3 +83,19 @@ const ProfilePage: NextPage = ({}) => {
 };
 
 export default ProfilePage;
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const client = serverClient(context);
+
+  try {
+    const { data }: { data: PageProps } = await client.post(
+      "http://localhost:5000/api/shop/get-order-history"
+    );
+
+    console.log(data);
+
+    return { props: { orders: data.orders, ordersTotal: data.ordersTotal } };
+  } catch (err) {
+    return { props: { orders: null, notAuth: true } };
+  }
+}

@@ -10,6 +10,7 @@ import {
   deleteProduct,
   selectAdminUser,
   selectLoadingStatus_admin,
+  selectLoggedInAsAdmin,
   setLoadingStatus_admin,
 } from "../../utils/redux-store/adminSlice";
 
@@ -24,8 +25,16 @@ const AdmimProductsListPage: NextPage<PageProps> = ({ products }) => {
 
   const admin_username = useSelector(selectAdminUser).admin_username;
   const loadingStatus = useSelector(selectLoadingStatus_admin);
+  const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
+
+  // useEffect(() => {
+  //   if (!loggedInAsAdmin) {
+  //     router.push("/admin");
+  //   }
+  // }, []);
 
   useEffect(() => {
+    // reload the page after deleting an item
     if (loadingStatus === "succeeded") {
       dispatch(setLoadingStatus_admin("idle"));
       router.reload();

@@ -94,6 +94,7 @@ export default function ProductDetail({
       quantity: quantity,
       size: selectedSize,
       colorName: currentColor.colorName,
+      colorCode: currentColor.colorCode,
       availableQty: currentColor.sizes[selectedSize],
       stockError: "",
     };

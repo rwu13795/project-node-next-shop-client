@@ -44,8 +44,6 @@ import {
   updateUserInfo,
 } from "../../../utils/redux-store/userSlice";
 
-interface Props {}
-
 const fieldsArray = [
   inputNames.first_name,
   inputNames.last_name,
@@ -63,9 +61,22 @@ export default function UpdateProfile({}): JSX.Element {
   const loadingStatus = useSelector(selectLoadingStatus_user);
   const authErrors = useSelector(selectAuthErrors);
 
-  const [inputValue, setInputValue] = useState<InputValue>(() => {
+  const [inputValue, setInputValue] = useState<InputValue>({
+    [inputNames.first_name]: "",
+    [inputNames.last_name]: "",
+    [inputNames.address_1]: "",
+    [inputNames.address_2]: "",
+    [inputNames.city]: "",
+    [inputNames.state]: "",
+    [inputNames.zip_code]: "",
+    [inputNames.phone]: "",
+  });
+  const [errors, setErrors] = useState<Errors>({});
+  const [touched, setTouched] = useState<Touched>({});
+
+  useEffect(() => {
     if (currentUser && currentUser.userInfo) {
-      return {
+      setInputValue({
         [inputNames.first_name]: currentUser.userInfo.first_name,
         [inputNames.last_name]: currentUser.userInfo.last_name,
         [inputNames.address_1]: currentUser.userInfo.address_1,
@@ -74,13 +85,9 @@ export default function UpdateProfile({}): JSX.Element {
         [inputNames.state]: currentUser.userInfo.state,
         [inputNames.zip_code]: currentUser.userInfo.zip_code,
         [inputNames.phone]: currentUser.userInfo.phone,
-      } as InputValue;
+      });
     }
-
-    return {};
-  });
-  const [errors, setErrors] = useState<Errors>({});
-  const [touched, setTouched] = useState<Touched>({});
+  }, [currentUser]);
 
   const onFocusHandler = (e: FocusEvent<HTMLInputElement>) => {
     const { name } = e.currentTarget;

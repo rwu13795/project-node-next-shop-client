@@ -71,7 +71,6 @@ const adminSignIn = createAsyncThunk<
 
 const adminSignOut = createAsyncThunk("admin/adminSignOut", async () => {
   await client.post(serverUrl + "/admin/admin-sign-out");
-  return;
 });
 
 const adminRegister = createAsyncThunk<
@@ -141,7 +140,7 @@ const adminSlice = createSlice({
         adminSignIn.fulfilled,
         (state, action: PayloadAction<AdminState>): void => {
           state.adminUser = action.payload.adminUser;
-          state.loadingStatus = "succeeded";
+          state.loadingStatus = "idle";
           console.log("in adim signin", state.adminUser);
         }
       )
@@ -161,7 +160,9 @@ const adminSlice = createSlice({
       // SIGN OUT //
       //////////////
       .addCase(adminSignOut.fulfilled, (state, action): void => {
-        state = initialState;
+        state.adminUser.admin_id = "";
+        state.adminUser.admin_username = "";
+        state.adminUser.loggedInAsAdmin = false;
       })
       /////////////
       // SIGN UP //
@@ -170,7 +171,7 @@ const adminSlice = createSlice({
         adminRegister.fulfilled,
         (state, action: PayloadAction<AdminState>): void => {
           state.adminUser = action.payload.adminUser;
-          state.loadingStatus = "succeeded";
+          state.loadingStatus = "idle";
         }
       )
       .addCase(adminRegister.pending, (state, action): void => {
