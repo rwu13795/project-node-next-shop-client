@@ -9,6 +9,7 @@ import AuthForm from "../../components/auth/auth-form";
 import { inputNames } from "../../utils/enums-types/input-names";
 import { inputTypes } from "../../utils/enums-types/input-types";
 import {
+  clearAdminErrors,
   getAdminStatus,
   selectAdminUser,
   selectLoadingStatus_admin,
@@ -46,6 +47,7 @@ const AdminPage: NextPage = () => {
   }, [loggedInAsAdmin, adminUser.admin_username, router]);
 
   const switchHandler = () => {
+    dispatch(clearAdminErrors("all"));
     setIsRegistering((prev) => !prev);
   };
 

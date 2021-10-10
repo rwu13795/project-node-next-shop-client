@@ -3,7 +3,10 @@ import { useRouter } from "next/dist/client/router";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-import { selectIsLoggedIn } from "../../utils/redux-store/userSlice";
+import {
+  CurrentUser,
+  selectIsLoggedIn,
+} from "../../utils/redux-store/userSlice";
 import serverClient from "../../utils/axios-client/server-client";
 import AuthForm from "../../components/auth/auth-form";
 import { inputTypes } from "../../utils/enums-types/input-types";
@@ -38,12 +41,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   // if the user loads this sign-in page directly using the url
   // I should check the user-auth before rendering the page
   const { data } = await client.get(
-    "http://localhost:5000/api/auth/auth-status"
+    "http://localhost:5000/api/auth/user-status"
   );
 
-  console.log(data);
-
-  if (data.isLoggedIn) {
+  if (data.currentUser.isLoggedIn) {
     // redirect the user to the main page without rendering the signin page
     // if user has a signed-in session
     return {
@@ -54,5 +55,5 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     };
   }
 
-  return { props: {} };
+  return { props: { page: "sign-in" } };
 }

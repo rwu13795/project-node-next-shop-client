@@ -56,7 +56,7 @@ export default function CheckoutStage_2({
   const elements = useElements();
   const stripe = useStripe();
 
-  const [errors, setErrors] = useState<Errors>({});
+  const [inputErrors, setInputErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Touched>({});
   const [boxChecked, setBoxChecked] = useState<boolean>(true);
   const [cardErorr, setCardError] = useState<StripeCardError>();
@@ -69,7 +69,7 @@ export default function CheckoutStage_2({
 
   const onBlurHandler = (e: FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
-    onBlurErrorCheck(name, value, touched, setErrors);
+    onBlurErrorCheck(name, value, touched, setInputErrors);
   };
 
   const onChangeHandler = (
@@ -77,11 +77,15 @@ export default function CheckoutStage_2({
   ) => {
     const { name, value } = e.target;
     dispatch(setBillingAddress({ name, value }));
-    onChangeErrorCheck(name, value, setErrors);
+    onChangeErrorCheck(name, value, setInputErrors);
   };
 
   const stageChangeHandler = async () => {
-    let hasError = onSubmitErrorCheck(billingAddress, errors, setErrors);
+    let hasError = onSubmitErrorCheck(
+      billingAddress,
+      inputErrors,
+      setInputErrors
+    );
     if (hasError || cardErorr) return;
     if (!cardComplete) {
       setCardError({
@@ -113,17 +117,17 @@ export default function CheckoutStage_2({
   const checkboxHandler = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(toggleBillingAddress(!boxChecked));
     setBoxChecked((prev) => !prev);
-    setErrors({});
+    setInputErrors({});
   };
 
   const inputFields = (fields: string[], inputValue: InputValue) => {
     return renderInputFields(
       fields,
       inputValue,
-      errors,
       onFocusHandler,
       onBlurHandler,
-      onChangeHandler
+      onChangeHandler,
+      inputErrors
     );
   };
 

@@ -37,7 +37,7 @@ export default function ResetPassword({}): JSX.Element {
   const loadingStatus = useSelector(selectLoadingStatus_user);
   const authErorrs = useSelector(selectAuthErrors);
 
-  const [errors, setErrors] = useState<Errors>({});
+  const [inputErrors, setInputErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Touched>({});
   const [inputValue, setInputValue] = useState<InputValue>(initialValue);
 
@@ -54,7 +54,7 @@ export default function ResetPassword({}): JSX.Element {
 
   const onBlurHandler = (e: FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
-    onBlurErrorCheck(name, value, touched, setErrors);
+    onBlurErrorCheck(name, value, touched, setInputErrors);
   };
 
   const onChangeHandler = (
@@ -65,11 +65,15 @@ export default function ResetPassword({}): JSX.Element {
     setInputValue((prev) => {
       return { ...prev, [name]: value };
     });
-    onChangeErrorCheck(name, value, setErrors);
+    onChangeErrorCheck(name, value, setInputErrors);
   };
 
   const resetHandler = () => {
-    const hasError = onSubmitErrorCheck(inputValue, errors, setErrors);
+    const hasError = onSubmitErrorCheck(
+      inputValue,
+      inputErrors,
+      setInputErrors
+    );
     if (hasError) return;
 
     dispatch(
@@ -85,10 +89,10 @@ export default function ResetPassword({}): JSX.Element {
     return renderInputFields(
       inputFieldsArray,
       inputValue,
-      errors,
       onFocusHandler,
       onBlurHandler,
       onChangeHandler,
+      inputErrors,
       authErorrs
     );
   };

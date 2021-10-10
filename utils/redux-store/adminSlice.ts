@@ -114,7 +114,11 @@ const adminSlice = createSlice({
   initialState,
   reducers: {
     clearAdminErrors(state, action: PayloadAction<string>) {
-      state.adminErrors[action.payload] = "";
+      if (action.payload === "all") {
+        state.adminErrors = {};
+      } else {
+        state.adminErrors[action.payload] = "";
+      }
     },
     setLoadingStatus_admin(state, action: PayloadAction<string>) {
       state.loadingStatus = action.payload;

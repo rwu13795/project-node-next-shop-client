@@ -29,7 +29,7 @@ export default function SignInModal({ page }: { page?: string }): JSX.Element {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  return page === "sign-up" ? (
+  return page === "sign-up" || page === "sign-in" ? (
     <Link href="/auth/sign-in">
       <a>
         <Button variant="contained">Sign In</Button>{" "}

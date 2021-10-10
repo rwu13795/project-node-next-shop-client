@@ -11,13 +11,13 @@ import { AdminErrors } from "../redux-store/adminSlice";
 export default function renderInputFields(
   fieldsArray: string[],
   inputValue: InputValue,
-  errors: Errors,
   onFocusHandler: (e: FocusEvent<HTMLInputElement>) => void,
   onBlurHandler: (e: FocusEvent<HTMLInputElement>) => void,
   onChangeHandler: (
     e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>
   ) => void,
-  authErrors?: AuthErrors | AdminErrors
+  inputErrors: Errors,
+  requestErrors?: AuthErrors | AdminErrors
 ): JSX.Element[] {
   return fieldsArray.map((inputName) => {
     return inputName !== inputNames.state ? (
@@ -28,8 +28,8 @@ export default function renderInputFields(
         onFocus={onFocusHandler}
         onBlur={onBlurHandler}
         onChange={onChangeHandler}
-        authError={authErrors ? authErrors[inputName] : ""}
-        inputError={errors[inputName]}
+        authError={requestErrors ? requestErrors[inputName] : ""}
+        inputError={inputErrors[inputName]}
       />
     ) : (
       <div key={inputName}>
@@ -40,7 +40,7 @@ export default function renderInputFields(
           onBlurHandler={onBlurHandler}
           onChangeHandler={onChangeHandler}
         />
-        {errors[inputName]}
+        {inputErrors[inputName]}
       </div>
     );
   });

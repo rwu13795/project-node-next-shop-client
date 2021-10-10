@@ -1,12 +1,4 @@
-import React, {
-  useState,
-  ChangeEvent,
-  FocusEvent,
-  SetStateAction,
-  Dispatch,
-  useCallback,
-  useEffect,
-} from "react";
+import React, { useState, ChangeEvent, FocusEvent, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { SelectChangeEvent } from "@mui/material";
@@ -23,25 +15,12 @@ import {
   Touched,
   Errors,
 } from "../../../utils/helper-functions/input-error-check";
-import { inputTypes } from "../../../utils/enums-types/input-types";
-import {
-  selectShippingAddress,
-  selectContactInfo,
-  addressFields,
-  contactFields,
-  setShippingAddress,
-  setContactInfo,
-  loadUserInfo,
-} from "../../../utils/redux-store/checkoutSlice";
-import { AllowedStages } from "../../../pages/shop/checkout";
 import renderInputFields from "../../../utils/helper-functions/render-input-fields";
 import {
   clearAuthErrors,
   selectAuthErrors,
-  selectCsrfToken,
   selectCurrentUser,
   selectLoadingStatus_user,
-  setLoadingStatus,
   updateUserInfo,
 } from "../../../utils/redux-store/userSlice";
 
@@ -68,7 +47,7 @@ export default function UpdateProfile({}): JSX.Element {
   const authErrors = useSelector(selectAuthErrors);
 
   const [inputValue, setInputValue] = useState<InputValue>(initialValue);
-  const [errors, setErrors] = useState<Errors>({});
+  const [inputErrors, setInputErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Touched>({});
 
   useEffect(() => {
@@ -93,7 +72,7 @@ export default function UpdateProfile({}): JSX.Element {
 
   const onBlurHandler = (e: FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
-    onBlurErrorCheck(name, value, touched, setErrors);
+    onBlurErrorCheck(name, value, touched, setInputErrors);
   };
 
   const onChangeHandler = (
@@ -104,11 +83,15 @@ export default function UpdateProfile({}): JSX.Element {
     setInputValue((prev) => {
       return { ...prev, [name]: value };
     });
-    onChangeErrorCheck(name, value, setErrors);
+    onChangeErrorCheck(name, value, setInputErrors);
   };
 
   const updateHandler = () => {
-    const hasError = onSubmitErrorCheck(inputValue, errors, setErrors);
+    const hasError = onSubmitErrorCheck(
+      inputValue,
+      inputErrors,
+      setInputErrors
+    );
     if (hasError) return;
     dispatch(updateUserInfo({ inputValue }));
   };
@@ -117,10 +100,10 @@ export default function UpdateProfile({}): JSX.Element {
     return renderInputFields(
       fields,
       inputValue,
-      errors,
       onFocusHandler,
       onBlurHandler,
-      onChangeHandler
+      onChangeHandler,
+      inputErrors
     );
   };
 

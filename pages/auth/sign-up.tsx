@@ -42,7 +42,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   console.log(data);
 
-  if (data.isLoggedIn) {
+  if (data.currentUser.isLoggedIn) {
     // redirect the user to the main page without rendering the sign-up page
     // if user has a signed-in session
     return {

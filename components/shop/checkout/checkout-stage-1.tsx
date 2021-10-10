@@ -52,7 +52,7 @@ export default function CheckoutStage_1({
   const contactInfo = useSelector(selectContactInfo);
   const cart = useSelector(selectCart);
 
-  const [errors, setErrors] = useState<Errors>({});
+  const [inputErrors, setInputErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Touched>({});
 
   const onFocusHandler = (e: FocusEvent<HTMLInputElement>) => {
@@ -62,7 +62,7 @@ export default function CheckoutStage_1({
 
   const onBlurHandler = (e: FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
-    onBlurErrorCheck(name, value, touched, setErrors);
+    onBlurErrorCheck(name, value, touched, setInputErrors);
   };
 
   const onChangeHandler = (
@@ -74,14 +74,14 @@ export default function CheckoutStage_1({
     } else {
       dispatch(setShippingAddress({ name, value }));
     }
-    onChangeErrorCheck(name, value, setErrors);
+    onChangeErrorCheck(name, value, setInputErrors);
   };
 
   const stageChangeHandler = async () => {
     let hasError = false;
-    hasError = onSubmitErrorCheck(shippingAddress, errors, setErrors);
+    hasError = onSubmitErrorCheck(shippingAddress, inputErrors, setInputErrors);
     if (hasError) return;
-    hasError = onSubmitErrorCheck(contactInfo, errors, setErrors);
+    hasError = onSubmitErrorCheck(contactInfo, inputErrors, setInputErrors);
     if (hasError) return;
 
     for (let i = 0; i < cart.length; i++) {
@@ -125,10 +125,10 @@ export default function CheckoutStage_1({
     return renderInputFields(
       fields,
       inputValue,
-      errors,
       onFocusHandler,
       onBlurHandler,
-      onChangeHandler
+      onChangeHandler,
+      inputErrors
     );
   };
 
