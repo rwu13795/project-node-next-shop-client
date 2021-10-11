@@ -9,7 +9,6 @@ interface Props {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   inputError: string;
   authError?: string;
-  label?: string;
 }
 
 export default function FormInputField(props: Props): JSX.Element {
@@ -21,7 +20,6 @@ export default function FormInputField(props: Props): JSX.Element {
     onChange,
     authError,
     inputError,
-    label,
   } = props;
   let type: string;
   switch (inputName) {
@@ -43,11 +41,11 @@ export default function FormInputField(props: Props): JSX.Element {
     }
   }
 
+  const regex = /[_]/g;
+
   return (
     <div>
-      <label>
-        {label ? label : inputName.replaceAll("_", " ").toUpperCase()}
-      </label>
+      <label>{inputName.replace(regex, " ").toUpperCase()}</label>
       <input
         type={type}
         required

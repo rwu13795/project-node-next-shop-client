@@ -12,27 +12,31 @@ import { Button, CircularProgress, SelectChangeEvent } from "@mui/material";
 
 import {
   Errors,
-  InputValue,
+  InputValues,
   onSubmitErrorCheck,
 } from "../../utils/helper-functions/input-error-check";
 import renderInputFields from "../../utils/helper-functions/render-input-fields";
 import { AdminErrors } from "../../utils/redux-store/adminSlice";
 import {
   AuthErrors,
+  forgotPassword_Request,
   selectAuthErrors,
   selectLoadingStatus_user,
+  setLoadingStatus,
   signIn,
 } from "../../utils/redux-store/userSlice";
 import { inputNames } from "../../utils/enums-types/input-names";
+import browserClient from "../../utils/axios-client/browser-client";
+import { loadingStatus } from "../../utils/enums-types/loading-status";
 
 interface Props {
   inputFieldsArray: string[];
-  inputValue: InputValue;
+  inputValues: InputValues;
   inputErrors: Errors;
   setInputErrors: Dispatch<SetStateAction<Errors>>;
   inputFields: (
     fields: string[],
-    inputValue: InputValue,
+    inputValues: InputValues,
     requestError: AuthErrors | AdminErrors
   ) => JSX.Element[];
   modalHandleClose?: () => void; // MUI modal function to close the modal
@@ -40,7 +44,7 @@ interface Props {
 
 export default function UserSignIn({
   inputFieldsArray,
-  inputValue,
+  inputValues,
   inputErrors,
   setInputErrors,
   inputFields,
@@ -54,26 +58,32 @@ export default function UserSignIn({
 
   const singInHandler = () => {
     const hasError = onSubmitErrorCheck(
-      inputValue,
+      inputValues,
       inputErrors,
       setInputErrors
     );
     if (hasError) return;
     dispatch(
-      signIn({ email: inputValue.email, password: inputValue.password })
+      signIn({
+        email: inputValues[inputNames.email],
+        password: inputValues[inputNames.password],
+      })
     );
   };
 
   const forgetPasswordHandler = () => {
+    dispatch(setLoadingStatus("idle"));
     setInputErrors({});
     setForgetPassword(true);
   };
 
-  const requestSubmitHandler = () => {};
+  const requestSubmitHandler = () => {
+    dispatch(forgotPassword_Request(inputValues[inputNames.email]));
+  };
 
   return !forgotPassword ? (
     <div>
-      {inputFields(inputFieldsArray, inputValue, authErrors)}
+      {inputFields(inputFieldsArray, inputValues, authErrors)}
       <div>
         <button
           onClick={singInHandler}
@@ -112,9 +122,17 @@ export default function UserSignIn({
       <div>2. CHECK YOUR INBOX FOR A MESSAGE FROM US.</div>
       <div>3. FOLLOW THE LINK TO RESET YOUR PASSWORD.</div>
       <hr />
-      <div>{inputFields([inputNames.email], inputValue, authErrors)}</div>
+      {loadingStatus_user === loadingStatus.succeeded && (
+        <div>A link for resetting the password has been sent to your email</div>
+      )}
+      <div>{inputFields([inputNames.email], inputValues, authErrors)}</div>
       <div>
-        <button onClick={requestSubmitHandler}>SUBMIT</button>
+        <button
+          onClick={requestSubmitHandler}
+          disabled={loadingStatus_user === loadingStatus.succeeded}
+        >
+          SUBMIT
+        </button>
       </div>
     </div>
   );

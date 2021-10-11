@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button, CircularProgress, SelectChangeEvent } from "@mui/material";
 
 import {
-  InputValue,
+  InputValues,
   onBlurErrorCheck,
   onChangeErrorCheck,
   onFocusErrorCheck,
@@ -39,6 +39,8 @@ import UserSignIn from "./user-sign-in";
 import UserSignUp from "./user-sign-up";
 import AdminSignIn from "../admin/admin-sign-in";
 import AdminRegister from "../admin/admin-register";
+import ForgotPasswordReset from "./forgot-pw-reset";
+import { initializeValues } from "../../utils/helper-functions/initialize-values";
 
 interface Props {
   inputType: string; // "signIn" | "signUp"
@@ -54,10 +56,6 @@ export default function AuthForm({
   modalHandleClose,
 }: Props): JSX.Element {
   const dispatch = useDispatch();
-  const authErrors = useSelector(selectAuthErrors);
-  const adminErrors = useSelector(selectAdminErrors);
-  const loadingStatus_user = useSelector(selectLoadingStatus_user);
-  const loadingStatus_admin = useSelector(selectLoadingStatus_admin);
 
   const [inputErrors, setInputErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Touched>({});
@@ -67,12 +65,8 @@ export default function AuthForm({
   // for the inputValue in the input elements, I must initialize the object with the
   // keys and values, otherwise when the value changes, React will show
   // warning: A component is changing an uncontrolled input to be controlled
-  const [inputValue, setInputValue] = useState<InputValue>(() => {
-    let initialValue: InputValue = {};
-    for (let name of inputFieldsArray) {
-      initialValue = { ...initialValue, [name]: "" };
-    }
-    return initialValue;
+  const [inputValues, setInputValue] = useState<InputValues>(() => {
+    return initializeValues(inputFieldsArray);
   });
 
   const onFocusHandler = (e: FocusEvent<HTMLInputElement>) => {
@@ -100,23 +94,23 @@ export default function AuthForm({
 
   const inputFields = (
     fields: string[],
-    inputValue: InputValue,
-    requestError: AuthErrors | AdminErrors
+    inputValues: InputValues,
+    requestErrors: AuthErrors | AdminErrors
   ) => {
     return renderInputFields(
       fields,
-      inputValue,
+      inputValues,
       onFocusHandler,
       onBlurHandler,
       onChangeHandler,
       inputErrors,
-      requestError
+      requestErrors
     );
   };
 
   const propsForChild = {
     inputFieldsArray,
-    inputValue,
+    inputValues,
     inputErrors,
     setInputErrors,
     inputFields,

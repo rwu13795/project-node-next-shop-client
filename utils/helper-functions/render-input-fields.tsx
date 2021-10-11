@@ -2,7 +2,7 @@ import { FocusEvent, ChangeEvent } from "react";
 import { SelectChangeEvent } from "@mui/material";
 
 import { inputNames } from "../enums-types/input-names";
-import { Errors, InputValue } from "./input-error-check";
+import { Errors, InputValues } from "./input-error-check";
 import FormInputField from "../../components/auth/form-input-field";
 import SelectState from "../../components/auth/select-state";
 import { AuthErrors } from "../redux-store/userSlice";
@@ -10,7 +10,7 @@ import { AdminErrors } from "../redux-store/adminSlice";
 
 export default function renderInputFields(
   fieldsArray: string[],
-  inputValue: InputValue,
+  inputValues: InputValues,
   onFocusHandler: (e: FocusEvent<HTMLInputElement>) => void,
   onBlurHandler: (e: FocusEvent<HTMLInputElement>) => void,
   onChangeHandler: (
@@ -24,7 +24,7 @@ export default function renderInputFields(
       <FormInputField
         key={inputName}
         inputName={inputName}
-        inputValue={inputValue[inputName]}
+        inputValue={inputValues[inputName]}
         onFocus={onFocusHandler}
         onBlur={onBlurHandler}
         onChange={onChangeHandler}
@@ -34,7 +34,7 @@ export default function renderInputFields(
     ) : (
       <div key={inputName}>
         <SelectState
-          value={inputValue[inputName]}
+          value={inputValues[inputName]}
           inputName={inputName}
           onFocusHandler={onFocusHandler}
           onBlurHandler={onBlurHandler}

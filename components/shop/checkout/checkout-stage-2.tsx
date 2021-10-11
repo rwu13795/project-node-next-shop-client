@@ -12,7 +12,7 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { Checkbox, SelectChangeEvent } from "@mui/material";
 
 import {
-  InputValue,
+  InputValues,
   onBlurErrorCheck,
   onChangeErrorCheck,
   onFocusErrorCheck,
@@ -120,10 +120,10 @@ export default function CheckoutStage_2({
     setInputErrors({});
   };
 
-  const inputFields = (fields: string[], inputValue: InputValue) => {
+  const inputFields = (fields: string[], inputValues: InputValues) => {
     return renderInputFields(
       fields,
-      inputValue,
+      inputValues,
       onFocusHandler,
       onBlurHandler,
       onChangeHandler,

@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { SelectChangeEvent } from "@mui/material";
 
 import {
-  InputValue,
+  InputValues,
   onBlurErrorCheck,
   onChangeErrorCheck,
   onFocusErrorCheck,
@@ -93,38 +93,10 @@ export default function CheckoutStage_1({
     setAllowedStages({ two: true, three: false });
   };
 
-  // const renderFields = (fieldsArray: string[], inputValue: InputValue) => {
-  //   return fieldsArray.map((inputName) => {
-  //     return inputName !== inputNames.state ? (
-  //       <FormInputField
-  //         key={inputName}
-  //         inputName={inputName}
-  //         inputValue={inputValue[inputName]}
-  //         onFocus={onFocusHandler}
-  //         onBlur={onBlurHandler}
-  //         onChange={onChangeHandler}
-  //         // authError={authErrors[inputName]}
-  //         inputError={errors[inputName]}
-  //       />
-  //     ) : (
-  //       <div key={inputName}>
-  //         <SelectState
-  //           value={inputValue[inputName]}
-  //           inputName={inputName}
-  //           onFocusHandler={onFocusHandler}
-  //           onBlurHandler={onBlurHandler}
-  //           onChangeHandler={onChangeHandler}
-  //         />
-  //         {errors[inputName]}
-  //       </div>
-  //     );
-  //   });
-  // };
-
-  const inputFields = (fields: string[], inputValue: InputValue) => {
+  const inputFields = (fields: string[], inputValues: InputValues) => {
     return renderInputFields(
       fields,
-      inputValue,
+      inputValues,
       onFocusHandler,
       onBlurHandler,
       onChangeHandler,

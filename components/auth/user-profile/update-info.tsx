@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { SelectChangeEvent } from "@mui/material";
 
 import {
-  InputValue,
+  InputValues,
   onBlurErrorCheck,
   onChangeErrorCheck,
   onFocusErrorCheck,
@@ -23,6 +23,7 @@ import {
   selectLoadingStatus_user,
   updateUserInfo,
 } from "../../../utils/redux-store/userSlice";
+import { initializeValues } from "../../../utils/helper-functions/initialize-values";
 
 const inputFieldsArray = [
   inputNames.first_name,
@@ -35,10 +36,7 @@ const inputFieldsArray = [
   inputNames.phone,
 ];
 
-let initialValue: InputValue = {};
-for (let name of inputFieldsArray) {
-  initialValue = { ...initialValue, [name]: "" };
-}
+let initialValues = initializeValues(inputFieldsArray);
 
 export default function UpdateProfile({}): JSX.Element {
   const dispatch = useDispatch();
@@ -46,7 +44,7 @@ export default function UpdateProfile({}): JSX.Element {
   const loadingStatus = useSelector(selectLoadingStatus_user);
   const authErrors = useSelector(selectAuthErrors);
 
-  const [inputValue, setInputValue] = useState<InputValue>(initialValue);
+  const [inputValue, setInputValue] = useState<InputValues>(initialValues);
   const [inputErrors, setInputErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Touched>({});
 
@@ -96,7 +94,7 @@ export default function UpdateProfile({}): JSX.Element {
     dispatch(updateUserInfo({ inputValue }));
   };
 
-  const inputFields = (fields: string[], inputValue: InputValue) => {
+  const inputFields = (fields: string[], inputValues: InputValues) => {
     return renderInputFields(
       fields,
       inputValue,

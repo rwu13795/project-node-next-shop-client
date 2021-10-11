@@ -5,7 +5,7 @@ import { CircularProgress, SelectChangeEvent } from "@mui/material";
 import { inputNames } from "../../../utils/enums-types/input-names";
 import {
   Errors,
-  InputValue,
+  InputValues,
   onBlurErrorCheck,
   onChangeErrorCheck,
   onFocusErrorCheck,
@@ -20,6 +20,7 @@ import {
   selectLoadingStatus_user,
 } from "../../../utils/redux-store/userSlice";
 import renderInputFields from "../../../utils/helper-functions/render-input-fields";
+import { initializeValues } from "../../../utils/helper-functions/initialize-values";
 
 const inputFieldsArray = [
   inputNames.old_password,
@@ -27,10 +28,7 @@ const inputFieldsArray = [
   inputNames.confirm_new_password,
 ];
 
-let initialValue: InputValue = {};
-for (let name of inputFieldsArray) {
-  initialValue = { ...initialValue, [name]: "" };
-}
+let initialValues = initializeValues(inputFieldsArray);
 
 export default function ResetPassword({}): JSX.Element {
   const dispatch = useDispatch();
@@ -39,11 +37,11 @@ export default function ResetPassword({}): JSX.Element {
 
   const [inputErrors, setInputErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Touched>({});
-  const [inputValue, setInputValue] = useState<InputValue>(initialValue);
+  const [inputValue, setInputValue] = useState<InputValues>(initialValues);
 
   useEffect(() => {
     if (loadingStatus === "reset_password_succeeded") {
-      setInputValue(initialValue);
+      setInputValue(initialValues);
     }
   }, [loadingStatus]);
 

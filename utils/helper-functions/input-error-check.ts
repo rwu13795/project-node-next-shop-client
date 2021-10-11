@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { inputNames } from "../enums-types/input-names";
 
-export interface InputValue {
+export interface InputValues {
   [inputNames: string]: string;
 }
 
@@ -149,7 +149,7 @@ export const onChangeErrorCheck = (
 };
 
 export const onSubmitErrorCheck = (
-  input: InputValue,
+  input: InputValues,
   errors: Errors,
   setError: Dispatch<SetStateAction<Errors>>
 ): boolean => {

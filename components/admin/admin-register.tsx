@@ -5,7 +5,7 @@ import { Button, CircularProgress, SelectChangeEvent } from "@mui/material";
 
 import {
   Errors,
-  InputValue,
+  InputValues,
   onSubmitErrorCheck,
 } from "../../utils/helper-functions/input-error-check";
 import {
@@ -20,19 +20,19 @@ import { AuthErrors } from "../../utils/redux-store/userSlice";
 
 interface Props {
   inputFieldsArray: string[];
-  inputValue: InputValue;
+  inputValues: InputValues;
   inputErrors: Errors;
   setInputErrors: Dispatch<SetStateAction<Errors>>;
   inputFields: (
     fields: string[],
-    inputValue: InputValue,
+    inputValues: InputValues,
     requestError: AuthErrors | AdminErrors
   ) => JSX.Element[];
 }
 
 export default function AdminRegister({
   inputFieldsArray,
-  inputValue,
+  inputValues,
   inputErrors,
   setInputErrors,
   inputFields,
@@ -43,23 +43,23 @@ export default function AdminRegister({
 
   const adminRegisterHandler = () => {
     const hasError = onSubmitErrorCheck(
-      inputValue,
+      inputValues,
       inputErrors,
       setInputErrors
     );
     if (hasError) return;
     dispatch(
       adminRegister({
-        admin_username: inputValue[inputNames.admin_username],
-        password: inputValue[inputNames.password],
-        confirm_password: inputValue[inputNames.confirm_password],
+        admin_username: inputValues[inputNames.admin_username],
+        password: inputValues[inputNames.password],
+        confirm_password: inputValues[inputNames.confirm_password],
       })
     );
   };
 
   return (
     <div>
-      {inputFields(inputFieldsArray, inputValue, adminErrors)}
+      {inputFields(inputFieldsArray, inputValues, adminErrors)}
       <div>
         <button
           onClick={adminRegisterHandler}

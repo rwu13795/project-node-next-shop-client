@@ -12,7 +12,7 @@ import { Button, CircularProgress, SelectChangeEvent } from "@mui/material";
 
 import {
   Errors,
-  InputValue,
+  InputValues,
   onSubmitErrorCheck,
 } from "../../utils/helper-functions/input-error-check";
 import { AdminErrors } from "../../utils/redux-store/adminSlice";
@@ -28,19 +28,19 @@ import {
 
 interface Props {
   inputFieldsArray: string[];
-  inputValue: InputValue;
+  inputValues: InputValues;
   inputErrors: Errors;
   setInputErrors: Dispatch<SetStateAction<Errors>>;
   inputFields: (
     fields: string[],
-    inputValue: InputValue,
+    inputValues: InputValues,
     requestError: AuthErrors | AdminErrors
   ) => JSX.Element[];
 }
 
 export default function UserSignUp({
   inputFieldsArray,
-  inputValue,
+  inputValues,
   inputErrors,
   setInputErrors,
   inputFields,
@@ -51,25 +51,25 @@ export default function UserSignUp({
 
   const singUpHandler = () => {
     const hasError = onSubmitErrorCheck(
-      inputValue,
+      inputValues,
       inputErrors,
       setInputErrors
     );
     if (hasError) return;
     dispatch(
       signUp({
-        email: inputValue[inputNames.email],
-        password: inputValue[inputNames.password],
-        confirm_password: inputValue[inputNames.confirm_password],
+        email: inputValues[inputNames.email],
+        password: inputValues[inputNames.password],
+        confirm_password: inputValues[inputNames.confirm_password],
         userInfo: {
-          first_name: inputValue[inputNames.first_name],
-          last_name: inputValue[inputNames.last_name],
-          phone: inputValue[inputNames.phone],
-          address_1: inputValue[inputNames.address_1],
-          address_2: inputValue[inputNames.address_2],
-          city: inputValue[inputNames.city],
-          state: inputValue[inputNames.state],
-          zip_code: inputValue[inputNames.zip_code],
+          first_name: inputValues[inputNames.first_name],
+          last_name: inputValues[inputNames.last_name],
+          phone: inputValues[inputNames.phone],
+          address_1: inputValues[inputNames.address_1],
+          address_2: inputValues[inputNames.address_2],
+          city: inputValues[inputNames.city],
+          state: inputValues[inputNames.state],
+          zip_code: inputValues[inputNames.zip_code],
         },
       })
     );
@@ -84,7 +84,7 @@ export default function UserSignUp({
       </Link>
       <span> Have a existing account?</span>
       <hr />
-      {inputFields(inputFieldsArray, inputValue, authErrors)}
+      {inputFields(inputFieldsArray, inputValues, authErrors)}
       <div>
         <Button
           variant="contained"

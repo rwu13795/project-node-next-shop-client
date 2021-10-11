@@ -8,7 +8,8 @@ import type { RootState } from "./index";
 
 import browserClient from "../axios-client/browser-client";
 import { inputNames } from "../enums-types/input-names";
-import { InputValue } from "../helper-functions/input-error-check";
+import { InputValues } from "../helper-functions/input-error-check";
+import { loadingStatus } from "../enums-types/loading-status";
 
 interface StockError {
   index?: number;
@@ -62,12 +63,6 @@ interface SignUpBody {
 interface SignInBody {
   email: string;
   password: string;
-}
-
-interface ResetPasswordBody {
-  old_password: string;
-  new_password: string;
-  confirm_new_password: string;
 }
 
 interface UserState {
@@ -224,7 +219,7 @@ const updateStock = createAsyncThunk("user/updateStock", async () => {
 /////////////////
 const updateUserInfo = createAsyncThunk<
   UserState,
-  { inputValue: InputValue },
+  { inputValue: InputValues },
   { state: RootState }
 >("user/updateUserInfo", async ({ inputValue }, thunkAPI) => {
   // compare the values before sending them to server, if nothing changes
@@ -256,7 +251,11 @@ const updateUserInfo = createAsyncThunk<
 ////////////////////
 const resetPassword = createAsyncThunk<
   void,
-  ResetPasswordBody,
+  {
+    old_password: string;
+    new_password: string;
+    confirm_new_password: string;
+  },
   { state: RootState }
 >("user/resetPassword", async (body, thunkAPI) => {
   try {
@@ -269,6 +268,46 @@ const resetPassword = createAsyncThunk<
     return thunkAPI.rejectWithValue(err.response.data);
   }
 });
+
+/////////////////////
+// FORGOT PASSWORD //
+/////////////////////
+const forgotPassword_Request = createAsyncThunk<
+  void,
+  string,
+  { state: RootState }
+>("user/forgotPassword_Request", async (email, thunkAPI) => {
+  try {
+    await client.post(serverUrl + "/auth/forgot-password-request", {
+      email,
+    });
+    return;
+  } catch (err: any) {
+    return thunkAPI.rejectWithValue(err.response.data);
+  }
+});
+
+const forgotPassword_Reset = createAsyncThunk<
+  void,
+  {
+    new_password: string;
+    confirm_new_password: string;
+    token: string;
+    userId: string;
+  },
+  { state: RootState }
+>("user/forgotPassword_Reset", async (body, thunkAPI) => {
+  try {
+    await client.post(serverUrl + "/auth/forgot-password-reset", {
+      ...body,
+    });
+    return;
+  } catch (err: any) {
+    return thunkAPI.rejectWithValue(err.response.data);
+  }
+});
+
+////////////////////////////////////////////////////////////////////////////////
 
 const userSlice = createSlice({
   name: "user",
@@ -443,6 +482,40 @@ const userSlice = createSlice({
           }
           state.loadingStatus = "idle";
         }
+      )
+      ////////////////////
+      // FORGOT PASSWORD //
+      ////////////////////
+      .addCase(forgotPassword_Request.fulfilled, (state): void => {
+        state.loadingStatus = loadingStatus.succeeded;
+      })
+      .addCase(forgotPassword_Request.pending, (state): void => {
+        state.loadingStatus = loadingStatus.loading;
+      })
+      .addCase(
+        forgotPassword_Request.rejected,
+        (state, action: PayloadAction<any>): void => {
+          for (let err of action.payload.errors) {
+            state.authErrors[err.field] = err.message;
+          }
+          console.log(state.authErrors);
+          state.loadingStatus = loadingStatus.idle;
+        }
+      )
+      .addCase(forgotPassword_Reset.fulfilled, (state): void => {
+        state.loadingStatus = loadingStatus.succeeded;
+      })
+      .addCase(forgotPassword_Reset.pending, (state): void => {
+        state.loadingStatus = loadingStatus.loading;
+      })
+      .addCase(
+        forgotPassword_Reset.rejected,
+        (state, action: PayloadAction<any>): void => {
+          for (let err of action.payload.errors) {
+            state.authErrors[err.field] = err.message;
+          }
+          state.loadingStatus = loadingStatus.idle;
+        }
       );
   },
 });
@@ -466,6 +539,8 @@ export {
   checkStock,
   updateStock,
   resetPassword,
+  forgotPassword_Request,
+  forgotPassword_Reset,
 };
 
 export default userSlice.reducer;
