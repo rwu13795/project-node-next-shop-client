@@ -91,8 +91,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     console.log(data);
 
-    return { props: { orders: data.orders, ordersTotal: data.ordersTotal } };
+    return {
+      props: {
+        orders: data.orders,
+        ordersTotal: data.ordersTotal,
+        page: "auth",
+      },
+    };
   } catch (err) {
-    return { props: { orders: null, notAuth: true } };
+    return { props: { orders: null, notAuth: true, page: "auth" } };
   }
 }

@@ -2,7 +2,7 @@ import type { GetServerSidePropsContext, NextPage } from "next";
 
 import serverClient from "../../utils/axios-client/server-client";
 
-import AuthForm from "../../components/auth/auth-form";
+import AuthForm from "../../components/auth/forms/auth-form";
 import { inputTypes } from "../../utils/enums-types/input-types";
 import { inputNames } from "../../utils/enums-types/input-names";
 
@@ -53,5 +53,5 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     };
   }
 
-  return { props: { page: "sign-up" } };
+  return { props: { page: "auth" } };
 }

@@ -15,11 +15,20 @@ export default function OrderHistory({
   orders: startOrders,
   ordersTotal,
 }: Props): JSX.Element {
+  const PRODUCT_PER_PAGE = 5;
   const client = browserClient();
 
-  const PRODUCT_PER_PAGE = 5;
+  const [pageLoading, setPageLoading] = useState<boolean>(true);
   const [pageNum, setPageNum] = useState<number>(1);
   const [orders, setOrders] = useState<Order[]>(startOrders);
+
+  useEffect(() => {
+    if (!pageNum || !orders) {
+      setPageLoading(true);
+    } else {
+      setPageLoading(false);
+    }
+  }, [pageNum, orders]);
 
   const pageChangeHandler = async (
     e: ChangeEvent<any>,
@@ -42,38 +51,42 @@ export default function OrderHistory({
 
   return (
     <main>
-      {orders.map((order) => {
-        return (
-          <div key={order._id}>
-            <div>Order placed on: {new Date(order.date).toDateString()}</div>
-            <div>Total: ${order.total}</div>
-            <div>
-              {order.items.map((item) => {
-                return (
-                  <div key={item.title + item.colorName}>
-                    <div>{item.title}</div>
-                    <Image
-                      src={item.imageUrl}
-                      alt={item.title}
-                      width={100}
-                      height={100}
-                    />
-                    <div>Price: ${item.price}</div>
-                    <div>Quantity: {item.quantity}</div>
-                    <div>
-                      Size: {item.size} Color: {item.colorName} ColorCode:{" "}
-                      {item.colorCode}
+      {pageLoading ? (
+        <h1>Loading shit load of load</h1>
+      ) : (
+        orders.map((order) => {
+          return (
+            <div key={order._id}>
+              <div>Order placed on: {new Date(order.date).toDateString()}</div>
+              <div>Total: ${order.total}</div>
+              <div>
+                {order.items.map((item) => {
+                  return (
+                    <div key={item.title + item.colorName}>
+                      <div>{item.title}</div>
+                      <Image
+                        src={item.imageUrl}
+                        alt={item.title}
+                        width={100}
+                        height={100}
+                      />
+                      <div>Price: ${item.price}</div>
+                      <div>Quantity: {item.quantity}</div>
+                      <div>
+                        Size: {item.size} Color: {item.colorName} ColorCode:{" "}
+                        {item.colorCode}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
+              <hr />
+              <br />
+              <br />
             </div>
-            <hr />
-            <br />
-            <br />
-          </div>
-        );
-      })}
+          );
+        })
+      )}
 
       <Pagination
         count={Math.ceil(ordersTotal / PRODUCT_PER_PAGE)}

@@ -1,30 +1,23 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useState,
-  FocusEvent,
-  ChangeEvent,
-} from "react";
+import { Dispatch, SetStateAction } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 
-import { Button, CircularProgress, SelectChangeEvent } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 
 import {
   Errors,
   InputValues,
   onSubmitErrorCheck,
-} from "../../utils/helper-functions/input-error-check";
-import { AdminErrors } from "../../utils/redux-store/adminSlice";
-import { inputNames } from "../../utils/enums-types/input-names";
-import Redirect_signedUp_to_homePage from "./redirect-signed-up";
-import renderInputFields from "../../utils/helper-functions/render-input-fields";
+} from "../../../utils/helper-functions/input-error-check";
+import { AdminErrors } from "../../../utils/redux-store/adminSlice";
+import { inputNames } from "../../../utils/enums-types/input-names";
+import Redirect_signedUp_to_homePage from "./../redirect-signed-up";
 import {
   AuthErrors,
   selectAuthErrors,
   selectLoadingStatus_user,
   signUp,
-} from "../../utils/redux-store/userSlice";
+} from "../../../utils/redux-store/userSlice";
 
 interface Props {
   inputFieldsArray: string[];

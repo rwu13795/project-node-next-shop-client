@@ -1,33 +1,26 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useState,
-  FocusEvent,
-  ChangeEvent,
-} from "react";
+import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 
-import { Button, CircularProgress, SelectChangeEvent } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 
 import {
   Errors,
   InputValues,
   onSubmitErrorCheck,
-} from "../../utils/helper-functions/input-error-check";
-import renderInputFields from "../../utils/helper-functions/render-input-fields";
-import { AdminErrors } from "../../utils/redux-store/adminSlice";
+} from "../../../utils/helper-functions/input-error-check";
+import { AdminErrors } from "../../../utils/redux-store/adminSlice";
 import {
   AuthErrors,
+  clearAuthErrors,
   forgotPassword_Request,
   selectAuthErrors,
   selectLoadingStatus_user,
   setLoadingStatus,
   signIn,
-} from "../../utils/redux-store/userSlice";
-import { inputNames } from "../../utils/enums-types/input-names";
-import browserClient from "../../utils/axios-client/browser-client";
-import { loadingStatus } from "../../utils/enums-types/loading-status";
+} from "../../../utils/redux-store/userSlice";
+import { inputNames } from "../../../utils/enums-types/input-names";
+import { loadingStatus } from "../../../utils/enums-types/loading-status";
 
 interface Props {
   inputFieldsArray: string[];
@@ -55,6 +48,11 @@ export default function UserSignIn({
   const loadingStatus_user = useSelector(selectLoadingStatus_user);
 
   const [forgotPassword, setForgetPassword] = useState<boolean>(false);
+
+  useEffect(() => {
+    dispatch(setLoadingStatus("idle"));
+    dispatch(clearAuthErrors("all"));
+  }, [dispatch]);
 
   const singInHandler = () => {
     const hasError = onSubmitErrorCheck(

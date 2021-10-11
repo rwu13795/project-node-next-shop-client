@@ -10,7 +10,7 @@ import {
   selectIsLoggedIn,
   signOut,
 } from "../../utils/redux-store/userSlice";
-import SignInModal from "../auth/sign-in-modal";
+import SignInModal from "../auth/forms/sign-in-modal";
 import CartIcon from "../shop/cart/cart-icon";
 import { useRouter } from "next/dist/client/router";
 import {
@@ -71,7 +71,9 @@ export default function MainNavigation({ page }: Props) {
         <div style={{ textAlign: "right" }}>
           {isLoggedIn ? (
             <Fragment>
-              <div>Welcome back {currentUser.username}</div>
+              <div onClick={() => router.push("/auth/profile")}>
+                Welcome back {currentUser.username}
+              </div>
               <button onClick={signOutHandler}>Sign Out</button>
             </Fragment>
           ) : (

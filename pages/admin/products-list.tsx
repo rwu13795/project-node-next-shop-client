@@ -27,11 +27,11 @@ const AdmimProductsListPage: NextPage<PageProps> = ({ products }) => {
   const loadingStatus = useSelector(selectLoadingStatus_admin);
   const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
 
-  // useEffect(() => {
-  //   if (!loggedInAsAdmin) {
-  //     router.push("/admin");
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!loggedInAsAdmin) {
+      router.push("/admin");
+    }
+  }, [loggedInAsAdmin, router]);
 
   useEffect(() => {
     // reload the page after deleting an item

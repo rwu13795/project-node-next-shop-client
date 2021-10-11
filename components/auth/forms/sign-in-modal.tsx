@@ -8,8 +8,8 @@ import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 
 import AuthForm from "./auth-form";
-import { inputFieldsArray } from "../../pages/auth/sign-in";
-import { inputTypes } from "../../utils/enums-types/input-types";
+import { inputFieldsArray } from "../../../pages/auth/sign-in";
+import { inputTypes } from "../../../utils/enums-types/input-types";
 
 const style = {
   position: "absolute" as "absolute",
@@ -29,7 +29,7 @@ export default function SignInModal({ page }: { page?: string }): JSX.Element {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  return page === "sign-up" || page === "sign-in" ? (
+  return page === "auth" ? (
     <Link href="/auth/sign-in">
       <a>
         <Button variant="contained">Sign In</Button>{" "}

@@ -3,8 +3,8 @@ import { SelectChangeEvent } from "@mui/material";
 
 import { inputNames } from "../enums-types/input-names";
 import { Errors, InputValues } from "./input-error-check";
-import FormInputField from "../../components/auth/form-input-field";
-import SelectState from "../../components/auth/select-state";
+import FormInputField from "../../components/auth/forms/form-input-field";
+import SelectState from "../../components/auth/forms/select-state";
 import { AuthErrors } from "../redux-store/userSlice";
 import { AdminErrors } from "../redux-store/adminSlice";
 
@@ -17,7 +17,8 @@ export default function renderInputFields(
     e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>
   ) => void,
   inputErrors: Errors,
-  requestErrors?: AuthErrors | AdminErrors
+  requestErrors?: AuthErrors | AdminErrors,
+  isDisabled?: boolean
 ): JSX.Element[] {
   return fieldsArray.map((inputName) => {
     return inputName !== inputNames.state ? (
@@ -30,6 +31,7 @@ export default function renderInputFields(
         onChange={onChangeHandler}
         authError={requestErrors ? requestErrors[inputName] : ""}
         inputError={inputErrors[inputName]}
+        isDisabled={isDisabled}
       />
     ) : (
       <div key={inputName}>

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import { Button, CircularProgress, SelectChangeEvent } from "@mui/material";
 
-import AuthForm from "../../components/auth/auth-form";
+import AuthForm from "../../components/auth/forms/auth-form";
 import { inputNames } from "../../utils/enums-types/input-names";
 import { inputTypes } from "../../utils/enums-types/input-types";
 import {

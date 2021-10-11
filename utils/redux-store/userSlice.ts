@@ -314,7 +314,11 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     clearAuthErrors(state, action: PayloadAction<string>) {
-      state.authErrors[action.payload] = "";
+      if ((action.payload = "all")) {
+        state.authErrors = {};
+      } else {
+        state.authErrors[action.payload] = "";
+      }
     },
     setChangeInCart(state, action: PayloadAction<boolean>) {
       state.changeInCart = action.payload;
@@ -498,8 +502,6 @@ const userSlice = createSlice({
           for (let err of action.payload.errors) {
             state.authErrors[err.field] = err.message;
           }
-          console.log(state.authErrors);
-          state.loadingStatus = loadingStatus.idle;
         }
       )
       .addCase(forgotPassword_Reset.fulfilled, (state): void => {
@@ -513,8 +515,13 @@ const userSlice = createSlice({
         (state, action: PayloadAction<any>): void => {
           for (let err of action.payload.errors) {
             state.authErrors[err.field] = err.message;
+            if (err.field === "expired-link") {
+              state.loadingStatus = loadingStatus.time_out;
+            }
           }
-          state.loadingStatus = loadingStatus.idle;
+          if (state.loadingStatus !== loadingStatus.time_out) {
+            state.loadingStatus = loadingStatus.failed;
+          }
         }
       );
   },

@@ -1,5 +1,5 @@
 import { ChangeEvent, FocusEvent } from "react";
-import { inputNames } from "../../utils/enums-types/input-names";
+import { inputNames } from "../../../utils/enums-types/input-names";
 
 interface Props {
   inputName: string;
@@ -9,6 +9,7 @@ interface Props {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   inputError: string;
   authError?: string;
+  isDisabled?: boolean;
 }
 
 export default function FormInputField(props: Props): JSX.Element {
@@ -20,6 +21,7 @@ export default function FormInputField(props: Props): JSX.Element {
     onChange,
     authError,
     inputError,
+    isDisabled,
   } = props;
   let type: string;
   switch (inputName) {
@@ -54,6 +56,7 @@ export default function FormInputField(props: Props): JSX.Element {
         onFocus={onFocus}
         onBlur={onBlur}
         onChange={onChange}
+        disabled={isDisabled}
       ></input>
       <span>
         {authError}

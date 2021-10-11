@@ -1,18 +1,20 @@
 import { GetServerSidePropsContext, NextPage } from "next";
-import AuthForm from "../../../components/auth/auth-form";
+import AuthForm from "../../../components/auth/forms/auth-form";
 
 import serverClient from "../../../utils/axios-client/server-client";
-import ForgotPasswordReset from "../../../components/auth/forgot-pw-reset";
+import ForgotPasswordReset from "../../../components/auth/forms/forgot-pw-reset";
 
 interface PageProps {
   userId: string;
   token: string;
+  expiration: number;
   timeOut?: boolean;
 }
 
 const ForgotPasswordResetPage: NextPage<PageProps> = ({
   userId,
   token,
+  expiration,
   timeOut,
 }) => {
   if (timeOut) {
@@ -25,7 +27,11 @@ const ForgotPasswordResetPage: NextPage<PageProps> = ({
 
   return (
     <main>
-      <ForgotPasswordReset token={token} userId={userId} />
+      <ForgotPasswordReset
+        token={token}
+        userId={userId}
+        expiration={expiration}
+      />
     </main>
   );
 };
@@ -61,15 +67,22 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       }
     );
 
+    console.log(data.expiration);
+
     return {
-      props: { userId: data.userId, token },
+      props: {
+        userId: data.userId,
+        token,
+        expiration: data.expiration,
+        page: "auth",
+      },
     };
   } catch (err: any) {
     const data = err.response.data;
     console.log("in catch error", data);
 
     return {
-      props: { timeOut: true },
+      props: { timeOut: true, page: "auth" },
     };
   }
 }

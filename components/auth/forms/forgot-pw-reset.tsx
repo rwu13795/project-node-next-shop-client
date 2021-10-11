@@ -1,14 +1,7 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useState,
-  FocusEvent,
-  ChangeEvent,
-} from "react";
+import { useState, FocusEvent, ChangeEvent, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Link from "next/link";
 
-import { Button, CircularProgress, SelectChangeEvent } from "@mui/material";
+import { SelectChangeEvent } from "@mui/material";
 
 import {
   Errors,
@@ -18,26 +11,24 @@ import {
   onFocusErrorCheck,
   onSubmitErrorCheck,
   Touched,
-} from "../../utils/helper-functions/input-error-check";
-import renderInputFields from "../../utils/helper-functions/render-input-fields";
-import { AdminErrors } from "../../utils/redux-store/adminSlice";
+} from "../../../utils/helper-functions/input-error-check";
+import renderInputFields from "../../../utils/helper-functions/render-input-fields";
+
 import {
-  AuthErrors,
   clearAuthErrors,
   forgotPassword_Reset,
   selectAuthErrors,
   selectLoadingStatus_user,
-  setLoadingStatus,
-  signIn,
-} from "../../utils/redux-store/userSlice";
-import { inputNames } from "../../utils/enums-types/input-names";
-import browserClient from "../../utils/axios-client/browser-client";
-import { initializeValues } from "../../utils/helper-functions/initialize-values";
-import { loadingStatus } from "../../utils/enums-types/loading-status";
+} from "../../../utils/redux-store/userSlice";
+import { inputNames } from "../../../utils/enums-types/input-names";
+import { initializeValues } from "../../../utils/helper-functions/initialize-values";
+import { loadingStatus } from "../../../utils/enums-types/loading-status";
+import Redirect_to_signIn from "../redirect-to-sign-In";
 
 interface Props {
   userId: string;
   token: string;
+  expiration: number;
 }
 
 const inputFieldsArray = [
@@ -50,14 +41,55 @@ const initialValues = initializeValues(inputFieldsArray);
 export default function ForgotPasswordReset({
   userId,
   token,
+  expiration,
 }: Props): JSX.Element {
   const dispatch = useDispatch();
   const authErrors = useSelector(selectAuthErrors);
   const loadingStatus_user = useSelector(selectLoadingStatus_user);
 
+  const [second, setSecond] = useState<number>(
+    Math.floor((expiration / 1000) % 60) - 1
+  );
+  const [minute, setMinute] = useState<number>(
+    Math.floor(expiration / 1000 / 60)
+  );
+  const [isExpired, setIsExpired] = useState<boolean>(false);
+
   const [inputErrors, setInputErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Touched>({});
   const [inputValues, setInputValues] = useState<InputValues>(initialValues);
+
+  console.log(second);
+
+  useEffect(() => {
+    if (loadingStatus_user === loadingStatus.time_out) {
+      setIsExpired(true);
+    }
+  }, [loadingStatus_user]);
+
+  useEffect(() => {
+    const countDown = () => {
+      if (second > 0) {
+        setSecond((prevSec) => prevSec - 1);
+      }
+      if (second === 0) {
+        if (minute === 0) {
+          setIsExpired(true);
+          return () => {
+            clearInterval(timerId);
+          };
+        } else {
+          setSecond(59);
+          setMinute((prevMin) => prevMin - 1);
+        }
+      }
+    };
+
+    const timerId = setInterval(countDown, 1000);
+    return () => {
+      clearInterval(timerId);
+    };
+  }, [second, minute, expiration]);
 
   const onFocusHandler = (e: FocusEvent<HTMLInputElement>) => {
     const { name } = e.currentTarget;
@@ -106,7 +138,8 @@ export default function ForgotPasswordReset({
       onBlurHandler,
       onChangeHandler,
       inputErrors,
-      authErrors
+      authErrors,
+      isExpired
     );
   };
 
@@ -119,15 +152,23 @@ export default function ForgotPasswordReset({
       <div>
         <button
           onClick={resetPasswordHandler}
-          disabled={loadingStatus_user === loadingStatus.succeeded}
+          disabled={loadingStatus_user === loadingStatus.succeeded || isExpired}
         >
           SUBMIT
         </button>
       </div>
-      <div>
-        {loadingStatus_user === loadingStatus.succeeded &&
-          "Password reset successfully"}
-      </div>
+
+      {loadingStatus_user === loadingStatus.succeeded && (
+        <Redirect_to_signIn resetSuccess={true} />
+      )}
+
+      {isExpired ? (
+        <h3>Session time out</h3>
+      ) : (
+        <div>
+          {`0${minute}`}:{second > 9 ? second : `0${second}`}
+        </div>
+      )}
     </div>
   );
 }

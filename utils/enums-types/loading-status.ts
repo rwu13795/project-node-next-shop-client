@@ -3,4 +3,5 @@ export enum loadingStatus {
   failed = "failed",
   succeeded = "succeeded",
   loading = "loading",
+  time_out = "time_out",
 }
