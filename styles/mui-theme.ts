@@ -1,6 +1,6 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 
-export const theme = createTheme({
+let theme = createTheme({
   palette: {
     // type: 'light',
     primary: {
@@ -17,4 +17,20 @@ export const theme = createTheme({
       contrastText: "#ffffff",
     },
   },
+  typography: {
+    fontSize: 14,
+    fontFamily: ["Black Ops One", "Monofett", "sans-serif"].join(","),
+  },
 });
+
+theme.typography.h3 = {
+  fontSize: "0.65rem",
+  "@media (min-width:600px)": {
+    fontSize: "1.2rem",
+  },
+  [theme.breakpoints.up("md")]: {
+    fontSize: "1.9rem",
+  },
+};
+
+export { theme };

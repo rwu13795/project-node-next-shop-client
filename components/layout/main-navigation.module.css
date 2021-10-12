@@ -7,3 +7,6 @@
 font-family: 'Black Ops One', cursive;
 font-family: 'Monofett', cursive;
 */
+.border {
+  border: red dashed 2px;
+}

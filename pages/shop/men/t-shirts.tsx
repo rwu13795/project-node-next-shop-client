@@ -28,7 +28,7 @@ const MenTshirtsPage: NextPage<PageProps> = ({ products: startProducts }) => {
   // }
 
   const main_cat = MainCategory.men.toLowerCase();
-  const sub_cat = MenCategory.Tshirts.toLowerCase();
+  const sub_cat = MenCategory.t_shirts.toLowerCase();
 
   const [pageNum, setPageNum] = useState<number>(1);
   const { isLoading, error, products, hasMore } = useGetMoreProducts(
@@ -80,7 +80,7 @@ export default MenTshirtsPage;
 
 export async function getStaticProps() {
   const main = MainCategory.men.toLowerCase();
-  const sub = MenCategory.Tshirts.toLowerCase();
+  const sub = MenCategory.t_shirts.toLowerCase();
 
   const { data }: { data: PageProps } = await axios.get(
     `http://localhost:5000/api/products/${main}/${sub}`

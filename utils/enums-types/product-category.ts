@@ -13,9 +13,19 @@ export enum WomenCategory {
 export const womenCatArray = Object.values(WomenCategory);
 
 export enum MenCategory {
-  Tshirts = "T-shirts",
+  // tops
+  t_shirts = "T-shirts",
+  shirts = "Shirts",
   coats = "Coats",
+  blazers = "Blazers",
+  // bottoms
   shorts = "Shorts",
+  pants = "pants",
+  jeans = "Jeans",
+  // misc
+  shoes = "Shoes",
+  hats = "Hats",
+  glasses = "Glasses",
 }
 export const menCatArray = Object.values(MenCategory);
 

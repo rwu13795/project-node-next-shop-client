@@ -32,12 +32,16 @@ export default function SignInModal({ page }: { page?: string }): JSX.Element {
   return page === "auth" ? (
     <Link href="/auth/sign-in">
       <a>
-        <Button variant="contained">Sign In</Button>{" "}
+        <Button variant="contained">Sign In</Button>
       </a>
     </Link>
   ) : (
     <div>
-      <Button variant="contained" onClick={handleOpen}>
+      <Button
+        variant="contained"
+        onClick={handleOpen}
+        style={{ minWidth: "7vh", fontSize: "1.1vh" }}
+      >
         Sign In
       </Button>
       <Modal

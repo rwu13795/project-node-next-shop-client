@@ -13,6 +13,7 @@ import {
 } from "../../utils/redux-store/userSlice";
 import Footer from "./footer";
 import { getAdminStatus } from "../../utils/redux-store/adminSlice";
+import { ClassNames } from "@emotion/react";
 
 interface Prop {
   children: React.ReactNode;
@@ -45,7 +46,10 @@ export default function Layout(props: Prop): JSX.Element {
   return (
     // the <ThemeProvider> here will provide theme for all MUI components inside
     // all the pages
-    <main style={{ position: "relative", minHeight: "100vh" }}>
+    <main
+      style={{ position: "relative", minHeight: "100vh" }}
+      className={styles.layout}
+    >
       <ThemeProvider theme={theme}>
         <MainNavigation page={props.page} />
         <div className={styles.body}>

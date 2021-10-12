@@ -38,6 +38,12 @@ export default function CartIcon(): JSX.Element {
           router.push("/shop/cart");
           setShowCart(false);
         }}
+        style={{
+          minWidth: "7vh",
+          fontSize: "1.2vh",
+          paddingLeft: "1vh",
+          textAlign: "center",
+        }}
       >
         Cart {cart.length}
       </div>

@@ -3,7 +3,7 @@ import Head from "next/head";
 import { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import styles from "./main-navigation.module.css";
+import g_styles from "../../styles/globals.module.css";
 import {
   getUserStatus,
   selectCurrentUser,
@@ -17,6 +17,7 @@ import {
   adminSignOut,
   selectLoggedInAsAdmin,
 } from "../../utils/redux-store/adminSlice";
+import { Grid } from "@mui/material";
 
 interface Props {
   page?: string;
@@ -53,34 +54,77 @@ export default function MainNavigation({ page }: Props) {
   if (page !== "admin") {
     content = (
       <Fragment>
-        <div>
-          <Link href="/shop/women">
-            <a>WOMEN</a>
-          </Link>
-        </div>
-        <div>
-          <Link href="/shop/men">
-            <a>MEN</a>
-          </Link>
-        </div>
-        <div>
-          <Link href="/shop/kids">
-            <a>KIDS</a>
-          </Link>
-        </div>
-        <div style={{ textAlign: "right" }}>
-          {isLoggedIn ? (
-            <Fragment>
-              <div onClick={() => router.push("/auth/profile")}>
-                Welcome back {currentUser.username}
-              </div>
-              <button onClick={signOutHandler}>Sign Out</button>
-            </Fragment>
-          ) : (
-            <SignInModal page={page} />
-          )}
-          <CartIcon />
-        </div>
+        <Grid
+          item
+          container
+          md={8}
+          sm={8}
+          xs={1}
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="center"
+          sx={{ borderColor: "red", border: 2 }}
+        >
+          <Grid
+            item
+            sx={{ paddingRight: 2, display: { xs: "none", sm: "block" } }}
+          >
+            <Link href="/shop/women">
+              <a>WOMEN </a>
+            </Link>
+          </Grid>
+          <Grid
+            item
+            sx={{ paddingRight: 2, display: { xs: "none", sm: "block" } }}
+          >
+            <Link href="/shop/men">
+              <a>MEN</a>
+            </Link>
+          </Grid>
+          <Grid
+            item
+            sx={{ paddingRight: 2, display: { xs: "none", sm: "block" } }}
+          >
+            <Link href="/shop/kids">
+              <a>KIDS</a>
+            </Link>
+          </Grid>
+        </Grid>
+        <Grid
+          item
+          container
+          md={4}
+          sm={4}
+          xs={11}
+          direction="row"
+          justifyContent="flex-end"
+          alignItems="center"
+          sx={{ borderColor: "black", border: 2 }}
+        >
+          <Grid
+            sx={{
+              paddingRight: 2,
+              display: { xs: "block", sm: "none", textAlign: "right" },
+            }}
+          >
+            menu
+          </Grid>
+          <Grid sx={{ borderColor: "black", border: 3 }}>
+            {isLoggedIn ? (
+              <Fragment>
+                <div onClick={() => router.push("/auth/profile")}>
+                  Welcome back {currentUser.username}
+                </div>
+                <button onClick={signOutHandler}>Sign Out</button>
+              </Fragment>
+            ) : (
+              <SignInModal page={page} />
+            )}
+          </Grid>
+          <Grid item>
+            <CartIcon />
+          </Grid>
+        </Grid>
       </Fragment>
     );
   } else {
@@ -94,17 +138,29 @@ export default function MainNavigation({ page }: Props) {
   }
 
   return (
-    <Fragment>
-      <main className={styles.main}>
-        <section>
-          <div>
-            <Link href="/">
-              <a>logo</a>
-            </Link>
-          </div>
+    <main className={g_styles.main}>
+      <Grid
+        container
+        sx={{ borderColor: "red", border: 2 }}
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Grid item md={2} sm={2} xs={2}>
+          <Link href="/">
+            <a>logo</a>
+          </Link>
+        </Grid>
+        <Grid
+          item
+          md={10}
+          sm={10}
+          xs={10}
+          container
+          justifyContent="space-between"
+        >
           {content}
-        </section>
-      </main>
-    </Fragment>
+        </Grid>
+      </Grid>
+    </main>
   );
 }

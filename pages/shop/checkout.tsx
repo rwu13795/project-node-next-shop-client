@@ -93,16 +93,22 @@ const CheckoutPage: NextPage = ({}) => {
             <TabContext value={stage}>
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                 <TabList onChange={tagChangeHandler}>
-                  <Tab label="SHIPPING INFO" value={inputTypes.addressInfo} />
+                  <Tab
+                    label="SHIPPING INFO"
+                    value={inputTypes.addressInfo}
+                    sx={{ typography: "h3" }}
+                  />
                   <Tab
                     label="PAYMENT INFO"
                     value={inputTypes.paymentInfo}
                     disabled={!allowedStages.two}
+                    sx={{ typography: "h3" }}
                   />
                   <Tab
                     label="PLACE ORDER"
                     value={inputTypes.placeOrder}
                     disabled={!allowedStages.three}
+                    sx={{ typography: "h3" }}
                   />
                 </TabList>
               </Box>

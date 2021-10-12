@@ -62,10 +62,11 @@ export default function ForgotPasswordReset({
   console.log(second);
 
   useEffect(() => {
-    if (loadingStatus_user === loadingStatus.time_out) {
-      setIsExpired(true);
+    if (isExpired || loadingStatus_user === loadingStatus.succeeded) {
+      dispatch(clearAuthErrors("all"));
+      setInputValues(initialValues);
     }
-  }, [loadingStatus_user]);
+  }, [isExpired, loadingStatus_user, dispatch]);
 
   useEffect(() => {
     const countDown = () => {
@@ -105,6 +106,7 @@ export default function ForgotPasswordReset({
     e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>
   ) => {
     const { name, value } = e.target;
+    console.log(name);
     dispatch(clearAuthErrors(name));
     setInputValues((prev) => {
       return { ...prev, [name]: value };
@@ -127,7 +129,6 @@ export default function ForgotPasswordReset({
         confirm_new_password: inputValues[inputNames.confirm_new_password],
       })
     );
-    setInputValues(initialValues);
   };
 
   const inputFields = () => {

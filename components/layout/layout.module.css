@@ -6,3 +6,13 @@
 .body {
   padding-bottom: 3.5rem;
 }
+
+.layout {
+  background-image: linear-gradient(
+    to bottom right,
+    rgb(255, 255, 255),
+    rgb(215, 255, 255)
+  );
+  margin: 0;
+  padding: 2vh;
+}

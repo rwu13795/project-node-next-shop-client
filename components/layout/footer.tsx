@@ -16,7 +16,7 @@ export default function Footer({}): JSX.Element {
           <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
         </span>
       </a>
-      <div style={{ paddingRight: "1rem" }}>
+      <div style={{ paddingRight: "2vh" }}>
         <Link href="/admin">
           <a>Administration</a>
         </Link>
