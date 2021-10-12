@@ -17,7 +17,7 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
         </Head>
-        <body style={{ margin: 0 }}>
+        <body style={{ margin: 0, padding: 0 }}>
           <Main />
           <NextScript />
         </body>

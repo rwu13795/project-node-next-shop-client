@@ -1,10 +1,22 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+
 import Button from "@mui/material/Button";
-import { Box } from "@mui/system";
-import g_styles from "../styles/globals.module.css";
+import { Box, fontSize, maxWidth } from "@mui/system";
 import { Grid } from "@mui/material";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore, { Pagination, Navigation } from "swiper";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+
+import g_styles from "../styles/globals.module.css";
+
+SwiperCore.use([Pagination, Navigation]);
+
+const imageSrc = ["/home-men.jpg", "/home-women.jpg", "/home-kids.jpg"];
 
 const Home: NextPage = () => {
   return (
@@ -16,14 +28,116 @@ const Home: NextPage = () => {
       </Head>
 
       <Box>
-        <h1>
-          <Box>Home Page</Box>
-        </h1>
-        <Grid container justifyContent="center">
-          <Grid item>
-            <Image src="/jojo.jpg" alt="home-1" width={900} height={700} />
+        <h1>Home Page</h1>
+        <div
+          className="prev"
+          style={{
+            position: "absolute",
+            top: "50%",
+            zIndex: 9,
+            cursor: "pointer",
+            textAlign: "center",
+          }}
+        >
+          <Grid container alignItems="center">
+            <Image
+              src="/angel-left-thin.svg"
+              alt="left"
+              width={29}
+              height={29}
+            />
+            <div
+              style={{ fontSize: "1.5vh", position: "relative", left: "-15%" }}
+            >
+              prev
+            </div>
           </Grid>
-        </Grid>
+        </div>
+        <div
+          className="next"
+          style={{
+            position: "absolute",
+            top: "50%",
+            right: "1vh",
+            zIndex: 9,
+            cursor: "pointer",
+          }}
+        >
+          <Grid container alignItems="center">
+            <div
+              style={{ fontSize: "1.5vh", position: "relative", right: "-15%" }}
+            >
+              next
+            </div>
+            <Image
+              src="/angel-right-thin.svg"
+              alt="right"
+              width={29}
+              height={29}
+            />
+          </Grid>
+        </div>
+        <Swiper
+          slidesPerView={1}
+          spaceBetween={100}
+          loop={true}
+          navigation={{
+            nextEl: ".next",
+            prevEl: ".prev",
+          }}
+          freeMode={true}
+          onSlideChange={(e) => console.log("slide change", e)}
+          className="mySwiper"
+        >
+          {imageSrc.map((src) => {
+            let next;
+            let prev;
+            if (src === "/home-men.jpg") {
+              next = "Women";
+              prev = "Kids";
+            } else if (src === "/home-women.jpg") {
+              next = "Kids";
+              prev = "Men";
+            } else {
+              next = "Men";
+              prev = "Women";
+            }
+            return (
+              <div key={src}>
+                <SwiperSlide>
+                  <Grid
+                    container
+                    direction="row"
+                    wrap="nowrap"
+                    justifyContent="center"
+                    alignItems="center"
+                    style={{ minHeight: "76vh" }}
+                  >
+                    <Grid
+                      item
+                      style={{
+                        position: "relative",
+                        margin: "5vh",
+                        backgroundColor: "black",
+                      }}
+                      sx={{ boxShadow: 20 }}
+                    >
+                      <Image
+                        src={src}
+                        alt={src}
+                        width={900}
+                        height={800}
+                        blurDataURL={src}
+                        placeholder="blur"
+                        loading="eager"
+                      />
+                    </Grid>
+                  </Grid>
+                </SwiperSlide>
+              </div>
+            );
+          })}
+        </Swiper>
       </Box>
       <Button variant="outlined" color="secondary">
         Primary
