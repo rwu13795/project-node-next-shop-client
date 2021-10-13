@@ -21,6 +21,15 @@ let theme = createTheme({
     fontSize: 14,
     fontFamily: ["Black Ops One", "Monofett", "sans-serif"].join(","),
   },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 580,
+      md: 800,
+      lg: 1100,
+      xl: 1536,
+    },
+  },
 });
 
 theme.typography.h3 = {

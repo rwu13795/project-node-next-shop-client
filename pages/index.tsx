@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import { Fragment } from "react";
 
 import Button from "@mui/material/Button";
 import { Box, fontSize, maxWidth } from "@mui/system";
@@ -16,7 +17,41 @@ import g_styles from "../styles/globals.module.css";
 
 SwiperCore.use([Pagination, Navigation]);
 
-const imageSrc = ["/home-men.jpg", "/home-women.jpg", "/home-kids.jpg"];
+const imageProps = [
+  {
+    category: "men",
+    md: "/home/men.jpg",
+    sm: [
+      "/home/men-sm-1.jpg",
+      "/home/men-sm-2.jpg",
+      "/home/men-sm-3.jpg",
+      "/home/men-sm-4.jpg",
+      "/home/men-sm-5.jpg",
+      "/home/men-sm-6.jpg",
+    ],
+  },
+  {
+    category: "women",
+    md: "/home/women.jpg",
+    sm: [
+      "/home/women-sm-1.jpg",
+      "/home/women-sm-2.jpg",
+      "/home/women-sm-3.jpg",
+      "/home/women-sm-4.jpg",
+      "/home/women-sm-5.jpg",
+    ],
+  },
+  {
+    category: "kids",
+    md: "/home/kids.jpg",
+    sm: [
+      "/home/men-sm-1.jpg",
+      "/home/men-sm-2.jpg",
+      "/home/men-sm-3.jpg",
+      "/home/men-sm-4.jpg",
+    ],
+  },
+];
 
 const Home: NextPage = () => {
   return (
@@ -27,9 +62,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Box>
-        <h1>Home Page</h1>
-        <div
+      <div>
+        <Box
           className="prev"
           style={{
             position: "absolute",
@@ -38,6 +72,58 @@ const Home: NextPage = () => {
             cursor: "pointer",
             textAlign: "center",
           }}
+          sx={{ display: { xs: "none", md: "block" } }}
+        >
+          <Grid container alignItems="center">
+            <Image
+              src="/angel-left-thin.svg"
+              alt="left"
+              width={35}
+              height={35}
+            />
+            <div
+              style={{ fontSize: "1.5vh", position: "relative", left: "-20%" }}
+            >
+              prev
+            </div>
+          </Grid>
+        </Box>
+        <Box
+          className="next"
+          style={{
+            position: "absolute",
+            top: "50%",
+            right: "1vh",
+            zIndex: 9,
+            cursor: "pointer",
+          }}
+          sx={{ display: { xs: "none", md: "block" } }}
+        >
+          <Grid container alignItems="center">
+            <div
+              style={{ fontSize: "1.5vh", position: "relative", right: "-20%" }}
+            >
+              next
+            </div>
+            <Image
+              src="/angel-right-thin.svg"
+              alt="right"
+              width={35}
+              height={35}
+            />
+          </Grid>
+        </Box>
+
+        <Box
+          className="prev"
+          style={{
+            position: "absolute",
+            bottom: "40vh",
+            zIndex: 9,
+            cursor: "pointer",
+            textAlign: "center",
+          }}
+          sx={{ display: { xs: "block", md: "none" } }}
         >
           <Grid container alignItems="center">
             <Image
@@ -52,16 +138,17 @@ const Home: NextPage = () => {
               prev
             </div>
           </Grid>
-        </div>
-        <div
+        </Box>
+        <Box
           className="next"
           style={{
             position: "absolute",
-            top: "50%",
+            top: "30vh",
             right: "1vh",
             zIndex: 9,
             cursor: "pointer",
           }}
+          sx={{ display: { xs: "block", md: "none" } }}
         >
           <Grid container alignItems="center">
             <div
@@ -76,7 +163,8 @@ const Home: NextPage = () => {
               height={29}
             />
           </Grid>
-        </div>
+        </Box>
+
         <Swiper
           slidesPerView={1}
           spaceBetween={100}
@@ -89,48 +177,124 @@ const Home: NextPage = () => {
           onSlideChange={(e) => console.log("slide change", e)}
           className="mySwiper"
         >
-          {imageSrc.map((src) => {
-            let next;
-            let prev;
-            if (src === "/home-men.jpg") {
-              next = "Women";
-              prev = "Kids";
-            } else if (src === "/home-women.jpg") {
-              next = "Kids";
-              prev = "Men";
+          {imageProps.map((prop) => {
+            let title;
+            if (prop.category === "men") {
+              title = "JoJo Collections";
+            } else if (prop.category === "women") {
+              title = "Moon Crystal Collections";
             } else {
-              next = "Men";
-              prev = "Women";
+              title = "Cartman's collections";
             }
             return (
-              <div key={src}>
+              <div key={prop.category}>
                 <SwiperSlide>
                   <Grid
                     container
-                    direction="row"
+                    direction="column"
                     wrap="nowrap"
                     justifyContent="center"
                     alignItems="center"
-                    style={{ minHeight: "76vh" }}
+                    style={{
+                      height: "100%",
+                      minHeight: "90vh",
+                    }}
                   >
+                    <Box
+                      style={{
+                        fontSize: "4.5vw",
+                      }}
+                      sx={{ display: { xs: "none", md: "block" } }}
+                    >
+                      {title}
+                    </Box>
+                    <Box
+                      style={{
+                        position: "absolute",
+                        top: "13%",
+                        left: "60vw",
+                        fontSize: "3.5vw",
+                      }}
+                      sx={{ display: { xs: "block", md: "none" } }}
+                    >
+                      {title}
+                    </Box>
                     <Grid
                       item
                       style={{
-                        position: "relative",
-                        margin: "5vh",
+                        margin: "7vh 7.5vh 0 7.5vh",
                         backgroundColor: "black",
                       }}
-                      sx={{ boxShadow: 20 }}
+                      sx={{
+                        boxShadow: 20,
+                        display: { xs: "none", md: "block" },
+                      }}
                     >
                       <Image
-                        src={src}
-                        alt={src}
-                        width={900}
+                        src={prop.md}
+                        alt={prop.md}
+                        width={1100}
                         height={800}
-                        blurDataURL={src}
+                        blurDataURL={prop.md}
                         placeholder="blur"
                         loading="eager"
                       />
+                    </Grid>
+
+                    <Grid
+                      item
+                      container
+                      style={{
+                        // position: "relative",
+                        margin: "0 5vh 0 5vh",
+                        height: "100%",
+                        minHeight: "90vh",
+                        // backgroundColor: "black",
+                      }}
+                      sx={{
+                        display: { xs: "block", md: "none" },
+                      }}
+                    >
+                      {prop.sm.map((src, index) => {
+                        let top, left, width, height;
+                        if (prop.category === "men") {
+                          top = 5 + index * 8;
+                          left = 10 + index * 13;
+                          width = 95;
+                          height = 440;
+                        } else {
+                          top = 7 + index * 11;
+                          left = 10 + index * 16;
+                          width = 130;
+                          height = 480;
+                        }
+
+                        return (
+                          <Fragment key={src}>
+                            <Box
+                              style={{
+                                width: "18%",
+                                maxWidth: `${width}px`,
+                                position: "absolute",
+                                top: `${top}%`,
+                                left: `${left}%`,
+                                backgroundColor: "black",
+                              }}
+                              sx={{ boxShadow: 20 }}
+                            >
+                              <Image
+                                src={src}
+                                alt={src}
+                                width={width}
+                                height={height}
+                                blurDataURL={src}
+                                placeholder="blur"
+                                loading="eager"
+                              />
+                            </Box>
+                          </Fragment>
+                        );
+                      })}
                     </Grid>
                   </Grid>
                 </SwiperSlide>
@@ -138,7 +302,7 @@ const Home: NextPage = () => {
             );
           })}
         </Swiper>
-      </Box>
+      </div>
       <Button variant="outlined" color="secondary">
         Primary
       </Button>
