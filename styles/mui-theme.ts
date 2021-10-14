@@ -18,28 +18,30 @@ let theme = createTheme({
     },
   },
   typography: {
-    fontSize: 14,
-    fontFamily: ["Black Ops One", "Monofett", "sans-serif"].join(","),
+    body1: {
+      fontSize: "3vw",
+      fontFamily: ["Black Ops One", "Monofett", "sans-serif"].join(","),
+    },
+    h3: {
+      fontSize: "3vw",
+      // "@media (min-width:580px)": {
+      //   fontSize: "3.5vw",
+      // },
+      // "@media (min-width:770px)": {
+      //   fontSize: "3vw",
+      // },
+      fontFamily: ["Black Ops One", "Monofett", "sans-serif"].join(","),
+    },
   },
   breakpoints: {
     values: {
       xs: 0,
       sm: 580,
-      md: 800,
+      md: 770,
       lg: 1100,
       xl: 1536,
     },
   },
 });
-
-theme.typography.h3 = {
-  fontSize: "0.65rem",
-  "@media (min-width:600px)": {
-    fontSize: "1.2rem",
-  },
-  [theme.breakpoints.up("md")]: {
-    fontSize: "1.9rem",
-  },
-};
 
 export { theme };

@@ -6,7 +6,7 @@ import { TokenResult } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { stripePromise } from "../../utils/helper-functions/load-stripe";
 
-import { Box, Tab } from "@mui/material";
+import { Box, Tab, Grid } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 import { inputNames } from "../../utils/enums-types/input-names";
@@ -93,23 +93,25 @@ const CheckoutPage: NextPage = ({}) => {
             <TabContext value={stage}>
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                 <TabList onChange={tagChangeHandler}>
-                  <Tab
-                    label="SHIPPING INFO"
-                    value={inputTypes.addressInfo}
-                    sx={{ typography: "h3" }}
-                  />
-                  <Tab
-                    label="PAYMENT INFO"
-                    value={inputTypes.paymentInfo}
-                    disabled={!allowedStages.two}
-                    sx={{ typography: "h3" }}
-                  />
-                  <Tab
-                    label="PLACE ORDER"
-                    value={inputTypes.placeOrder}
-                    disabled={!allowedStages.three}
-                    sx={{ typography: "h3" }}
-                  />
+                  <Grid container justifyContent="space-evenly" wrap="nowrap">
+                    <Tab
+                      label="SHIPPING INFO"
+                      value={inputTypes.addressInfo}
+                      sx={{ typography: "h3" }}
+                    />
+                    <Tab
+                      label="PAYMENT INFO"
+                      value={inputTypes.paymentInfo}
+                      disabled={!allowedStages.two}
+                      sx={{ typography: "h3" }}
+                    />
+                    <Tab
+                      label="PLACE ORDER"
+                      value={inputTypes.placeOrder}
+                      disabled={!allowedStages.three}
+                      sx={{ typography: "h3" }}
+                    />
+                  </Grid>
                 </TabList>
               </Box>
               <TabPanel value={inputTypes.addressInfo}>

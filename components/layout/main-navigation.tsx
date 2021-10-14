@@ -1,9 +1,10 @@
 import Link from "next/link";
 import Head from "next/head";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import g_styles from "../../styles/globals.module.css";
+import styles from "./main-navigation.module.css";
 import {
   getUserStatus,
   selectCurrentUser,
@@ -31,6 +32,11 @@ export default function MainNavigation({ page }: Props) {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
 
+  const [classname, setClassname] = useState(styles.main_1);
+
+  console.log("class-1", styles.main_1);
+  console.log("class-2", styles.main_2);
+
   const signOutHandler = async () => {
     dispatch(signOut());
     // re-acquire a "guest" session after signing out
@@ -50,6 +56,47 @@ export default function MainNavigation({ page }: Props) {
     router.push("/admin");
   };
 
+  // when user is scrolling, turn the Navbar to transparent
+  let handle: any = null;
+  function createScrollStopListener(
+    element: Window,
+    callback: Function,
+    timeout: number
+  ) {
+    let onScroll = function () {
+      if (handle) {
+        clearTimeout(handle);
+        if (classname !== styles.main_2) {
+          setClassname(styles.main_2);
+        }
+      }
+      handle = setTimeout(callback, timeout || 200); // default 200 ms
+    };
+    element.addEventListener("scroll", onScroll);
+    return function () {
+      element.removeEventListener("scroll", onScroll);
+    };
+  }
+
+  useEffect(() => {
+    createScrollStopListener(
+      window,
+      function () {
+        console.log(window.pageYOffset);
+        if (window.pageYOffset < 200) {
+          setClassname(styles.main_2);
+        } else {
+          setClassname(styles.main_1);
+        }
+        console.log("onscrollstop");
+      },
+      1500
+    );
+    return () => {
+      clearTimeout(handle);
+    };
+  }, []);
+
   let content;
   if (page !== "admin") {
     content = (
@@ -63,7 +110,6 @@ export default function MainNavigation({ page }: Props) {
           direction="row"
           justifyContent="flex-start"
           alignItems="center"
-          sx={{ borderColor: "red", border: 2 }}
         >
           <Grid
             item
@@ -99,7 +145,6 @@ export default function MainNavigation({ page }: Props) {
           direction="row"
           justifyContent="flex-end"
           alignItems="center"
-          sx={{ borderColor: "black", border: 2 }}
         >
           <Grid
             sx={{
@@ -109,7 +154,7 @@ export default function MainNavigation({ page }: Props) {
           >
             menu
           </Grid>
-          <Grid sx={{ borderColor: "black", border: 3 }}>
+          <Grid>
             {isLoggedIn ? (
               <Fragment>
                 <div onClick={() => router.push("/auth/profile")}>
@@ -138,13 +183,8 @@ export default function MainNavigation({ page }: Props) {
   }
 
   return (
-    <main className={g_styles.main}>
-      <Grid
-        container
-        sx={{ borderColor: "red", border: 2 }}
-        justifyContent="space-between"
-        alignItems="center"
-      >
+    <main className={classname}>
+      <Grid container justifyContent="space-between" alignItems="center">
         <Grid item md={2} sm={2} xs={2}>
           <Link href="/">
             <a>logo</a>

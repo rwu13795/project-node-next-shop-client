@@ -37,11 +37,7 @@ export default function SignInModal({ page }: { page?: string }): JSX.Element {
     </Link>
   ) : (
     <div>
-      <Button
-        variant="contained"
-        onClick={handleOpen}
-        style={{ minWidth: "7vh", fontSize: "1.1vh" }}
-      >
+      <Button variant="contained" onClick={handleOpen}>
         Sign In
       </Button>
       <Modal

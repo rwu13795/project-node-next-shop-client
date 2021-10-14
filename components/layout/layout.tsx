@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@mui/material/styles";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { theme } from "../../styles/mui-theme";
@@ -14,6 +14,7 @@ import {
 import Footer from "./footer";
 import { getAdminStatus } from "../../utils/redux-store/adminSlice";
 import { ClassNames } from "@emotion/react";
+import { throttle } from "lodash";
 
 interface Prop {
   children: React.ReactNode;
@@ -46,9 +47,14 @@ export default function Layout(props: Prop): JSX.Element {
   return (
     // the <ThemeProvider> here will provide theme for all MUI components inside
     // all the pages
+
+    // Don't fucking know why the props in the "style" do not work when they are
+    // put inside the module.css. Maybe the MUI in the children component has
+    // styles with higher priority? I have to use the "style" directly in order to
+    // make these props work
     <main
+      className={styles.main_layout}
       style={{ position: "relative", minHeight: "100vh" }}
-      className={styles.layout}
     >
       <ThemeProvider theme={theme}>
         <MainNavigation page={props.page} />

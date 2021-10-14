@@ -1,19 +1,17 @@
-.page_container {
-  position: "relative";
-  min-height: "100vh";
-}
-
 .body {
   padding-bottom: 3.5rem;
 }
 
-.layout {
+.main_layout {
   background-image: linear-gradient(
     to bottom right,
-    rgb(255, 255, 255),
-    rgb(160, 233, 255),
-    rgb(255, 255, 255)
+    rgb(255, 255, 255) 32%,
+    rgba(34, 185, 255, 0.534) 50%,
+    rgb(255, 255, 255) 68%
   );
-  margin: 0;
   padding: 0;
+  padding-top: 4rem;
+  position: "relative";
+  min-height: "100vh";
+  font-size: 1.2vw;
 }

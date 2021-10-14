@@ -2,6 +2,7 @@ export enum MainCategory {
   men = "Men",
   women = "Women",
   kids = "Kids",
+  accessories = "Accessories",
 }
 export const mainCatArray = Object.values(MainCategory);
 
