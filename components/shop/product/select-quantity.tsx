@@ -1,6 +1,7 @@
 import {
   FormControl,
   InputLabel,
+  Menu,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -83,6 +84,9 @@ export default function SelectQuantity({
         sx={{ m: 0, minWidth: 130 }}
         onChange={changeHandler}
         disabled={availableQty === 0 || disabled}
+        // fixed the scrollbar lock when the select-menu is opened by adding
+        // "disableScrollLock: true"
+        MenuProps={{ disableScrollLock: true }}
       >
         {qtyArray.map((q) => {
           return (

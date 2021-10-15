@@ -1,11 +1,21 @@
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import Link from "next/link";
 
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
+import {
+  Menu,
+  Modal,
+  Box,
+  Backdrop,
+  Fade,
+  MenuItem,
+  Button,
+  Avatar,
+  Divider,
+  ListItemIcon,
+  Tooltip,
+  IconButton,
+} from "@mui/material";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
 import AuthForm from "./auth-form";
 import { inputFieldsArray } from "../../../pages/auth/sign-in";
@@ -36,11 +46,17 @@ export default function SignInModal({ page }: { page?: string }): JSX.Element {
       </a>
     </Link>
   ) : (
-    <div>
-      <Button variant="contained" onClick={handleOpen}>
-        Sign In
-      </Button>
+    <Fragment>
+      <Tooltip title="Log In">
+        <IconButton onClick={handleOpen} size="medium">
+          <AccountCircleOutlinedIcon
+            sx={{ width: 50, height: 50, color: "black" }}
+          />
+        </IconButton>
+      </Tooltip>
+
       <Modal
+        disableScrollLock={true}
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={open}
@@ -61,6 +77,6 @@ export default function SignInModal({ page }: { page?: string }): JSX.Element {
           </Box>
         </Fade>
       </Modal>
-    </div>
+    </Fragment>
   );
 }

@@ -89,7 +89,7 @@ export default function CheckoutStage_1({
         dispatch(removeFromCartSession(i));
       }
     }
-    setStage(inputTypes.paymentInfo);
+    setStage("2");
     setAllowedStages({ two: true, three: false });
   };
 

@@ -24,7 +24,7 @@ export interface PageProductProps {
   colorPropsList: PageColorProps[];
 }
 
-function useGetMoreProducts(
+export default function useGetMoreProducts(
   pageNum: number,
   startProducts: PageProductProps[],
   main_cat: string,
@@ -65,5 +65,3 @@ function useGetMoreProducts(
 
   return { isLoading, error, products, hasMore };
 }
-
-export default useGetMoreProducts;

@@ -34,7 +34,7 @@ interface Props {
   editItem: CartItem;
 }
 
-export default function EditDetailModal({
+export default function CartDetailModal({
   category,
   productId,
   index,

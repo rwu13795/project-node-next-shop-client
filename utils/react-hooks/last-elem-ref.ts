@@ -1,11 +1,11 @@
 import { useCallback, MutableRefObject, Dispatch, SetStateAction } from "react";
 
-export const useLastElementRef = (
+export default function useLastElementRef(
   isLoading: boolean,
   observer: MutableRefObject<IntersectionObserver | undefined>,
   hasMore: boolean,
   setPageNum: Dispatch<SetStateAction<number>>
-) => {
+) {
   return useCallback(
     // the node is the element that is being "ref" currently
     (node: HTMLDivElement) => {
@@ -24,4 +24,4 @@ export const useLastElementRef = (
     },
     [isLoading, hasMore, observer, setPageNum]
   );
-};
+}

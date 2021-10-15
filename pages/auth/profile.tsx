@@ -2,7 +2,7 @@ import { GetServerSidePropsContext, NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Box, styled, Tab } from "@mui/material";
+import { Box, styled, Tab, Grid } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 import { CartItem, setLoadingStatus } from "../../utils/redux-store/userSlice";
@@ -39,14 +39,20 @@ interface PageProps {
   orders: Order[] | null;
   ordersTotal: number;
   notAuth?: boolean;
+  tabNum?: string;
 }
 
-const ProfilePage: NextPage<PageProps> = ({ orders, ordersTotal, notAuth }) => {
+const ProfilePage: NextPage<PageProps> = ({
+  orders,
+  ordersTotal,
+  notAuth,
+  tabNum,
+}) => {
   const dispatch = useDispatch();
 
-  const [value, setValue] = useState("2");
+  const [value, setValue] = useState(tabNum ? tabNum : "2");
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+  const tagChangeHandler = (event: React.SyntheticEvent, newValue: string) => {
     dispatch(setLoadingStatus("idle"));
     setValue(newValue);
   };
@@ -59,11 +65,13 @@ const ProfilePage: NextPage<PageProps> = ({ orders, ordersTotal, notAuth }) => {
     <Box sx={{ width: "100%", typography: "body1" }}>
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <TabList onChange={handleChange}>
-            <Tab label="PERSONAL INFO" value={"1"} />
-            <Tab label="ORDER HISTORY" value={"2"} />
-            <Tab label="RESET PASSWORD" value={"3"} />
-          </TabList>
+          <Grid container justifyContent="space-evenly" wrap="nowrap">
+            <TabList onChange={tagChangeHandler}>
+              <Tab label="PERSONAL INFO" value={"1"} />
+              <Tab label="ORDER HISTORY" value={"2"} />
+              <Tab label="RESET PASSWORD" value={"3"} />
+            </TabList>
+          </Grid>
         </Box>
         <TabPanel value={"1"}>
           <UpdateProfile />
@@ -83,6 +91,7 @@ export default ProfilePage;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const client = serverClient(context);
+  const tabNum = context.query.tab;
 
   try {
     const { data }: { data: PageProps } = await client.post(
@@ -95,6 +104,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       props: {
         orders: data.orders,
         ordersTotal: data.ordersTotal,
+        tabNum,
         page: "auth",
       },
     };

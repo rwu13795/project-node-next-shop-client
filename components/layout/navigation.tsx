@@ -4,7 +4,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import g_styles from "../../styles/globals.module.css";
-import styles from "./main-navigation.module.css";
+import styles from "./navigation.module.css";
 import {
   getUserStatus,
   selectCurrentUser,
@@ -12,13 +12,14 @@ import {
   signOut,
 } from "../../utils/redux-store/userSlice";
 import SignInModal from "../auth/forms/sign-in-modal";
-import CartIcon from "../shop/cart/cart-icon";
+import CartIcon from "./navbar-items/cart-icon";
 import { useRouter } from "next/dist/client/router";
 import {
   adminSignOut,
   selectLoggedInAsAdmin,
 } from "../../utils/redux-store/adminSlice";
 import { Grid } from "@mui/material";
+import UserIcon from "./navbar-items/user-icon";
 
 interface Props {
   page?: string;
@@ -36,17 +37,6 @@ export default function MainNavigation({ page }: Props) {
 
   console.log("class-1", styles.main_1);
   console.log("class-2", styles.main_2);
-
-  const signOutHandler = async () => {
-    dispatch(signOut());
-    // re-acquire a "guest" session after signing out
-    // have to wait a few seconds for the mongoDB destoying the old session
-    console.log("signing out");
-    setTimeout(() => {
-      dispatch(getUserStatus());
-    }, 2000);
-    router.push("/");
-  };
 
   const adminSignOutHandler = () => {
     dispatch(adminSignOut());
@@ -147,6 +137,7 @@ export default function MainNavigation({ page }: Props) {
           alignItems="center"
         >
           <Grid
+            item
             sx={{
               paddingRight: 2,
               display: { xs: "block", sm: "none", textAlign: "right" },
@@ -154,8 +145,8 @@ export default function MainNavigation({ page }: Props) {
           >
             menu
           </Grid>
-          <Grid>
-            {isLoggedIn ? (
+          <Grid item>
+            {/* {isLoggedIn ? (
               <Fragment>
                 <div onClick={() => router.push("/auth/profile")}>
                   Welcome back {currentUser.username}
@@ -163,8 +154,11 @@ export default function MainNavigation({ page }: Props) {
                 <button onClick={signOutHandler}>Sign Out</button>
               </Fragment>
             ) : (
-              <SignInModal page={page} />
-            )}
+              <Fragment> */}
+            <UserIcon page={page} />
+            {/* <SignInModal page={page} /> */}
+            {/* </Fragment>
+            )} */}
           </Grid>
           <Grid item>
             <CartIcon />

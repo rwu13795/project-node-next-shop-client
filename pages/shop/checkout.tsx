@@ -35,7 +35,7 @@ const CheckoutPage: NextPage = ({}) => {
   const cart = useSelector(selectCart);
   const currentUser = useSelector(selectCurrentUser);
 
-  const [stage, setStage] = useState<string>(inputTypes.addressInfo);
+  const [stage, setStage] = useState<string>("1");
   const [allowedStages, setAllowedStages] = useState<AllowedStages>({
     two: false,
     three: false,
@@ -76,11 +76,15 @@ const CheckoutPage: NextPage = ({}) => {
 
   const tagChangeHandler = (event: SyntheticEvent, newValue: string) => {
     setStage(newValue);
-    if (newValue === inputTypes.addressInfo) {
+
+    console.log(newValue);
+
+    if (newValue === "1") {
       setAllowedStages({ two: false, three: false });
-    }
-    if (newValue === inputTypes.paymentInfo) {
+    } else if (newValue === "2") {
       setAllowedStages({ two: true, three: false });
+    } else {
+      setAllowedStages({ two: true, three: true });
     }
   };
 
@@ -92,42 +96,43 @@ const CheckoutPage: NextPage = ({}) => {
           <Box sx={{ width: "100%", typography: "body1" }}>
             <TabContext value={stage}>
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                <TabList onChange={tagChangeHandler}>
-                  <Grid container justifyContent="space-evenly" wrap="nowrap">
+                <Grid container justifyContent="space-evenly" wrap="nowrap">
+                  <TabList onChange={tagChangeHandler}>
                     <Tab
                       label="SHIPPING INFO"
-                      value={inputTypes.addressInfo}
+                      value={"1"}
                       sx={{ typography: "h3" }}
                     />
                     <Tab
                       label="PAYMENT INFO"
-                      value={inputTypes.paymentInfo}
+                      value={"2"}
                       disabled={!allowedStages.two}
                       sx={{ typography: "h3" }}
                     />
                     <Tab
                       label="PLACE ORDER"
-                      value={inputTypes.placeOrder}
+                      value={"3"}
                       disabled={!allowedStages.three}
                       sx={{ typography: "h3" }}
                     />
-                  </Grid>
-                </TabList>
+                    {/*  */}
+                  </TabList>
+                </Grid>
               </Box>
-              <TabPanel value={inputTypes.addressInfo}>
+              <TabPanel value={"1"}>
                 <CheckoutStage_1
                   setStage={setStage}
                   setAllowedStages={setAllowedStages}
                 />
               </TabPanel>
-              <TabPanel value={inputTypes.paymentInfo}>
+              <TabPanel value={"2"}>
                 <CheckoutStage_2
                   setStage={setStage}
                   setAllowedStages={setAllowedStages}
                   setStripeCardToken={setStripeCardToken}
                 />
               </TabPanel>
-              <TabPanel value={inputTypes.placeOrder}>
+              <TabPanel value={"3"}>
                 <CheckoutStage_3 stripeCardToken={stripeCardToken} />
               </TabPanel>
             </TabContext>

@@ -9,7 +9,7 @@ import useGetMoreProducts, {
   PageProductProps,
 } from "../../../utils/react-hooks/get-more-products";
 
-import { useLastElementRef } from "../../../utils/react-hooks/last-elem-ref";
+import useLastElementRef from "../../../utils/react-hooks/last-elem-ref";
 import RenderSubCatImage from "../../../components/shop/product/render-sub-cat-image";
 import axios from "axios";
 

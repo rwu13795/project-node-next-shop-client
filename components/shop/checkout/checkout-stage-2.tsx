@@ -110,7 +110,7 @@ export default function CheckoutStage_2({
       }
     }
 
-    setStage(inputTypes.placeOrder);
+    setStage("3");
     setAllowedStages({ two: true, three: true });
   };
 

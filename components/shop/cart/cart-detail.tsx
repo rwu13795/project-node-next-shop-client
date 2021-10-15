@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
 
 import {
   CartItem,
@@ -9,7 +9,7 @@ import {
   selectTotalAmount,
   setChangeInCart,
 } from "../../../utils/redux-store/userSlice";
-import EditDetailModal from "./edit-detail-modal";
+import CartDetailModal from "./cart-modal";
 import SelectQuantity from "../product/select-quantity";
 
 interface Props {
@@ -31,7 +31,7 @@ export default function CartDetail({
   }
 
   return (
-    <div>
+    <Fragment>
       {cart.map((item, index) => {
         console.log(item.stockError);
         return (
@@ -61,7 +61,7 @@ export default function CartDetail({
             <div>qty: {item.quantity}</div>
             <div>Subtotal: ${item.quantity * item.price}</div>
             {!summaryMode && (
-              <EditDetailModal
+              <CartDetailModal
                 category={item.main_cat}
                 productId={item.productId}
                 index={index}
@@ -85,6 +85,6 @@ export default function CartDetail({
         );
       })}
       <h3>Total: ${totalAmount}</h3>
-    </div>
+    </Fragment>
   );
 }

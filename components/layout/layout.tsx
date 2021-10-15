@@ -5,16 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { theme } from "../../styles/mui-theme";
 import styles from "./layout.module.css";
 
-import MainNavigation from "./main-navigation";
-import {
-  checkStock,
-  getUserStatus,
-  selectIsLoggedIn,
-} from "../../utils/redux-store/userSlice";
+import MainNavigation from "./navigation";
+import { checkStock, getUserStatus } from "../../utils/redux-store/userSlice";
 import Footer from "./footer";
 import { getAdminStatus } from "../../utils/redux-store/adminSlice";
-import { ClassNames } from "@emotion/react";
-import { throttle } from "lodash";
 
 interface Prop {
   children: React.ReactNode;

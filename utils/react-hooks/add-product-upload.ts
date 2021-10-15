@@ -14,7 +14,7 @@ interface ColorPropsForUpload {
   modifiedIndex?: number[];
 }
 
-const useUpload = ({
+export default function useUpload({
   colorPropsList,
   productInfo,
   editMode,
@@ -32,7 +32,7 @@ const useUpload = ({
   deletedImgaes?: string[];
   admin_username: string;
   csrfToken: string;
-}) => {
+}) {
   const client = browserClient();
 
   const [errors, setErrors] = useState<Errors>({});
@@ -140,6 +140,4 @@ const useUpload = ({
   };
 
   return { postUpload, errors, setErrors };
-};
-
-export default useUpload;
+}
