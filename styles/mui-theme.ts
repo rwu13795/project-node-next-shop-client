@@ -19,8 +19,8 @@ let theme = createTheme({
   },
   typography: {
     body1: {
-      fontSize: "3vw",
-      fontFamily: ["Black Ops One", "Monofett", "sans-serif"].join(","),
+      fontSize: "1.8vw",
+      fontFamily: ["Oswald", "Monofett", "sans-serif"].join(","),
     },
     h3: {
       fontSize: "3vw",
@@ -30,7 +30,7 @@ let theme = createTheme({
       // "@media (min-width:770px)": {
       //   fontSize: "3vw",
       // },
-      fontFamily: ["Black Ops One", "Monofett", "sans-serif"].join(","),
+      fontFamily: ["Oswald", "Monofett", "sans-serif"].join(","),
     },
   },
   breakpoints: {

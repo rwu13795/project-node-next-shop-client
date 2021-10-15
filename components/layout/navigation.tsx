@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Head from "next/head";
+import Image from "next/image";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -11,14 +12,14 @@ import {
   selectIsLoggedIn,
   signOut,
 } from "../../utils/redux-store/userSlice";
-import SignInModal from "../auth/forms/sign-in-modal";
+import SignInModal from "./navbar-items/sign-in-modal";
 import CartIcon from "./navbar-items/cart-icon";
 import { useRouter } from "next/dist/client/router";
 import {
   adminSignOut,
   selectLoggedInAsAdmin,
 } from "../../utils/redux-store/adminSlice";
-import { Grid } from "@mui/material";
+import { Divider, Grid, TextField, Box } from "@mui/material";
 import UserIcon from "./navbar-items/user-icon";
 
 interface Props {
@@ -94,44 +95,46 @@ export default function MainNavigation({ page }: Props) {
         <Grid
           item
           container
-          md={8}
-          sm={8}
-          xs={1}
+          md={6}
           direction="row"
           justifyContent="flex-start"
           alignItems="center"
         >
           <Grid
             item
-            sx={{ paddingRight: 2, display: { xs: "none", sm: "block" } }}
+            sx={{ paddingRight: 2, display: { xs: "none", md: "block" } }}
           >
             <Link href="/shop/women">
-              <a>WOMEN </a>
+              <a style={{ color: "inherit", textDecoration: "inherit" }}>
+                WOMEN
+              </a>
             </Link>
           </Grid>
           <Grid
             item
-            sx={{ paddingRight: 2, display: { xs: "none", sm: "block" } }}
+            sx={{ paddingRight: 2, display: { xs: "none", md: "block" } }}
           >
             <Link href="/shop/men">
-              <a>MEN</a>
+              <a style={{ color: "inherit", textDecoration: "inherit" }}>MEN</a>
             </Link>
           </Grid>
           <Grid
             item
-            sx={{ paddingRight: 2, display: { xs: "none", sm: "block" } }}
+            sx={{ paddingRight: 2, display: { xs: "none", md: "block" } }}
           >
             <Link href="/shop/kids">
-              <a>KIDS</a>
+              <a style={{ color: "inherit", textDecoration: "inherit" }}>
+                KIDS
+              </a>
             </Link>
           </Grid>
         </Grid>
         <Grid
           item
           container
-          md={4}
-          sm={4}
-          xs={11}
+          md={6}
+          sm={12}
+          xs={12}
           direction="row"
           justifyContent="flex-end"
           alignItems="center"
@@ -140,27 +143,29 @@ export default function MainNavigation({ page }: Props) {
             item
             sx={{
               paddingRight: 2,
-              display: { xs: "block", sm: "none", textAlign: "right" },
+              display: { xs: "block", md: "none", textAlign: "right" },
             }}
           >
             menu
           </Grid>
+
           <Grid item>
-            {/* {isLoggedIn ? (
-              <Fragment>
-                <div onClick={() => router.push("/auth/profile")}>
-                  Welcome back {currentUser.username}
-                </div>
-                <button onClick={signOutHandler}>Sign Out</button>
-              </Fragment>
-            ) : (
-              <Fragment> */}
-            <UserIcon page={page} />
-            {/* <SignInModal page={page} /> */}
-            {/* </Fragment>
-            )} */}
+            <TextField
+              id="standard-basic"
+              label="SEARCH"
+              variant="standard"
+              sx={{
+                width: "12vw",
+              }}
+              inputProps={{ style: { fontSize: "1.4vw" } }}
+              InputLabelProps={{ style: { fontSize: "1.2vw" } }}
+            />
           </Grid>
-          <Grid item>
+
+          <Grid item sx={{ pl: "1vw" }}>
+            <UserIcon page={page} />
+          </Grid>
+          <Grid item sx={{ pl: "1vw", pr: "0.5rem" }}>
             <CartIcon />
           </Grid>
         </Grid>
@@ -179,22 +184,32 @@ export default function MainNavigation({ page }: Props) {
   return (
     <main className={classname}>
       <Grid container justifyContent="space-between" alignItems="center">
-        <Grid item md={2} sm={2} xs={2}>
+        <Grid item md={3} sm={3} xs={3}>
           <Link href="/">
-            <a>logo</a>
+            <a>
+              <div style={{ paddingLeft: "1.5vw" }}>
+                <Image
+                  src="/Nextjs-logo-1.svg"
+                  alt="NextJS Logo"
+                  width={150}
+                  height={65}
+                />
+              </div>
+            </a>
           </Link>
         </Grid>
         <Grid
           item
-          md={10}
-          sm={10}
-          xs={10}
+          md={9}
+          sm={9}
+          xs={9}
           container
           justifyContent="space-between"
         >
           {content}
         </Grid>
       </Grid>
+      {/* <Divider /> */}
     </main>
   );
 }

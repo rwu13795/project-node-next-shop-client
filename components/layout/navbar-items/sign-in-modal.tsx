@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
-import AuthForm from "./auth-form";
+import AuthForm from "../../auth/forms/auth-form";
 import { inputFieldsArray } from "../../../pages/auth/sign-in";
 import { inputTypes } from "../../../utils/enums-types/input-types";
 
@@ -50,7 +50,7 @@ export default function SignInModal({ page }: { page?: string }): JSX.Element {
       <Tooltip title="Log In">
         <IconButton onClick={handleOpen} size="medium">
           <AccountCircleOutlinedIcon
-            sx={{ width: 50, height: 50, color: "black" }}
+            sx={{ width: 43, height: 43, color: "black" }}
           />
         </IconButton>
       </Tooltip>

@@ -1,12 +1,12 @@
 .main_1 {
-  font-family: "Black Ops One", sans-serif;
-  letter-spacing: 0.06em;
-  font-size: 1.7rem;
+  font-family: "Oswald", sans-serif;
+  /* letter-spacing: 0.06em; */
+  font-size: 1.4rem;
   position: -webkit-sticky;
   position: fixed;
   top: 0;
   z-index: 9;
-  min-height: 1.8rem;
+  min-height: 2.8rem;
   min-width: 100%;
 
   background-color: white;
@@ -17,13 +17,13 @@ font-family: 'Black Ops One', cursive;
 font-family: 'Monofett', cursive;
 */
 .main_2 {
-  font-family: "Black Ops One", sans-serif;
-  letter-spacing: 0.06em;
-  font-size: 1.7rem;
+  font-family: "Oswald", sans-serif;
+  /* letter-spacing: 0.06em; */
+  font-size: 1.4rem;
   position: -webkit-sticky;
   position: fixed;
   top: 0;
   z-index: 9;
-  min-height: 1.8rem;
+  min-height: 2.8rem;
   min-width: 100%;
 }

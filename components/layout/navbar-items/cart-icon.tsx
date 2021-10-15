@@ -12,6 +12,8 @@ import {
 } from "../../../utils/redux-store/userSlice";
 import CartDetail from "../../shop/cart/cart-detail";
 
+import styles from "./__.module.css";
+
 export default function CartIcon(): JSX.Element {
   const changeInCart = useSelector(selectChangeInCart);
   const cart = useSelector(selectCart);
@@ -51,8 +53,34 @@ export default function CartIcon(): JSX.Element {
             setAnchorEl(e.currentTarget);
           }}
         >
-          <LocalMallOutlinedIcon />
+          <LocalMallOutlinedIcon
+            sx={{
+              width: "7.5vw",
+              height: "7.5vw",
+              color: "black",
+              maxWidth: "75px",
+              maxHeight: "75px",
+            }}
+          />
         </IconButton>
+        <div
+          className={styles.cart_icon_text}
+          style={{
+            position: "absolute",
+            top: "0.5rem",
+            right: "0.5rem",
+            backgroundColor: "black",
+            color: "white",
+            borderRadius: "1.5rem",
+            width: "4.6vw",
+            height: "4.6vw",
+            maxWidth: "42px",
+            maxHeight: "42px",
+            textAlign: "center",
+          }}
+        >
+          {cart.length}
+        </div>
       </div>
       <Menu
         disableScrollLock={true}
@@ -66,6 +94,8 @@ export default function CartIcon(): JSX.Element {
             overflow: "visible",
             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
             // these 2 lines above are for the litte triangle pointer
+
+            borderRadius: 0,
             mt: 1.5,
             "& .MuiAvatar-root": {
               width: 32,

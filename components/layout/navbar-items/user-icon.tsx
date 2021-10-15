@@ -22,7 +22,9 @@ import {
   selectIsLoggedIn,
   signOut,
 } from "../../../utils/redux-store/userSlice";
-import SignInModal from "../../auth/forms/sign-in-modal";
+import SignInModal from "./sign-in-modal";
+
+import styles from "./__.module.css";
 
 export default function UserIcon({ page }: { page?: string }): JSX.Element {
   const router = useRouter();
@@ -59,7 +61,18 @@ export default function UserIcon({ page }: { page?: string }): JSX.Element {
     <Fragment>
       <Tooltip title="Account settings">
         <IconButton onClick={userIconHandler} size="medium">
-          <Avatar sx={{ width: 50, height: 50, bgcolor: "blue" }}>R</Avatar>
+          <Avatar
+            className={styles.user_icon_text}
+            sx={{
+              width: "7vw",
+              height: "7vw",
+              bgcolor: "black",
+              maxWidth: "70px",
+              maxHeight: "70px",
+            }}
+          >
+            R
+          </Avatar>
         </IconButton>
       </Tooltip>
 
@@ -75,6 +88,7 @@ export default function UserIcon({ page }: { page?: string }): JSX.Element {
             overflow: "visible",
             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
             // these 2 lines above are for the litte triangle pointer
+            borderRadius: 0,
             mt: 1.5,
             "& .MuiAvatar-root": {
               width: 32,
@@ -101,21 +115,21 @@ export default function UserIcon({ page }: { page?: string }): JSX.Element {
       >
         <MenuItem onClick={() => router.push("/auth/profile?tab=1")}>
           <ListItemIcon>
-            <PersonOutlineOutlinedIcon />
+            <PersonOutlineOutlinedIcon sx={{ color: "black" }} />
           </ListItemIcon>
           User Profile
         </MenuItem>
 
         <MenuItem onClick={() => router.push("/auth/profile?tab=2")}>
           <ListItemIcon>
-            <ListAltOutlinedIcon />
+            <ListAltOutlinedIcon sx={{ color: "black" }} />
           </ListItemIcon>
           Order History
         </MenuItem>
 
         <MenuItem onClick={() => router.push("/auth/profile?tab=3")}>
           <ListItemIcon>
-            <Settings fontSize="medium" />
+            <Settings sx={{ color: "black" }} />
           </ListItemIcon>
           Reset Password
         </MenuItem>
@@ -124,7 +138,7 @@ export default function UserIcon({ page }: { page?: string }): JSX.Element {
 
         <MenuItem onClick={signOutHandler}>
           <ListItemIcon>
-            <Logout fontSize="medium" />
+            <Logout sx={{ color: "black" }} />
           </ListItemIcon>
           Logout
         </MenuItem>

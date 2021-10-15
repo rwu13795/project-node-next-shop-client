@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="207px"
+   height="124px"
+   viewBox="0 0 207 124"
+   version="1.1"
+   id="svg47"
+   sodipodi:docname="Nextjs-logo-1.svg"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <sodipodi:namedview
+     id="namedview49"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="4.608871"
+     inkscape:cx="137.88626"
+     inkscape:cy="58.691164"
+     inkscape:window-width="2560"
+     inkscape:window-height="1361"
+     inkscape:window-x="1341"
+     inkscape:window-y="595"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg47" />
+  <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+  <title
+     id="title34">next-black</title>
+  <desc
+     id="desc36">Created with Sketch.</desc>
+  <defs
+     id="defs38" />
+  <g
+     id="Page-1"
+     stroke="none"
+     stroke-width="1"
+     fill="none"
+     fill-rule="evenodd">
+    <g
+       id="Black-Next.js"
+       transform="translate(-247.000000, -138.000000)"
+       fill="#000000"
+       fill-rule="nonzero">
+      <g
+         id="next-black"
+         transform="translate(247.000000, 138.000000)">
+        <g
+           id="EXT-+-Type-something">
+          <path
+             id="EXT"
+             d="M 158.125,0.28710938 132.62305,32.632812 113.87305,58.095703 95.53125,32.632812 H 91.390625 L 111.68164,60.771484 89.929688,90.535156 h 4.220703 l 19.722659,-27.085937 19.64257,27.085937 h 4.30079 L 116.22852,60.771484 Z M 48.941406,32.632812 V 90.535156 H 88.306641 V 87.453125 H 52.513672 V 61.988281 H 85.791016 V 58.90625 H 52.513672 V 35.712891 h 35.386719 v -3.080079 z m 90.417974,0 v 3.080079 h 20.37304 v 54.822265 h 3.57031 V 35.712891 h 20.45313 v -3.080079 z" />
+          <polygon
+             id="Type-something"
+             points="0.202923647 32.6320058 4.66697141 32.6320058 66.2235778 124.303087 40.785176 90.5343303 3.93649086 37.0111732 3.77416185 90.5343303 0.202923647 90.5343303" />
+        </g>
+        <path
+           id=".JS"
+           d="m 198.44922,74.863281 c 0.028,0.0095 0.0561,0.01654 0.084,0.0293 -5e-5,-0.0091 5e-5,-0.01823 0,-0.02734 -0.0293,-0.0011 -0.0574,-0.0014 -0.084,-0.002 z" />
+      </g>
+    </g>
+  </g>
+  <metadata
+     id="metadata471">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>next-black</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>
