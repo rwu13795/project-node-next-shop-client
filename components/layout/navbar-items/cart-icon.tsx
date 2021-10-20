@@ -12,7 +12,7 @@ import {
 } from "../../../utils/redux-store/userSlice";
 import CartDetail from "../../shop/cart/cart-detail";
 
-import styles from "./__.module.css";
+import classes from "./__navbar-items.module.css";
 
 export default function CartIcon(): JSX.Element {
   const changeInCart = useSelector(selectChangeInCart);
@@ -47,40 +47,14 @@ export default function CartIcon(): JSX.Element {
     <Fragment>
       <div ref={cartRef}>
         <IconButton
-          size="medium"
           onClick={handleClick}
           onMouseEnter={(e) => {
             setAnchorEl(e.currentTarget);
           }}
         >
-          <LocalMallOutlinedIcon
-            sx={{
-              width: "7.5vw",
-              height: "7.5vw",
-              color: "black",
-              maxWidth: "75px",
-              maxHeight: "75px",
-            }}
-          />
+          <LocalMallOutlinedIcon className={classes.cart_icon} />
         </IconButton>
-        <div
-          className={styles.cart_icon_text}
-          style={{
-            position: "absolute",
-            top: "0.5rem",
-            right: "0.5rem",
-            backgroundColor: "black",
-            color: "white",
-            borderRadius: "1.5rem",
-            width: "4.6vw",
-            height: "4.6vw",
-            maxWidth: "42px",
-            maxHeight: "42px",
-            textAlign: "center",
-          }}
-        >
-          {cart.length}
-        </div>
+        <div className={classes.cart_icon_number}>{cart.length}</div>
       </div>
       <Menu
         disableScrollLock={true}

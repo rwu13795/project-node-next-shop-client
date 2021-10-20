@@ -1,5 +1,6 @@
 import { useState, Fragment } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import {
   Menu,
@@ -13,13 +14,19 @@ import {
   Divider,
   ListItemIcon,
   Tooltip,
+  Grid,
   IconButton,
 } from "@mui/material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import FaceOutlinedIcon from "@mui/icons-material/FaceOutlined";
+import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
+import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 
 import AuthForm from "../../auth/forms/auth-form";
 import { inputFieldsArray } from "../../../pages/auth/sign-in";
 import { inputTypes } from "../../../utils/enums-types/input-types";
+
+import classes from "./__navbar-items.module.css";
 
 const style = {
   position: "absolute" as "absolute",
@@ -35,25 +42,47 @@ const style = {
 };
 
 export default function SignInModal({ page }: { page?: string }): JSX.Element {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const UserButton = (): JSX.Element => {
+    return (
+      <Fragment>
+        <Tooltip title="Log In">
+          <Box
+            onClick={
+              page === "auth" ? () => router.push("/auth/sign-in") : handleOpen
+            }
+            sx={{ display: { xs: "none", md: "block" } }}
+          >
+            {/* <Avatar className={classes.user_icon_guest} /> */}
+            <FaceOutlinedIcon className={classes.user_icon_guest} />
+          </Box>
+        </Tooltip>
+
+        <Tooltip title="Log In">
+          <Box
+            onClick={() => router.push("/auth/sign-in")}
+            sx={{ display: { xs: "block", md: "none" } }}
+          >
+            <FaceOutlinedIcon className={classes.user_icon_guest} />
+          </Box>
+        </Tooltip>
+      </Fragment>
+    );
+  };
+
   return page === "auth" ? (
     <Link href="/auth/sign-in">
       <a>
-        <Button variant="contained">Sign In</Button>
+        <UserButton />
       </a>
     </Link>
   ) : (
     <Fragment>
-      <Tooltip title="Log In">
-        <IconButton onClick={handleOpen} size="medium">
-          <AccountCircleOutlinedIcon
-            sx={{ width: 43, height: 43, color: "black" }}
-          />
-        </IconButton>
-      </Tooltip>
+      <UserButton />
 
       <Modal
         disableScrollLock={true}

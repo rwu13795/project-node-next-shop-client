@@ -19,7 +19,7 @@ let theme = createTheme({
   },
   typography: {
     body1: {
-      fontSize: "1.8vw",
+      fontSize: "4.2vw",
       fontFamily: ["Oswald", "Monofett", "sans-serif"].join(","),
     },
     h3: {

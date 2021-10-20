@@ -1,17 +1,22 @@
-.body {
+.page_layout {
   padding-bottom: 3.5rem;
-}
-
-.main_layout {
+  position: relative;
+  min-height: 100vh;
+  font-family: "Oswald", sans-serif;
   background-image: linear-gradient(
     to bottom right,
     rgb(255, 255, 255) 32%,
     rgba(34, 185, 255, 0.534) 50%,
     rgb(255, 255, 255) 68%
   );
-  padding: 0;
-  padding-top: 4rem;
-  position: "relative";
-  min-height: "100vh";
-  font-size: 1.2vw;
+}
+
+.page_body {
+  padding-top: 2rem;
+  font-size: min(6.5vw, 55px);
+}
+@media screen and (min-width: 770px) {
+  .page_body {
+    padding-top: max(7rem, 4vw);
+  }
 }

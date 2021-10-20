@@ -55,7 +55,6 @@ export default function SwiperBottons_home({
   return (
     <Fragment>
       {/* large */}
-
       <Box
         onClick={prevOnClickHandler}
         className="swiper-home-prev-botton"

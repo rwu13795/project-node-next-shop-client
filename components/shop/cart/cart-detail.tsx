@@ -9,7 +9,7 @@ import {
   selectTotalAmount,
   setChangeInCart,
 } from "../../../utils/redux-store/userSlice";
-import CartDetailModal from "./cart-modal";
+import CartEditModal from "./cart-edit-modal";
 import SelectQuantity from "../product/select-quantity";
 
 interface Props {
@@ -61,7 +61,7 @@ export default function CartDetail({
             <div>qty: {item.quantity}</div>
             <div>Subtotal: ${item.quantity * item.price}</div>
             {!summaryMode && (
-              <CartDetailModal
+              <CartEditModal
                 category={item.main_cat}
                 productId={item.productId}
                 index={index}

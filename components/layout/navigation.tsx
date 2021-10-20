@@ -162,10 +162,10 @@ export default function MainNavigation({ page }: Props) {
             />
           </Grid>
 
-          <Grid item sx={{ pl: "1vw" }}>
+          <Grid item sx={{ ml: "1vw" }}>
             <UserIcon page={page} />
           </Grid>
-          <Grid item sx={{ pl: "1vw", pr: "0.5rem" }}>
+          <Grid item sx={{ ml: "1vw", mr: "0.5rem" }}>
             <CartIcon />
           </Grid>
         </Grid>
@@ -191,8 +191,8 @@ export default function MainNavigation({ page }: Props) {
                 <Image
                   src="/Nextjs-logo-1.svg"
                   alt="NextJS Logo"
-                  width={150}
-                  height={65}
+                  width={160}
+                  height={70}
                 />
               </div>
             </a>
@@ -205,6 +205,7 @@ export default function MainNavigation({ page }: Props) {
           xs={9}
           container
           justifyContent="space-between"
+          alignItems="center"
         >
           {content}
         </Grid>

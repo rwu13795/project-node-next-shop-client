@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { theme } from "../../styles/mui-theme";
-import styles from "./layout.module.css";
+import classes from "./layout.module.css";
 
 import MainNavigation from "./navigation";
 import { checkStock, getUserStatus } from "../../utils/redux-store/userSlice";
@@ -44,15 +44,15 @@ export default function Layout(props: Prop): JSX.Element {
 
     // Don't fucking know why the props in the "style" do not work when they are
     // put inside the module.css. Maybe the MUI in the children component has
-    // styles with higher priority? I have to use the "style" directly in order to
+    // classes with higher priority? I have to use the "style" directly in order to
     // make these props work
     <main
-      className={styles.main_layout}
-      style={{ position: "relative", minHeight: "100vh" }}
+      className={classes.page_layout}
+      // style={{ position: "relative", minHeight: "100vh" }}
     >
       <ThemeProvider theme={theme}>
         <MainNavigation page={props.page} />
-        <div className={styles.body}>
+        <div className={classes.page_body}>
           <main>{props.children}</main>
         </div>
         <Footer />

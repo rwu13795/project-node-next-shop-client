@@ -24,7 +24,7 @@ import {
 } from "../../../utils/redux-store/userSlice";
 import SignInModal from "./sign-in-modal";
 
-import styles from "./__.module.css";
+import classes from "./__navbar-items.module.css";
 
 export default function UserIcon({ page }: { page?: string }): JSX.Element {
   const router = useRouter();
@@ -60,19 +60,8 @@ export default function UserIcon({ page }: { page?: string }): JSX.Element {
   ) : (
     <Fragment>
       <Tooltip title="Account settings">
-        <IconButton onClick={userIconHandler} size="medium">
-          <Avatar
-            className={styles.user_icon_text}
-            sx={{
-              width: "7vw",
-              height: "7vw",
-              bgcolor: "black",
-              maxWidth: "70px",
-              maxHeight: "70px",
-            }}
-          >
-            R
-          </Avatar>
+        <IconButton onClick={userIconHandler} size="small">
+          <Avatar className={classes.user_icon}>R</Avatar>
         </IconButton>
       </Tooltip>
 
