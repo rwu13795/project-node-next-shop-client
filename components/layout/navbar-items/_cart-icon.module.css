@@ -1,0 +1,22 @@
+.cart_icon {
+  width: 7.5vw;
+  height: 7.5vw;
+  color: black;
+  max-width: 55px;
+  max-height: 55px;
+  cursor: pointer;
+}
+.cart_icon_number {
+  font-size: min(2.9vw, 20px);
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: black;
+  color: white;
+  border-radius: 1.5rem;
+  width: 4.6vw;
+  height: 4.6vw;
+  max-width: 31px;
+  max-height: 31px;
+  text-align: center;
+}

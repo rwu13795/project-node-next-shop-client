@@ -1,8 +1,11 @@
 import Link from "next/link";
 import Head from "next/head";
 import Image from "next/image";
+import { useRouter } from "next/dist/client/router";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import { Divider, Grid, TextField, Box } from "@mui/material";
 
 import g_styles from "../../styles/globals.module.css";
 import styles from "./navigation.module.css";
@@ -12,15 +15,15 @@ import {
   selectIsLoggedIn,
   signOut,
 } from "../../utils/redux-store/userSlice";
-import SignInModal from "./navbar-items/sign-in-modal";
-import CartIcon from "./navbar-items/cart-icon";
-import { useRouter } from "next/dist/client/router";
 import {
   adminSignOut,
   selectLoggedInAsAdmin,
 } from "../../utils/redux-store/adminSlice";
-import { Divider, Grid, TextField, Box } from "@mui/material";
+
 import UserIcon from "./navbar-items/user-icon";
+import CartIcon from "./navbar-items/cart-icon";
+import SearchIcon from "./navbar-items/search-icon";
+import MenuList from "./navbar-items/menu-list";
 
 interface Props {
   page?: string;
@@ -92,43 +95,20 @@ export default function MainNavigation({ page }: Props) {
   if (page !== "admin") {
     content = (
       <Fragment>
+        {/* left navbar */}
         <Grid
           item
           container
           md={6}
           direction="row"
           justifyContent="flex-start"
-          alignItems="center"
+          alignItems="baseline"
+          sx={{ pr: 2 }}
         >
-          <Grid
-            item
-            sx={{ paddingRight: 2, display: { xs: "none", md: "block" } }}
-          >
-            <Link href="/shop/women">
-              <a style={{ color: "inherit", textDecoration: "inherit" }}>
-                WOMEN
-              </a>
-            </Link>
-          </Grid>
-          <Grid
-            item
-            sx={{ paddingRight: 2, display: { xs: "none", md: "block" } }}
-          >
-            <Link href="/shop/men">
-              <a style={{ color: "inherit", textDecoration: "inherit" }}>MEN</a>
-            </Link>
-          </Grid>
-          <Grid
-            item
-            sx={{ paddingRight: 2, display: { xs: "none", md: "block" } }}
-          >
-            <Link href="/shop/kids">
-              <a style={{ color: "inherit", textDecoration: "inherit" }}>
-                KIDS
-              </a>
-            </Link>
-          </Grid>
+          <MenuList />
         </Grid>
+
+        {/* right navbar */}
         <Grid
           item
           container
@@ -150,21 +130,13 @@ export default function MainNavigation({ page }: Props) {
           </Grid>
 
           <Grid item>
-            <TextField
-              id="standard-basic"
-              label="SEARCH"
-              variant="standard"
-              sx={{
-                width: "12vw",
-              }}
-              inputProps={{ style: { fontSize: "1.4vw" } }}
-              InputLabelProps={{ style: { fontSize: "1.2vw" } }}
-            />
+            <SearchIcon />
           </Grid>
 
           <Grid item sx={{ ml: "1vw" }}>
             <UserIcon page={page} />
           </Grid>
+
           <Grid item sx={{ ml: "1vw", mr: "0.5rem" }}>
             <CartIcon />
           </Grid>
@@ -184,15 +156,15 @@ export default function MainNavigation({ page }: Props) {
   return (
     <main className={classname}>
       <Grid container justifyContent="space-between" alignItems="center">
-        <Grid item md={3} sm={3} xs={3}>
+        <Grid item md={2} sm={2} xs={4}>
           <Link href="/">
             <a>
               <div style={{ paddingLeft: "1.5vw" }}>
                 <Image
                   src="/Nextjs-logo-1.svg"
                   alt="NextJS Logo"
-                  width={160}
-                  height={70}
+                  width={165}
+                  height={75}
                 />
               </div>
             </a>
@@ -200,9 +172,9 @@ export default function MainNavigation({ page }: Props) {
         </Grid>
         <Grid
           item
-          md={9}
-          sm={9}
-          xs={9}
+          md={10}
+          sm={10}
+          xs={8}
           container
           justifyContent="space-between"
           alignItems="center"

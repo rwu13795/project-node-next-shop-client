@@ -1,0 +1,63 @@
+/* user icon */
+.user_icon {
+  font-size: min(4.2vw, 33px);
+  width: 6.1vw;
+  height: 6.1vw;
+  background-color: black;
+  border: black solid 2px;
+  max-width: 43px;
+  max-height: 43px;
+  text-align: center;
+  transition: 0.5s ease-in-out;
+}
+.user_icon:hover {
+  background-color: #1212b3;
+  /* color: black; */
+  border: black solid 2px;
+  border-radius: 2rem;
+  transition: 0.5s ease-in-out;
+  cursor: pointer;
+}
+
+.user_icon_guest {
+  margin-top: 0.4rem;
+  width: 8vw;
+  height: 8vw;
+  color: black;
+  max-width: 59px;
+  max-height: 59px;
+  border-radius: 2rem;
+  transition: 0.5s ease-in-out;
+}
+.user_icon_guest:hover {
+  /* background-color: white; */
+  color: #1212b3;
+  border-radius: 2rem;
+  transition: ease-in 0.5s;
+  cursor: pointer;
+}
+
+.user_icon_sub {
+  width: 5.5vw;
+  height: 5.5vw;
+  color: black;
+  max-width: 45px;
+  max-height: 45px;
+  text-align: center;
+  margin-right: 1vw;
+}
+.user_icon_sub_text {
+  font-family: "Oswald", sans-serif;
+  font-size: min(4.5vw, 40px);
+  text-align: center;
+  color: black;
+}
+
+.user_menu_card {
+  background-image: linear-gradient(
+    to bottom right,
+    rgb(255, 255, 255) 32%,
+    rgba(34, 185, 255, 0.534) 50%,
+    rgb(255, 255, 255) 68%
+  );
+}

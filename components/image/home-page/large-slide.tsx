@@ -22,8 +22,8 @@ export default function LargeSlide_home({ title, prop }: Props): JSX.Element {
         <Image
           src={prop.md}
           alt={prop.md}
-          width={1100}
-          height={800}
+          width={1300}
+          height={1100}
           blurDataURL={prop.md}
           placeholder="blur"
           loading="eager"

@@ -6,8 +6,13 @@ import { CSSProperties } from "react";
 ///////////
 export const slide_large = {
   title: {
+    position: "absolute",
+    top: "20%",
+    right: "50%",
+    color: "white",
     fontSize: "4.5vw",
     margin: "1vh",
+    zIndex: 9,
   } as CSSProperties,
   slide: {
     margin: "0 7.5vh 0 7.5vh",

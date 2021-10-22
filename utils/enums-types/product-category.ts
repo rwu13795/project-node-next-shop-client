@@ -1,6 +1,6 @@
 export enum MainCategory {
-  men = "Men",
   women = "Women",
+  men = "Men",
   kids = "Kids",
   accessories = "Accessories",
 }

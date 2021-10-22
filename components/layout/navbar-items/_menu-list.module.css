@@ -1,0 +1,9 @@
+.menu_list {
+  text-decoration: none;
+  color: inherit;
+}
+.menu_list:hover {
+  text-decoration: none;
+  border-bottom: #1212b3 solid 3px;
+  /* transition: ease-in-out; */
+}

@@ -21,12 +21,13 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import FaceOutlinedIcon from "@mui/icons-material/FaceOutlined";
 import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
 import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 import AuthForm from "../../auth/forms/auth-form";
 import { inputFieldsArray } from "../../../pages/auth/sign-in";
 import { inputTypes } from "../../../utils/enums-types/input-types";
 
-import classes from "./__navbar-items.module.css";
+import classes from "./_user-icon.module.css";
 
 const style = {
   position: "absolute" as "absolute",
@@ -58,7 +59,7 @@ export default function SignInModal({ page }: { page?: string }): JSX.Element {
             sx={{ display: { xs: "none", md: "block" } }}
           >
             {/* <Avatar className={classes.user_icon_guest} /> */}
-            <FaceOutlinedIcon className={classes.user_icon_guest} />
+            <AccountCircleIcon className={classes.user_icon_guest} />
           </Box>
         </Tooltip>
 
@@ -67,7 +68,7 @@ export default function SignInModal({ page }: { page?: string }): JSX.Element {
             onClick={() => router.push("/auth/sign-in")}
             sx={{ display: { xs: "block", md: "none" } }}
           >
-            <FaceOutlinedIcon className={classes.user_icon_guest} />
+            <AccountCircleIcon className={classes.user_icon_guest} />
           </Box>
         </Tooltip>
       </Fragment>

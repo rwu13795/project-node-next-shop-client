@@ -12,7 +12,7 @@ import {
 } from "../../../utils/redux-store/userSlice";
 import CartDetail from "../../shop/cart/cart-detail";
 
-import classes from "./__navbar-items.module.css";
+import classes from "./_cart-icon.module.css";
 
 export default function CartIcon(): JSX.Element {
   const changeInCart = useSelector(selectChangeInCart);
@@ -68,27 +68,25 @@ export default function CartIcon(): JSX.Element {
             overflow: "visible",
             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
             // these 2 lines above are for the litte triangle pointer
-
             borderRadius: 0,
-            mt: 1.5,
-            "& .MuiAvatar-root": {
-              width: 32,
-              height: 32,
-              ml: 0,
-              mr: 0,
-            },
-            "&:before": {
-              content: '""',
-              display: "block",
-              position: "absolute",
-              top: 0,
-              right: 16,
-              width: 10,
-              height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
-            },
+            borderColor: "black",
+            border: 2,
+            zIndex: 1,
+            mt: 1,
+            // "&:after": {
+            //   content: '""',
+            //   display: "block",
+            //   position: "absolute",
+            //   top: 0,
+            //   right: 16,
+            //   width: 10,
+            //   height: 10,
+            //   bgcolor: "white",
+            //   transform: "translateY(-50%) rotate(45deg)",
+            //   borderColor: "black",
+            //   border: 2,
+            //   zIndex: 0,
+            // },
           },
         }}
         transformOrigin={{ horizontal: "right", vertical: "top" }}

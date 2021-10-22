@@ -48,7 +48,6 @@ export default function SmallSlide_home({ title, prop }: Props): JSX.Element {
                 top: `${top}%`,
                 left: `${left}%`,
                 backgroundColor: "black",
-                overflow: "scroll",
               }}
               sx={{ boxShadow: 20 }}
             >

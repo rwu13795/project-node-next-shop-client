@@ -10,11 +10,14 @@ import {
   ListItemIcon,
   Tooltip,
   IconButton,
+  Grid,
+  Box,
 } from "@mui/material";
 import { Logout, PersonAdd, Settings } from "@mui/icons-material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 import {
   clearAuthErrors,
@@ -24,7 +27,7 @@ import {
 } from "../../../utils/redux-store/userSlice";
 import SignInModal from "./sign-in-modal";
 
-import classes from "./__navbar-items.module.css";
+import classes from "./_user-icon.module.css";
 
 export default function UserIcon({ page }: { page?: string }): JSX.Element {
   const router = useRouter();
@@ -78,25 +81,10 @@ export default function UserIcon({ page }: { page?: string }): JSX.Element {
             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
             // these 2 lines above are for the litte triangle pointer
             borderRadius: 0,
-            mt: 1.5,
-            "& .MuiAvatar-root": {
-              width: 32,
-              height: 32,
-              ml: 0,
-              mr: 0,
-            },
-            "&:before": {
-              content: '""',
-              display: "block",
-              position: "absolute",
-              top: 0,
-              right: 22,
-              width: 10,
-              height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
-            },
+            borderColor: "black",
+            border: 2,
+            zIndex: 1,
+            mt: 1,
           },
         }}
         transformOrigin={{ horizontal: "right", vertical: "top" }}
@@ -104,32 +92,32 @@ export default function UserIcon({ page }: { page?: string }): JSX.Element {
       >
         <MenuItem onClick={() => router.push("/auth/profile?tab=1")}>
           <ListItemIcon>
-            <PersonOutlineOutlinedIcon sx={{ color: "black" }} />
+            <PersonOutlineOutlinedIcon className={classes.user_icon_sub} />
           </ListItemIcon>
-          User Profile
+          <Box className={classes.user_icon_sub_text}>User Profile</Box>
         </MenuItem>
 
         <MenuItem onClick={() => router.push("/auth/profile?tab=2")}>
           <ListItemIcon>
-            <ListAltOutlinedIcon sx={{ color: "black" }} />
+            <ListAltOutlinedIcon className={classes.user_icon_sub} />
           </ListItemIcon>
-          Order History
+          <Box className={classes.user_icon_sub_text}>Order History</Box>
         </MenuItem>
 
         <MenuItem onClick={() => router.push("/auth/profile?tab=3")}>
           <ListItemIcon>
-            <Settings sx={{ color: "black" }} />
+            <Settings className={classes.user_icon_sub} />
           </ListItemIcon>
-          Reset Password
+          <Box className={classes.user_icon_sub_text}>Reset Password</Box>
         </MenuItem>
 
         <Divider sx={{ color: "blue" }} />
 
         <MenuItem onClick={signOutHandler}>
           <ListItemIcon>
-            <Logout sx={{ color: "black" }} />
+            <Logout className={classes.user_icon_sub} />
           </ListItemIcon>
-          Logout
+          <Box className={classes.user_icon_sub_text}>Logout</Box>
         </MenuItem>
       </Menu>
     </Fragment>
