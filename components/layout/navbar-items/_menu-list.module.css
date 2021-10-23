@@ -2,8 +2,58 @@
   text-decoration: none;
   color: inherit;
 }
+
 .menu_list:hover {
   text-decoration: none;
-  border-bottom: #1212b3 solid 3px;
-  /* transition: ease-in-out; */
+  color: inherit;
+}
+
+.menu_list_items {
+  min-width: 45rem;
+  background-color: white;
+  padding: 1rem 1rem;
+  background-image: linear-gradient(
+    to bottom left,
+    rgb(255, 255, 255) 30%,
+    rgba(34, 185, 255, 0.45) 50%,
+    rgb(255, 255, 255) 70%
+  );
+}
+
+.menu_list_items_column {
+  padding: 0 2.5rem 0 2.5rem;
+}
+
+.menu_list_items_column_head {
+  color: rgb(78, 78, 78);
+  font-size: min(1.7vw, 1.5rem);
+}
+
+.menu_list_single_item {
+  text-decoration: none;
+  color: inherit;
+  margin-left: 1.2rem;
+}
+
+.menu_list_single_item:hover {
+  text-decoration: none;
+  color: inherit;
+  margin-left: 1.2rem;
+  border-bottom: solid 2px rgb(0, 138, 180);
+}
+
+.menu_list_collapse_box {
+  border-radius: 0;
+  border: 2px solid black;
+  position: absolute;
+  top: 5.5rem;
+  left: 8%;
+  z-index: 10;
+}
+.menu_list_collapse_box_empty {
+  border-radius: 0;
+  position: absolute;
+  top: 4.5rem;
+  left: 8%;
+  z-index: 10;
 }

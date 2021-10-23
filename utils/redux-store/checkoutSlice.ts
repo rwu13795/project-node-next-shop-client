@@ -8,7 +8,7 @@ import { RootState } from ".";
 import browserClient from "../axios-client/browser-client";
 
 import { inputNames } from "../enums-types/input-names";
-import { InputValue } from "../helper-functions/input-error-check";
+import { InputValues } from "../helper-functions/input-error-check";
 import { CurrentUser } from "./userSlice";
 
 interface PaymentDetail {
@@ -22,9 +22,9 @@ interface PaymentDetail {
 // otherwise, I could map all these values dynamically using the
 // [inputName]: inputValue (computed properties)
 interface CheckoutState {
-  shippingAddress: InputValue;
-  billingAddress: InputValue;
-  contactInfo: InputValue;
+  shippingAddress: InputValues;
+  billingAddress: InputValues;
+  contactInfo: InputValues;
 }
 
 interface CreateOrderBody {
@@ -49,7 +49,7 @@ const client = browserClient();
 const serverUrl = "http://localhost:5000/api";
 
 const initializeValue = (inputFields: string[]) => {
-  let initialValue: InputValue = {};
+  let initialValue: InputValues = {};
   for (let name of inputFields) {
     initialValue = { ...initialValue, [name]: "" };
   }
@@ -116,7 +116,7 @@ const checkoutSlice = createSlice({
     ) {
       state.billingAddress[action.payload.name] = action.payload.value;
     },
-    setShippingAsBilling(state, action: PayloadAction<InputValue>) {
+    setShippingAsBilling(state, action: PayloadAction<InputValues>) {
       state.billingAddress = action.payload;
     },
     toggleBillingAddress(state, action: PayloadAction<boolean>) {
@@ -129,8 +129,8 @@ const checkoutSlice = createSlice({
     loadUserInfo(
       state,
       action: PayloadAction<{
-        addressInfo: InputValue;
-        contactInfo: InputValue;
+        addressInfo: InputValues;
+        contactInfo: InputValues;
       }>
     ) {
       state.shippingAddress = action.payload.addressInfo;

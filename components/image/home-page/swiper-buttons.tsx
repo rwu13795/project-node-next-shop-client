@@ -10,7 +10,7 @@ import {
   next_botton_small,
   prev_botton_small,
   sx_botton,
-} from "./__styles-button";
+} from "./_styles-button";
 import { MainCategory } from "../../../utils/enums-types/product-category";
 
 interface Props {

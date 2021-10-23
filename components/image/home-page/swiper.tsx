@@ -20,6 +20,7 @@ export interface ImagePorp_swiper {
   category: string;
   md: string;
   sm: string[];
+  sm_blur: string[];
 }
 
 const imageProps: ImagePorp_swiper[] = [
@@ -33,6 +34,13 @@ const imageProps: ImagePorp_swiper[] = [
       "/home/women-sm-4.jpg",
       "/home/women-sm-5.jpg",
     ],
+    sm_blur: [
+      "/home/blur/women-sm-1.jpg",
+      "/home/blur/women-sm-2.jpg",
+      "/home/blur/women-sm-3.jpg",
+      "/home/blur/women-sm-4.jpg",
+      "/home/blur/women-sm-5.jpg",
+    ],
   },
   {
     category: MainCategory.men,
@@ -45,6 +53,14 @@ const imageProps: ImagePorp_swiper[] = [
       "/home/men-sm-5.jpg",
       "/home/men-sm-6.jpg",
     ],
+    sm_blur: [
+      "/home/blur/men-sm-1.jpg",
+      "/home/blur/men-sm-2.jpg",
+      "/home/blur/men-sm-3.jpg",
+      "/home/blur/men-sm-4.jpg",
+      "/home/blur/men-sm-5.jpg",
+      "/home/blur/men-sm-6.jpg",
+    ],
   },
   {
     category: MainCategory.kids,
@@ -54,6 +70,12 @@ const imageProps: ImagePorp_swiper[] = [
       "/home/kids-sm-2.jpg",
       "/home/kids-sm-3.jpg",
       "/home/kids-sm-4.jpg",
+    ],
+    sm_blur: [
+      "/home/blur/kids-sm-1.jpg",
+      "/home/blur/kids-sm-2.jpg",
+      "/home/blur/kids-sm-3.jpg",
+      "/home/blur/kids-sm-4.jpg",
     ],
   },
 ];

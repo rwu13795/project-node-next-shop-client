@@ -1,14 +1,13 @@
 .main_1 {
   font-family: "Oswald", sans-serif;
   /* letter-spacing: 0.06em; */
-  font-size: 1.4rem;
+  font-size: min(2vw, 1.9rem);
   position: -webkit-sticky;
   position: fixed;
   top: 0;
   z-index: 9;
   min-height: 2.8rem;
   min-width: 100%;
-
   background-color: white;
   transition: background-color 1s;
 }
@@ -19,7 +18,7 @@ font-family: 'Monofett', cursive;
 .main_2 {
   font-family: "Oswald", sans-serif;
   /* letter-spacing: 0.06em; */
-  font-size: 1.4rem;
+  font-size: min(2vw, 1.9rem);
   position: fixed;
   top: 0;
   z-index: 9;

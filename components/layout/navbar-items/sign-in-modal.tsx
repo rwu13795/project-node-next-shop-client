@@ -58,7 +58,6 @@ export default function SignInModal({ page }: { page?: string }): JSX.Element {
             }
             sx={{ display: { xs: "none", md: "block" } }}
           >
-            {/* <Avatar className={classes.user_icon_guest} /> */}
             <AccountCircleIcon className={classes.user_icon_guest} />
           </Box>
         </Tooltip>

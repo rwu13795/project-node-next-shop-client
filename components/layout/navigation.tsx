@@ -2,13 +2,13 @@ import Link from "next/link";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/dist/client/router";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState, CSSProperties } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Divider, Grid, TextField, Box } from "@mui/material";
 
 import g_styles from "../../styles/globals.module.css";
-import styles from "./navigation.module.css";
+import styles from "./_navigation.module.css";
 import {
   getUserStatus,
   selectCurrentUser,
@@ -24,6 +24,8 @@ import UserIcon from "./navbar-items/user-icon";
 import CartIcon from "./navbar-items/cart-icon";
 import SearchIcon from "./navbar-items/search-icon";
 import MenuList from "./navbar-items/menu-list";
+import MenuDrawer from "./navbar-items/menu-drawer";
+import MenuIcon from "./navbar-items/menu-icon";
 
 interface Props {
   page?: string;
@@ -32,15 +34,11 @@ interface Props {
 export default function MainNavigation({ page }: Props) {
   const dispatch = useDispatch();
   const router = useRouter();
-
-  const currentUser = useSelector(selectCurrentUser);
-  const isLoggedIn = useSelector(selectIsLoggedIn);
   const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
 
   const [classname, setClassname] = useState(styles.main_1);
-
-  console.log("class-1", styles.main_1);
-  console.log("class-2", styles.main_2);
+  const [showMenu_nav, setShowMenu_nav] = useState<boolean>(false);
+  const [border, setBorder] = useState<CSSProperties>({});
 
   const adminSignOutHandler = () => {
     dispatch(adminSignOut());
@@ -48,6 +46,11 @@ export default function MainNavigation({ page }: Props) {
       dispatch(getUserStatus());
     }, 2000);
     router.push("/admin");
+  };
+
+  const onLeaveMenuGrid = () => {
+    setBorder({});
+    setShowMenu_nav(false);
   };
 
   // when user is scrolling, turn the Navbar to transparent
@@ -76,13 +79,11 @@ export default function MainNavigation({ page }: Props) {
     createScrollStopListener(
       window,
       function () {
-        console.log(window.pageYOffset);
         if (window.pageYOffset < 200) {
           setClassname(styles.main_2);
         } else {
           setClassname(styles.main_1);
         }
-        console.log("onscrollstop");
       },
       1500
     );
@@ -102,10 +103,17 @@ export default function MainNavigation({ page }: Props) {
           md={6}
           direction="row"
           justifyContent="flex-start"
-          alignItems="baseline"
-          sx={{ pr: 2 }}
+          alignItems="center"
+          wrap="nowrap"
+          sx={{ pr: 2, pb: 3, pt: 3, display: { xs: "none", md: "flex" } }}
+          onMouseLeave={onLeaveMenuGrid}
         >
-          <MenuList />
+          <MenuList
+            setShowMenu_nav={setShowMenu_nav}
+            setBorder={setBorder}
+            border={border}
+            showMenu_nav={showMenu_nav}
+          />
         </Grid>
 
         {/* right navbar */}
@@ -126,7 +134,7 @@ export default function MainNavigation({ page }: Props) {
               display: { xs: "block", md: "none", textAlign: "right" },
             }}
           >
-            menu
+            <MenuIcon />
           </Grid>
 
           <Grid item>
@@ -137,7 +145,7 @@ export default function MainNavigation({ page }: Props) {
             <UserIcon page={page} />
           </Grid>
 
-          <Grid item sx={{ ml: "1vw", mr: "0.5rem" }}>
+          <Grid item sx={{ ml: "1vw", mr: "1rem" }}>
             <CartIcon />
           </Grid>
         </Grid>
@@ -157,18 +165,18 @@ export default function MainNavigation({ page }: Props) {
     <main className={classname}>
       <Grid container justifyContent="space-between" alignItems="center">
         <Grid item md={2} sm={2} xs={4}>
-          <Link href="/">
-            <a>
-              <div style={{ paddingLeft: "1.5vw" }}>
+          <div style={{ paddingLeft: "1.5vw" }}>
+            <Link href="/">
+              <a>
                 <Image
                   src="/Nextjs-logo-1.svg"
                   alt="NextJS Logo"
                   width={165}
                   height={75}
                 />
-              </div>
-            </a>
-          </Link>
+              </a>
+            </Link>
+          </div>
         </Grid>
         <Grid
           item

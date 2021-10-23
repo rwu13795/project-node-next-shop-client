@@ -4,16 +4,16 @@ let theme = createTheme({
   palette: {
     // type: 'light',
     primary: {
-      main: "#1212b3",
+      main: "#0099CC",
     },
     secondary: {
-      main: "#bd0817",
+      main: "#0099CC",
     },
     error: {
       main: "#f44336",
     },
     info: {
-      main: "#1f8ce2",
+      main: "#0099CC",
       contrastText: "#ffffff",
     },
   },

@@ -1,0 +1,35 @@
+.page_layout {
+  padding-bottom: 3.5rem;
+  position: relative;
+  min-height: 100vh;
+  font-family: "Oswald", sans-serif;
+  background-image: linear-gradient(
+    to bottom right,
+    rgb(255, 255, 255) 10%,
+    rgba(34, 185, 255, 0.4) 15%,
+    rgb(255, 255, 255) 20%,
+    rgb(255, 255, 255) 35%,
+    rgba(34, 185, 255, 0.5) 50%,
+    rgb(255, 255, 255) 65%,
+    rgb(255, 255, 255) 80%,
+    rgba(34, 185, 255, 0.4) 85%,
+    rgb(255, 255, 255) 90%
+  );
+}
+
+.page_body {
+  padding-top: 2rem;
+  font-size: min(6.5vw, 55px);
+}
+@media screen and (min-width: 770px) {
+  .page_body {
+    padding-top: max(7rem, 4vw);
+  }
+}
+
+/* background-image: linear-gradient(
+    to bottom right,
+    rgb(255, 255, 255) 32%,
+    rgba(34, 185, 255, 0.534) 50%,
+    rgb(255, 255, 255) 68%
+  ); */

@@ -4,6 +4,7 @@ import { useRouter } from "next/dist/client/router";
 
 import { Collapse, Box, Fade, Paper, Menu, IconButton } from "@mui/material";
 import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
+import LocalMallIcon from "@mui/icons-material/LocalMall";
 
 import {
   selectCart,
@@ -20,89 +21,57 @@ export default function CartIcon(): JSX.Element {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const cartRef = useRef<HTMLDivElement | null>(null);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const showCart = Boolean(anchorEl);
+  const [showCart, setShowCart] = useState<boolean>(false);
 
   useEffect(() => {
     if (changeInCart) {
-      setAnchorEl(cartRef.current);
+      setShowCart(true);
       setTimeout(() => {
         dispatch(setChangeInCart(false));
-        setAnchorEl(null);
+        setShowCart(false);
       }, 5000);
     }
   }, [changeInCart, dispatch]);
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
+    setShowCart(false);
     router.push("/shop/cart");
-    setAnchorEl(null);
   };
-
+  const openMenu = () => {
+    setShowCart(true);
+  };
   const closeMenu = () => {
-    setAnchorEl(null);
+    setShowCart(false);
   };
 
   return (
     <Fragment>
-      <div ref={cartRef}>
-        <IconButton
-          onClick={handleClick}
-          onMouseEnter={(e) => {
-            setAnchorEl(e.currentTarget);
-          }}
-        >
-          <LocalMallOutlinedIcon className={classes.cart_icon} />
-        </IconButton>
-        <div className={classes.cart_icon_number}>{cart.length}</div>
-      </div>
-      <Menu
-        disableScrollLock={true}
-        anchorEl={anchorEl}
-        open={showCart}
-        onClose={closeMenu}
-        onClick={closeMenu}
-        PaperProps={{
-          elevation: 10,
-          sx: {
-            overflow: "visible",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            // these 2 lines above are for the litte triangle pointer
-            borderRadius: 0,
-            borderColor: "black",
-            border: 2,
-            zIndex: 1,
-            mt: 1,
-            // "&:after": {
-            //   content: '""',
-            //   display: "block",
-            //   position: "absolute",
-            //   top: 0,
-            //   right: 16,
-            //   width: 10,
-            //   height: 10,
-            //   bgcolor: "white",
-            //   transform: "translateY(-50%) rotate(45deg)",
-            //   borderColor: "black",
-            //   border: 2,
-            //   zIndex: 0,
-            // },
-          },
-        }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      <Box onClick={handleClick} onMouseEnter={openMenu}>
+        <LocalMallIcon className={classes.cart_icon} />
+      </Box>
+      <div className={classes.cart_icon_number}>{cart.length}</div>
+
+      <Collapse
+        in={showCart}
+        className={
+          showCart ? classes.cart_collapse_box : classes.cart_collapse_box_empty
+        }
       >
-        <div style={{ minWidth: "350px" }}>
-          <CartDetail cart={cart} summaryMode={true} cartDropDown={true} />
-        </div>
-
-        <div>
-          <button onClick={() => router.push("/shop/cart")}>Go To Cart</button>
-          <button onClick={() => setAnchorEl(null)}>Close</button>
-        </div>
-      </Menu>
+        <Paper
+          onMouseLeave={closeMenu}
+          elevation={10}
+          sx={{ filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))" }}
+          className={classes.cart_summary_menu}
+        >
+          <div>
+            <CartDetail cart={cart} summaryMode={true} cartDropDown={true} />
+          </div>
+          <div>
+            <button onClick={handleClick}>Go To Cart</button>
+            <button onClick={closeMenu}>Close</button>
+          </div>
+        </Paper>
+      </Collapse>
     </Fragment>
-
-    // </div>
   );
 }

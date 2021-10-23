@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import styles from "./footer.module.css";
+import styles from "./_footer.module.css";
 
 export default function Footer({}): JSX.Element {
   return (

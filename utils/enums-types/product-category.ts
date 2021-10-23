@@ -12,6 +12,11 @@ export enum WomenCategory {
   dresses = "Dresses",
 }
 export const womenCatArray = Object.values(WomenCategory);
+export const womenMenuList = {
+  tops: ["T-shirts", "Shirts", "Coats", "Dresses"],
+  bottoms: ["Shorts", "Pants", "Jeans"],
+  accessories: ["Shoes", "Hats", "Glasses"],
+};
 
 export enum MenCategory {
   // tops
@@ -21,7 +26,7 @@ export enum MenCategory {
   blazers = "Blazers",
   // bottoms
   shorts = "Shorts",
-  pants = "pants",
+  pants = "Pants",
   jeans = "Jeans",
   // misc
   shoes = "Shoes",
@@ -29,9 +34,19 @@ export enum MenCategory {
   glasses = "Glasses",
 }
 export const menCatArray = Object.values(MenCategory);
+export const menMenuList = {
+  tops: ["T-shirts", "Shirts", "Coats", "Blazers"],
+  bottoms: ["Shorts", "Pants", "Jeans"],
+  accessories: ["Shoes", "Hats", "Glasses"],
+};
 
 export enum KidsCategory {
   Tshirts = "T-shirts",
   shorts = "Shorts",
 }
 export const kidsCatArray = Object.values(KidsCategory);
+export const kidsMenuList = {
+  tops: ["T-shirts", "Shirts", "Sweaters", "Blazers"],
+  bottoms: ["Shorts", "Pants", "Jeans"],
+  accessories: ["Shoes", "Hats", "Glasses"],
+};

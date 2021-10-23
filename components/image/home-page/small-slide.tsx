@@ -5,7 +5,7 @@ import { Box } from "@mui/system";
 import { Grid } from "@mui/material";
 
 import { ImagePorp_swiper } from "./swiper";
-import { slide_small, sx_slide_small } from "./__styles-slide";
+import { slide_small, sx_slide_small } from "./_styles-slide";
 import { MainCategory } from "../../../utils/enums-types/product-category";
 
 interface Props {
@@ -56,7 +56,7 @@ export default function SmallSlide_home({ title, prop }: Props): JSX.Element {
                 alt={src}
                 width={width}
                 height={height}
-                blurDataURL={src}
+                blurDataURL={prop.sm_blur[index]}
                 placeholder="blur"
                 loading="eager"
               />

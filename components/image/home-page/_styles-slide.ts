@@ -28,7 +28,8 @@ export const slide_small = {
     fontSize: "3.5vw",
   } as CSSProperties,
   slide: {
-    margin: "0 5vh 10vw 5vh",
+    paddingTop: "0rem",
+    margin: "-2 5vh 10vw 5vh",
     height: "100%",
     minHeight: "100vh",
   } as CSSProperties,

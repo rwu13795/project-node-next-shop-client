@@ -2,12 +2,15 @@ import { Fragment, useState, FormEvent } from "react";
 
 import { Divider, Grid, TextField, Box } from "@mui/material";
 
+import classes from "./_search-icon.module.css";
+
 export default function SearchIcon(): JSX.Element {
   const [value, setValue] = useState<string>("");
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(value);
+    setValue("");
   };
 
   return (
@@ -17,11 +20,9 @@ export default function SearchIcon(): JSX.Element {
           id="standard-basic"
           label="SEARCH"
           variant="standard"
-          sx={{
-            width: "12vw",
-          }}
-          inputProps={{ style: { fontSize: "1.4vw" } }}
-          InputLabelProps={{ style: { fontSize: "1.2vw" } }}
+          sx={{ width: "12vw" }}
+          inputProps={{ className: `${classes.input_props}` }}
+          InputLabelProps={{ className: `${classes.input_label_props}` }}
           value={value}
           onChange={(e) => setValue(e.currentTarget.value)}
         />

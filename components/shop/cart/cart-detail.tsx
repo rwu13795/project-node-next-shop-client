@@ -26,11 +26,11 @@ export default function CartDetail({
   const dispatch = useDispatch();
   const totalAmount = useSelector(selectTotalAmount);
 
-  if (cart.length <= 0) {
-    return <h1>There Is No Item In Your Shopping Cart.</h1>;
-  }
-
-  return (
+  return cart.length <= 0 ? (
+    <Fragment>
+      <div>There Is No Item In Your Shopping Cart.</div>
+    </Fragment>
+  ) : (
     <Fragment>
       {cart.map((item, index) => {
         console.log(item.stockError);

@@ -75,6 +75,7 @@ export default function UserIcon({ page }: { page?: string }): JSX.Element {
         onClose={closeMenu}
         onClick={closeMenu}
         PaperProps={{
+          className: `${classes.user_menu_card}`,
           elevation: 10,
           sx: {
             overflow: "visible",
