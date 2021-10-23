@@ -96,7 +96,7 @@ export default function MainNavigation({ page }: Props) {
   if (page !== "admin") {
     content = (
       <Fragment>
-        {/* left navbar */}
+        {/* * * * * * * left navbar * * * * * * */}
         <Grid
           item
           container
@@ -116,21 +116,60 @@ export default function MainNavigation({ page }: Props) {
           />
         </Grid>
 
-        {/* right navbar */}
+        {/* * * * * * right navbar * * * * * * */}
         <Grid
           item
           container
           md={6}
-          sm={12}
-          xs={12}
+          sm={false}
+          xs={false}
           direction="row"
+          wrap="nowrap"
           justifyContent="flex-end"
           alignItems="center"
+          sx={{
+            display: { xs: "none", md: "flex" },
+          }}
         >
           <Grid
             item
             sx={{
-              paddingRight: 2,
+              display: { xs: "block", md: "none", textAlign: "right" },
+            }}
+          >
+            <MenuIcon />
+          </Grid>
+
+          <Grid item>
+            <SearchIcon />
+          </Grid>
+
+          <Grid item sx={{ ml: "1vw" }}>
+            <UserIcon page={page} />
+          </Grid>
+
+          <Grid item sx={{ ml: "1vw", mr: "1rem" }}>
+            <CartIcon />
+          </Grid>
+        </Grid>
+        {/* * * * * * right navbar * * * * * * */}
+        <Grid
+          item
+          container
+          md={false}
+          sm={12}
+          xs={12}
+          direction="row"
+          wrap="nowrap"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{
+            display: { xs: "flex", md: "none" },
+          }}
+        >
+          <Grid
+            item
+            sx={{
               display: { xs: "block", md: "none", textAlign: "right" },
             }}
           >
@@ -164,7 +203,7 @@ export default function MainNavigation({ page }: Props) {
   return (
     <main className={classname}>
       <Grid container justifyContent="space-between" alignItems="center">
-        <Grid item md={2} sm={2} xs={4}>
+        <Grid item md={2} sm={5} xs={5}>
           <div style={{ paddingLeft: "1.5vw" }}>
             <Link href="/">
               <a>
@@ -172,7 +211,7 @@ export default function MainNavigation({ page }: Props) {
                   src="/Nextjs-logo-1.svg"
                   alt="NextJS Logo"
                   width={165}
-                  height={75}
+                  height={70}
                 />
               </a>
             </Link>
@@ -181,8 +220,8 @@ export default function MainNavigation({ page }: Props) {
         <Grid
           item
           md={10}
-          sm={10}
-          xs={8}
+          sm={7}
+          xs={7}
           container
           justifyContent="space-between"
           alignItems="center"

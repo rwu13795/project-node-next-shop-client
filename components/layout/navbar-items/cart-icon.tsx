@@ -53,9 +53,8 @@ export default function CartIcon(): JSX.Element {
 
       <Collapse
         in={showCart}
-        className={
-          showCart ? classes.cart_collapse_box : classes.cart_collapse_box_empty
-        }
+        className={classes.cart_collapse_box}
+        sx={{ display: { xs: "none", sm: "none", md: "block" } }}
       >
         <Paper
           onMouseLeave={closeMenu}

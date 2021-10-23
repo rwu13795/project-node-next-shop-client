@@ -1,6 +1,7 @@
 import { Fragment, useState, FormEvent } from "react";
 
 import { Divider, Grid, TextField, Box } from "@mui/material";
+import SearchSharpIcon from "@mui/icons-material/SearchSharp";
 
 import classes from "./_search-icon.module.css";
 
@@ -15,18 +16,24 @@ export default function SearchIcon(): JSX.Element {
 
   return (
     <Fragment>
-      <form onSubmit={submitHandler}>
-        <TextField
-          id="standard-basic"
-          label="SEARCH"
-          variant="standard"
-          sx={{ width: "12vw" }}
-          inputProps={{ className: `${classes.input_props}` }}
-          InputLabelProps={{ className: `${classes.input_label_props}` }}
-          value={value}
-          onChange={(e) => setValue(e.currentTarget.value)}
-        />
-      </form>
+      <Box sx={{ display: { xs: "none", md: "block" } }}>
+        <form onSubmit={submitHandler}>
+          <TextField
+            id="standard-basic"
+            label="SEARCH"
+            variant="standard"
+            sx={{ width: "12vw" }}
+            inputProps={{ className: `${classes.input_props}` }}
+            InputLabelProps={{ className: `${classes.input_label_props}` }}
+            value={value}
+            onChange={(e) => setValue(e.currentTarget.value)}
+          />
+        </form>
+      </Box>
+
+      <Box sx={{ display: { xs: "block", md: "none" } }}>
+        <SearchSharpIcon />
+      </Box>
     </Fragment>
   );
 }

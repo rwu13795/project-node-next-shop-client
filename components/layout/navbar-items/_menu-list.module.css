@@ -46,14 +46,14 @@
   border-radius: 0;
   border: 2px solid black;
   position: absolute;
-  top: 5.5rem;
+  top: 5rem;
   left: 8%;
   z-index: 10;
 }
 .menu_list_collapse_box_empty {
   border-radius: 0;
   position: absolute;
-  top: 4.5rem;
+  top: 5rem;
   left: 8%;
   z-index: 10;
 }

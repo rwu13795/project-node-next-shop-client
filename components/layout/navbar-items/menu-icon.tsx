@@ -12,7 +12,7 @@ import {
   Collapse,
   Grid,
 } from "@mui/material";
-import ListIcon from "@mui/icons-material/List";
+import MenuSharpIcon from "@mui/icons-material/MenuSharp";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
@@ -31,7 +31,7 @@ export default function MenuIcon(): JSX.Element {
   return (
     <Fragment>
       <Box onClick={openMenu}>
-        <ListIcon />
+        <MenuSharpIcon />
       </Box>
 
       <Drawer open={openDrawer} onClose={closeMenu}>

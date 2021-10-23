@@ -49,7 +49,7 @@ export default function MenuList({
   };
 
   const closeMenu = () => {
-    setShowMenu_nav(false);
+    if (showMenu_nav) return;
     setShowMenu(false);
     setBorder({});
   };
@@ -150,7 +150,7 @@ export default function MenuList({
       <Collapse
         in={showMenu && showMenu_nav}
         className={
-          currentCat === MainCategory.accessories || !showMenu_nav
+          currentCat === MainCategory.accessories
             ? classes.menu_list_collapse_box_empty
             : classes.menu_list_collapse_box
         }

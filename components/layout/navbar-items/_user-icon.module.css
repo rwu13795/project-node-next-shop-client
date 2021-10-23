@@ -1,8 +1,8 @@
 /* user icon */
 .user_icon {
   font-size: min(4.2vw, 33px);
-  width: 6.1vw;
-  height: 6.1vw;
+  width: 6.2vw;
+  height: 6.2vw;
   background-color: black;
   border: black solid 2px;
   max-width: 43px;
@@ -21,8 +21,8 @@
 
 .user_icon_guest {
   /* margin-top: 0.4rem; */
-  width: 8vw;
-  height: 8vw;
+  width: 7.7vw;
+  height: 7.7vw;
   color: black;
   max-width: 59px;
   max-height: 59px;
