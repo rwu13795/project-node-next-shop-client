@@ -21,15 +21,16 @@ import {
   menMenuList,
   kidsMenuList,
 } from "../../../utils/enums-types/product-category";
+import classes from "./_menu-list.module.css";
 
 interface Props {
   cat: string;
-  setOpenDrawer: Dispatch<SetStateAction<boolean>>;
+  setIsDrawerOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function MeunListDrawer({
   cat,
-  setOpenDrawer,
+  setIsDrawerOpen,
 }: Props): JSX.Element {
   const router = useRouter();
 
@@ -41,12 +42,12 @@ export default function MeunListDrawer({
 
   const onProductClickHandler = (product: string) => {
     router.push(`/shop/${cat.toLowerCase()}/${product.toLowerCase()}`);
-    setOpenDrawer(false);
+    setIsDrawerOpen(false);
   };
 
   const onCatClickHandler = (cat: string) => {
     router.push(`/shop/${cat.toLowerCase()}`);
-    setOpenDrawer(false);
+    setIsDrawerOpen(false);
   };
 
   let list: { [key: string]: string[] } | undefined;
@@ -74,7 +75,10 @@ export default function MeunListDrawer({
   if (!list || !keys) {
     return (
       <Fragment>
-        <ListItemButton sx={{ pl: 2 }}>
+        <ListItemButton
+          sx={{ pl: 2 }}
+          onClick={() => onProductClickHandler(cat)}
+        >
           <ListItemText primary={cat.toUpperCase()} />
         </ListItemButton>
         <Divider />
@@ -91,7 +95,7 @@ export default function MeunListDrawer({
       <Divider />
 
       <Collapse in={expand} timeout="auto" unmountOnExit>
-        <ListItemButton sx={{ pl: 8 }}>
+        <ListItemButton sx={{ pl: 4 }}>
           <ListItemText
             primary={`View all ${cat}'s collection`}
             onClick={() => onCatClickHandler(cat)}
@@ -102,11 +106,16 @@ export default function MeunListDrawer({
             keys.map((key, index) => {
               return (
                 <Box key={index}>
-                  <Box sx={{ pl: 4 }}>{key.toUpperCase()}:</Box>
+                  <Box className={classes.menu_drawer_items_column_head}>
+                    {key.toUpperCase()}:
+                  </Box>
                   {list &&
                     list[key].map((product) => {
                       return (
-                        <ListItemButton sx={{ pl: 8 }} key={product}>
+                        <ListItemButton
+                          key={product}
+                          className={classes.menu_drawer_items}
+                        >
                           <ListItemText
                             primary={product}
                             onClick={() => onProductClickHandler(product)}

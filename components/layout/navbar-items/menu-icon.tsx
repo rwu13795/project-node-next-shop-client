@@ -4,28 +4,42 @@ import Image from "next/image";
 
 import { Drawer, Box, Grid, Divider } from "@mui/material";
 import MenuSharpIcon from "@mui/icons-material/MenuSharp";
+import CancelPresentationSharpIcon from "@mui/icons-material/CancelPresentationSharp";
 
 import { mainCatArray } from "../../../utils/enums-types/product-category";
 import MeunListDrawer from "./menu-list-drawer";
+import classes from "./_menu-list.module.css";
 
 export default function MenuIcon(): JSX.Element {
-  const [openDrawer, setOpenDrawer] = useState<boolean>(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   const openMenu = () => {
-    setOpenDrawer(true);
+    setIsDrawerOpen(true);
   };
   const closeMenu = () => {
-    setOpenDrawer(false);
+    setIsDrawerOpen(false);
   };
 
   return (
     <Fragment>
       <Box onClick={openMenu}>
-        <MenuSharpIcon />
+        <MenuSharpIcon className={classes.menu_icon} />
       </Box>
 
-      <Drawer open={openDrawer} onClose={closeMenu}>
-        <div style={{ minWidth: "100vw" }}>
+      <Drawer
+        open={isDrawerOpen}
+        onClose={closeMenu}
+        anchor="left"
+        sx={{
+          width: "100vw",
+          "& .MuiDrawer-paper": {
+            backgroundImage:
+              "linear-gradient(to right, rgba(34, 185, 255, 0.5) 0%, rgb(255, 255, 255) 15%)",
+            boxSizing: "border-box",
+          },
+        }}
+      >
+        <Box className={classes.menu_drawer_box}>
           <Grid container>
             <Grid item xs={6}>
               <div style={{ paddingLeft: "1.5vw" }}>
@@ -42,20 +56,24 @@ export default function MenuIcon(): JSX.Element {
               </div>
             </Grid>
             <Grid item xs={6}>
-              <div onClick={closeMenu}>X</div>
+              <CancelPresentationSharpIcon
+                className={classes.close_icon}
+                onClick={closeMenu}
+              />
             </Grid>
           </Grid>
           <Divider />
+
           {mainCatArray.map((cat, index) => {
             return (
               <MeunListDrawer
                 key={index}
                 cat={cat}
-                setOpenDrawer={setOpenDrawer}
+                setIsDrawerOpen={setIsDrawerOpen}
               />
             );
           })}
-        </div>
+        </Box>
       </Drawer>
     </Fragment>
   );

@@ -1,0 +1,50 @@
+.input_props {
+  font-size: min(2vw, 23px);
+}
+.input_label_props {
+  font-size: min(1.2vw, 15px);
+}
+
+.input_props_small {
+  font-size: min(8vw, 22px);
+}
+.input_label_props_small {
+  font-size: min(6vw, 18px);
+}
+
+.search_drawer {
+  height: min(19vh, 8rem);
+  background-image: linear-gradient(
+    to right,
+    rgba(34, 185, 255, 0.5) 0%,
+    rgb(255, 255, 255) 15%
+  );
+}
+
+.search_icon {
+  width: 7.7vw;
+  height: 7.7vw;
+  color: black;
+  max-width: 59px;
+  max-height: 59px;
+  border-radius: 2rem;
+  transition: ease-in 0.3s;
+}
+
+.search_icon:hover {
+  color: rgb(0, 138, 180);
+  cursor: pointer;
+  transition: ease-in 0.3s;
+}
+
+.close_icon {
+  float: right;
+  margin-top: 0.6rem;
+  margin-right: 0.6rem;
+  transition: ease-in 0.3s;
+}
+.close_icon:hover {
+  color: rgb(0, 138, 180);
+  cursor: pointer;
+  transition: ease-in 0.3s;
+}

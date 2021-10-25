@@ -5,12 +5,12 @@
   max-width: 55px;
   max-height: 55px;
   cursor: pointer;
-  border-radius: 2rem;
-  transition: 0.5s ease-in-out;
+  /* border-radius: 2rem; */
+  transition: 0.3s ease-in-out;
 }
 .cart_icon:hover {
   color: rgb(0, 138, 180);
-  transition: 0.5s ease-in-out;
+  transition: 0.3s ease-in-out;
 }
 
 .cart_icon_number {

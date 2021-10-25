@@ -1,39 +1,39 @@
 import { Fragment, useState, FormEvent } from "react";
 
-import { Divider, Grid, TextField, Box } from "@mui/material";
+import { Divider, Grid, TextField, Box, Drawer } from "@mui/material";
 import SearchSharpIcon from "@mui/icons-material/SearchSharp";
+import CancelPresentationSharpIcon from "@mui/icons-material/CancelPresentationSharp";
 
-import classes from "./_search-icon.module.css";
+import SearchInputBar from "./search-input-bar";
+import classes from "./_search-bar.module.css";
 
 export default function SearchIcon(): JSX.Element {
-  const [value, setValue] = useState<string>("");
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(value);
-    setValue("");
+  const openMenu = () => {
+    setIsDrawerOpen(true);
+  };
+  const closeMenu = () => {
+    setIsDrawerOpen(false);
   };
 
   return (
     <Fragment>
-      <Box sx={{ display: { xs: "none", md: "block" } }}>
-        <form onSubmit={submitHandler}>
-          <TextField
-            id="standard-basic"
-            label="SEARCH"
-            variant="standard"
-            sx={{ width: "12vw" }}
-            inputProps={{ className: `${classes.input_props}` }}
-            InputLabelProps={{ className: `${classes.input_label_props}` }}
-            value={value}
-            onChange={(e) => setValue(e.currentTarget.value)}
-          />
-        </form>
+      <SearchInputBar size="medium" />
+
+      <Box sx={{ display: { xs: "block", md: "none" } }} onClick={openMenu}>
+        <SearchSharpIcon className={classes.search_icon} />
       </Box>
 
-      <Box sx={{ display: { xs: "block", md: "none" } }}>
-        <SearchSharpIcon />
-      </Box>
+      <Drawer open={isDrawerOpen} onClose={closeMenu} anchor="top">
+        <Box className={classes.search_drawer}>
+          <CancelPresentationSharpIcon
+            className={classes.close_icon}
+            onClick={closeMenu}
+          />
+          <SearchInputBar size="small" />
+        </Box>
+      </Drawer>
     </Fragment>
   );
 }

@@ -43,6 +43,21 @@
   border-bottom: solid 2px rgb(0, 138, 180);
 }
 
+.menu_icon {
+  width: 7.7vw;
+  height: 7.7vw;
+  color: black;
+  max-width: 59px;
+  max-height: 59px;
+  border-radius: 2rem;
+  transition: ease-in 0.3s;
+}
+.menu_icon:hover {
+  color: rgb(0, 138, 180);
+  cursor: pointer;
+  transition: ease-in 0.3s;
+}
+
 .menu_list_collapse_box {
   border-radius: 0;
   position: absolute;
@@ -57,4 +72,37 @@
   top: 5rem;
   left: 8%;
   z-index: 10;
+}
+
+.menu_drawer_box {
+  min-width: 100vw;
+}
+@media screen and (min-width: 450px) {
+  .menu_drawer_box {
+    min-width: 70vw;
+  }
+}
+
+.menu_drawer_items_column_head {
+  color: rgb(97, 97, 97);
+  font-style: italic;
+  font-family: sans-serif;
+  font-size: min(4.1vw, 1.3rem);
+  padding-left: 2rem;
+}
+
+.menu_drawer_items {
+  padding-left: 5rem;
+}
+
+.close_icon {
+  float: right;
+  margin-top: 0.6rem;
+  margin-right: 0.6rem;
+  transition: ease-in 0.3s;
+}
+.close_icon:hover {
+  color: rgb(0, 138, 180);
+  cursor: pointer;
+  transition: ease-in 0.3s;
 }

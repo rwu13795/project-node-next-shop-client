@@ -5,6 +5,7 @@ import { useRouter } from "next/dist/client/router";
 import { Collapse, Box, Fade, Paper, Menu, IconButton } from "@mui/material";
 import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
+import LocalMallSharpIcon from "@mui/icons-material/LocalMallSharp";
 
 import {
   selectCart,

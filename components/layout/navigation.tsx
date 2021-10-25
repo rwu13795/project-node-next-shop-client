@@ -116,7 +116,7 @@ export default function MainNavigation({ page }: Props) {
           />
         </Grid>
 
-        {/* * * * * * right navbar * * * * * * */}
+        {/* * * * * * right navbar - MEDIUM * * * * * * */}
         <Grid
           item
           container
@@ -131,28 +131,20 @@ export default function MainNavigation({ page }: Props) {
             display: { xs: "none", md: "flex" },
           }}
         >
-          <Grid
-            item
-            sx={{
-              display: { xs: "block", md: "none", textAlign: "right" },
-            }}
-          >
-            <MenuIcon />
-          </Grid>
-
           <Grid item>
             <SearchIcon />
           </Grid>
 
-          <Grid item sx={{ ml: "1vw" }}>
+          <Grid item sx={{ ml: "2vw" }}>
             <UserIcon page={page} />
           </Grid>
 
-          <Grid item sx={{ ml: "1vw", mr: "1rem" }}>
+          <Grid item sx={{ ml: "2vw", mr: "1rem" }}>
             <CartIcon />
           </Grid>
         </Grid>
-        {/* * * * * * right navbar * * * * * * */}
+
+        {/* * * * * * right navbar - SMALL * * * * * * */}
         <Grid
           item
           container
@@ -167,12 +159,7 @@ export default function MainNavigation({ page }: Props) {
             display: { xs: "flex", md: "none" },
           }}
         >
-          <Grid
-            item
-            sx={{
-              display: { xs: "block", md: "none", textAlign: "right" },
-            }}
-          >
+          <Grid item>
             <MenuIcon />
           </Grid>
 
@@ -180,11 +167,11 @@ export default function MainNavigation({ page }: Props) {
             <SearchIcon />
           </Grid>
 
-          <Grid item sx={{ ml: "1vw" }}>
+          <Grid item sx={{ pl: "1vw" }}>
             <UserIcon page={page} />
           </Grid>
 
-          <Grid item sx={{ ml: "1vw", mr: "1rem" }}>
+          <Grid item sx={{ pl: "1vw", mr: "1rem" }}>
             <CartIcon />
           </Grid>
         </Grid>
