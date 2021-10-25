@@ -24,7 +24,7 @@ import UserIcon from "./navbar-items/user-icon";
 import CartIcon from "./navbar-items/cart-icon";
 import SearchIcon from "./navbar-items/search-icon";
 import MenuList from "./navbar-items/menu-list";
-import MenuDrawer from "./navbar-items/menu-drawer";
+import MenuDrawer from "./navbar-items/menu-list-drawer";
 import MenuIcon from "./navbar-items/menu-icon";
 
 interface Props {

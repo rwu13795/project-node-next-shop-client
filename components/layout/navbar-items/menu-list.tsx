@@ -54,6 +54,10 @@ export default function MenuList({
     setBorder({});
   };
 
+  const onClickHandler = () => {
+    setShowMenu_nav(false);
+  };
+
   const ProductMenu = ({ currentCat }: { currentCat: string }): JSX.Element => {
     let list: { [key: string]: string[] } | undefined;
     let keys: string[] | undefined;
@@ -139,7 +143,7 @@ export default function MenuList({
                 className={classes.menu_list}
                 style={cat === currentCat ? border : {}}
                 onMouseEnter={() => openMenu(cat)}
-                onClick={() => setShowMenu_nav(false)}
+                onClick={onClickHandler}
               >
                 {cat.toUpperCase()}
               </a>

@@ -49,7 +49,7 @@ export default function SmallSlide_home({ title, prop }: Props): JSX.Element {
                 left: `${left}%`,
                 backgroundColor: "black",
               }}
-              sx={{ boxShadow: 20 }}
+              sx={{ boxShadow: 15 }}
             >
               <Image
                 src={src}

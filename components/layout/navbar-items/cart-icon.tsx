@@ -58,8 +58,8 @@ export default function CartIcon(): JSX.Element {
       >
         <Paper
           onMouseLeave={closeMenu}
-          elevation={10}
-          sx={{ filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))" }}
+          // elevation={10}
+          // sx={{ filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))" }}
           className={classes.cart_summary_menu}
         >
           <div>

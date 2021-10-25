@@ -31,7 +31,10 @@
 
 .cart_summary_menu {
   min-width: 20rem;
-
+  border-radius: 0;
+  border: 2px solid black;
+  max-height: 80vh;
+  overflow-y: auto;
   background-image: linear-gradient(
     to bottom left,
     rgb(255, 255, 255) 30%,
@@ -48,8 +51,7 @@ as a wrapper to wrap the component which is needed to be "collapsed"*/
 .cart_collapse_box {
   border-radius: 0;
   max-height: 80vh;
-  overflow-y: scroll;
-  border: 2px solid black;
   position: absolute;
+  box-shadow: 7px 7px 20px 0px rgb(0, 138, 180);
   right: 1rem;
 }

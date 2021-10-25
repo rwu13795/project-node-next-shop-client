@@ -10,6 +10,7 @@
 
 .menu_list_items {
   min-width: 45rem;
+  border: 2px solid black;
   background-color: white;
   padding: 1rem 1rem;
   background-image: linear-gradient(
@@ -44,8 +45,8 @@
 
 .menu_list_collapse_box {
   border-radius: 0;
-  border: 2px solid black;
   position: absolute;
+  box-shadow: 7px 7px 20px 0px rgb(0, 138, 180);
   top: 5rem;
   left: 8%;
   z-index: 10;

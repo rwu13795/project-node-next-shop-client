@@ -5,7 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Box, styled, Tab, Grid } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
-import { CartItem, setLoadingStatus } from "../../utils/redux-store/userSlice";
+import {
+  CartItem,
+  clearAuthErrors,
+  setLoadingStatus,
+} from "../../utils/redux-store/userSlice";
 import serverClient from "../../utils/axios-client/server-client";
 import OrderHistory from "../../components/auth/user-profile/order-history";
 import UpdateProfile from "../../components/auth/user-profile/update-info";
@@ -53,6 +57,7 @@ const ProfilePage: NextPage<PageProps> = ({
   const [value, setValue] = useState(tabNum ? tabNum : "2");
 
   const tagChangeHandler = (event: React.SyntheticEvent, newValue: string) => {
+    dispatch(clearAuthErrors("all"));
     dispatch(setLoadingStatus("idle"));
     setValue(newValue);
   };

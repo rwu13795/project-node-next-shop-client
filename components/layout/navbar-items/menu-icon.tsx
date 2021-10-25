@@ -2,21 +2,11 @@ import { Fragment, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-import {
-  Drawer,
-  Box,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  List,
-  Collapse,
-  Grid,
-} from "@mui/material";
+import { Drawer, Box, Grid, Divider } from "@mui/material";
 import MenuSharpIcon from "@mui/icons-material/MenuSharp";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import StarBorder from "@mui/icons-material/StarBorder";
+
+import { mainCatArray } from "../../../utils/enums-types/product-category";
+import MeunListDrawer from "./menu-list-drawer";
 
 export default function MenuIcon(): JSX.Element {
   const [openDrawer, setOpenDrawer] = useState<boolean>(false);
@@ -55,39 +45,18 @@ export default function MenuIcon(): JSX.Element {
               <div onClick={closeMenu}>X</div>
             </Grid>
           </Grid>
-          <ItemDrawer />
+          <Divider />
+          {mainCatArray.map((cat, index) => {
+            return (
+              <MeunListDrawer
+                key={index}
+                cat={cat}
+                setOpenDrawer={setOpenDrawer}
+              />
+            );
+          })}
         </div>
       </Drawer>
     </Fragment>
   );
 }
-
-const ItemDrawer = (): JSX.Element => {
-  const [open, setOpen] = useState<boolean>(false);
-
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
-
-  return (
-    <Fragment>
-      <ListItemButton onClick={toggleDrawer}>
-        <ListItemIcon>
-          <InboxIcon />
-        </ListItemIcon>
-        <ListItemText primary="Inbox" />
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Starred" />
-          </ListItemButton>
-        </List>
-      </Collapse>
-    </Fragment>
-  );
-};

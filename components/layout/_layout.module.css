@@ -3,17 +3,24 @@
   position: relative;
   min-height: 100vh;
   font-family: "Oswald", sans-serif;
-  background-image: linear-gradient(
+  /* background-image: linear-gradient(
     to bottom right,
     rgb(255, 255, 255) 10%,
-    rgba(34, 185, 255, 0.4) 15%,
+    rgba(75, 75, 75, 0.4) 15%,
     rgb(255, 255, 255) 20%,
     rgb(255, 255, 255) 35%,
-    rgba(34, 185, 255, 0.5) 50%,
+    rgba(114, 114, 114, 0.5) 50%,
     rgb(255, 255, 255) 65%,
     rgb(255, 255, 255) 80%,
-    rgba(34, 185, 255, 0.4) 85%,
+    rgba(167, 167, 167, 0.4) 85%,
     rgb(255, 255, 255) 90%
+  ); */
+  background-image: linear-gradient(
+    to right,
+    rgba(34, 185, 255, 0.4) 0%,
+    rgb(255, 255, 255) 28%,
+    rgb(255, 255, 255) 72%,
+    rgb(34, 185, 255, 0.4) 100%
   );
 }
 
