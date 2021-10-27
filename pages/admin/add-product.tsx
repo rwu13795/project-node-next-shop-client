@@ -1,7 +1,6 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
 import React, { useReducer, ChangeEvent, useEffect } from "react";
-import { SelectChangeEvent } from "@mui/material";
 
 import useUpload from "../../utils/react-hooks/add-product-upload";
 import SelectCategory from "../../components/admin/add-edit-product/select-category";
@@ -22,6 +21,10 @@ import {
   selectCsrfToken_admin,
   selectLoggedInAsAdmin,
 } from "../../utils/redux-store/adminSlice";
+
+// UI
+import { Divider, SelectChangeEvent, Grid } from "@mui/material";
+import styles from "./_add-product.module.css";
 
 const initialProductState: ProductState = {
   colorPropsList: [initialColorProps],
@@ -51,11 +54,11 @@ const AddProductPage: NextPage<PageProps> = ({
   const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
   const csrfToken = useSelector(selectCsrfToken_admin);
 
-  // useEffect(() => {
-  //   if (!adminUser.loggedInAsAdmin) {
-  //     router.push("/admin");
-  //   }
-  // });
+  useEffect(() => {
+    if (!loggedInAsAdmin) {
+      router.push("/admin");
+    }
+  });
 
   const [state, dispatch] = useReducer(
     addProductReducer,
@@ -91,74 +94,94 @@ const AddProductPage: NextPage<PageProps> = ({
     await postUpload();
   };
 
-  if (loggedInAsAdmin !== true) {
-    if (loggedInAsAdmin === undefined) {
-      return <h1>Loading</h1>;
-    } else {
-      return (
-        <h1>You need to sign in as an Administrator to access this page</h1>
-      );
-    }
-  }
+  console.log(csrfToken);
 
   return (
-    <main>
-      <h1>Add New Product</h1>
-      <div>
-        <label>Category: </label>
-        <SelectCategory
-          dispatchAddInfo={dispatchAddInfo}
-          productInfo={state.productInfo}
-          propError={errors}
-          setErrors={setErrors}
-        />
-      </div>
-      <div>
-        <AddTitle
-          dispatchAddInfo={dispatchAddInfo}
-          productInfo={state.productInfo}
-          propError={errors}
-          setErrors={setErrors}
-        />
-      </div>
-      <div>
-        <AddPrice
-          dispatchAddInfo={dispatchAddInfo}
-          productInfo={state.productInfo}
-        />
-      </div>
-      <div>
-        <AddDescription
-          dispatchAddInfo={dispatchAddInfo}
-          productInfo={state.productInfo}
-          propError={errors}
-          setErrors={setErrors}
-        />
-      </div>
-      {state.colorPropsList.map((prop, index) => {
-        return (
-          <AddColorsProps
-            key={index}
-            colorProps={prop}
-            listIndex={index}
-            dispatch={dispatch}
-            propError={errors}
-            editMode={editMode}
-            setErrors={setErrors}
-          />
-        );
-      })}
-      <button
-        onClick={() => {
-          dispatch({ type: Actions.addMoreColor });
-        }}
+    <main className={styles.main}>
+      <h4 className={styles.main_title}>Add New Product</h4>
+      <Divider />
+      <Grid
+        container
+        flexDirection="row"
+        justifyContent="center"
+        className={styles.page_body}
+        sx={{ minWidth: "80vw" }}
       >
-        Add more colors
-      </button>
+        <Grid
+          item
+          container
+          flexDirection="row"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Grid
+            item
+            container
+            flexDirection="column"
+            justifyContent="flex-start"
+            alignItems="flex-end"
+            xs={12}
+            md={6}
+          >
+            <Grid item xs={12} md={6}>
+              <SelectCategory
+                dispatchAddInfo={dispatchAddInfo}
+                productInfo={state.productInfo}
+                propError={errors}
+                setErrors={setErrors}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <AddTitle
+                dispatchAddInfo={dispatchAddInfo}
+                productInfo={state.productInfo}
+                propError={errors}
+                setErrors={setErrors}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <AddPrice
+                dispatchAddInfo={dispatchAddInfo}
+                productInfo={state.productInfo}
+              />
+            </Grid>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <AddDescription
+              dispatchAddInfo={dispatchAddInfo}
+              productInfo={state.productInfo}
+              propError={errors}
+              setErrors={setErrors}
+            />
+          </Grid>
+        </Grid>
+        <Grid item container>
+          {state.colorPropsList.map((prop, index) => {
+            return (
+              <AddColorsProps
+                key={index}
+                colorProps={prop}
+                listIndex={index}
+                dispatch={dispatch}
+                propError={errors}
+                editMode={editMode}
+                setErrors={setErrors}
+              />
+            );
+          })}
+          <button
+            onClick={() => {
+              dispatch({ type: Actions.addMoreColor });
+            }}
+          >
+            Add more colors
+          </button>
 
-      <div>
-        <button onClick={uploadHandler}>upload</button>
-      </div>
+          <div>
+            <button onClick={uploadHandler}>upload</button>
+          </div>
+        </Grid>
+      </Grid>
     </main>
   );
 };

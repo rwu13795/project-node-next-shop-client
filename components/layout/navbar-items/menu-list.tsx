@@ -22,8 +22,8 @@ import {
 
 interface Props {
   setShowMenu_nav: Dispatch<SetStateAction<boolean>>;
-  setBorder: Dispatch<SetStateAction<CSSProperties>>;
-  border: CSSProperties;
+  // setBorder: Dispatch<SetStateAction<CSSProperties>>;
+  // border: CSSProperties;
   showMenu_nav: boolean;
 }
 
@@ -34,8 +34,8 @@ const mui_sx = {
 
 export default function MenuList({
   setShowMenu_nav,
-  setBorder,
-  border,
+  // setBorder,
+  // border,
   showMenu_nav,
 }: Props): JSX.Element {
   const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -43,15 +43,15 @@ export default function MenuList({
 
   const openMenu = (cat: string) => {
     setCurrentCat(cat);
-    setBorder({ borderBottom: "2px #0099CC solid" });
+    // setBorder({ borderBottom: "2px #0099CC solid" });
     setShowMenu_nav(true);
     setShowMenu(true);
   };
 
   const closeMenu = () => {
     if (showMenu_nav) return;
-    setShowMenu(false);
-    setBorder({});
+    else setShowMenu(false);
+    // setBorder({});
   };
 
   const onClickHandler = () => {
@@ -113,7 +113,7 @@ export default function MenuList({
                   list[key].map((product) => {
                     return (
                       <Fragment key={product}>
-                        <Grid>
+                        <Grid onClick={onClickHandler}>
                           <Link
                             href={`/shop/${currentCat.toLowerCase()}/${product.toLowerCase()}`}
                           >
@@ -141,7 +141,7 @@ export default function MenuList({
             <Link href={`/shop/${cat.toLowerCase()}`}>
               <a
                 className={classes.menu_list}
-                style={cat === currentCat ? border : {}}
+                // style={cat === currentCat ? border : {}}
                 onMouseEnter={() => openMenu(cat)}
                 onClick={onClickHandler}
               >

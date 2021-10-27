@@ -8,6 +8,9 @@ import {
   onChangeErrorCheck,
 } from "../../../utils/helper-functions/input-error-check";
 
+// UI //
+import { TextField } from "@mui/material";
+
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
   productInfo: ReducerProductInfo;
@@ -25,7 +28,21 @@ export default function AddDescription(props: Props): JSX.Element {
   };
 
   return (
-    <div>
+    <TextField
+      id="standard-multiline-flexible"
+      label="Description"
+      multiline
+      rows={6}
+      name={inputNames.desc}
+      value={productInfo.description}
+      onChange={onChangeHandler}
+      // variant="standard"
+    />
+  );
+}
+
+/*
+        <div>
       <label>Description: </label>
       <textarea
         name={inputNames.desc}
@@ -35,6 +52,5 @@ export default function AddDescription(props: Props): JSX.Element {
       ></textarea>
 
       <span>{propError[inputNames.desc]}</span>
-    </div>
-  );
-}
+    </div> 
+    */

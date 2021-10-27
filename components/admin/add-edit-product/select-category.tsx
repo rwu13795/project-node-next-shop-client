@@ -1,10 +1,3 @@
-import {
-  FormControl,
-  Select,
-  MenuItem,
-  InputLabel,
-  SelectChangeEvent,
-} from "@mui/material";
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 
 import { ReducerProductInfo } from "../../../utils/react-hooks/add-product-reducer";
@@ -22,6 +15,18 @@ import {
   MainCategory,
 } from "../../../utils/enums-types/product-category";
 import { capitalize } from "../../../utils/helper-functions/capitalize-first-letter";
+
+// UI //
+import {
+  FormControl,
+  Select,
+  MenuItem,
+  InputLabel,
+  SelectChangeEvent,
+  FormHelperText,
+  Grid,
+} from "@mui/material";
+import styles from "./_select-category.module.css";
 
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
@@ -62,25 +67,34 @@ export default function SelectCategory(props: Props): JSX.Element {
     dispatchAddInfo(e);
   };
 
+  let error_main =
+    propError[inputNames.main] === undefined ||
+    propError[inputNames.main] === "";
+  let error_sub =
+    propError[inputNames.sub] === undefined || propError[inputNames.sub] === "";
+
+  console.log(error_main);
+
   return (
-    <Fragment>
-      <FormControl
-        variant="standard"
-        sx={{ m: 0, minWidth: 120, boxShadow: 0 }}
-      >
-        <InputLabel style={{ fontSize: "1rem" }}>Main-Category</InputLabel>
+    <Grid item container flexDirection="column">
+      <FormControl sx={{ minWidth: 220 }} error={!error_main}>
+        <InputLabel id="main-cat-select">Main-Category</InputLabel>
         <Select
+          labelId="main-cat-select"
           value={capitalize(productInfo.main_cat)}
           name={inputNames.main}
-          label="Main Category"
-          sx={{ m: 0, minWidth: 130 }}
+          label="Main Category" // the length oflabel string will determine the length of line break in the box
           onChange={onChangeHandler}
+          error={!error_main}
         >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
           {mainCatArray.map((cat) => {
             return (
               <MenuItem key={cat} value={cat}>
                 {cat}
-                <div
+                {/* <div
                   style={{
                     position: "relative",
                     left: "5%",
@@ -89,24 +103,30 @@ export default function SelectCategory(props: Props): JSX.Element {
                     backgroundColor: "red",
                     borderRadius: "50%",
                   }}
-                ></div>
+                ></div> */}
               </MenuItem>
             );
           })}
         </Select>
+        <FormHelperText className={styles.input_error}>
+          {propError[inputNames.main]}
+        </FormHelperText>
       </FormControl>
-      {propError && propError[inputNames.main] && (
-        <div>{propError[inputNames.main]}</div>
-      )}
-      <span>
-        <InputLabel style={{ fontSize: "15px" }}>Sub-Category</InputLabel>
+
+      <FormControl sx={{ minWidth: 220 }} error={!error_sub}>
+        <InputLabel id="sub-cat-select">Sub-Category</InputLabel>
         <Select
+          labelId="sub-cat-select"
+          label="Sub Category"
           value={capitalize(productInfo.sub_cat)}
           name={inputNames.sub}
-          style={{ minWidth: "90px" }}
           onChange={onChangeHandler}
           disabled={noMainCat}
+          error={!error_sub}
         >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
           {subCatArray.map((cat) => {
             return (
               <MenuItem key={cat} value={cat}>
@@ -115,9 +135,10 @@ export default function SelectCategory(props: Props): JSX.Element {
             );
           })}
         </Select>
-      </span>
-
-      <span>{propError[inputNames.sub]}</span>
-    </Fragment>
+        <FormHelperText className={styles.input_error}>
+          {propError[inputNames.sub]}
+        </FormHelperText>
+      </FormControl>
+    </Grid>
   );
 }

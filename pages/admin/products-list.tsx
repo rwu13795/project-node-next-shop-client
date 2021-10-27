@@ -2,30 +2,42 @@ import { GetServerSidePropsContext, NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useCallback, useState } from "react";
 
 import serverClient from "../../utils/axios-client/server-client";
 import { PageProductProps } from "../../utils/react-hooks/get-more-products";
 import {
   deleteProduct,
+  getAdminStatus,
   selectAdminUser,
   selectLoadingStatus_admin,
   selectLoggedInAsAdmin,
   setLoadingStatus_admin,
 } from "../../utils/redux-store/adminSlice";
+import browserClient from "../../utils/axios-client/browser-client";
 
 interface PageProps {
   productsTotal: number;
   products: PageProductProps[];
+  page_num: number;
 }
 
-const AdmimProductsListPage: NextPage<PageProps> = ({ products }) => {
+const AdmimProductsListPage: NextPage<PageProps> = ({
+  products: startProducts,
+  page_num,
+}) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const client = browserClient();
 
   const admin_username = useSelector(selectAdminUser).admin_username;
   const loadingStatus = useSelector(selectLoadingStatus_admin);
   const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
+
+  const [products, setProducts] = useState<PageProductProps[]>(startProducts);
+
+  const [params] = useState({ admin_username, page_num });
+  // useEffect(() => {}, [dispatch]);
 
   useEffect(() => {
     if (!loggedInAsAdmin) {
@@ -33,13 +45,23 @@ const AdmimProductsListPage: NextPage<PageProps> = ({ products }) => {
     }
   }, [loggedInAsAdmin, router]);
 
+  const fetchNewList = useCallback(async () => {
+    const { data }: { data: PageProps } = await client.get(
+      "http://localhost:5000/api/admin/get-products-list",
+      { params }
+    );
+    setProducts(data.products);
+  }, [params, client]);
+
   useEffect(() => {
     // reload the page after deleting an item
     if (loadingStatus === "succeeded") {
       dispatch(setLoadingStatus_admin("idle"));
-      router.reload();
+      // router.reload();
+      // dispatch(getAdminStatus());
+      fetchNewList();
     }
-  }, [loadingStatus, dispatch, router]);
+  }, [loadingStatus, dispatch, router, fetchNewList]);
 
   if (!products) {
     return <h1>No Product Found</h1>;
@@ -56,6 +78,10 @@ const AdmimProductsListPage: NextPage<PageProps> = ({ products }) => {
 
   return (
     <main>
+      <button onClick={() => router.push("/admin/add-product")}>
+        add new product
+      </button>
+
       <div>
         {products.map((p) => {
           return (
@@ -120,6 +146,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         page: "admin",
         products: data.products,
         productsTotal: data.productsTotal,
+        page_num,
       },
     };
   } catch (err) {

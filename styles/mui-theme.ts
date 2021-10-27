@@ -19,8 +19,9 @@ let theme = createTheme({
     },
   },
   typography: {
+    // body1 controls all default MUI component's text font-size
     body1: {
-      fontSize: "min(6vw, 2rem)",
+      fontSize: "min(5.5vw, 1.8rem)",
       fontFamily: ["Oswald", "Monofett", "sans-serif"].join(","),
     },
     h3: {

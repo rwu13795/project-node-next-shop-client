@@ -144,8 +144,8 @@ const adminSlice = createSlice({
         adminSignIn.fulfilled,
         (state, action: PayloadAction<AdminState>): void => {
           state.adminUser = action.payload.adminUser;
+          state.csrfToken = action.payload.csrfToken;
           state.loadingStatus = "idle";
-          console.log("in adim signin", state.adminUser);
         }
       )
       .addCase(adminSignIn.pending, (state, action): void => {
@@ -167,6 +167,7 @@ const adminSlice = createSlice({
         state.adminUser.admin_id = "";
         state.adminUser.admin_username = "";
         state.adminUser.loggedInAsAdmin = false;
+        state.csrfToken = "";
       })
       /////////////
       // SIGN UP //

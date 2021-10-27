@@ -5,10 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { theme } from "../../styles/mui-theme";
 import classes from "./_layout.module.css";
 
-import MainNavigation from "./navigation";
+import MainNavigation from "./navbar/navigation";
 import { checkStock, getUserStatus } from "../../utils/redux-store/userSlice";
 import Footer from "./footer";
-import { getAdminStatus } from "../../utils/redux-store/adminSlice";
+// import { getAdminStatus } from "../../utils/redux-store/adminSlice";
 
 interface Prop {
   children: React.ReactNode;
@@ -26,7 +26,7 @@ export default function Layout(props: Prop): JSX.Element {
     // and checkStock won't trigger a duplicated session in the shop route
     const timerId = setTimeout(() => {
       dispatch(checkStock());
-      dispatch(getAdminStatus());
+      // dispatch(getAdminStatus());
     }, 2000);
     return () => {
       clearTimeout(timerId);

@@ -5,8 +5,8 @@
   height: 6.2vw;
   background-color: black;
   border: black solid 2px;
-  max-width: 43px;
-  max-height: 43px;
+  max-width: 39px;
+  max-height: 39px;
   text-align: center;
   transition: 0.3s ease-in-out;
 }
@@ -24,8 +24,8 @@
   width: 7.7vw;
   height: 7.7vw;
   color: black;
-  max-width: 59px;
-  max-height: 59px;
+  max-width: 53px;
+  max-height: 53px;
   border-radius: 2rem;
   transition: 0.3s ease-in-out;
 }

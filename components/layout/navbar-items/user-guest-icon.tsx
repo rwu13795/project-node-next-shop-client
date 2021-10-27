@@ -42,7 +42,11 @@ const style = {
   p: 4,
 };
 
-export default function SignInModal({ page }: { page?: string }): JSX.Element {
+export default function UserGuestIcon({
+  page,
+}: {
+  page?: string;
+}): JSX.Element {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);

@@ -5,6 +5,9 @@ import { Errors } from "../../../utils/helper-functions/input-error-check";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { onChangeErrorCheck } from "../../../utils/helper-functions/input-error-check";
 
+// UI //
+import { TextField } from "@mui/material";
+
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
   productInfo: ReducerProductInfo;
@@ -21,21 +24,22 @@ export default function AddTitle(props: Props): JSX.Element {
     dispatchAddInfo(e);
   };
 
-  return (
-    <div>
-      <label>Title</label>
-      <input
-        name={inputNames.title}
-        type="text"
-        value={productInfo.title}
-        onChange={onChangeHandler}
-        // onBlur={onBlurHandler}
-        // onFocus={onFocusHandler}
-        // style={styles}
-      ></input>
-      <div></div>
+  const error =
+    propError[inputNames.title] === undefined ||
+    propError[inputNames.title] === "";
 
-      <span>{propError[inputNames.title]}</span>
-    </div>
+  console.log("title", error);
+
+  return (
+    <TextField
+      sx={{ minWidth: 220 }}
+      name={inputNames.title}
+      type="text"
+      value={productInfo.title}
+      onChange={onChangeHandler}
+      label="Title"
+      error={!error}
+      helperText={propError[inputNames.title]}
+    />
   );
 }

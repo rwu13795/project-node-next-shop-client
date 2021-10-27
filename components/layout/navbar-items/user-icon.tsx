@@ -25,7 +25,7 @@ import {
   selectIsLoggedIn,
   signOut,
 } from "../../../utils/redux-store/userSlice";
-import SignInModal from "./sign-in-modal";
+import UserGuestIcon from "./user-guest-icon";
 
 import classes from "./_user-icon.module.css";
 
@@ -58,14 +58,14 @@ export default function UserIcon({ page }: { page?: string }): JSX.Element {
 
   return !isLoggedIn ? (
     <Fragment>
-      <SignInModal page={page} />
+      <UserGuestIcon page={page} />
     </Fragment>
   ) : (
     <Fragment>
       <Tooltip title="Account settings">
-        <IconButton onClick={userIconHandler} size="small">
+        <Box onClick={userIconHandler}>
           <Avatar className={classes.user_icon}>R</Avatar>
-        </IconButton>
+        </Box>
       </Tooltip>
 
       <Menu

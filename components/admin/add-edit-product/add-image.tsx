@@ -36,6 +36,19 @@ export default function AddImage(props: Props): JSX.Element {
     });
   };
 
+  const removeImageHandler = (imageIndex: number) => {
+    // clear the image input file
+    let input = document.getElementById(
+      `add-more-image-${listIndex}`
+    ) as HTMLInputElement;
+    if (input) input.value = "";
+
+    dispatch({
+      type: Actions.removeImage,
+      payload: { listIndex, imageIndex, editMode },
+    });
+  };
+
   return (
     <Fragment>
       <div>
@@ -62,12 +75,7 @@ export default function AddImage(props: Props): JSX.Element {
                     right: "5%",
                   }}
                   name={inputNames.removeImage}
-                  onClick={() =>
-                    dispatch({
-                      type: Actions.removeImage,
-                      payload: { listIndex, imageIndex, editMode },
-                    })
-                  }
+                  onClick={() => removeImageHandler(imageIndex)}
                 >
                   X
                 </button>
@@ -108,7 +116,13 @@ export default function AddImage(props: Props): JSX.Element {
                   width={150}
                   height={150}
                 />
-                <div style={{ overflow: "hidden", maxHeight: "1.5rem" }}>
+                <div
+                  style={{
+                    overflow: "hidden",
+                    maxHeight: "1.5rem",
+                    fontSize: "1rem",
+                  }}
+                >
                   {typeof file !== "string" && file.name}
                 </div>
               </div>

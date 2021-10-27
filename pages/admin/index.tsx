@@ -10,7 +10,7 @@ import { inputNames } from "../../utils/enums-types/input-names";
 import { inputTypes } from "../../utils/enums-types/input-types";
 import {
   clearAdminErrors,
-  getAdminStatus,
+  // getAdminStatus,
   selectAdminUser,
   selectLoadingStatus_admin,
   selectLoggedInAsAdmin,
@@ -36,7 +36,7 @@ const AdminPage: NextPage = () => {
   const [isRegistering, setIsRegistering] = useState<boolean>(false);
   // const [loading, setLoading] = useState<boolean>(loggedInAsAdmin && true)
 
-  console.log("adminUser in index-------------->", loggedInAsAdmin);
+  // console.log("adminUser in index-------------->", loggedInAsAdmin);
 
   useEffect(() => {
     if (loggedInAsAdmin) {
@@ -51,13 +51,13 @@ const AdminPage: NextPage = () => {
     setIsRegistering((prev) => !prev);
   };
 
-  if (loggedInAsAdmin === undefined || loggedInAsAdmin === true) {
-    return (
-      <div>
-        <CircularProgress />
-      </div>
-    );
-  }
+  // if (loggedInAsAdmin === undefined || loggedInAsAdmin === true) {
+  //   return (
+  //     <div>
+  //       <CircularProgress />
+  //     </div>
+  //   );
+  // }
 
   return isRegistering ? (
     <main>
