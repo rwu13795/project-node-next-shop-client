@@ -11,7 +11,9 @@ import {
   InputLabel,
   OutlinedInput,
   InputAdornment,
+  Grid,
 } from "@mui/material";
+import styles from "./__styles.module.css";
 
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
@@ -25,18 +27,20 @@ export default function AddPrice(props: Props): JSX.Element {
   };
 
   return (
-    <FormControl sx={{ minWidth: 220 }}>
-      <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
-      <OutlinedInput
-        id="outlined-adornment-amount"
-        name={inputNames.price}
-        value={productInfo.price}
-        onChange={onChangeHandler}
-        type="number"
-        inputProps={{ min: 0 }}
-        startAdornment={<InputAdornment position="start">$</InputAdornment>}
-        label="Price"
-      />
-    </FormControl>
+    <Grid item container xs={12} sm={6} md={12} className={styles.form_grid}>
+      <FormControl className={styles.form_control}>
+        <InputLabel htmlFor="outlined-adornment-amount">Price</InputLabel>
+        <OutlinedInput
+          id="outlined-adornment-amount"
+          name={inputNames.price}
+          value={productInfo.price}
+          onChange={onChangeHandler}
+          type="number"
+          inputProps={{ min: 0 }}
+          startAdornment={<InputAdornment position="start">$</InputAdornment>}
+          label="Price"
+        />
+      </FormControl>
+    </Grid>
   );
 }

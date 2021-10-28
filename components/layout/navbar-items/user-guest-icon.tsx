@@ -2,32 +2,14 @@ import { useState, Fragment } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import {
-  Menu,
-  Modal,
-  Box,
-  Backdrop,
-  Fade,
-  MenuItem,
-  Button,
-  Avatar,
-  Divider,
-  ListItemIcon,
-  Tooltip,
-  Grid,
-  IconButton,
-} from "@mui/material";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import FaceOutlinedIcon from "@mui/icons-material/FaceOutlined";
-import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
-import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-
 import AuthForm from "../../auth/forms/auth-form";
 import { inputFieldsArray } from "../../../pages/auth/sign-in";
 import { inputTypes } from "../../../utils/enums-types/input-types";
 
-import classes from "./_user-icon.module.css";
+// UI //
+import { Modal, Box, Backdrop, Fade, Tooltip } from "@mui/material";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import styles from "./__user-icon.module.css";
 
 const style = {
   position: "absolute" as "absolute",
@@ -62,7 +44,7 @@ export default function UserGuestIcon({
             }
             sx={{ display: { xs: "none", md: "block" } }}
           >
-            <AccountCircleIcon className={classes.user_icon_guest} />
+            <AccountCircleIcon className={styles.user_icon_guest} />
           </Box>
         </Tooltip>
 
@@ -71,7 +53,7 @@ export default function UserGuestIcon({
             onClick={() => router.push("/auth/sign-in")}
             sx={{ display: { xs: "block", md: "none" } }}
           >
-            <AccountCircleIcon className={classes.user_icon_guest} />
+            <AccountCircleIcon className={styles.user_icon_guest} />
           </Box>
         </Tooltip>
       </Fragment>

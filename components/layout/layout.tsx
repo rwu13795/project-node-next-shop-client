@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { theme } from "../../styles/mui-theme";
-import classes from "./_layout.module.css";
+import classes from "./__layout.module.css";
 
 import MainNavigation from "./navbar/navigation";
 import { checkStock, getUserStatus } from "../../utils/redux-store/userSlice";

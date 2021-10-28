@@ -1,22 +1,22 @@
 import { Fragment, useState, FormEvent } from "react";
 
+// UI //
 import { Divider, Grid, TextField, Box, Drawer, Button } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import SearchSharpIcon from "@mui/icons-material/SearchSharp";
-
-import classes from "./_search-bar.module.css";
+import styles from "./__search-bar.module.css";
 
 const smallProps = {
   display: { xs: "flex", md: "none" },
   width: "60vw",
-  inputProps: `${classes.input_props_small}`,
-  InputLabelProps: `${classes.input_label_props_small}`,
+  inputProps: `${styles.input_props_small}`,
+  InputLabelProps: `${styles.input_label_props_small}`,
 };
 const mediumProps = {
   display: { xs: "none", md: "flex" },
   width: "15vw",
-  inputProps: `${classes.input_props}`,
-  InputLabelProps: `${classes.input_label_props}`,
+  inputProps: `${styles.input_props}`,
+  InputLabelProps: `${styles.input_label_props}`,
 };
 
 export default function SearchInputBar({

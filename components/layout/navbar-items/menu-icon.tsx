@@ -2,13 +2,14 @@ import { Fragment, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
+import { mainCatArray } from "../../../utils/enums-types/product-category";
+import MeunListDrawer from "./menu-list-drawer";
+
+// UI //
 import { Drawer, Box, Grid, Divider } from "@mui/material";
 import MenuSharpIcon from "@mui/icons-material/MenuSharp";
 import CancelPresentationSharpIcon from "@mui/icons-material/CancelPresentationSharp";
-
-import { mainCatArray } from "../../../utils/enums-types/product-category";
-import MeunListDrawer from "./menu-list-drawer";
-import classes from "./_menu-list.module.css";
+import styles from "./__menu-list.module.css";
 
 export default function MenuIcon(): JSX.Element {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -23,7 +24,7 @@ export default function MenuIcon(): JSX.Element {
   return (
     <Fragment>
       <Box onClick={openMenu}>
-        <MenuSharpIcon className={classes.menu_icon} />
+        <MenuSharpIcon className={styles.menu_icon} />
       </Box>
 
       <Drawer
@@ -39,7 +40,7 @@ export default function MenuIcon(): JSX.Element {
           },
         }}
       >
-        <Box className={classes.menu_drawer_box}>
+        <Box className={styles.menu_drawer_box}>
           <Grid container>
             <Grid item xs={6}>
               <div style={{ paddingLeft: "1.5vw" }}>
@@ -57,7 +58,7 @@ export default function MenuIcon(): JSX.Element {
             </Grid>
             <Grid item xs={6}>
               <CancelPresentationSharpIcon
-                className={classes.close_icon}
+                className={styles.close_icon}
                 onClick={closeMenu}
               />
             </Grid>

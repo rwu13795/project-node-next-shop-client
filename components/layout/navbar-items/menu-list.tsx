@@ -8,10 +8,6 @@ import {
 } from "react";
 import Link from "next/link";
 
-import { Divider, Grid, TextField, Box, Collapse, Paper } from "@mui/material";
-import { SxProps, Theme } from "@mui/system";
-
-import classes from "./_menu-list.module.css";
 import {
   mainCatArray,
   kidsMenuList,
@@ -19,6 +15,11 @@ import {
   womenMenuList,
   MainCategory,
 } from "../../../utils/enums-types/product-category";
+
+// UI //
+import { Divider, Grid, TextField, Box, Collapse, Paper } from "@mui/material";
+import { SxProps, Theme } from "@mui/system";
+import styles from "./__menu-list.module.css";
 
 interface Props {
   setShowMenu_nav: Dispatch<SetStateAction<boolean>>;
@@ -92,7 +93,7 @@ export default function MenuList({
           wrap="nowrap"
           justifyContent="center"
           alignItems="flex-start"
-          className={classes.menu_list_items}
+          className={styles.menu_list_items}
           onMouseLeave={closeMenu}
         >
           {keys.map((key) => {
@@ -104,9 +105,9 @@ export default function MenuList({
                 justifyContent="center"
                 flexDirection="column"
                 key={key}
-                className={classes.menu_list_items_column}
+                className={styles.menu_list_items_column}
               >
-                <Grid item className={classes.menu_list_items_column_head}>
+                <Grid item className={styles.menu_list_items_column_head}>
                   {key.toUpperCase()}
                 </Grid>
                 {list &&
@@ -117,7 +118,7 @@ export default function MenuList({
                           <Link
                             href={`/shop/${currentCat.toLowerCase()}/${product.toLowerCase()}`}
                           >
-                            <a className={classes.menu_list_single_item}>
+                            <a className={styles.menu_list_single_item}>
                               {product}
                             </a>
                           </Link>
@@ -140,7 +141,7 @@ export default function MenuList({
           <Grid item sx={mui_sx} key={index}>
             <Link href={`/shop/${cat.toLowerCase()}`}>
               <a
-                className={classes.menu_list}
+                className={styles.menu_list}
                 // style={cat === currentCat ? border : {}}
                 onMouseEnter={() => openMenu(cat)}
                 onClick={onClickHandler}
@@ -155,8 +156,8 @@ export default function MenuList({
         in={showMenu && showMenu_nav}
         className={
           currentCat === MainCategory.accessories
-            ? classes.menu_list_collapse_box_empty
-            : classes.menu_list_collapse_box
+            ? styles.menu_list_collapse_box_empty
+            : styles.menu_list_collapse_box
         }
       >
         <ProductMenu currentCat={currentCat} />

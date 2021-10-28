@@ -6,7 +6,8 @@ import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { onChangeErrorCheck } from "../../../utils/helper-functions/input-error-check";
 
 // UI //
-import { TextField } from "@mui/material";
+import { TextField, FormControl, FormHelperText, Grid } from "@mui/material";
+import styles from "./__styles.module.css";
 
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
@@ -24,22 +25,28 @@ export default function AddTitle(props: Props): JSX.Element {
     dispatchAddInfo(e);
   };
 
-  const error =
+  const error = !(
     propError[inputNames.title] === undefined ||
-    propError[inputNames.title] === "";
+    propError[inputNames.title] === ""
+  );
 
   console.log("title", error);
 
   return (
-    <TextField
-      sx={{ minWidth: 220 }}
-      name={inputNames.title}
-      type="text"
-      value={productInfo.title}
-      onChange={onChangeHandler}
-      label="Title"
-      error={!error}
-      helperText={propError[inputNames.title]}
-    />
+    <Grid item container xs={12} sm={6} md={12} className={styles.form_grid}>
+      <FormControl error={error} className={styles.form_control}>
+        <TextField
+          name={inputNames.title}
+          type="text"
+          value={productInfo.title}
+          onChange={onChangeHandler}
+          label="Title"
+          error={error}
+        />
+        <FormHelperText className={styles.input_error}>
+          {propError[inputNames.title]}
+        </FormHelperText>
+      </FormControl>
+    </Grid>
   );
 }

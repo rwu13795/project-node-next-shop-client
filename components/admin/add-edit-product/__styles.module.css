@@ -1,0 +1,41 @@
+.input_error {
+  color: red;
+  font-size: min(4vw, 1rem);
+}
+
+.root_grid {
+  margin-top: 1rem;
+}
+
+.form_grid {
+  margin-top: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.form_control {
+  width: 40vw;
+  min-width: 15rem;
+  max-width: 35rem;
+}
+@media screen and (max-width: 560px) {
+  .form_control {
+    width: 70vw;
+  }
+}
+
+.desc_box {
+  margin-top: 1rem;
+  width: 70vw;
+  min-width: 15rem;
+  max-width: 40rem;
+}
+
+.color_menu_ball {
+  margin-top: min(1vw, 0.5rem);
+  margin-left: min(3vw, 1rem);
+  height: min(6vw, 1.8rem);
+  width: min(6vw, 1.8rem);
+  border-radius: 50%;
+  border: 2px black solid;
+}

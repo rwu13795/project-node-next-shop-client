@@ -5,16 +5,16 @@ let theme = createTheme({
   palette: {
     // type: 'light',
     primary: {
-      main: "#0099CC",
+      main: "#008ab4",
     },
     secondary: {
-      main: "#0099CC",
+      main: "#1b58f2",
     },
     error: {
       main: "#f44336",
     },
     info: {
-      main: "#0099CC",
+      main: "#008ab4",
       contrastText: "#ffffff",
     },
   },
@@ -38,7 +38,7 @@ let theme = createTheme({
   breakpoints: {
     values: {
       xs: 0,
-      sm: 580,
+      sm: 560,
       md: 775,
       lg: 1100,
       xl: 1536,

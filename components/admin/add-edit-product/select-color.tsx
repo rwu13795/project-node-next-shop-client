@@ -1,13 +1,11 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { SelectChangeEvent } from "@mui/material";
-
 import {
-  InputLabel,
-  MenuItem,
-  FormControl,
-  FormHelperText,
-  Select,
-} from "@mui/material";
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  Fragment,
+  ChangeEventHandler,
+} from "react";
+import { SelectChangeEvent } from "@mui/material";
 
 import {
   Errors,
@@ -19,6 +17,20 @@ import {
   ReducerColorProps,
 } from "../../../utils/react-hooks/add-product-reducer";
 import { Actions } from "../../../utils/enums-types/product-reducer-actions";
+import { colorNames } from "../../../utils/enums-types/color-names";
+
+// UI //
+import {
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+  Grid,
+  Box,
+  FormHelperText,
+  TextField,
+} from "@mui/material";
+import styles from "./__styles.module.css";
 
 interface Props {
   colorProps: ReducerColorProps;
@@ -32,7 +44,9 @@ export default function SelectColor(props: Props): JSX.Element {
   const { colorProps, listIndex, dispatch, propError, setErrors } = props;
 
   const selectColorHandler = (
-    e: SelectChangeEvent<string> | ChangeEvent<HTMLInputElement>
+    e:
+      | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | SelectChangeEvent<string>
   ) => {
     const inputValue = e.target.value;
     const inputField = e.target.name;
@@ -43,54 +57,45 @@ export default function SelectColor(props: Props): JSX.Element {
     });
   };
 
-  return (
-    <div>
-      <span>
-        <label>Select a color</label>
-        <div
-          style={{
-            position: "relative",
-            left: ".5rem",
-            width: "3rem",
-            height: "3rem",
-            border: "red solid",
-            borderRadius: "50%",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              position: "relative",
-              top: "7.5%",
-              left: "8%",
-              width: "2.3rem",
-              height: "2.3rem",
-              borderRadius: "50%",
-              overflow: "hidden",
-            }}
-          >
-            <input
-              type="color"
-              name={inputNames.colorCode}
-              value={colorProps.colorCode}
-              onChange={selectColorHandler}
-              style={{
-                position: "relative",
-                bottom: "10px",
-                right: "10px",
-                margin: 0,
-                padding: 0,
-                width: "4rem",
-                height: "4rem",
-              }}
-            />
-          </div>
-        </div>
+  console.log("color name", colorProps.colorName);
 
-        <span>{propError[inputNames.colorCode]}</span>
-      </span>
-      <span>
-        <FormControl>
+  const error_colorName =
+    !(
+      propError[inputNames.colorName] === "" ||
+      propError[inputNames.colorName] === undefined
+    ) &&
+    (colorProps.colorName === "" || colorProps.colorName === undefined);
+
+  const error_colorCode =
+    !(
+      propError[inputNames.colorCode] === "" ||
+      propError[inputNames.colorCode] === undefined
+    ) &&
+    (colorProps.colorCode === "" || colorProps.colorCode === undefined);
+
+  return (
+    <Fragment>
+      <Grid item container xs={12} sm={6} md={6} className={styles.form_grid}>
+        <FormControl error={error_colorCode} className={styles.form_control}>
+          <TextField
+            type="color"
+            label="Pick a Color"
+            name={inputNames.colorCode}
+            value={colorProps.colorCode}
+            onChange={selectColorHandler}
+            error={error_colorCode}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <FormHelperText className={styles.input_error}>
+            {error_colorCode && propError[inputNames.colorCode]}
+          </FormHelperText>
+        </FormControl>
+      </Grid>
+
+      <Grid item container xs={12} sm={6} md={6} className={styles.form_grid}>
+        <FormControl error={error_colorName} className={styles.form_control}>
           <InputLabel>Color Name</InputLabel>
 
           <Select
@@ -99,49 +104,30 @@ export default function SelectColor(props: Props): JSX.Element {
             name={inputNames.colorName}
             onChange={selectColorHandler}
           >
-            <MenuItem
-              value="red"
-              style={{
-                position: "relative",
-                display: "flex",
-                flexFlow: "row",
-                alignItems: "center",
-                minWidth: "15rem",
-              }}
-            >
-              <div style={{ fontSize: "1.3rem" }}>Red</div>
-              <div
-                style={{
-                  position: "relative",
-                  left: "5%",
-                  height: "1.55rem",
-                  width: "1.55rem",
-                  backgroundColor: "red",
-                  borderRadius: "50%",
-                }}
-              ></div>
-            </MenuItem>
-
-            <MenuItem value="blue">blue</MenuItem>
-
-            <MenuItem value="pink">pink</MenuItem>
+            {colorNames.map((color) => {
+              return (
+                <MenuItem key={color.name + color.code} value={color.name}>
+                  <Grid
+                    container
+                    wrap="nowrap"
+                    justifyContent="flex-start"
+                    alignItems="center"
+                  >
+                    <Box>{color.name}</Box>
+                    <Box
+                      style={{ backgroundColor: `${color.code}` }}
+                      className={styles.color_menu_ball}
+                    ></Box>
+                  </Grid>
+                </MenuItem>
+              );
+            })}
           </Select>
+          <FormHelperText className={styles.input_error}>
+            {error_colorName && propError[inputNames.colorName]}
+          </FormHelperText>
         </FormControl>
-
-        <span>{propError[inputNames.colorName]}</span>
-      </span>
-      <span>
-        picked color
-        <div
-          style={{
-            height: "30px",
-            width: "30px",
-            backgroundColor: `${colorProps.colorName}`,
-          }}
-        >
-          123
-        </div>
-      </span>
-    </div>
+      </Grid>
+    </Fragment>
   );
 }

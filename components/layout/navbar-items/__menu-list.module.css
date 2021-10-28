@@ -59,7 +59,7 @@
 }
 
 .menu_list_collapse_box {
-  border-radius: 0;
+  /* border-radius: 0; */
   position: absolute;
   box-shadow: 7px 7px 20px 0px rgb(0, 138, 180);
   top: 5rem;
@@ -67,7 +67,7 @@
   z-index: 10;
 }
 .menu_list_collapse_box_empty {
-  border-radius: 0;
+  /* border-radius: 0; */
   position: absolute;
   top: 5rem;
   left: 8%;

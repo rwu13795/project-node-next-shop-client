@@ -2,6 +2,15 @@ import { Fragment, useState, SetStateAction, Dispatch } from "react";
 import { useRouter } from "next/router";
 
 import {
+  mainCatArray,
+  MainCategory,
+  womenMenuList,
+  menMenuList,
+  kidsMenuList,
+} from "../../../utils/enums-types/product-category";
+
+// UI //
+import {
   Drawer,
   ListItemButton,
   ListItemIcon,
@@ -13,15 +22,7 @@ import {
 } from "@mui/material";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-
-import {
-  mainCatArray,
-  MainCategory,
-  womenMenuList,
-  menMenuList,
-  kidsMenuList,
-} from "../../../utils/enums-types/product-category";
-import classes from "./_menu-list.module.css";
+import styles from "./__menu-list.module.css";
 
 interface Props {
   cat: string;
@@ -106,7 +107,7 @@ export default function MeunListDrawer({
             keys.map((key, index) => {
               return (
                 <Box key={index}>
-                  <Box className={classes.menu_drawer_items_column_head}>
+                  <Box className={styles.menu_drawer_items_column_head}>
                     {key.toUpperCase()}:
                   </Box>
                   {list &&
@@ -114,7 +115,7 @@ export default function MeunListDrawer({
                       return (
                         <ListItemButton
                           key={product}
-                          className={classes.menu_drawer_items}
+                          className={styles.menu_drawer_items}
                         >
                           <ListItemText
                             primary={product}

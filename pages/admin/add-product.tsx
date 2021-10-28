@@ -3,11 +3,6 @@ import { useRouter } from "next/dist/client/router";
 import React, { useReducer, ChangeEvent, useEffect } from "react";
 
 import useUpload from "../../utils/react-hooks/add-product-upload";
-import SelectCategory from "../../components/admin/add-edit-product/select-category";
-import AddTitle from "../../components/admin/add-edit-product/add-title";
-import AddPrice from "../../components/admin/add-edit-product/add-price";
-import AddDescription from "../../components/admin/add-edit-product/add-description";
-import AddColorsProps from "../../components/admin/add-edit-product/add-color-props";
 import addProductReducer, {
   initialColorProps,
   initialProductInfo,
@@ -24,7 +19,8 @@ import {
 
 // UI
 import { Divider, SelectChangeEvent, Grid } from "@mui/material";
-import styles from "./_add-product.module.css";
+import styles from "./__add-product.module.css";
+import ProductForm from "../../components/admin/add-edit-product/product-form";
 
 const initialProductState: ProductState = {
   colorPropsList: [initialColorProps],
@@ -86,7 +82,6 @@ const AddProductPage: NextPage<PageProps> = ({
     onSuccess: () => {
       console.log("OK");
       router.push("/admin/products-list");
-      // console.log(productPropList);
     },
   });
 
@@ -94,94 +89,24 @@ const AddProductPage: NextPage<PageProps> = ({
     await postUpload();
   };
 
-  console.log(csrfToken);
+  if (!loggedInAsAdmin) {
+    return <h2>Loading . . . </h2>;
+  }
 
   return (
     <main className={styles.main}>
-      <h4 className={styles.main_title}>Add New Product</h4>
+      <div className={styles.main_title}>Add New Product</div>
       <Divider />
-      <Grid
-        container
-        flexDirection="row"
-        justifyContent="center"
-        className={styles.page_body}
-        sx={{ minWidth: "80vw" }}
-      >
-        <Grid
-          item
-          container
-          flexDirection="row"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Grid
-            item
-            container
-            flexDirection="column"
-            justifyContent="flex-start"
-            alignItems="flex-end"
-            xs={12}
-            md={6}
-          >
-            <Grid item xs={12} md={6}>
-              <SelectCategory
-                dispatchAddInfo={dispatchAddInfo}
-                productInfo={state.productInfo}
-                propError={errors}
-                setErrors={setErrors}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <AddTitle
-                dispatchAddInfo={dispatchAddInfo}
-                productInfo={state.productInfo}
-                propError={errors}
-                setErrors={setErrors}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <AddPrice
-                dispatchAddInfo={dispatchAddInfo}
-                productInfo={state.productInfo}
-              />
-            </Grid>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <AddDescription
-              dispatchAddInfo={dispatchAddInfo}
-              productInfo={state.productInfo}
-              propError={errors}
-              setErrors={setErrors}
-            />
-          </Grid>
-        </Grid>
-        <Grid item container>
-          {state.colorPropsList.map((prop, index) => {
-            return (
-              <AddColorsProps
-                key={index}
-                colorProps={prop}
-                listIndex={index}
-                dispatch={dispatch}
-                propError={errors}
-                editMode={editMode}
-                setErrors={setErrors}
-              />
-            );
-          })}
-          <button
-            onClick={() => {
-              dispatch({ type: Actions.addMoreColor });
-            }}
-          >
-            Add more colors
-          </button>
-
-          <div>
-            <button onClick={uploadHandler}>upload</button>
-          </div>
-        </Grid>
-      </Grid>
+      <ProductForm
+        dispatchAddInfo={dispatchAddInfo}
+        productInfo={state.productInfo}
+        colorPropsList={state.colorPropsList}
+        propError={errors}
+        setErrors={setErrors}
+        editMode={editMode}
+        dispatch={dispatch}
+        uploadHandler={uploadHandler}
+      />
     </main>
   );
 };

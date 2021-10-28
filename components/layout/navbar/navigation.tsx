@@ -5,10 +5,6 @@ import { useRouter } from "next/dist/client/router";
 import { Fragment, useEffect, useRef, useState, CSSProperties } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Divider, Grid, TextField, Box, Tooltip } from "@mui/material";
-
-import g_styles from "../../styles/globals.module.css";
-import styles from "./_navigation.module.css";
 import {
   getUserStatus,
   selectCurrentUser,
@@ -22,6 +18,10 @@ import {
 
 import UserNavbar from "./user-narbar";
 import AdminSignOutModal from "./../../admin/admin-sign-out-modal";
+
+// UI //
+import { Divider, Grid, TextField, Box, Tooltip } from "@mui/material";
+import styles from "./__navigation.module.css";
 
 interface Props {
   page?: string;

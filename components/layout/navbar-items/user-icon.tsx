@@ -2,22 +2,8 @@ import { useState, MouseEvent, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
-import {
-  Menu,
-  MenuItem,
-  Avatar,
-  Divider,
-  ListItemIcon,
-  Tooltip,
-  IconButton,
-  Grid,
-  Box,
-} from "@mui/material";
-import { Logout, PersonAdd, Settings } from "@mui/icons-material";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 import {
   clearAuthErrors,
@@ -27,7 +13,18 @@ import {
 } from "../../../utils/redux-store/userSlice";
 import UserGuestIcon from "./user-guest-icon";
 
-import classes from "./_user-icon.module.css";
+// UI //
+import {
+  Menu,
+  MenuItem,
+  Avatar,
+  Divider,
+  ListItemIcon,
+  Tooltip,
+  Box,
+} from "@mui/material";
+import { Logout, Settings } from "@mui/icons-material";
+import styles from "./__user-icon.module.css";
 
 export default function UserIcon({ page }: { page?: string }): JSX.Element {
   const router = useRouter();
@@ -64,7 +61,7 @@ export default function UserIcon({ page }: { page?: string }): JSX.Element {
     <Fragment>
       <Tooltip title="Account settings">
         <Box onClick={userIconHandler}>
-          <Avatar className={classes.user_icon}>R</Avatar>
+          <Avatar className={styles.user_icon}>R</Avatar>
         </Box>
       </Tooltip>
 
@@ -75,7 +72,7 @@ export default function UserIcon({ page }: { page?: string }): JSX.Element {
         onClose={closeMenu}
         onClick={closeMenu}
         PaperProps={{
-          className: `${classes.user_menu_card}`,
+          className: `${styles.user_menu_card}`,
           elevation: 10,
           sx: {
             overflow: "visible",
@@ -93,32 +90,32 @@ export default function UserIcon({ page }: { page?: string }): JSX.Element {
       >
         <MenuItem onClick={() => router.push("/auth/profile?tab=1")}>
           <ListItemIcon>
-            <PersonOutlineOutlinedIcon className={classes.user_icon_sub} />
+            <PersonOutlineOutlinedIcon className={styles.user_icon_sub} />
           </ListItemIcon>
-          <Box className={classes.user_icon_sub_text}>User Profile</Box>
+          <Box className={styles.user_icon_sub_text}>User Profile</Box>
         </MenuItem>
 
         <MenuItem onClick={() => router.push("/auth/profile?tab=2")}>
           <ListItemIcon>
-            <ListAltOutlinedIcon className={classes.user_icon_sub} />
+            <ListAltOutlinedIcon className={styles.user_icon_sub} />
           </ListItemIcon>
-          <Box className={classes.user_icon_sub_text}>Order History</Box>
+          <Box className={styles.user_icon_sub_text}>Order History</Box>
         </MenuItem>
 
         <MenuItem onClick={() => router.push("/auth/profile?tab=3")}>
           <ListItemIcon>
-            <Settings className={classes.user_icon_sub} />
+            <Settings className={styles.user_icon_sub} />
           </ListItemIcon>
-          <Box className={classes.user_icon_sub_text}>Reset Password</Box>
+          <Box className={styles.user_icon_sub_text}>Reset Password</Box>
         </MenuItem>
 
         <Divider sx={{ color: "blue" }} />
 
         <MenuItem onClick={signOutHandler}>
           <ListItemIcon>
-            <Logout className={classes.user_icon_sub} />
+            <Logout className={styles.user_icon_sub} />
           </ListItemIcon>
-          <Box className={classes.user_icon_sub_text}>Logout</Box>
+          <Box className={styles.user_icon_sub_text}>Logout</Box>
         </MenuItem>
       </Menu>
     </Fragment>

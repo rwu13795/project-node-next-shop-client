@@ -26,7 +26,7 @@ import {
   FormHelperText,
   Grid,
 } from "@mui/material";
-import styles from "./_select-category.module.css";
+import styles from "./__styles.module.css";
 
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
@@ -42,6 +42,7 @@ export default function SelectCategory(props: Props): JSX.Element {
   const [subCatArray, setSubCatArray] = useState<string[]>([""]);
 
   useEffect(() => {
+    setNoMainCat(true);
     if (productInfo.main_cat !== "") {
       let main = capitalize(productInfo.main_cat);
       setNoMainCat(false);
@@ -67,34 +68,32 @@ export default function SelectCategory(props: Props): JSX.Element {
     dispatchAddInfo(e);
   };
 
-  let error_main =
+  let error_main = !(
     propError[inputNames.main] === undefined ||
-    propError[inputNames.main] === "";
-  let error_sub =
-    propError[inputNames.sub] === undefined || propError[inputNames.sub] === "";
-
-  console.log(error_main);
+    propError[inputNames.main] === ""
+  );
+  let error_sub = !(
+    propError[inputNames.sub] === undefined || propError[inputNames.sub] === ""
+  );
 
   return (
-    <Grid item container flexDirection="column">
-      <FormControl sx={{ minWidth: 220 }} error={!error_main}>
-        <InputLabel id="main-cat-select">Main-Category</InputLabel>
-        <Select
-          labelId="main-cat-select"
-          value={capitalize(productInfo.main_cat)}
-          name={inputNames.main}
-          label="Main Category" // the length oflabel string will determine the length of line break in the box
-          onChange={onChangeHandler}
-          error={!error_main}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          {mainCatArray.map((cat) => {
-            return (
-              <MenuItem key={cat} value={cat}>
-                {cat}
-                {/* <div
+    <Fragment>
+      <Grid item container xs={12} sm={6} md={12} className={styles.form_grid}>
+        <FormControl error={error_main} className={styles.form_control}>
+          <InputLabel id="main-cat-select">Main-Category</InputLabel>
+          <Select
+            labelId="main-cat-select"
+            value={capitalize(productInfo.main_cat)}
+            name={inputNames.main}
+            label="Main Category" // the length oflabel string will determine the length of line break in the box
+            onChange={onChangeHandler}
+            error={error_main}
+          >
+            {mainCatArray.map((cat) => {
+              return (
+                <MenuItem key={cat} value={cat}>
+                  {cat}
+                  {/* <div
                   style={{
                     position: "relative",
                     left: "5%",
@@ -104,41 +103,41 @@ export default function SelectCategory(props: Props): JSX.Element {
                     borderRadius: "50%",
                   }}
                 ></div> */}
-              </MenuItem>
-            );
-          })}
-        </Select>
-        <FormHelperText className={styles.input_error}>
-          {propError[inputNames.main]}
-        </FormHelperText>
-      </FormControl>
+                </MenuItem>
+              );
+            })}
+          </Select>
+          <FormHelperText className={styles.input_error}>
+            {propError[inputNames.main]}
+          </FormHelperText>
+        </FormControl>
+      </Grid>
 
-      <FormControl sx={{ minWidth: 220 }} error={!error_sub}>
-        <InputLabel id="sub-cat-select">Sub-Category</InputLabel>
-        <Select
-          labelId="sub-cat-select"
-          label="Sub Category"
-          value={capitalize(productInfo.sub_cat)}
-          name={inputNames.sub}
-          onChange={onChangeHandler}
-          disabled={noMainCat}
-          error={!error_sub}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          {subCatArray.map((cat) => {
-            return (
-              <MenuItem key={cat} value={cat}>
-                {cat}
-              </MenuItem>
-            );
-          })}
-        </Select>
-        <FormHelperText className={styles.input_error}>
-          {propError[inputNames.sub]}
-        </FormHelperText>
-      </FormControl>
-    </Grid>
+      <Grid item container xs={12} sm={6} md={12} className={styles.form_grid}>
+        <FormControl error={error_sub} className={styles.form_control}>
+          <InputLabel id="sub-cat-select">Sub-Category</InputLabel>
+          <Select
+            labelId="sub-cat-select"
+            label="Sub Category"
+            value={capitalize(productInfo.sub_cat)}
+            name={inputNames.sub}
+            onChange={onChangeHandler}
+            disabled={noMainCat}
+            error={error_sub}
+          >
+            {subCatArray.map((cat, index) => {
+              return (
+                <MenuItem key={cat + index} value={cat}>
+                  {cat}
+                </MenuItem>
+              );
+            })}
+          </Select>
+          <FormHelperText className={styles.input_error}>
+            {propError[inputNames.sub]}
+          </FormHelperText>
+        </FormControl>
+      </Grid>
+    </Fragment>
   );
 }

@@ -9,7 +9,8 @@ import {
 } from "../../../utils/helper-functions/input-error-check";
 
 // UI //
-import { TextField } from "@mui/material";
+import { TextField, FormHelperText, FormControl } from "@mui/material";
+import styles from "./__styles.module.css";
 
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
@@ -27,17 +28,28 @@ export default function AddDescription(props: Props): JSX.Element {
     dispatchAddInfo(e);
   };
 
+  const error = !(
+    propError[inputNames.desc] === undefined ||
+    propError[inputNames.desc] === ""
+  );
+
   return (
-    <TextField
-      id="standard-multiline-flexible"
-      label="Description"
-      multiline
-      rows={6}
-      name={inputNames.desc}
-      value={productInfo.description}
-      onChange={onChangeHandler}
-      // variant="standard"
-    />
+    <FormControl error={error} className={styles.desc_box}>
+      <TextField
+        id="standard-multiline-flexible"
+        label="Description"
+        multiline
+        rows={6}
+        name={inputNames.desc}
+        value={productInfo.description}
+        onChange={onChangeHandler}
+        error={error}
+        // helperText={propError[inputNames.desc]}
+      />
+      <FormHelperText className={styles.input_error}>
+        {propError[inputNames.desc]}
+      </FormHelperText>
+    </FormControl>
   );
 }
 

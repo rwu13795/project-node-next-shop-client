@@ -18,8 +18,8 @@
   background-image: linear-gradient(
     to right,
     rgba(34, 185, 255, 0.4) 0%,
-    rgb(255, 255, 255) 28%,
-    rgb(255, 255, 255) 72%,
+    rgb(255, 255, 255) 22%,
+    rgb(255, 255, 255) 78%,
     rgb(34, 185, 255, 0.4) 100%
   );
 }
@@ -28,9 +28,14 @@
   padding-top: 2rem;
   font-size: min(6.5vw, 55px); /* for none MUI component text */
 }
-@media screen and (min-width: 770px) {
+@media screen and (min-width: 775px) {
   .page_body {
-    padding-top: max(7rem, 4vw);
+    padding-top: min(5.5rem, 9vw);
+  }
+}
+@media screen and (max-width: 774px) {
+  .page_body {
+    padding-top: min(6rem, 23vw);
   }
 }
 
