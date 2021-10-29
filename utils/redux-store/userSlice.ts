@@ -314,13 +314,11 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     clearAuthErrors(state, action: PayloadAction<string>) {
-      console.log(action.payload);
       if (action.payload === "all") {
         state.authErrors = {};
       } else {
         state.authErrors[action.payload] = "";
       }
-      console.log(state.authErrors);
     },
     setChangeInCart(state, action: PayloadAction<boolean>) {
       state.changeInCart = action.payload;

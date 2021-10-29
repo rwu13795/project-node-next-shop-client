@@ -141,7 +141,7 @@ export const onChangeErrorCheck = (
   value: string,
   setErrors: Dispatch<SetStateAction<Errors>>
 ) => {
-  if (value !== "") {
+  if (value !== "" || value !== undefined) {
     setErrors((prev) => {
       return { ...prev, [inputName]: "" };
     });

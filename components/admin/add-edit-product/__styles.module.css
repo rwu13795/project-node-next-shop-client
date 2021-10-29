@@ -3,32 +3,94 @@
   font-size: min(4vw, 1rem);
 }
 
-.root_grid {
-  margin-top: 1rem;
+.main_grid {
+  padding-top: 1rem;
+  margin-bottom: 2rem;
+  border-top: solid rgb(0, 138, 180) 2px;
+}
+@media screen and (min-width: 1400px) {
+  .main_grid {
+    max-width: 80rem;
+  }
 }
 
-.form_grid {
-  margin-top: 1rem;
+.form_grid_center {
+  margin-top: 1.3rem;
   justify-content: center;
+  align-items: center;
+}
+.form_grid_flex_start {
+  margin-top: 1.3rem;
+  justify-content: flex-start;
+  align-items: center;
+}
+.form_grid_space_between {
+  margin-top: 1.3rem;
+  justify-content: space-between;
+  align-items: center;
+}
+@media screen and (max-width: 550px) {
+  .form_grid_space_between {
+    justify-content: center;
+  }
+}
+
+.form_grid_space_evenly {
+  margin-top: 1.3rem;
+  justify-content: space-evenly;
   align-items: center;
 }
 
 .form_control {
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
   width: 40vw;
   min-width: 15rem;
   max-width: 35rem;
 }
-@media screen and (max-width: 560px) {
+@media screen and (max-width: 550px) {
   .form_control {
     width: 70vw;
   }
 }
 
+.form_control_size {
+  margin-right: 0.2rem;
+  margin-left: 0.2rem;
+  width: 14vw;
+  min-width: 7rem;
+  max-width: 12rem;
+}
+@media screen and (max-width: 550px) {
+  .form_control_size {
+    width: 20vw;
+    min-width: 5rem;
+  }
+}
+
+.form_control_color {
+  margin-right: 0.2rem;
+  margin-left: 0.2rem;
+  width: 40vw;
+  min-width: 8rem;
+  max-width: 19rem;
+}
+@media screen and (max-width: 550px) {
+  .form_control_color {
+    width: 70vw;
+  }
+}
+
 .desc_box {
-  margin-top: 1rem;
   width: 70vw;
   min-width: 15rem;
   max-width: 40rem;
+}
+
+.colorProps_grid {
+  margin-bottom: 0.5rem;
+  padding-bottom: 2rem;
+  border-bottom: dashed rgb(0, 138, 180) 2px;
 }
 
 .color_menu_ball {
@@ -38,4 +100,85 @@
   width: min(6vw, 1.8rem);
   border-radius: 50%;
   border: 2px black solid;
+}
+
+.image_box {
+  font-size: 0;
+  width: 16vw;
+  height: auto;
+  min-width: 7rem;
+  max-width: 11rem;
+  margin-right: 2px;
+  border-radius: 0.5rem;
+  border: rgb(165, 164, 164) 1px solid;
+}
+.image_file_text {
+  text-align: center;
+  max-height: 1.55rem;
+  overflow-y: auto;
+  font-size: min(5.5vw, 1rem);
+}
+
+.image_button {
+  width: 3.8vw;
+  height: 3.8vw;
+  min-width: 2rem;
+  min-height: 2rem;
+  max-width: 2.4rem;
+  max-height: 2.4rem;
+  color: black;
+  transition: ease-in 0.3s;
+}
+.image_button:hover {
+  color: rgb(0, 138, 180);
+  cursor: pointer;
+  transition: ease-in 0.3s;
+}
+
+.image_button_large {
+  width: 9vw;
+  height: 9vw;
+  min-width: 4.5rem;
+  min-height: 4.5rem;
+  max-width: 6rem;
+  max-height: 6rem;
+  color: black;
+  transition: ease-in 0.3s;
+}
+.image_button_large:hover {
+  color: rgb(0, 138, 180);
+  cursor: pointer;
+  transition: ease-in 0.3s;
+}
+.image_button_text {
+  font-size: min(6vw, 1.3rem);
+}
+
+.form_button {
+  font-size: min(4vw, 1.2rem);
+  margin-top: 0.8rem;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+}
+.form_button_icon {
+  width: 2.5vw;
+  height: 2.5vw;
+  min-width: 1.2rem;
+  min-height: 1.2rem;
+  max-width: 1.5rem;
+  max-height: 1.5rem;
+}
+
+.form_button_small {
+  font-size: min(2.5vw, 0.8rem);
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+}
+.form_button_icon_small {
+  width: 1.8vw;
+  height: 1.8vw;
+  min-width: 0.8rem;
+  min-height: 0.8rem;
+  max-width: 1.1rem;
+  max-height: 1.1rem;
 }

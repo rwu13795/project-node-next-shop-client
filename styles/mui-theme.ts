@@ -4,19 +4,11 @@ import darkScrollbar from "@mui/material/darkScrollbar";
 let theme = createTheme({
   palette: {
     // type: 'light',
-    primary: {
-      main: "#008ab4",
-    },
-    secondary: {
-      main: "#1b58f2",
-    },
-    error: {
-      main: "#f44336",
-    },
-    info: {
-      main: "#008ab4",
-      contrastText: "#ffffff",
-    },
+    primary: { main: "#008ab4" },
+    secondary: { main: "#75dfff" },
+    warning: { main: "#fc9403" },
+    error: { main: "#f44336" },
+    info: { main: "#008ab4", contrastText: "#ffffff" },
   },
   typography: {
     // body1 controls all default MUI component's text font-size

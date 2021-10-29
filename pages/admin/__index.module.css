@@ -1,0 +1,23 @@
+.page_grid {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.main_grid {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 70vw;
+}
+@media screen and (min-width: 1400px) {
+  .main_grid {
+    max-width: 60rem;
+  }
+}
+
+.main_grid_item {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: space-between;
+}

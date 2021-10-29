@@ -1,4 +1,10 @@
-import { Dispatch, SetStateAction, FocusEvent, ChangeEvent } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  FocusEvent,
+  ChangeEvent,
+  useEffect,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Button, CircularProgress, SelectChangeEvent } from "@mui/material";
@@ -18,6 +24,7 @@ import {
 import { inputNames } from "../../utils/enums-types/input-names";
 import renderInputFields from "../../utils/helper-functions/render-input-fields";
 import { AuthErrors } from "../../utils/redux-store/userSlice";
+import { setPageLoading } from "../../utils/redux-store/pageLoadingSlice";
 
 interface Props {
   inputFieldsArray: string[];
@@ -41,6 +48,14 @@ export default function AdminSignIn({
   const dispatch = useDispatch();
   const adminErrors = useSelector(selectAdminErrors);
   const loadingStatus_admin = useSelector(selectLoadingStatus_admin);
+
+  useEffect(() => {
+    if (loadingStatus_admin === "loading") {
+      dispatch(setPageLoading(true));
+    } else {
+      dispatch(setPageLoading(false));
+    }
+  });
 
   const adminSignInHandler = () => {
     const hasError = onSubmitErrorCheck(

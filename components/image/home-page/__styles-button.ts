@@ -7,7 +7,7 @@ import { CSSProperties } from "react";
 export const prev_botton = {
   position: {
     position: "absolute",
-    top: "45%",
+    top: "39%",
     left: "0vh",
     zIndex: 9,
     cursor: "pointer",
@@ -22,7 +22,7 @@ export const prev_botton = {
 export const next_botton = {
   position: {
     position: "absolute",
-    top: "45%",
+    top: "39%",
     right: "0vh",
     zIndex: 9,
     cursor: "pointer",

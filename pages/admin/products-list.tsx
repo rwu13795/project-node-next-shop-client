@@ -14,6 +14,7 @@ import {
   selectLoggedInAsAdmin,
   setLoadingStatus_admin,
 } from "../../utils/redux-store/adminSlice";
+import { setPageLoading } from "../../utils/redux-store/pageLoadingSlice";
 import browserClient from "../../utils/axios-client/browser-client";
 
 interface PageProps {
@@ -37,13 +38,16 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
   const [products, setProducts] = useState<PageProductProps[]>(startProducts);
 
   const [params] = useState({ admin_username, page_num });
-  // useEffect(() => {}, [dispatch]);
+
+  useEffect(() => {
+    dispatch(setPageLoading(false));
+  }, []);
 
   useEffect(() => {
     if (!loggedInAsAdmin) {
       router.push("/admin");
     }
-  }, [loggedInAsAdmin, router]);
+  }, [loggedInAsAdmin, router, dispatch]);
 
   const fetchNewList = useCallback(async () => {
     const { data }: { data: PageProps } = await client.get(
@@ -60,27 +64,32 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
       // router.reload();
       // dispatch(getAdminStatus());
       fetchNewList();
+      dispatch(setPageLoading(false));
     }
   }, [loadingStatus, dispatch, router, fetchNewList]);
+
+  const goToAddProduct = () => {
+    dispatch(setPageLoading(true));
+    router.push("/admin/add-product");
+  };
+
+  const editButtonHandler = (productId: string) => {
+    dispatch(setPageLoading(true));
+    router.push(`/admin/add-product?productId=${productId}`);
+  };
+
+  const deleteButtonHandler = async (productId: string) => {
+    dispatch(setPageLoading(true));
+    dispatch(deleteProduct({ productId, admin_username }));
+  };
 
   if (!products) {
     return <h1>No Product Found</h1>;
   }
 
-  const editButtonHandler = (productId: string) => {
-    console.log(productId);
-    router.push(`/admin/add-product?productId=${productId}`);
-  };
-
-  const deleteButtonHandler = async (productId: string) => {
-    dispatch(deleteProduct({ productId, admin_username }));
-  };
-
   return (
     <main>
-      <button onClick={() => router.push("/admin/add-product")}>
-        add new product
-      </button>
+      <button onClick={goToAddProduct}>add new product</button>
 
       <div>
         {products.map((p) => {

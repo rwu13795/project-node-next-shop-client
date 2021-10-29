@@ -60,7 +60,7 @@ export type ActionType =
 export const initialColorProps = {
   colorName: "",
   colorCode: "",
-  sizes: { small: 0, medium: 0, large: 0 },
+  sizes: { small: NaN, medium: NaN, large: NaN },
   imageCount: 0,
   imageFiles: [],
 };
@@ -69,7 +69,7 @@ export const initialProductInfo = {
   [inputNames.main]: "",
   [inputNames.sub]: "",
   [inputNames.title]: "",
-  [inputNames.price]: 0,
+  [inputNames.price]: NaN,
 };
 
 export default function addProductReducer(

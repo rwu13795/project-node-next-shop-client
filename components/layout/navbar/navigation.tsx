@@ -21,7 +21,9 @@ import AdminSignOutModal from "./../../admin/admin-sign-out-modal";
 
 // UI //
 import { Divider, Grid, TextField, Box, Tooltip } from "@mui/material";
+import LinearProgress from "@mui/material/LinearProgress";
 import styles from "./__navigation.module.css";
+import { selectPageLoading } from "../../../utils/redux-store/pageLoadingSlice";
 
 interface Props {
   page?: string;
@@ -31,10 +33,12 @@ export default function MainNavigation({ page }: Props) {
   const dispatch = useDispatch();
   const router = useRouter();
   const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
+  const pageLoading = useSelector(selectPageLoading);
 
   const [classname, setClassname] = useState(styles.main_1);
   const [adminModal, setAdminModal] = useState<boolean>(false);
 
+  console.log("navbar loading", pageLoading);
   /////////////////////////////////////////////////////////
   // when user is scrolling, turn the Navbar to transparent
   let handle: any = null;
@@ -136,7 +140,7 @@ export default function MainNavigation({ page }: Props) {
           {content}
         </Grid>
       </Grid>
-      {/* <Divider /> */}
+      <Box sx={{ width: "100%" }}>{pageLoading && <LinearProgress />}</Box>
     </main>
   );
 }

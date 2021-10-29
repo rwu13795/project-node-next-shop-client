@@ -9,6 +9,22 @@ import {
 } from "../../../utils/react-hooks/add-product-reducer";
 import { Actions } from "../../../utils/enums-types/product-reducer-actions";
 
+// UI //
+import {
+  TextField,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  IconButton,
+  Grid,
+  Box,
+  Tooltip,
+} from "@mui/material";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import CancelIcon from "@mui/icons-material/Cancel";
+import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
+import styles from "./__styles.module.css";
+
 interface Props {
   colorProps: ReducerColorProps;
   listIndex: number;
@@ -50,112 +66,87 @@ export default function AddImage(props: Props): JSX.Element {
   };
 
   return (
-    <Fragment>
-      <div>
-        <label>Upload Image: </label>
-      </div>
-      <div>
-        {colorProps.imageFiles.length > 0 &&
-          colorProps.imageFiles.map((file, imageIndex) => {
-            return (
-              <div
-                key={imageIndex}
-                style={{
-                  height: "100%",
-                  width: "155px",
-                  position: "relative",
-                  border: "red 2px solid",
-                  display: "inline-block",
-                }}
-              >
-                <button
-                  style={{
-                    position: "absolute",
-                    zIndex: 9,
-                    right: "5%",
-                  }}
-                  name={inputNames.removeImage}
-                  onClick={() => removeImageHandler(imageIndex)}
-                >
-                  X
-                </button>
-                {/* have to change the "htmlfor" and "id" dynamically, otherwise the first label/input will
+    <Grid item container className={styles.form_grid_center}>
+      {colorProps.imageFiles.length > 0 &&
+        colorProps.imageFiles.map((file, imageIndex) => {
+          return (
+            <Box key={imageIndex} className={styles.image_box}>
+              {/* have to change the "htmlfor" and "id" dynamically, otherwise the first label/input will
                 always be triggered since all the labels have the same "htmlFor" and "id"  */}
-                <label
-                  htmlFor={`relace-image-${listIndex}-${imageIndex}`}
-                  style={{
-                    width: "2rem",
-                    height: "2rem",
-                    overflow: "hidden",
-                    position: "absolute",
-                    zIndex: 9,
-                    left: "30%",
-                    backgroundColor: "white",
-                    cursor: "pointer",
-                  }}
-                >
-                  replace
-                </label>
+              <Grid
+                container
+                flexDirection="row"
+                wrap="nowrap"
+                justifyContent="space-evenly"
+                alignItems="baseline"
+              >
                 {/* Note: opacity is used to hide the file input instead of visibility: hidden or 
                 display: none, because assistive technology interprets the latter two styles to mean 
                 the file input isn't interactive. */}
-                <input
-                  type="file"
-                  accept="image/jpeg"
-                  id={`relace-image-${listIndex}-${imageIndex}`}
-                  name={inputNames.replaceImage}
-                  style={{ opacity: 0, width: "1px" }}
-                  onChange={(e) => replaceImageHandler(e, imageIndex)}
-                />
+                <Tooltip title="Replace image">
+                  <Box>
+                    <InputLabel
+                      htmlFor={`relace-image-${listIndex}-${imageIndex}`}
+                    >
+                      <ChangeCircleIcon className={styles.image_button} />
+                    </InputLabel>
+                    <input
+                      type="file"
+                      accept="image/jpeg"
+                      id={`relace-image-${listIndex}-${imageIndex}`}
+                      name={inputNames.replaceImage}
+                      style={{ display: "none" }}
+                      onChange={(e) => replaceImageHandler(e, imageIndex)}
+                    />
+                  </Box>
+                </Tooltip>
+                <Tooltip title="Remove image">
+                  <Box onClick={() => removeImageHandler(imageIndex)}>
+                    <CancelIcon className={styles.image_button} />
+                  </Box>
+                </Tooltip>
+              </Grid>
 
-                <Image
-                  src={
-                    typeof file === "string" ? file : URL.createObjectURL(file)
-                  }
-                  alt="selected image"
-                  width={150}
-                  height={150}
-                />
-                <div
-                  style={{
-                    overflow: "hidden",
-                    maxHeight: "1.5rem",
-                    fontSize: "1rem",
-                  }}
-                >
-                  {typeof file !== "string" && file.name}
-                </div>
-              </div>
-            );
-          })}
-        <div>
-          <label
-            htmlFor={`add-more-image-${listIndex}`}
-            style={{
-              minWidth: "4rem",
-              height: "1.8rem",
-              overflow: "hidden",
-              border: "black solid 1px",
-              backgroundColor: "white",
-              cursor: "pointer",
-            }}
-          >
-            Add more images
-          </label>
+              <Image
+                src={
+                  typeof file === "string" ? file : URL.createObjectURL(file)
+                }
+                alt="selected image"
+                width={180}
+                height={180}
+              />
+              <Box className={styles.image_file_text}>
+                {typeof file !== "string" && file.name}
+              </Box>
+            </Box>
+          );
+        })}
+      <Box className={styles.image_box}>
+        <Grid
+          container
+          className={styles.form_grid_center}
+          flexDirection="column"
+        >
+          <InputLabel htmlFor={`add-more-image-${listIndex}`}>
+            <AddBoxIcon className={styles.image_button_large} />
+          </InputLabel>
           <input
             type="file"
             accept="image/jpeg"
             name={inputNames.addImage}
             id={`add-more-image-${listIndex}`}
-            style={{ opacity: 0, width: "1px" }}
+            style={{ display: "none" }}
             onChange={addImageHandler}
           />
-        </div>
+          <Box className={styles.image_button_text}>Add Images</Box>
+        </Grid>
+      </Box>
 
-        {colorProps.imageCount < 1 && (
-          <span>{propError[inputNames.imagesCount]}</span>
-        )}
-      </div>
-    </Fragment>
+      {colorProps.imageCount < 1 && (
+        <div className={styles.input_error}>
+          {propError[inputNames.imagesCount]}
+        </div>
+      )}
+    </Grid>
   );
 }

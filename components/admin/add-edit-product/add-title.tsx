@@ -30,10 +30,15 @@ export default function AddTitle(props: Props): JSX.Element {
     propError[inputNames.title] === ""
   );
 
-  console.log("title", error);
-
   return (
-    <Grid item container xs={12} sm={6} md={12} className={styles.form_grid}>
+    <Grid
+      item
+      container
+      xs={12}
+      sm={6}
+      md={12}
+      className={styles.form_grid_center}
+    >
       <FormControl error={error} className={styles.form_control}>
         <TextField
           name={inputNames.title}

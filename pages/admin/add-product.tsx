@@ -10,7 +10,9 @@ import addProductReducer, {
 } from "../../utils/react-hooks/add-product-reducer";
 import { Actions } from "../../utils/enums-types/product-reducer-actions";
 import serverClient from "../../utils/axios-client/server-client";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import ProductForm from "../../components/admin/add-edit-product/product-form";
+import { setPageLoading } from "../../utils/redux-store/pageLoadingSlice";
 import {
   selectAdminUser,
   selectCsrfToken_admin,
@@ -20,7 +22,6 @@ import {
 // UI
 import { Divider, SelectChangeEvent, Grid } from "@mui/material";
 import styles from "./__add-product.module.css";
-import ProductForm from "../../components/admin/add-edit-product/product-form";
 
 const initialProductState: ProductState = {
   colorPropsList: [initialColorProps],
@@ -45,10 +46,15 @@ const AddProductPage: NextPage<PageProps> = ({
   editMode,
 }) => {
   const router = useRouter();
+  const reduxDispatch = useDispatch();
 
   const adminUser = useSelector(selectAdminUser);
   const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
   const csrfToken = useSelector(selectCsrfToken_admin);
+
+  useEffect(() => {
+    reduxDispatch(setPageLoading(false));
+  }, []);
 
   useEffect(() => {
     if (!loggedInAsAdmin) {
@@ -71,7 +77,7 @@ const AddProductPage: NextPage<PageProps> = ({
   };
 
   // useUpload hook
-  const { postUpload, errors, setErrors } = useUpload({
+  const { postUpload, errors, setErrors, uploading } = useUpload({
     colorPropsList: state.colorPropsList,
     productInfo: state.productInfo,
     editMode,
@@ -95,18 +101,22 @@ const AddProductPage: NextPage<PageProps> = ({
 
   return (
     <main className={styles.main}>
-      <div className={styles.main_title}>Add New Product</div>
-      <Divider />
-      <ProductForm
-        dispatchAddInfo={dispatchAddInfo}
-        productInfo={state.productInfo}
-        colorPropsList={state.colorPropsList}
-        propError={errors}
-        setErrors={setErrors}
-        editMode={editMode}
-        dispatch={dispatch}
-        uploadHandler={uploadHandler}
-      />
+      <Grid container className={styles.page_grid}>
+        <div className={styles.main_title}>Add New Product</div>
+        <Divider />
+
+        <ProductForm
+          dispatchAddInfo={dispatchAddInfo}
+          productInfo={state.productInfo}
+          colorPropsList={state.colorPropsList}
+          propError={errors}
+          setErrors={setErrors}
+          editMode={editMode}
+          dispatch={dispatch}
+          uploadHandler={uploadHandler}
+          uploading={uploading}
+        />
+      </Grid>
     </main>
   );
 };

@@ -26,8 +26,12 @@ import AddDescription from "./add-description";
 import AddColorsProps from "./add-color-props";
 
 // UI //
-import { Divider, SelectChangeEvent, Grid } from "@mui/material";
+import { Divider, SelectChangeEvent, Grid, Box, Button } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import SaveIcon from "@mui/icons-material/Save";
 import styles from "./__styles.module.css";
+import main_styles from "../../layout/__layout.module.css";
 
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
@@ -38,6 +42,7 @@ interface Props {
   editMode: boolean;
   dispatch: Dispatch<ActionType>;
   uploadHandler: () => Promise<void>;
+  uploading: boolean;
 }
 
 export default function ProductForm(props: Props): JSX.Element {
@@ -50,41 +55,23 @@ export default function ProductForm(props: Props): JSX.Element {
     editMode,
     dispatch,
     uploadHandler,
+    uploading,
   } = props;
 
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.currentTarget;
-    onChangeErrorCheck(name, value, setErrors);
-    dispatchAddInfo(e);
-  };
+  const router = useRouter();
 
   return (
     <Grid
       container
-      flexDirection="row"
       justifyContent="center"
-      className={styles.root_grid}
-      sx={{ minWidth: "80vw" }}
+      alignItems="center"
+      className={styles.main_grid}
     >
       <Grid item container justifyContent="center" md={6}>
-        <div>Product Info</div>
+        <div className={main_styles.text_3}>Product Info</div>
       </Grid>
-      <Grid
-        item
-        container
-        flexDirection="row"
-        justifyContent="center"
-        alignItems="flex-start"
-      >
-        <Grid
-          item
-          container
-          flexDirection="row"
-          justifyContent="center"
-          style={{ alignItems: "center" }}
-          xs={12}
-          md={6}
-        >
+      <Grid item container flexDirection="row" alignItems="flex-start">
+        <Grid item container xs={12} md={6}>
           <SelectCategory
             dispatchAddInfo={dispatchAddInfo}
             productInfo={productInfo}
@@ -101,16 +88,11 @@ export default function ProductForm(props: Props): JSX.Element {
           <AddPrice
             dispatchAddInfo={dispatchAddInfo}
             productInfo={productInfo}
+            propError={propError}
+            setErrors={setErrors}
           />
         </Grid>
-        <Grid
-          item
-          container
-          justifyContent="center"
-          alignItems="center"
-          xs={12}
-          md={6}
-        >
+        <Grid item container xs={12} md={6} className={styles.form_grid_center}>
           <AddDescription
             dispatchAddInfo={dispatchAddInfo}
             productInfo={productInfo}
@@ -119,11 +101,11 @@ export default function ProductForm(props: Props): JSX.Element {
           />
         </Grid>
       </Grid>
+
       <Grid item container>
         {colorPropsList.map((prop, index) => {
           return (
             <Fragment key={index}>
-              <div>Color #{index + 1}</div>
               <AddColorsProps
                 colorProps={prop}
                 listIndex={index}
@@ -135,17 +117,43 @@ export default function ProductForm(props: Props): JSX.Element {
             </Fragment>
           );
         })}
-        <button
-          onClick={() => {
-            dispatch({ type: Actions.addMoreColor });
-          }}
-        >
-          Add more colors
-        </button>
+      </Grid>
+      <Grid item container className={styles.form_grid_space_between}>
+        <Grid item>
+          <Button
+            variant="outlined"
+            startIcon={<AddCircleIcon className={styles.form_button_icon} />}
+            className={styles.form_button}
+            onClick={() => {
+              dispatch({ type: Actions.addMoreColor });
+            }}
+          >
+            Add more colors
+          </Button>
+        </Grid>
 
-        <div>
-          <button onClick={uploadHandler}>upload</button>
-        </div>
+        <Grid item>
+          <LoadingButton
+            loading={uploading}
+            loadingPosition="start"
+            startIcon={<SaveIcon className={styles.form_button_icon} />}
+            className={styles.form_button}
+            variant="contained"
+            onClick={uploadHandler}
+          >
+            Save
+          </LoadingButton>
+          <Button
+            color="error"
+            variant="outlined"
+            className={styles.form_button}
+            onClick={() => {
+              router.back();
+            }}
+          >
+            Cancel
+          </Button>
+        </Grid>
       </Grid>
     </Grid>
   );

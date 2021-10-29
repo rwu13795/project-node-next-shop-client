@@ -8,7 +8,8 @@ import classes from "./__layout.module.css";
 import MainNavigation from "./navbar/navigation";
 import { checkStock, getUserStatus } from "../../utils/redux-store/userSlice";
 import Footer from "./footer";
-// import { getAdminStatus } from "../../utils/redux-store/adminSlice";
+
+import { Grid } from "@mui/material";
 
 interface Prop {
   children: React.ReactNode;
@@ -46,15 +47,14 @@ export default function Layout(props: Prop): JSX.Element {
     // put inside the module.css. Maybe the MUI in the children component has
     // classes with higher priority? I have to use the "style" directly in order to
     // make these props work
-    <main
-      className={classes.page_layout}
-      // style={{ position: "relative", minHeight: "100vh" }}
-    >
+    <main className={classes.page_layout}>
       <ThemeProvider theme={theme}>
         <MainNavigation page={props.page} />
-        <div className={classes.page_body}>
-          <main>{props.children}</main>
-        </div>
+        <Grid container className={classes.page_grid}>
+          <Grid item className={classes.page_body}>
+            <main>{props.children}</main>
+          </Grid>
+        </Grid>
         <Footer />
       </ThemeProvider>
     </main>

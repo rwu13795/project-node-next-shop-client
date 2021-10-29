@@ -36,9 +36,11 @@ export default function useUpload({
   const client = browserClient();
 
   const [errors, setErrors] = useState<Errors>({});
+  const [uploading, setUploading] = useState<boolean>(false);
 
   const postUpload = async () => {
     try {
+      setUploading(true);
       setErrors({});
 
       // re-format the props and put the imageFiles into "formData"
@@ -107,9 +109,10 @@ export default function useUpload({
       if (onSuccess) {
         onSuccess();
       }
-
+      setUploading(false);
       return response;
     } catch (err: any) {
+      setUploading(false);
       // catch the errors from the "request-validator"
       // the error messages array sent from the server is inside "err.response.data.errors"
       console.log(
@@ -128,6 +131,8 @@ export default function useUpload({
           } else if (e.message === inputNames.colorName) {
             errorMsg[inputNames.colorName] =
               "Please select a name for the color";
+          } else if (e.message === inputNames.size) {
+            errorMsg[inputNames.size] = "Invalid quantity";
           } else {
             errorMsg[inputNames.imagesCount] =
               "Please upload at least one image";
@@ -139,5 +144,5 @@ export default function useUpload({
     }
   };
 
-  return { postUpload, errors, setErrors };
+  return { postUpload, errors, setErrors, uploading };
 }

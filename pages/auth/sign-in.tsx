@@ -7,6 +7,7 @@ import {
   CurrentUser,
   selectIsLoggedIn,
 } from "../../utils/redux-store/userSlice";
+import { selectPageLoading } from "../../utils/redux-store/pageLoadingSlice";
 import serverClient from "../../utils/axios-client/server-client";
 import AuthForm from "../../components/auth/forms/auth-form";
 import { inputTypes } from "../../utils/enums-types/input-types";

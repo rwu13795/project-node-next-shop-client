@@ -24,6 +24,7 @@ import {
   InputLabel,
   SelectChangeEvent,
   FormHelperText,
+  Box,
   Grid,
 } from "@mui/material";
 import styles from "./__styles.module.css";
@@ -78,7 +79,14 @@ export default function SelectCategory(props: Props): JSX.Element {
 
   return (
     <Fragment>
-      <Grid item container xs={12} sm={6} md={12} className={styles.form_grid}>
+      <Grid
+        item
+        container
+        xs={12}
+        sm={6}
+        md={12}
+        className={styles.form_grid_center}
+      >
         <FormControl error={error_main} className={styles.form_control}>
           <InputLabel id="main-cat-select">Main-Category</InputLabel>
           <Select
@@ -113,7 +121,14 @@ export default function SelectCategory(props: Props): JSX.Element {
         </FormControl>
       </Grid>
 
-      <Grid item container xs={12} sm={6} md={12} className={styles.form_grid}>
+      <Grid
+        item
+        container
+        xs={12}
+        sm={6}
+        md={12}
+        className={styles.form_grid_center}
+      >
         <FormControl error={error_sub} className={styles.form_control}>
           <InputLabel id="sub-cat-select">Sub-Category</InputLabel>
           <Select

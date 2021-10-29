@@ -3,18 +3,6 @@
   position: relative;
   min-height: 100vh;
   font-family: "Oswald", sans-serif;
-  /* background-image: linear-gradient(
-    to bottom right,
-    rgb(255, 255, 255) 10%,
-    rgba(75, 75, 75, 0.4) 15%,
-    rgb(255, 255, 255) 20%,
-    rgb(255, 255, 255) 35%,
-    rgba(114, 114, 114, 0.5) 50%,
-    rgb(255, 255, 255) 65%,
-    rgb(255, 255, 255) 80%,
-    rgba(167, 167, 167, 0.4) 85%,
-    rgb(255, 255, 255) 90%
-  ); */
   background-image: linear-gradient(
     to right,
     rgba(34, 185, 255, 0.4) 0%,
@@ -24,24 +12,65 @@
   );
 }
 
+.page_grid {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+/* page_body is the overall width for the all pages' body */
+/* specific width can be used inside individual page to override this layout*/
 .page_body {
   padding-top: 2rem;
-  font-size: min(6.5vw, 55px); /* for none MUI component text */
+  margin-left: min(3vw, 4rem);
+  margin-right: min(3vw, 4rem);
 }
-@media screen and (min-width: 775px) {
+@media screen and (max-width: 775px) {
   .page_body {
-    padding-top: min(5.5rem, 9vw);
+    padding-top: min(6rem, 12vw);
+    min-width: 90vw;
   }
 }
-@media screen and (max-width: 774px) {
+@media screen and (min-width: 775px) and (max-width: 1050px) {
   .page_body {
-    padding-top: min(6rem, 23vw);
+    padding-top: min(8rem, 12vw);
+    width: 90vw;
+    max-width: 85rem;
+  }
+}
+@media screen and (min-width: 1050px) and (max-width: 1400px) {
+  .page_body {
+    padding-top: min(8rem, 12vw);
+    width: 85vw;
+    max-width: 75rem;
+  }
+}
+@media screen and (min-width: 1400px) {
+  .page_body {
+    padding-top: min(9rem, 10vw);
+    width: 80vw;
+    max-width: 75rem;
   }
 }
 
-/* background-image: linear-gradient(
-    to bottom right,
-    rgb(255, 255, 255) 32%,
-    rgba(34, 185, 255, 0.534) 50%,
-    rgb(255, 255, 255) 68%
-  ); */
+.text_1 {
+  font-size: min(12vw, 3.5rem);
+}
+.text_2 {
+  font-size: min(10vw, 3.1rem);
+}
+.text_3 {
+  font-size: min(8vw, 2.7rem);
+}
+.text_4 {
+  font-size: min(6vw, 2.3rem);
+}
+.text_5 {
+  font-size: min(5vw, 1.9rem);
+}
+.text_6 {
+  font-size: min(4vw, 1.5rem);
+}
+.text_7 {
+  font-size: min(3vw, 1.1rem);
+}

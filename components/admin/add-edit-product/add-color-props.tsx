@@ -9,6 +9,13 @@ import {
   ReducerColorProps,
 } from "../../../utils/react-hooks/add-product-reducer";
 import { Actions } from "../../../utils/enums-types/product-reducer-actions";
+import AddSizeQuantity from "./add-size-quantity";
+
+// UI //
+import { Grid, Box, Divider, Button } from "@mui/material";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import styles from "./__styles.module.css";
+import main_styles from "../../layout/__layout.module.css";
 
 interface Props {
   colorProps: ReducerColorProps;
@@ -19,66 +26,79 @@ interface Props {
   setErrors: Dispatch<SetStateAction<Errors>>;
 }
 
+const sizesArray = [inputNames.small, inputNames.medium, inputNames.large];
+
 export default function AddColorsProps(props: Props): JSX.Element {
   const { colorProps, listIndex, dispatch, propError, editMode, setErrors } =
     props;
-
-  const sizesArray = [inputNames.small, inputNames.medium, inputNames.large];
-
-  const sizesChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    const inputField = e.target.name;
-    dispatch({
-      type: Actions.addSizes,
-      payload: { listIndex, inputValue, inputField },
-    });
-  };
 
   const removeColorHandler = () => {
     dispatch({ type: Actions.removeColor, payload: { listIndex, editMode } });
   };
 
   return (
-    <Fragment>
-      <SelectColor
-        colorProps={colorProps}
-        listIndex={listIndex}
-        dispatch={dispatch}
-        propError={propError}
-        setErrors={setErrors}
-      />
-
-      <div>
-        <label>Sizes: </label>
-        {sizesArray.map((size) => {
-          return (
-            <Fragment key={size}>
-              <label>{size}</label>
-              <input
-                required
-                placeholder={"0"}
-                type="number"
-                min={0}
-                name={size}
-                value={colorProps.sizes[size]}
-                onChange={sizesChangeHandler}
+    <Grid item container className={styles.colorProps_grid}>
+      <Grid item container className={styles.form_grid_space_between}>
+        <Box className={main_styles.text_4}>Color #{listIndex + 1}</Box>
+        <Box>
+          <Button
+            variant="outlined"
+            color="warning"
+            startIcon={
+              <DeleteForeverIcon className={styles.form_button_icon_small} />
+            }
+            className={styles.form_button_small}
+            name={inputNames.removeColor}
+            onClick={removeColorHandler}
+          >
+            Remove this color
+          </Button>
+        </Box>
+      </Grid>
+      <Grid item container justifyContent="center">
+        <Grid item container xs={12} sm={6} md={6}>
+          <SelectColor
+            colorProps={colorProps}
+            listIndex={listIndex}
+            dispatch={dispatch}
+            propError={propError}
+            setErrors={setErrors}
+          />
+        </Grid>
+        <Grid
+          item
+          container
+          flexDirection="row"
+          xs={12}
+          sm={6}
+          md={6}
+          className={styles.form_grid_center}
+        >
+          {sizesArray.map((size) => {
+            return (
+              <AddSizeQuantity
+                key={size}
+                size={size}
+                colorProps={colorProps}
+                listIndex={listIndex}
+                dispatch={dispatch}
+                propError={propError}
+                setErrors={setErrors}
               />
-            </Fragment>
-          );
-        })}
-      </div>
-      <AddImage
-        colorProps={colorProps}
-        listIndex={listIndex}
-        dispatch={dispatch}
-        editMode={editMode}
-        propError={propError}
-      />
-      <div>
-        <button name={inputNames.removeColor} onClick={removeColorHandler}>
-          Remove this color
-        </button>
-      </div>
-    </Fragment>
+            );
+          })}
+        </Grid>
+      </Grid>
+
+      <Grid item container>
+        <AddImage
+          colorProps={colorProps}
+          listIndex={listIndex}
+          dispatch={dispatch}
+          editMode={editMode}
+          propError={propError}
+        />
+      </Grid>
+    </Grid>
   );
 }

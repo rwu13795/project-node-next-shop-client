@@ -57,8 +57,6 @@ export default function SelectColor(props: Props): JSX.Element {
     });
   };
 
-  console.log("color name", colorProps.colorName);
-
   const error_colorName =
     !(
       propError[inputNames.colorName] === "" ||
@@ -75,8 +73,18 @@ export default function SelectColor(props: Props): JSX.Element {
 
   return (
     <Fragment>
-      <Grid item container xs={12} sm={6} md={6} className={styles.form_grid}>
-        <FormControl error={error_colorCode} className={styles.form_control}>
+      <Grid
+        item
+        container
+        xs={12}
+        sm={12}
+        md={6}
+        className={styles.form_grid_center}
+      >
+        <FormControl
+          error={error_colorCode}
+          className={styles.form_control_color}
+        >
           <TextField
             type="color"
             label="Pick a Color"
@@ -94,8 +102,18 @@ export default function SelectColor(props: Props): JSX.Element {
         </FormControl>
       </Grid>
 
-      <Grid item container xs={12} sm={6} md={6} className={styles.form_grid}>
-        <FormControl error={error_colorName} className={styles.form_control}>
+      <Grid
+        item
+        container
+        xs={12}
+        sm={12}
+        md={6}
+        className={styles.form_grid_center}
+      >
+        <FormControl
+          error={error_colorName}
+          className={styles.form_control_color}
+        >
           <InputLabel>Color Name</InputLabel>
 
           <Select

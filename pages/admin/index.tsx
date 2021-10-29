@@ -3,8 +3,6 @@ import { useRouter } from "next/dist/client/router";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
-import { Button, CircularProgress, SelectChangeEvent } from "@mui/material";
-
 import AuthForm from "../../components/auth/forms/auth-form";
 import { inputNames } from "../../utils/enums-types/input-names";
 import { inputTypes } from "../../utils/enums-types/input-types";
@@ -15,6 +13,15 @@ import {
   selectLoadingStatus_admin,
   selectLoggedInAsAdmin,
 } from "../../utils/redux-store/adminSlice";
+
+// UI //
+import {
+  Button,
+  CircularProgress,
+  Grid,
+  SelectChangeEvent,
+} from "@mui/material";
+import styles from "./__index.module.css";
 
 const signIn_inputFieldsArray = [
   inputNames.admin_username,
@@ -51,35 +58,38 @@ const AdminPage: NextPage = () => {
     setIsRegistering((prev) => !prev);
   };
 
-  // if (loggedInAsAdmin === undefined || loggedInAsAdmin === true) {
-  //   return (
-  //     <div>
-  //       <CircularProgress />
-  //     </div>
-  //   );
-  // }
-
-  return isRegistering ? (
+  return loggedInAsAdmin === true ? (
+    <div>
+      <CircularProgress />
+    </div>
+  ) : isRegistering ? (
     <main>
-      <button onClick={switchHandler}>Sign In</button>
-      <div>Or</div>
-      <hr />
-      <div>Register</div>
-      <AuthForm
-        inputFieldsArray={register_inputFieldsArray}
-        inputType={inputTypes.adminRegister}
-      />
+      <Grid container className={styles.main_grid}>
+        <Grid>
+          <button onClick={switchHandler}>Sign In</button>
+          <div>Or</div>
+          <hr />
+          <div>Register</div>
+          <AuthForm
+            inputFieldsArray={register_inputFieldsArray}
+            inputType={inputTypes.adminRegister}
+          />
+        </Grid>
+      </Grid>
     </main>
   ) : (
     <main>
-      <div>Sign In</div>
-      <AuthForm
-        inputFieldsArray={signIn_inputFieldsArray}
-        inputType={inputTypes.adminSignIn}
-      />
-      <hr />
-      <div>Or</div>
-      <button onClick={switchHandler}>Register</button>
+      <Grid>
+        <div>Sign In</div>
+        <AuthForm
+          inputFieldsArray={signIn_inputFieldsArray}
+          inputType={inputTypes.adminSignIn}
+        />
+        <hr />
+
+        <div>Or</div>
+        <button onClick={switchHandler}>Register</button>
+      </Grid>
     </main>
   );
 };

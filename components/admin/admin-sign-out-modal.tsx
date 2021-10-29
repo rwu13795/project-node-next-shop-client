@@ -1,10 +1,12 @@
 import { useState, Fragment, SetStateAction, Dispatch } from "react";
-
 import { useRouter } from "next/router";
-
-import { Menu, Modal, Box, Backdrop, Fade } from "@mui/material";
 import { useDispatch } from "react-redux";
+
 import { adminSignOut } from "../../utils/redux-store/adminSlice";
+import { setPageLoading } from "../../utils/redux-store/pageLoadingSlice";
+
+// UI //
+import { Menu, Modal, Box, Backdrop, Fade } from "@mui/material";
 
 const style = {
   position: "absolute" as "absolute",
@@ -33,6 +35,8 @@ export default function AdminSignOutModal({
 
   const closeModal = () => setAdminModal(false);
   const signOut = () => {
+    dispatch(setPageLoading(true));
+    closeModal();
     dispatch(adminSignOut());
     router.push("/");
   };

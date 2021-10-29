@@ -1,12 +1,17 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
 import { inputNames } from "../../../utils/enums-types/input-names";
 import { ReducerProductInfo } from "../../../utils/react-hooks/add-product-reducer";
 import { AddInfoEvents } from "../../../pages/admin/add-product";
+import {
+  Errors,
+  onChangeErrorCheck,
+} from "../../../utils/helper-functions/input-error-check";
 
 // UI //
 import {
   TextField,
+  FormHelperText,
   FormControl,
   InputLabel,
   OutlinedInput,
@@ -18,28 +23,49 @@ import styles from "./__styles.module.css";
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
   productInfo: ReducerProductInfo;
+  propError: Errors;
+  setErrors: Dispatch<SetStateAction<Errors>>;
 }
 export default function AddPrice(props: Props): JSX.Element {
-  const { productInfo, dispatchAddInfo } = props;
+  const { productInfo, dispatchAddInfo, propError, setErrors } = props;
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.currentTarget;
+    onChangeErrorCheck(name, value, setErrors);
     dispatchAddInfo(e);
   };
 
+  const error = !(
+    propError[inputNames.price] === undefined ||
+    propError[inputNames.price] === ""
+  );
+
   return (
-    <Grid item container xs={12} sm={6} md={12} className={styles.form_grid}>
-      <FormControl className={styles.form_control}>
-        <InputLabel htmlFor="outlined-adornment-amount">Price</InputLabel>
+    <Grid
+      item
+      container
+      xs={12}
+      sm={6}
+      md={12}
+      className={styles.form_grid_center}
+    >
+      <FormControl className={styles.form_control} error={error}>
+        <InputLabel htmlFor="outlined-price">Price</InputLabel>
         <OutlinedInput
-          id="outlined-adornment-amount"
+          id="outlined-price"
+          type="number"
+          startAdornment={<InputAdornment position="start">$</InputAdornment>}
           name={inputNames.price}
           value={productInfo.price}
           onChange={onChangeHandler}
-          type="number"
           inputProps={{ min: 0 }}
-          startAdornment={<InputAdornment position="start">$</InputAdornment>}
           label="Price"
+          placeholder="0"
+          error={error}
         />
+        <FormHelperText className={styles.input_error}>
+          {propError[inputNames.price]}
+        </FormHelperText>
       </FormControl>
     </Grid>
   );

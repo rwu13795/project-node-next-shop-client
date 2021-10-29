@@ -5,7 +5,7 @@ import { Box } from "@mui/system";
 import { Grid } from "@mui/material";
 
 import { ImagePorp_swiper } from "./swiper";
-import { slide_large, sx_slide_large } from "./_styles-slide";
+import { slide_large, sx_slide_large } from "./__styles-slide";
 
 interface Props {
   title: string;

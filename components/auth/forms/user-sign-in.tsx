@@ -21,6 +21,7 @@ import {
 } from "../../../utils/redux-store/userSlice";
 import { inputNames } from "../../../utils/enums-types/input-names";
 import { loadingStatus } from "../../../utils/enums-types/loading-status";
+import { setPageLoading } from "../../../utils/redux-store/pageLoadingSlice";
 
 interface Props {
   inputFieldsArray: string[];
@@ -50,9 +51,12 @@ export default function UserSignIn({
   const [forgotPassword, setForgetPassword] = useState<boolean>(false);
 
   useEffect(() => {
+    if (loadingStatus_user === "loading") {
+      dispatch(setPageLoading(true));
+    }
     dispatch(setLoadingStatus("idle"));
     dispatch(clearAuthErrors("all"));
-  }, [dispatch]);
+  }, [dispatch, loadingStatus_user]);
 
   const singInHandler = () => {
     const hasError = onSubmitErrorCheck(

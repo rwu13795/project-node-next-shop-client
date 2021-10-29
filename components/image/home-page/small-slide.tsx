@@ -5,7 +5,7 @@ import { Box } from "@mui/system";
 import { Grid } from "@mui/material";
 
 import { ImagePorp_swiper } from "./swiper";
-import { slide_small, sx_slide_small } from "./_styles-slide";
+import { slide_small, sx_slide_small } from "./__styles-slide";
 import { MainCategory } from "../../../utils/enums-types/product-category";
 
 interface Props {
