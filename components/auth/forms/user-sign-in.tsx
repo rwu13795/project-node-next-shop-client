@@ -21,7 +21,7 @@ import {
 } from "../../../utils/redux-store/userSlice";
 import { inputNames } from "../../../utils/enums-types/input-names";
 import { loadingStatus } from "../../../utils/enums-types/loading-status";
-import { setPageLoading } from "../../../utils/redux-store/pageLoadingSlice";
+import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 
 interface Props {
   inputFieldsArray: string[];

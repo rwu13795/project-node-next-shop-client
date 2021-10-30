@@ -58,38 +58,38 @@ const AdminPage: NextPage = () => {
     setIsRegistering((prev) => !prev);
   };
 
-  return loggedInAsAdmin === true ? (
-    <div>
-      <CircularProgress />
-    </div>
-  ) : isRegistering ? (
-    <main>
-      <Grid container className={styles.main_grid}>
-        <Grid>
-          <button onClick={switchHandler}>Sign In</button>
-          <div>Or</div>
-          <hr />
-          <div>Register</div>
-          <AuthForm
-            inputFieldsArray={register_inputFieldsArray}
-            inputType={inputTypes.adminRegister}
-          />
+  return (
+    <main className={styles.page_layout}>
+      {loggedInAsAdmin === true ? (
+        <div>
+          <CircularProgress />
+        </div>
+      ) : isRegistering ? (
+        <Grid container className={styles.main_grid}>
+          <Grid>
+            <button onClick={switchHandler}>Sign In</button>
+            <div>Or</div>
+            <hr />
+            <div>Register</div>
+            <AuthForm
+              inputFieldsArray={register_inputFieldsArray}
+              inputType={inputTypes.adminRegister}
+            />
+          </Grid>
         </Grid>
-      </Grid>
-    </main>
-  ) : (
-    <main>
-      <Grid>
-        <div>Sign In</div>
-        <AuthForm
-          inputFieldsArray={signIn_inputFieldsArray}
-          inputType={inputTypes.adminSignIn}
-        />
-        <hr />
+      ) : (
+        <Grid>
+          <div>Sign In</div>
+          <AuthForm
+            inputFieldsArray={signIn_inputFieldsArray}
+            inputType={inputTypes.adminSignIn}
+          />
+          <hr />
 
-        <div>Or</div>
-        <button onClick={switchHandler}>Register</button>
-      </Grid>
+          <div>Or</div>
+          <button onClick={switchHandler}>Register</button>
+        </Grid>
+      )}
     </main>
   );
 };

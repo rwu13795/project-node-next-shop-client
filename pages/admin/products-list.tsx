@@ -14,7 +14,7 @@ import {
   selectLoggedInAsAdmin,
   setLoadingStatus_admin,
 } from "../../utils/redux-store/adminSlice";
-import { setPageLoading } from "../../utils/redux-store/pageLoadingSlice";
+import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 import browserClient from "../../utils/axios-client/browser-client";
 
 interface PageProps {

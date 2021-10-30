@@ -21,6 +21,7 @@ export default function Footer({}): JSX.Element {
           <a>Administration</a>
         </Link>
       </div>
+      <div>foot testing block</div>
     </footer>
   );
 }

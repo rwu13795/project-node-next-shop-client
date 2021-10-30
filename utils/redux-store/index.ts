@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import adminSlice from "./adminSlice";
 import checkoutSlice from "./checkoutSlice";
-import pageLoadingSlice from "./pageLoadingSlice";
+import layoutSlice from "./layoutSlice";
 import userSlice from "./userSlice";
 
 const store = configureStore({
@@ -10,7 +10,7 @@ const store = configureStore({
     admin: adminSlice,
     user: userSlice,
     checkout: checkoutSlice,
-    pageLoading: pageLoadingSlice,
+    layout: layoutSlice,
   },
 });
 

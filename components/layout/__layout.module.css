@@ -1,7 +1,8 @@
-.page_layout {
-  padding-bottom: 3.5rem;
-  position: relative;
-  min-height: 100vh;
+.root_page_layout {
+  /* position: relative; */
+  /* min-height: 110vh; */
+  width: 100%;
+  /* height: auto; */
   font-family: "Oswald", sans-serif;
   background-image: linear-gradient(
     to right,
@@ -12,7 +13,7 @@
   );
 }
 
-.page_grid {
+.root_page_grid {
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -20,12 +21,14 @@
 
 /* page_body is the overall width for the all pages' body */
 /* specific width can be used inside individual page to override this layout*/
-.page_body {
-  padding-top: 2rem;
-  margin-left: min(3vw, 4rem);
-  margin-right: min(3vw, 4rem);
+.root_page_body {
+  margin-top: min(19vw, 6.2rem);
+  min-width: 100%;
+  /* min-height: 100vh; */
+  /* margin-left: min(3vw, 4rem);
+  margin-right: min(3vw, 4rem); */
 }
-@media screen and (max-width: 775px) {
+/* @media screen and (max-width: 775px) {
   .page_body {
     padding-top: min(6rem, 12vw);
     min-width: 90vw;
@@ -51,7 +54,7 @@
     width: 80vw;
     max-width: 75rem;
   }
-}
+} */
 
 .text_1 {
   font-size: min(12vw, 3.5rem);

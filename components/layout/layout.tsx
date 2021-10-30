@@ -10,6 +10,7 @@ import { checkStock, getUserStatus } from "../../utils/redux-store/userSlice";
 import Footer from "./footer";
 
 import { Grid } from "@mui/material";
+import { selectLockScrollBar } from "../../utils/redux-store/layoutSlice";
 
 interface Prop {
   children: React.ReactNode;
@@ -20,6 +21,20 @@ export default function Layout(props: Prop): JSX.Element {
   // since the Layout component will be rendered on every page,
   // the user auth will be checked no matter which page is loaded up first
   const dispatch = useDispatch();
+
+  const lockScrollBar = useSelector(selectLockScrollBar);
+
+  const [scrollBarStyle, setScrollBarStyle] = useState({});
+
+  console.log("lockScrollBar", lockScrollBar);
+
+  useEffect(() => {
+    if (lockScrollBar) {
+      setScrollBarStyle({ maxHeight: "100vh", overflow: "hidden" });
+    } else {
+      setScrollBarStyle({});
+    }
+  }, [lockScrollBar]);
 
   useEffect(() => {
     dispatch(getUserStatus());
@@ -47,11 +62,11 @@ export default function Layout(props: Prop): JSX.Element {
     // put inside the module.css. Maybe the MUI in the children component has
     // classes with higher priority? I have to use the "style" directly in order to
     // make these props work
-    <main className={classes.page_layout}>
+    <main className={classes.root_page_layout} style={scrollBarStyle}>
       <ThemeProvider theme={theme}>
-        <MainNavigation page={props.page} />
-        <Grid container className={classes.page_grid}>
-          <Grid item className={classes.page_body}>
+        <MainNavigation />
+        <Grid container className={classes.root_page_grid}>
+          <Grid item className={classes.root_page_body}>
             <main>{props.children}</main>
           </Grid>
         </Grid>

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 
 import { adminSignOut } from "../../utils/redux-store/adminSlice";
-import { setPageLoading } from "../../utils/redux-store/pageLoadingSlice";
+import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 
 // UI //
 import { Menu, Modal, Box, Backdrop, Fade } from "@mui/material";

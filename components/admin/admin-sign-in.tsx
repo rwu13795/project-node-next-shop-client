@@ -24,7 +24,7 @@ import {
 import { inputNames } from "../../utils/enums-types/input-names";
 import renderInputFields from "../../utils/helper-functions/render-input-fields";
 import { AuthErrors } from "../../utils/redux-store/userSlice";
-import { setPageLoading } from "../../utils/redux-store/pageLoadingSlice";
+import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 
 interface Props {
   inputFieldsArray: string[];

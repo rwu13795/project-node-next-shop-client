@@ -12,7 +12,7 @@ import { Actions } from "../../utils/enums-types/product-reducer-actions";
 import serverClient from "../../utils/axios-client/server-client";
 import { useDispatch, useSelector } from "react-redux";
 import ProductForm from "../../components/admin/add-edit-product/product-form";
-import { setPageLoading } from "../../utils/redux-store/pageLoadingSlice";
+import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 import {
   selectAdminUser,
   selectCsrfToken_admin,
