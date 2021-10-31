@@ -42,7 +42,6 @@ export default function Layout(props: Prop): JSX.Element {
     // and checkStock won't trigger a duplicated session in the shop route
     const timerId = setTimeout(() => {
       dispatch(checkStock());
-      // dispatch(getAdminStatus());
     }, 2000);
     return () => {
       clearTimeout(timerId);
@@ -58,10 +57,6 @@ export default function Layout(props: Prop): JSX.Element {
     // the <ThemeProvider> here will provide theme for all MUI components inside
     // all the pages
 
-    // Don't fucking know why the props in the "style" do not work when they are
-    // put inside the module.css. Maybe the MUI in the children component has
-    // classes with higher priority? I have to use the "style" directly in order to
-    // make these props work
     <main className={classes.root_page_layout} style={scrollBarStyle}>
       <ThemeProvider theme={theme}>
         <MainNavigation />

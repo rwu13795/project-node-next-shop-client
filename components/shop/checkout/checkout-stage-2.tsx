@@ -98,7 +98,7 @@ export default function CheckoutStage_2({
     //////////
     // NOTE //
     // the value inside the cardElement will be destoyed whenever this component is
-    // dismounted. I need to create a onc-time-use token using the cardElement,
+    // unmounted. I need to create a onc-time-use token using the cardElement,
     // and pass the "token" back the checkout page, where the "confirmCardPayment" takes place
     if (setStripeCardToken && elements && stripe) {
       const cardElement = elements.getElement(CardElement);

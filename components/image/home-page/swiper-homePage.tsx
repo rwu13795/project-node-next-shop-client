@@ -56,23 +56,31 @@ export default function Swiper_homePage({}: Props): JSX.Element {
   return (
     <div>
       <Swiper_homePage_vertical setSlideEnd={setSlideEnd} />
+    </div>
+  );
+}
+
+/*
+
+// render an hidden box on top of the swiper, so that user won't be able to scroll
+// the swiper untill the window scroll reaches 0
       {slideEnd && (
-        // render an hidden box on top of the swiper, so that user won't be able to scroll
-        // the swiper untill the window scroll reaches 0
         <div
           onClick={scrollToTop}
           onDrag={scrollToTop}
           style={{
-            marginTop: "4rem",
-            width: "100vw",
-            height: "100vh",
+            marginTop: "6rem",
+            width: "1vw",
+            height: "1vh",
             position: "absolute",
             top: 0,
             zIndex: 9,
-            // backgroundColor: "red",
+            backgroundColor: "red",
           }}
         ></div>
       )}
-    </div>
-  );
-}
+
+// If the user stay on the last slide, user can not click on the last slide, since
+// it is coverd by this invisible <div>. So not a good solution
+
+ */
