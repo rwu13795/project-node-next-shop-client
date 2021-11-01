@@ -59,7 +59,7 @@ export default function Layout(props: Prop): JSX.Element {
 
     <main className={classes.root_page_layout} style={scrollBarStyle}>
       <ThemeProvider theme={theme}>
-        <MainNavigation />
+        <MainNavigation page={props.page} />
         <Grid container className={classes.root_page_grid}>
           <Grid item className={classes.root_page_body}>
             <main>{props.children}</main>

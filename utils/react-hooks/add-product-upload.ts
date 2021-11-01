@@ -109,7 +109,7 @@ export default function useUpload({
       if (onSuccess) {
         onSuccess();
       }
-      setUploading(false);
+      // setUploading(false);
       return response;
     } catch (err: any) {
       setUploading(false);

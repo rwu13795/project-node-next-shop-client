@@ -24,4 +24,5 @@ font-family: 'Monofett', cursive;
   z-index: 99;
   min-height: 2.8rem;
   min-width: 100%;
+  transition: 0.3s;
 }

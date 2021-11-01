@@ -33,9 +33,9 @@ export default function Swiper_homePage({}: Props): JSX.Element {
       dispatch(setLockScrollBar(false));
       // sligtly scroll down a bit, so that window can listen to the "scrollTop == 0" below
       let id = setTimeout(() => (document.documentElement.scrollTop = 5), 300);
-      return () => {
-        clearTimeout(id);
-      };
+      // return () => {
+      //   clearTimeout(id);
+      // };
     }
   }, [slideEnd, dispatch]);
 
@@ -48,10 +48,6 @@ export default function Swiper_homePage({}: Props): JSX.Element {
       };
     }
   }, [slideEnd, dispatch]);
-
-  const scrollToTop = () => {
-    document.documentElement.scrollTop = 0;
-  };
 
   return (
     <div>

@@ -59,6 +59,7 @@ export default function Swiper_homePage_horizontal({
             <SwiperSlide
               key={src + index}
               style={{
+                position: "relative",
                 maxHeight: "95vh",
                 maxWidth: "100vw",
                 backgroundColor: "#ccc",

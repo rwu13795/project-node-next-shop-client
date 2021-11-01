@@ -116,6 +116,7 @@ export default function AddImage(props: Props): JSX.Element {
                 height={180}
               />
               <Box className={styles.image_file_text}>
+                {file}
                 {typeof file !== "string" && file.name}
               </Box>
             </Box>

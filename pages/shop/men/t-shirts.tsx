@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   MainCategory,
@@ -12,6 +12,8 @@ import useGetMoreProducts, {
 import useLastElementRef from "../../../utils/react-hooks/last-elem-ref";
 import RenderSubCatImage from "../../../components/shop/product/render-sub-cat-image";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 
 interface PageProps {
   products: PageProductProps[];
@@ -26,6 +28,7 @@ const MenTshirtsPage: NextPage<PageProps> = ({ products: startProducts }) => {
   //     window.scrollTo(0, 0);
   //   };
   // }
+  const dispatch = useDispatch();
 
   const main_cat = MainCategory.men.toLowerCase();
   const sub_cat = MenCategory.t_shirts.toLowerCase();
@@ -45,6 +48,10 @@ const MenTshirtsPage: NextPage<PageProps> = ({ products: startProducts }) => {
     hasMore,
     setPageNum
   );
+
+  useEffect(() => {
+    dispatch(setPageLoading(false));
+  }, []);
 
   console.log(products);
   if (!startProducts) {

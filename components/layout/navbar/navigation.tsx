@@ -62,6 +62,7 @@ export default function MainNavigation({ page }: Props) {
   }
 
   useEffect(() => {
+    console.log("scroll detection in navbar", page);
     createScrollStopListener(
       window,
       function () {
@@ -73,9 +74,9 @@ export default function MainNavigation({ page }: Props) {
       },
       1500
     );
-    return () => {
-      clearTimeout(handle);
-    };
+    // return () => {
+    //   clearTimeout(handle);
+    // };
   }, []);
   /////////////////////////////////////////////////////////
 

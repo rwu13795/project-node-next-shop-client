@@ -8,8 +8,19 @@ import { Box, fontSize, maxWidth } from "@mui/system";
 import { Grid } from "@mui/material";
 
 import Swiper_homePage from "../components/image/home-page/swiper-homePage";
+import { useDispatch } from "react-redux";
+import { setPageLoading } from "../utils/redux-store/layoutSlice";
 
 const Home: NextPage = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setPageLoading(false));
+    return () => {
+      dispatch(setPageLoading(true));
+    };
+  }, []);
+
   return (
     <main>
       <Head>

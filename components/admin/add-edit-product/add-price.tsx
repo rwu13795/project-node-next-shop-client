@@ -56,7 +56,7 @@ export default function AddPrice(props: Props): JSX.Element {
           type="number"
           startAdornment={<InputAdornment position="start">$</InputAdornment>}
           name={inputNames.price}
-          value={productInfo.price}
+          value={isNaN(productInfo.price as number) ? "" : productInfo.price}
           onChange={onChangeHandler}
           inputProps={{ min: 0 }}
           label="Price"

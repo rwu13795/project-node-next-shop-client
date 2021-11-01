@@ -53,10 +53,6 @@ const AddProductPage: NextPage<PageProps> = ({
   const csrfToken = useSelector(selectCsrfToken_admin);
 
   useEffect(() => {
-    reduxDispatch(setPageLoading(false));
-  }, []);
-
-  useEffect(() => {
     if (!loggedInAsAdmin) {
       router.push("/admin");
     }
@@ -87,13 +83,21 @@ const AddProductPage: NextPage<PageProps> = ({
     csrfToken,
     onSuccess: () => {
       console.log("OK");
-      router.push("/admin/products-list");
+      router.push(`/admin/products-list?${adminUser.admin_username}&page=1`);
     },
   });
 
   const uploadHandler = async () => {
     await postUpload();
   };
+
+  useEffect(() => {
+    reduxDispatch(setPageLoading(false));
+    return () => {
+      console.log("unmounting product form");
+      reduxDispatch(setPageLoading(true));
+    };
+  }, [reduxDispatch]);
 
   if (!loggedInAsAdmin) {
     return <h2>Loading . . . </h2>;

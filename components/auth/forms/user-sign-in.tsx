@@ -53,6 +53,8 @@ export default function UserSignIn({
   useEffect(() => {
     if (loadingStatus_user === "loading") {
       dispatch(setPageLoading(true));
+    } else {
+      dispatch(setPageLoading(false));
     }
     dispatch(setLoadingStatus("idle"));
     dispatch(clearAuthErrors("all"));
@@ -134,6 +136,9 @@ export default function UserSignIn({
           disabled={loadingStatus_user === loadingStatus.succeeded}
         >
           SUBMIT
+        </button>
+        <button onClick={() => setForgetPassword(false)}>
+          Back to Sign In
         </button>
       </div>
     </div>

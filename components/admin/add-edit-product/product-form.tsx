@@ -32,6 +32,11 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import SaveIcon from "@mui/icons-material/Save";
 import styles from "./__styles.module.css";
 import main_styles from "../../layout/__layout.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectPageLoading,
+  setPageLoading,
+} from "../../../utils/redux-store/layoutSlice";
 
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
@@ -59,6 +64,9 @@ export default function ProductForm(props: Props): JSX.Element {
   } = props;
 
   const router = useRouter();
+  const reduxDispatch = useDispatch();
+
+  const pageLoading = useSelector(selectPageLoading);
 
   return (
     <Grid
@@ -139,7 +147,10 @@ export default function ProductForm(props: Props): JSX.Element {
             startIcon={<SaveIcon className={styles.form_button_icon} />}
             className={styles.form_button}
             variant="contained"
-            onClick={uploadHandler}
+            onClick={() => {
+              reduxDispatch(setPageLoading(true));
+              uploadHandler();
+            }}
           >
             Save
           </LoadingButton>

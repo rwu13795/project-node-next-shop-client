@@ -111,12 +111,14 @@
   margin-right: 2px;
   border-radius: 0.5rem;
   border: rgb(165, 164, 164) 1px solid;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .image_file_text {
   text-align: center;
-  max-height: 1.55rem;
-  overflow-y: auto;
+  max-height: 2rem;
   font-size: min(5.5vw, 1rem);
+  margin-right: 0 2px 0 2px;
 }
 
 .image_button {

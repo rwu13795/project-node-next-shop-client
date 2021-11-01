@@ -39,15 +39,11 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
 
   const [params] = useState({ admin_username, page_num });
 
-  useEffect(() => {
-    dispatch(setPageLoading(false));
-  }, []);
-
-  useEffect(() => {
-    if (!loggedInAsAdmin) {
-      router.push("/admin");
-    }
-  }, [loggedInAsAdmin, router, dispatch]);
+  // useEffect(() => {
+  //   if (!loggedInAsAdmin) {
+  //     router.push("/admin");
+  //   }
+  // }, [loggedInAsAdmin, router, dispatch]);
 
   const fetchNewList = useCallback(async () => {
     const { data }: { data: PageProps } = await client.get(
@@ -61,8 +57,6 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
     // reload the page after deleting an item
     if (loadingStatus === "succeeded") {
       dispatch(setLoadingStatus_admin("idle"));
-      // router.reload();
-      // dispatch(getAdminStatus());
       fetchNewList();
       dispatch(setPageLoading(false));
     }
@@ -82,6 +76,10 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
     dispatch(setPageLoading(true));
     dispatch(deleteProduct({ productId, admin_username }));
   };
+
+  useEffect(() => {
+    dispatch(setPageLoading(false));
+  }, []);
 
   if (!products) {
     return <h1>No Product Found</h1>;
