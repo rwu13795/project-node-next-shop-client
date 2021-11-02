@@ -61,6 +61,7 @@ export default function AddPrice(props: Props): JSX.Element {
           label="Price"
           placeholder="0"
           error={error}
+          className={styles.input_box_shadow}
         />
         <FormHelperText className={styles.input_error}>
           {propError[inputNames.price]}

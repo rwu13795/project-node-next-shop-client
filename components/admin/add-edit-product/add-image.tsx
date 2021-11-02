@@ -10,7 +10,14 @@ import {
 import { Actions } from "../../../utils/enums-types/product-reducer-actions";
 
 // UI //
-import { InputLabel, Grid, Box, Tooltip, Button } from "@mui/material";
+import {
+  InputLabel,
+  Grid,
+  Box,
+  Tooltip,
+  Button,
+  FormHelperText,
+} from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
@@ -64,12 +71,19 @@ export default function AddImage(props: Props): JSX.Element {
 
   return (
     <Grid item container className={styles.form_grid_center}>
-      {colorProps.imageFiles.length > 0 &&
-        (editImage ? (
-          <Button onClick={editImageHandler}>Cancel</Button>
-        ) : (
-          <Button onClick={editImageHandler}>Edit</Button>
-        ))}
+      {colorProps.imageFiles.length > 0 && (
+        <div style={{ marginRight: "1rem" }}>
+          {editImage ? (
+            <Button color="error" variant="outlined" onClick={editImageHandler}>
+              Cancel
+            </Button>
+          ) : (
+            <Button variant="outlined" onClick={editImageHandler}>
+              Edit
+            </Button>
+          )}
+        </div>
+      )}
 
       {colorProps.imageFiles.map((file, imageIndex) => {
         return (
@@ -92,7 +106,10 @@ export default function AddImage(props: Props): JSX.Element {
                     <InputLabel
                       htmlFor={`relace-image-${listIndex}-${imageIndex}`}
                     >
-                      <ChangeCircleIcon className={styles.image_button} />
+                      <ChangeCircleIcon
+                        className={styles.image_button}
+                        style={{ color: "#008ab4 " }}
+                      />
                     </InputLabel>
                     <input
                       type="file"
@@ -106,7 +123,10 @@ export default function AddImage(props: Props): JSX.Element {
                 </Tooltip>
                 <Tooltip title="Remove">
                   <Box onClick={() => removeImageHandler(imageIndex)}>
-                    <CancelIcon className={styles.image_button} />
+                    <CancelIcon
+                      className={styles.image_button}
+                      style={{ color: "#f44336" }}
+                    />
                   </Box>
                 </Tooltip>
               </Grid>
@@ -147,9 +167,9 @@ export default function AddImage(props: Props): JSX.Element {
       </Box>
 
       {colorProps.imageCount < 1 && (
-        <div className={styles.input_error}>
+        <FormHelperText className={styles.input_error}>
           {propError[inputNames.imagesCount]}
-        </div>
+        </FormHelperText>
       )}
     </Grid>
   );

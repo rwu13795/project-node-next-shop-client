@@ -80,9 +80,7 @@ export default function ProductForm(props: Props): JSX.Element {
           container
           xs={12}
           md={6}
-          flexDirection="row"
-          justifyContent="center"
-          alignItems="center"
+          className={styles.form_grid_flex_start}
         >
           <SelectCategory
             dispatchAddInfo={dispatchAddInfo}
@@ -104,7 +102,13 @@ export default function ProductForm(props: Props): JSX.Element {
             setErrors={setErrors}
           />
         </Grid>
-        <Grid item container xs={12} md={6} className={styles.form_grid_center}>
+        <Grid
+          item
+          container
+          xs={12}
+          md={6}
+          className={styles.form_grid_flex_start}
+        >
           <AddDescription
             dispatchAddInfo={dispatchAddInfo}
             productInfo={productInfo}

@@ -9,7 +9,13 @@ import {
 } from "../../../utils/helper-functions/input-error-check";
 
 // UI //
-import { TextField, FormHelperText, FormControl } from "@mui/material";
+import {
+  TextField,
+  FormHelperText,
+  FormControl,
+  OutlinedInput,
+  InputLabel,
+} from "@mui/material";
 import styles from "./__styles.module.css";
 
 interface Props {
@@ -35,16 +41,16 @@ export default function AddDescription(props: Props): JSX.Element {
 
   return (
     <FormControl error={error} className={styles.desc_box}>
-      <TextField
-        id="standard-multiline-flexible"
+      <InputLabel htmlFor="outlined-price">Description</InputLabel>
+      <OutlinedInput
         label="Description"
         multiline
-        rows={6}
+        rows={7}
         name={inputNames.desc}
         value={productInfo.description}
         onChange={onChangeHandler}
         error={error}
-        // helperText={propError[inputNames.desc]}
+        className={styles.input_box_shadow}
       />
       <FormHelperText className={styles.input_error}>
         {propError[inputNames.desc]}

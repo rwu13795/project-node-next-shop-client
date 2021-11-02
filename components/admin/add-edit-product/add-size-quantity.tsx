@@ -65,6 +65,7 @@ export default function AddSizeQuantity(props: Props): JSX.Element {
         placeholder="0"
         error={error}
         startAdornment={<div></div>}
+        className={styles.input_box_shadow}
       />
       <FormHelperText className={styles.input_error}>
         {error && propError[inputNames.size]}

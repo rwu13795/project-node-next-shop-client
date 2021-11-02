@@ -6,7 +6,14 @@ import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { onChangeErrorCheck } from "../../../utils/helper-functions/input-error-check";
 
 // UI //
-import { TextField, FormControl, FormHelperText, Grid } from "@mui/material";
+import {
+  TextField,
+  FormControl,
+  FormHelperText,
+  Grid,
+  OutlinedInput,
+  InputLabel,
+} from "@mui/material";
 import styles from "./__styles.module.css";
 
 interface Props {
@@ -31,22 +38,18 @@ export default function AddTitle(props: Props): JSX.Element {
   );
 
   return (
-    <Grid
-      item
-      // container
-      // xs={12}
-      // sm={6}
-      // md={12}
-      // className={styles.form_grid_center}
-    >
+    <Grid item>
       <FormControl error={error} className={styles.form_control}>
-        <TextField
+        <InputLabel htmlFor="outlined-title">Title</InputLabel>
+        <OutlinedInput
+          id="outlined-title"
           name={inputNames.title}
           type="text"
           value={productInfo.title}
           onChange={onChangeHandler}
           label="Title"
           error={error}
+          className={styles.input_box_shadow}
         />
         <FormHelperText className={styles.input_error}>
           {propError[inputNames.title]}

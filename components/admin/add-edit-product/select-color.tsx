@@ -23,6 +23,7 @@ import {
   Box,
   FormHelperText,
   TextField,
+  OutlinedInput,
 } from "@mui/material";
 import styles from "./__styles.module.css";
 
@@ -79,16 +80,19 @@ export default function SelectColor(props: Props): JSX.Element {
           error={error_colorCode}
           className={styles.form_control_color}
         >
-          <TextField
+          <InputLabel htmlFor="outlined-pick-color">Pick a Color</InputLabel>
+          <OutlinedInput
+            id="outlined-pick-color"
             type="color"
             label="Pick a Color"
             name={inputNames.colorCode}
             value={colorProps.colorCode}
             onChange={selectColorHandler}
             error={error_colorCode}
-            InputLabelProps={{
-              shrink: true,
-            }}
+            // InputLabelProps={{
+            //   shrink: true,
+            // }}
+            className={styles.input_box_shadow}
           />
           <FormHelperText className={styles.input_error}>
             {error_colorCode && propError[inputNames.colorCode]}
@@ -109,12 +113,12 @@ export default function SelectColor(props: Props): JSX.Element {
           className={styles.form_control_color}
         >
           <InputLabel>Color Name</InputLabel>
-
           <Select
             label="Color Name"
             value={colorProps.colorName}
             name={inputNames.colorName}
             onChange={selectColorHandler}
+            className={styles.input_box_shadow}
           >
             {colorNames.map((color) => {
               return (

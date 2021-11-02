@@ -93,11 +93,7 @@ const AddProductPage: NextPage<PageProps> = ({
 
   useEffect(() => {
     reduxDispatch(setPageLoading(false));
-    return () => {
-      console.log("unmounting product form");
-      reduxDispatch(setPageLoading(true));
-    };
-  }, [reduxDispatch]);
+  }, []);
 
   if (!loggedInAsAdmin) {
     return <h2>Loading . . . </h2>;

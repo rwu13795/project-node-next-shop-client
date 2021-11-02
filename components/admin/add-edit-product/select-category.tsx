@@ -79,14 +79,7 @@ export default function SelectCategory(props: Props): JSX.Element {
 
   return (
     <Fragment>
-      <Grid
-        item
-        // container
-        // xs={12}
-        // sm={6}
-        // md={12}
-        // className={styles.form_grid_center}
-      >
+      <Grid item>
         <FormControl error={error_main} className={styles.form_control}>
           <InputLabel id="main-cat-select">Main-Category</InputLabel>
           <Select
@@ -96,21 +89,12 @@ export default function SelectCategory(props: Props): JSX.Element {
             label="Main Category" // the length oflabel string will determine the length of line break in the box
             onChange={onChangeHandler}
             error={error_main}
+            className={styles.input_box_shadow}
           >
             {mainCatArray.map((cat) => {
               return (
                 <MenuItem key={cat} value={cat}>
                   {cat}
-                  {/* <div
-                  style={{
-                    position: "relative",
-                    left: "5%",
-                    height: "1.55rem",
-                    width: "1.55rem",
-                    backgroundColor: "red",
-                    borderRadius: "50%",
-                  }}
-                ></div> */}
                 </MenuItem>
               );
             })}
@@ -121,14 +105,7 @@ export default function SelectCategory(props: Props): JSX.Element {
         </FormControl>
       </Grid>
 
-      <Grid
-        item
-        // container
-        // xs={12}
-        // sm={6}
-        // md={12}
-        // className={styles.form_grid_center}
-      >
+      <Grid item>
         <FormControl error={error_sub} className={styles.form_control}>
           <InputLabel id="sub-cat-select">Sub-Category</InputLabel>
           <Select
@@ -139,6 +116,7 @@ export default function SelectCategory(props: Props): JSX.Element {
             onChange={onChangeHandler}
             disabled={noMainCat}
             error={error_sub}
+            className={styles.input_box_shadow}
           >
             {subCatArray.map((cat, index) => {
               return (

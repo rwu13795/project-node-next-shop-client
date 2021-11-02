@@ -4,6 +4,8 @@ import browserClient from "../../utils/axios-client/browser-client";
 import { inputNames } from "../enums-types/input-names";
 import { ReducerColorProps, ReducerProductInfo } from "./add-product-reducer";
 import { Errors } from "../helper-functions/input-error-check";
+import { useDispatch } from "react-redux";
+import { setPageLoading } from "../redux-store/layoutSlice";
 
 interface ColorPropsForUpload {
   colorName: string;
@@ -34,6 +36,7 @@ export default function useUpload({
   csrfToken: string;
 }) {
   const client = browserClient();
+  const dispatch = useDispatch();
 
   const [errors, setErrors] = useState<Errors>({});
   const [uploading, setUploading] = useState<boolean>(false);
@@ -41,6 +44,8 @@ export default function useUpload({
   const postUpload = async () => {
     try {
       setUploading(true);
+      dispatch(setPageLoading(true));
+
       setErrors({});
 
       // re-format the props and put the imageFiles into "formData"
@@ -112,6 +117,7 @@ export default function useUpload({
       // setUploading(false);
       return response;
     } catch (err: any) {
+      dispatch(setPageLoading(false));
       setUploading(false);
       // catch the errors from the "request-validator"
       // the error messages array sent from the server is inside "err.response.data.errors"
