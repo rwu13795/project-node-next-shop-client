@@ -2,7 +2,14 @@ import Link from "next/link";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/dist/client/router";
-import { Fragment, useEffect, useRef, useState, CSSProperties } from "react";
+import {
+  Fragment,
+  useEffect,
+  useRef,
+  useState,
+  CSSProperties,
+  useCallback,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -16,7 +23,7 @@ import {
   selectLoggedInAsAdmin,
 } from "../../../utils/redux-store/adminSlice";
 
-import UserNavbar from "./user-narbar";
+import UserNavbar from "./user-navbar";
 import AdminSignOutModal from "./../../admin/admin-sign-out-modal";
 
 // UI //
@@ -35,49 +42,48 @@ export default function MainNavigation({ page }: Props) {
   const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
   const pageLoading = useSelector(selectPageLoading);
 
-  const [classname, setClassname] = useState(styles.main_1);
+  const [classname, setClassname] = useState(styles.main_2);
   const [adminModal, setAdminModal] = useState<boolean>(false);
 
   /////////////////////////////////////////////////////////
-  // when user is scrolling, turn the Navbar to transparent
-  let handle: any = null;
-  function createScrollStopListener(
-    element: Window,
-    callback: Function,
-    timeout: number
+  const changeNavbarClassname = useCallback(() => {
+    console.log("checking window Y");
+    if (window.scrollY < 100) {
+      setClassname(styles.main_2);
+    } else {
+      setClassname(styles.main_1);
+    }
+  }, []);
+
+  const scrollStopListener = useCallback(function scrollStop(
+    callback,
+    refresh = 500
   ) {
-    let onScroll = function () {
-      if (handle) {
-        clearTimeout(handle);
-        if (classname !== styles.main_2) {
-          setClassname(styles.main_2);
-        }
-      }
-      handle = setTimeout(callback, timeout || 200); // default 200 ms
-    };
-    element.addEventListener("scroll", onScroll);
-    return function () {
-      element.removeEventListener("scroll", onScroll);
-    };
-  }
+    // Make sure a valid callback was provided
+    if (!callback || typeof callback !== "function") return;
+    // Setup scrolling variable
+    let isScrolling: any;
+    // Listen for scroll events
+    window.addEventListener(
+      "scroll",
+      (event) => {
+        // Clear our timeout throughout the scroll
+        window.clearTimeout(isScrolling);
+
+        console.log("setting to transparent");
+        setClassname(styles.main_2);
+
+        // Set a timeout to run after scrolling ends
+        isScrolling = setTimeout(callback, refresh);
+      },
+      false
+    );
+  },
+  []);
 
   useEffect(() => {
-    console.log("scroll detection in navbar", page);
-    createScrollStopListener(
-      window,
-      function () {
-        if (window.pageYOffset < 200) {
-          setClassname(styles.main_2);
-        } else {
-          setClassname(styles.main_1);
-        }
-      },
-      1500
-    );
-    // return () => {
-    //   clearTimeout(handle);
-    // };
-  }, []);
+    scrollStopListener(changeNavbarClassname);
+  }, [scrollStopListener, changeNavbarClassname]);
   /////////////////////////////////////////////////////////
 
   const adminSignOutHandler = () => {
@@ -115,27 +121,41 @@ export default function MainNavigation({ page }: Props) {
 
   return (
     <main className={classname}>
-      <Grid container justifyContent="space-between" alignItems="center">
-        <Grid item md={2} sm={5} xs={5}>
+      <Grid
+        container
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ height: "70px" }}
+      >
+        <Grid item md={3} sm={5} xs={5} sx={{ height: "70px" }}>
           <Tooltip title="Home page">
-            <div style={{ paddingLeft: "1.5vw" }} onClick={onLogoClickHandler}>
+            <Grid
+              container
+              justifyContent="flex-start"
+              style={{
+                paddingLeft: "5px",
+                height: "70px",
+              }}
+              onClick={onLogoClickHandler}
+            >
               <Image
                 src="/Nextjs-logo-1.svg"
                 alt="NextJS Logo"
-                width={195}
-                height={90}
+                width={165}
+                height={75}
               />
-            </div>
+            </Grid>
           </Tooltip>
         </Grid>
         <Grid
           item
-          md={10}
+          md={9}
           sm={7}
           xs={7}
           container
           justifyContent="space-between"
           alignItems="center"
+          sx={{ height: "70px" }}
         >
           {content}
         </Grid>

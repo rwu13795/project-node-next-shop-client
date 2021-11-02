@@ -59,11 +59,11 @@ export default function UserIcon({ page }: { page?: string }): JSX.Element {
     </Fragment>
   ) : (
     <Fragment>
-      <Tooltip title="Account settings">
-        <Box onClick={userIconHandler}>
+      <Box onClick={userIconHandler}>
+        <Tooltip title="Account settings">
           <Avatar className={styles.user_icon}>R</Avatar>
-        </Box>
-      </Tooltip>
+        </Tooltip>
+      </Box>
 
       <Menu
         disableScrollLock={true}

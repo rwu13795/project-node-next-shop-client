@@ -81,11 +81,11 @@ export default function SelectCategory(props: Props): JSX.Element {
     <Fragment>
       <Grid
         item
-        container
-        xs={12}
-        sm={6}
-        md={12}
-        className={styles.form_grid_center}
+        // container
+        // xs={12}
+        // sm={6}
+        // md={12}
+        // className={styles.form_grid_center}
       >
         <FormControl error={error_main} className={styles.form_control}>
           <InputLabel id="main-cat-select">Main-Category</InputLabel>
@@ -123,11 +123,11 @@ export default function SelectCategory(props: Props): JSX.Element {
 
       <Grid
         item
-        container
-        xs={12}
-        sm={6}
-        md={12}
-        className={styles.form_grid_center}
+        // container
+        // xs={12}
+        // sm={6}
+        // md={12}
+        // className={styles.form_grid_center}
       >
         <FormControl error={error_sub} className={styles.form_control}>
           <InputLabel id="sub-cat-select">Sub-Category</InputLabel>

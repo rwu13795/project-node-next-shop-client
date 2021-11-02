@@ -1,4 +1,4 @@
-import { Fragment, ChangeEvent, MouseEvent, Dispatch } from "react";
+import { ChangeEvent, Dispatch, useState } from "react";
 import Image from "next/image";
 
 import { inputNames } from "../../../utils/enums-types/input-names";
@@ -10,16 +10,7 @@ import {
 import { Actions } from "../../../utils/enums-types/product-reducer-actions";
 
 // UI //
-import {
-  TextField,
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  IconButton,
-  Grid,
-  Box,
-  Tooltip,
-} from "@mui/material";
+import { InputLabel, Grid, Box, Tooltip, Button } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
@@ -35,6 +26,8 @@ interface Props {
 
 export default function AddImage(props: Props): JSX.Element {
   const { colorProps, listIndex, dispatch, editMode, propError } = props;
+
+  const [editImage, setEditImage] = useState<boolean>(false);
 
   const addImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const newImage = (e.target.files as FileList)[0];
@@ -65,14 +58,25 @@ export default function AddImage(props: Props): JSX.Element {
     });
   };
 
+  const editImageHandler = () => {
+    setEditImage((prev) => !prev);
+  };
+
   return (
     <Grid item container className={styles.form_grid_center}>
       {colorProps.imageFiles.length > 0 &&
-        colorProps.imageFiles.map((file, imageIndex) => {
-          return (
-            <Box key={imageIndex} className={styles.image_box}>
-              {/* have to change the "htmlfor" and "id" dynamically, otherwise the first label/input will
+        (editImage ? (
+          <Button onClick={editImageHandler}>Cancel</Button>
+        ) : (
+          <Button onClick={editImageHandler}>Edit</Button>
+        ))}
+
+      {colorProps.imageFiles.map((file, imageIndex) => {
+        return (
+          <Box key={imageIndex} className={styles.image_box}>
+            {/* have to change the "htmlfor" and "id" dynamically, otherwise the first label/input will
                 always be triggered since all the labels have the same "htmlFor" and "id"  */}
+            {editImage && (
               <Grid
                 container
                 flexDirection="row"
@@ -83,7 +87,7 @@ export default function AddImage(props: Props): JSX.Element {
                 {/* Note: opacity is used to hide the file input instead of visibility: hidden or 
                 display: none, because assistive technology interprets the latter two styles to mean 
                 the file input isn't interactive. */}
-                <Tooltip title="Replace image">
+                <Tooltip title="Change">
                   <Box>
                     <InputLabel
                       htmlFor={`relace-image-${listIndex}-${imageIndex}`}
@@ -100,28 +104,27 @@ export default function AddImage(props: Props): JSX.Element {
                     />
                   </Box>
                 </Tooltip>
-                <Tooltip title="Remove image">
+                <Tooltip title="Remove">
                   <Box onClick={() => removeImageHandler(imageIndex)}>
                     <CancelIcon className={styles.image_button} />
                   </Box>
                 </Tooltip>
               </Grid>
+            )}
 
-              <Image
-                src={
-                  typeof file === "string" ? file : URL.createObjectURL(file)
-                }
-                alt="selected image"
-                width={180}
-                height={180}
-              />
-              <Box className={styles.image_file_text}>
+            <Image
+              src={typeof file === "string" ? file : URL.createObjectURL(file)}
+              alt="selected image"
+              width={180}
+              height={180}
+            />
+            {/* <Box className={styles.image_file_text}>
                 {file}
                 {typeof file !== "string" && file.name}
-              </Box>
-            </Box>
-          );
-        })}
+              </Box> */}
+          </Box>
+        );
+      })}
       <Box className={styles.image_box}>
         <Grid
           container

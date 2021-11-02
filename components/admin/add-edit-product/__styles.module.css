@@ -42,8 +42,8 @@
 }
 
 .form_control {
-  margin-right: 0.5rem;
-  margin-left: 0.5rem;
+  /* margin-right: 0.5rem;
+  margin-left: 0.5rem; */
   width: 40vw;
   min-width: 15rem;
   max-width: 35rem;
@@ -84,13 +84,15 @@
 .desc_box {
   width: 70vw;
   min-width: 15rem;
-  max-width: 40rem;
+  max-width: 50rem;
 }
 
 .colorProps_grid {
-  margin-bottom: 0.5rem;
+  margin: 1.5rem 0 0.5rem 0;
   padding-bottom: 2rem;
   border-bottom: dashed rgb(0, 138, 180) 2px;
+  border: rgb(165, 164, 164) 1px solid;
+  border-radius: 0.5rem;
 }
 
 .color_menu_ball {

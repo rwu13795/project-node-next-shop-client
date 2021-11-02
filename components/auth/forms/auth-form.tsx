@@ -1,45 +1,33 @@
 import React, { useState, ChangeEvent, FocusEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Link from "next/link";
 
-import { Button, CircularProgress, SelectChangeEvent } from "@mui/material";
+import { CircularProgress, SelectChangeEvent } from "@mui/material";
 
 import {
   InputValues,
   onBlurErrorCheck,
   onChangeErrorCheck,
   onFocusErrorCheck,
-  onSubmitErrorCheck,
 } from "../../../utils/helper-functions/input-error-check";
-import { inputNames } from "../../../utils/enums-types/input-names";
 import {
   Touched,
   Errors,
 } from "../../../utils/helper-functions/input-error-check";
 import {
-  signIn,
-  signUp,
   clearAuthErrors,
-  selectAuthErrors,
-  selectLoadingStatus_user,
   AuthErrors,
 } from "../../../utils/redux-store/userSlice";
-import Redirect_signedUp_to_homePage from "../redirect-signed-up";
+
 import { inputTypes } from "../../../utils/enums-types/input-types";
 import renderInputFields from "../../../utils/helper-functions/render-input-fields";
 import {
   AdminErrors,
-  adminRegister,
-  adminSignIn,
   clearAdminErrors,
-  selectAdminErrors,
-  selectLoadingStatus_admin,
 } from "../../../utils/redux-store/adminSlice";
 import UserSignIn from "./user-sign-in";
 import UserSignUp from "./user-sign-up";
 import AdminSignIn from "../../admin/admin-sign-in";
 import AdminRegister from "../../admin/admin-register";
-import ForgotPasswordReset from "./forgot-pw-reset";
 import { initializeValues } from "../../../utils/helper-functions/initialize-values";
 
 interface Props {
@@ -47,8 +35,6 @@ interface Props {
   inputFieldsArray: string[]; // contains inputNames
   modalHandleClose?: () => void; // MUI modal function to close the modal
 }
-
-const styles = {};
 
 export default function AuthForm({
   inputType,

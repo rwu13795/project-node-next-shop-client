@@ -1,14 +1,7 @@
-import {
-  Dispatch,
-  Fragment,
-  SetStateAction,
-  useCallback,
-  useRef,
-  useState,
-} from "react";
+import React, { Fragment, useState } from "react";
 import Image from "next/image";
 
-import { Grid } from "@mui/material";
+import { Grid, Box } from "@mui/material";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Pagination, Navigation } from "swiper";
@@ -19,7 +12,6 @@ import "swiper/css/navigation";
 import styles from "./__swiper-homePage.module.css";
 import { MainCategory } from "../../../utils/enums-types/product-category";
 import Swiper_horizontal_NavButton from "./nav-button";
-import zIndex from "@mui/material/styles/zIndex";
 
 SwiperCore.use([Pagination, Navigation]);
 
@@ -39,6 +31,7 @@ export default function Swiper_homePage_horizontal({
   return (
     <Fragment>
       <Swiper
+        // autoHeight={true} // the height of the swiper-wrapper that wraps the "slides"
         onSlideChange={onSlideChangeHandler}
         slidesPerView={1}
         spaceBetween={50}
@@ -47,22 +40,73 @@ export default function Swiper_homePage_horizontal({
           nextEl: ".swiper-horizontal-next-botton",
           prevEl: ".swiper-horizontal-prev-botton",
         }}
-        style={{
-          height: "95vh",
-          maxWidth: "100vw",
-          objectFit: "cover",
-        }}
         className="mySwiper"
+        style={{
+          position: "relative",
+          display: "block",
+          width: "100vw",
+          height: "100%",
+          backgroundColor: "teal",
+        }}
+        // wrapperClass={styles.swiper_custom_wrapper}
       >
+        <div></div>
         {srcProp.md.map((src, index) => {
-          return (
+          return index === 0 ? (
+            <SwiperSlide
+              key={index}
+              style={{
+                position: "relative",
+                display: "block",
+                width: "100vw",
+                height: "100%",
+
+                // objectFit: "cover",
+              }}
+            >
+              <Grid item container style={slide_small.slide}>
+                {sm.map((src, index) => {
+                  let top, left, width, height;
+                  top = 7 + index * 11;
+                  left = 10 + index * 16;
+                  width = 130;
+                  height = 480;
+                  return (
+                    <Box
+                      key={index + src}
+                      style={{
+                        width: "20%",
+                        maxWidth: `${width}px`,
+                        position: "absolute",
+                        top: `${top}%`,
+                        left: `${left}%`,
+                        backgroundColor: "black",
+                      }}
+                      sx={{ boxShadow: 15 }}
+                    >
+                      <Image
+                        src={src}
+                        alt={src}
+                        width={width}
+                        height={height}
+                        // blurDataURL={prop.sm_blur[index]}
+                        // placeholder="blur"
+                        // loading="eager"
+                      />
+                    </Box>
+                  );
+                })}
+              </Grid>
+            </SwiperSlide>
+          ) : (
             <SwiperSlide
               key={src + index}
               style={{
                 position: "relative",
-                maxHeight: "95vh",
-                maxWidth: "100vw",
-                backgroundColor: "#ccc",
+                display: "block",
+                width: "100vw",
+                height: "100%",
+                // objectFit: "cover",
               }}
             >
               <Image
@@ -70,14 +114,15 @@ export default function Swiper_homePage_horizontal({
                 src={src}
                 alt={src}
                 layout="fill"
-                // width={1000}
-                // height={850}
+                // width={3000}
+                // height={2500}
                 // blurDataURL={prop.md}
                 // placeholder="blur"
                 // loading="eager"
               />
             </SwiperSlide>
           );
+          // );
         })}
         <div className={styles.horizontal_navbar}>
           <Swiper_horizontal_NavButton
@@ -89,3 +134,32 @@ export default function Swiper_homePage_horizontal({
     </Fragment>
   );
 }
+
+const sm = [
+  "/home/women-sm-1.jpg",
+  "/home/women-sm-2.jpg",
+  "/home/women-sm-3.jpg",
+  "/home/women-sm-4.jpg",
+  "/home/women-sm-5.jpg",
+];
+
+import { CSSProperties } from "react";
+
+export const slide_small = {
+  title: {
+    position: "absolute",
+    top: "13%",
+    left: "60vw",
+    fontSize: "3.5vw",
+  } as CSSProperties,
+  slide: {
+    paddingTop: "0rem",
+    // margin: "-2 5vh 10vw 5vh",
+    width: "100vw",
+    height: "100%",
+    // minHeight: "100vh",
+    backgroundImage:
+      "url('/background/abstract_rainbow_colors-wallpaper-1920x1200.jpg')",
+    backgroundSize: "contain, cover",
+  } as CSSProperties,
+};

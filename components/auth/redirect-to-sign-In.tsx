@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
-import { Fragment } from "react";
 import Router from "next/router";
-import {
-  clearAuthErrors,
-  setLoadingStatus,
-} from "../../utils/redux-store/userSlice";
+
 import { useDispatch } from "react-redux";
 
 interface Props {

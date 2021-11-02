@@ -6,7 +6,7 @@ import { mainCatArray } from "../../../utils/enums-types/product-category";
 import MeunListDrawer from "./menu-list-drawer";
 
 // UI //
-import { Drawer, Box, Grid, Divider } from "@mui/material";
+import { Drawer, Box, Grid, Divider, Tooltip } from "@mui/material";
 import MenuSharpIcon from "@mui/icons-material/MenuSharp";
 import CancelPresentationSharpIcon from "@mui/icons-material/CancelPresentationSharp";
 import styles from "./__menu-list.module.css";
@@ -24,7 +24,9 @@ export default function MenuIcon(): JSX.Element {
   return (
     <Fragment>
       <Box onClick={openMenu}>
-        <MenuSharpIcon className={styles.menu_icon} />
+        <Tooltip title="Menu">
+          <MenuSharpIcon className={styles.menu_icon} />
+        </Tooltip>
       </Box>
 
       <Drawer

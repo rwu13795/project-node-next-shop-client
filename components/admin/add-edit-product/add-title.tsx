@@ -33,11 +33,11 @@ export default function AddTitle(props: Props): JSX.Element {
   return (
     <Grid
       item
-      container
-      xs={12}
-      sm={6}
-      md={12}
-      className={styles.form_grid_center}
+      // container
+      // xs={12}
+      // sm={6}
+      // md={12}
+      // className={styles.form_grid_center}
     >
       <FormControl error={error} className={styles.form_control}>
         <TextField

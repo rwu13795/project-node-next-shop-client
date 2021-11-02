@@ -1,6 +1,5 @@
 import { NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
-import Link from "next/link";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 

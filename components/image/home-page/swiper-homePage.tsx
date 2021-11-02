@@ -30,28 +30,35 @@ export default function Swiper_homePage({}: Props): JSX.Element {
 
   useEffect(() => {
     if (slideEnd) {
+      console.log("slide end");
       dispatch(setLockScrollBar(false));
       // sligtly scroll down a bit, so that window can listen to the "scrollTop == 0" below
-      let id = setTimeout(() => (document.documentElement.scrollTop = 5), 300);
-      // return () => {
-      //   clearTimeout(id);
-      // };
     }
   }, [slideEnd, dispatch]);
 
-  useEffect(() => {
-    if (slideEnd) {
-      window.onscroll = () => {
-        if (document.documentElement.scrollTop == 0) {
-          setSlideEnd(false);
-        }
-      };
-    }
-  }, [slideEnd, dispatch]);
+  // useEffect(() => {
+  //   if (slideEnd) {
+
+  //     // window.onscroll = () => {
+  //     //   console.log("window on scroll");
+  //     //   if (document.documentElement.scrollTop == 0) {
+  //     //     setSlideEnd(false);
+  //     //   }
+  //     // };
+  //   }
+  //   return () => {
+  //     window.onscroll = null;
+  //   };
+  // }, [slideEnd, dispatch]);
 
   return (
-    <div>
-      <Swiper_homePage_vertical setSlideEnd={setSlideEnd} />
+    // While using "%" to set height and width, all elements Node in the chain must
+    // have their styles set as "height: xx%; width: xx%"
+    // if one of the node misses this styles, all the children belong to this node
+    // won't get the height and width from the root node
+
+    <div style={{ height: "100%", overflow: "hidden" }}>
+      <Swiper_homePage_vertical setSlideEnd={setSlideEnd} slideEnd={slideEnd} />
     </div>
   );
 }

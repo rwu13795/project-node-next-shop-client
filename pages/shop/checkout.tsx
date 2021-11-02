@@ -10,7 +10,6 @@ import { Box, Tab, Grid } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 import { inputNames } from "../../utils/enums-types/input-names";
-import { inputTypes } from "../../utils/enums-types/input-types";
 import {
   checkStock,
   selectCart,

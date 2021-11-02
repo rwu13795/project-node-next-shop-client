@@ -7,7 +7,7 @@ import SearchSharpIcon from "@mui/icons-material/SearchSharp";
 import styles from "./__search-bar.module.css";
 
 const smallProps = {
-  display: { xs: "flex", md: "none" },
+  display: { xs: "flex", md: "flex" },
   width: "60vw",
   inputProps: `${styles.input_props_small}`,
   InputLabelProps: `${styles.input_label_props_small}`,

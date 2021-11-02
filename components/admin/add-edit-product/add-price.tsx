@@ -10,7 +10,6 @@ import {
 
 // UI //
 import {
-  TextField,
   FormHelperText,
   FormControl,
   InputLabel,
@@ -43,11 +42,11 @@ export default function AddPrice(props: Props): JSX.Element {
   return (
     <Grid
       item
-      container
-      xs={12}
-      sm={6}
-      md={12}
-      className={styles.form_grid_center}
+      // container
+      // xs={12}
+      // sm={6}
+      // md={12}
+      // className={styles.form_grid_center}
     >
       <FormControl className={styles.form_control} error={error}>
         <InputLabel htmlFor="outlined-price">Price</InputLabel>

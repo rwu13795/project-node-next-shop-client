@@ -1,12 +1,15 @@
 .main {
   margin-left: min(5%, 4rem);
   margin-right: min(5%, 4rem);
+  margin-bottom: 4rem;
+  height: auto;
 }
 
 .page_grid {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 .main_title {

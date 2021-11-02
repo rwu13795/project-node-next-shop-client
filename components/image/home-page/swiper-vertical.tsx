@@ -1,12 +1,4 @@
-import {
-  Dispatch,
-  Fragment,
-  SetStateAction,
-  useCallback,
-  useRef,
-  useState,
-} from "react";
-import Image from "next/image";
+import { Dispatch, Fragment, SetStateAction } from "react";
 
 import { Grid } from "@mui/material";
 
@@ -16,9 +8,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import { MainCategory } from "../../../utils/enums-types/product-category";
-
-import Swiper_home from "../home-page-1/swiper";
 import { setLockScrollBar } from "../../../utils/redux-store/layoutSlice";
 import { useDispatch } from "react-redux";
 import { CSSProperties } from "react-transition-group/node_modules/@types/react";
@@ -28,18 +17,18 @@ import Swiper_homePage_horizontal from "./swiper-horizontal";
 import styles from "./__swiper-homePage.module.css";
 import { homeImageProps } from "./image-props";
 import { PaginationOptions } from "swiper/types/modules/pagination";
-
-// import "./__styles.css";
+import { TrainOutlined } from "@mui/icons-material";
 
 SwiperCore.use([Pagination, Navigation, Mousewheel]);
 
 interface Props {
   setSlideEnd: Dispatch<SetStateAction<boolean>>;
+  slideEnd: boolean;
 }
 
 const paginationOption: PaginationOptions = {
   // NOTE (2) //
-  el: ".horizontal-navbar",
+  el: ".vertical-navbar",
   bulletClass: styles.swiper_pagination_bullet,
   bulletActiveClass: styles.swiper_pagination_bullet_active,
   clickable: true,
@@ -52,19 +41,26 @@ const paginationOption: PaginationOptions = {
 
 export default function Swiper_homePage_vertical({
   setSlideEnd,
+  slideEnd,
 }: Props): JSX.Element {
   const dispatch = useDispatch();
 
   // NOTE (3) //
   const reachEndHandler = () => {
-    setTimeout(() => setSlideEnd(true), 500);
+    console.log("slide end in veritcal");
+    setTimeout(() => setSlideEnd(true), 300);
+  };
+
+  const slideChangeHandler = () => {
+    dispatch(setLockScrollBar(true));
+    setSlideEnd(false);
   };
 
   return (
     <Fragment>
       <Swiper
         className="mySwiper"
-        onSlideChange={() => dispatch(setLockScrollBar(true))}
+        onSlideChange={slideChangeHandler}
         onReachEnd={reachEndHandler}
         mousewheel={{
           releaseOnEdges: true,
@@ -79,30 +75,43 @@ export default function Swiper_homePage_vertical({
       >
         {homeImageProps.map((prop, index) => {
           return (
-            <SwiperSlide key={index + prop.category} style={swiperStyle}>
+            <SwiperSlide
+              key={index + prop.category}
+              style={{
+                position: "relative",
+                height: "100%",
+                width: "100vw",
+              }}
+            >
               <Swiper_homePage_horizontal srcProp={prop} />
             </SwiperSlide>
           );
         })}
-        <div className="horizontal-navbar" style={horizontal_navbar}></div>
+        <div className="vertical-navbar" style={vertical_navbar}></div>
       </Swiper>
     </Fragment>
   );
 }
 
+// style={swiperStyle}
+//
+
 const swiperStyle: CSSProperties = {
-  maxHeight: "93.5vh",
-  maxWidth: "100vw",
-  backgroundColor: "#008ab4",
-  objectFit: "cover",
+  position: "relative",
+  display: "block",
+  width: "100vw",
+  height: "100%",
+  // objectFit: "cover",
 };
 
-const horizontal_navbar: CSSProperties = {
+const vertical_navbar: CSSProperties = {
   position: "absolute",
   left: "min(1.5rem, 1.9vw)",
+  // left: "20%",
+  top: "43vh",
   zIndex: 99,
-  width: "20px",
-  height: "80vh",
+  width: "25px",
+  height: "300px",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",

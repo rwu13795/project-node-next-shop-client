@@ -1,21 +1,7 @@
-import axios from "axios";
 import { GetServerSidePropsContext, NextPage } from "next";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 
-import {
-  PageProductProps,
-  PageColorProps,
-} from "../../utils/react-hooks/get-more-products";
-import SelectSize from "../../components/shop/product/select-size";
-import SelectQuantity from "../../components/shop/product/select-quantity";
-import {
-  Errors,
-  onChangeErrorCheck,
-} from "../../utils/helper-functions/input-error-check";
-import { inputNames } from "../../utils/enums-types/input-names";
-import { addToCartSession } from "../../utils/redux-store/userSlice";
+import { PageProductProps } from "../../utils/react-hooks/get-more-products";
+
 import ProductDetail from "../../components/shop/product/product-detail";
 import serverClient from "../../utils/axios-client/server-client";
 

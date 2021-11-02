@@ -1,8 +1,8 @@
 .input_props {
-  font-size: min(2vw, 23px);
+  font-size: 15px;
 }
 .input_label_props {
-  font-size: min(1.2vw, 15px);
+  font-size: 15px;
 }
 
 .input_props_small {
@@ -22,11 +22,11 @@
 }
 
 .search_icon {
-  width: 7.7vw;
-  height: 7.7vw;
+  width: 38px;
+  height: 38px;
   color: black;
-  max-width: 53px;
-  max-height: 53px;
+  /* max-width: 53px;
+  max-height: 53px; */
   border-radius: 2rem;
   transition: ease-in 0.3s;
 }

@@ -2,11 +2,11 @@ import { Fragment, useEffect, useRef, useState, CSSProperties } from "react";
 
 import { Divider, Grid, TextField, Box, Tooltip } from "@mui/material";
 
-import UserIcon from "./../navbar-items/user-icon";
-import CartIcon from "./../navbar-items/cart-icon";
-import SearchIcon from "./../navbar-items/search-icon";
-import MenuList from "./../navbar-items/menu-list";
-import MenuIcon from "./../navbar-items/menu-icon";
+import UserIcon from "../navbar-items/user-icon";
+import CartIcon from "../navbar-items/cart-icon";
+import SearchIcon from "../navbar-items/search-icon";
+import MenuList from "../navbar-items/menu-list";
+import MenuIcon from "../navbar-items/menu-icon";
 
 export default function UserNavbar({ page }: { page?: string }): JSX.Element {
   const [showMenu_nav, setShowMenu_nav] = useState<boolean>(false);
@@ -26,7 +26,7 @@ export default function UserNavbar({ page }: { page?: string }): JSX.Element {
         justifyContent="flex-start"
         alignItems="center"
         wrap="nowrap"
-        sx={{ pr: 2, pb: 3, pt: 3, display: { xs: "none", md: "flex" } }}
+        sx={{ pr: 2, pt: 2, pb: 2, display: { xs: "none", md: "flex" } }}
         onMouseLeave={onLeaveMenuGrid}
       >
         <MenuList

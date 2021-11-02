@@ -1,12 +1,11 @@
 .footer {
   width: 100%;
   border-top: 2px solid black;
-  display: block;
+  display: flex;
   justify-content: center;
   align-items: center;
-  /* position: absolute; */
-  height: 200px;
-  bottom: 0;
+  position: relative;
+  height: 500px;
 }
 
 .logo {

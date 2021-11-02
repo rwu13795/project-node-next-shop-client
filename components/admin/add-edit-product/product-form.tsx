@@ -1,17 +1,7 @@
 import { useRouter } from "next/dist/client/router";
-import React, {
-  useReducer,
-  ChangeEvent,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-  Fragment,
-} from "react";
+import React, { Dispatch, SetStateAction, Fragment } from "react";
 
-import {
-  Errors,
-  onChangeErrorCheck,
-} from "../../../utils/helper-functions/input-error-check";
+import { Errors } from "../../../utils/helper-functions/input-error-check";
 import {
   ActionType,
   ReducerColorProps,
@@ -26,7 +16,7 @@ import AddDescription from "./add-description";
 import AddColorsProps from "./add-color-props";
 
 // UI //
-import { Divider, SelectChangeEvent, Grid, Box, Button } from "@mui/material";
+import { Grid, Button } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import SaveIcon from "@mui/icons-material/Save";
@@ -78,8 +68,22 @@ export default function ProductForm(props: Props): JSX.Element {
       <Grid item container justifyContent="center" md={6}>
         <div className={main_styles.text_3}>Product Info</div>
       </Grid>
-      <Grid item container flexDirection="row" alignItems="flex-start">
-        <Grid item container xs={12} md={6}>
+      <Grid
+        item
+        container
+        // flexDirection="row"
+        // justifyContent="center"
+        // alignItems="center"
+      >
+        <Grid
+          item
+          container
+          xs={12}
+          md={6}
+          flexDirection="row"
+          justifyContent="center"
+          alignItems="center"
+        >
           <SelectCategory
             dispatchAddInfo={dispatchAddInfo}
             productInfo={productInfo}

@@ -11,6 +11,7 @@ import Footer from "./footer";
 
 import { Grid } from "@mui/material";
 import { selectLockScrollBar } from "../../utils/redux-store/layoutSlice";
+import { border } from "@mui/system";
 
 interface Prop {
   children: React.ReactNode;
@@ -59,13 +60,16 @@ export default function Layout(props: Prop): JSX.Element {
 
     <main className={classes.root_page_layout} style={scrollBarStyle}>
       <ThemeProvider theme={theme}>
+        {/* <div style={{ height: "100%" }}> */}
+        {/* <Grid container className={classes.root_page_grid}> */}
         <MainNavigation page={props.page} />
-        <Grid container className={classes.root_page_grid}>
-          <Grid item className={classes.root_page_body}>
-            <main>{props.children}</main>
-          </Grid>
-        </Grid>
+        {/* <Grid item className={classes.root_page_body}> */}
+
+        <main>{props.children}</main>
+        {/* </Grid> */}
+        {/* </Grid> */}
         <Footer />
+        {/* </div> */}
       </ThemeProvider>
     </main>
   );

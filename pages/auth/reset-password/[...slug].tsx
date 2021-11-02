@@ -1,5 +1,4 @@
 import { GetServerSidePropsContext, NextPage } from "next";
-import AuthForm from "../../../components/auth/forms/auth-form";
 
 import serverClient from "../../../utils/axios-client/server-client";
 import ForgotPasswordReset from "../../../components/auth/forms/forgot-pw-reset";

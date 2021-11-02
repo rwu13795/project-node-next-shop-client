@@ -1,15 +1,18 @@
 .main_1 {
   font-family: "Oswald", sans-serif;
   /* letter-spacing: 0.06em; */
-  font-size: min(2vw, 1.9rem);
-  position: -webkit-sticky;
-  position: fixed;
+  font-size: 20px;
+  position: sticky;
+  /* while using sticky position, you must specify the Y-axis where the
+  element should stick to */
   top: 0;
   z-index: 99;
-  min-height: 2.8rem;
+  /* min-height: 2.8rem; */
+  height: 70px;
+
   min-width: 100%;
   background-color: white;
-  transition: background-color 1s;
+  transition: 1s;
 }
 /* 
 font-family: 'Black Ops One', cursive;
@@ -18,11 +21,14 @@ font-family: 'Monofett', cursive;
 .main_2 {
   font-family: "Oswald", sans-serif;
   /* letter-spacing: 0.06em; */
-  font-size: min(2vw, 1.9rem);
-  position: fixed;
+  font-size: 20px;
+  position: sticky;
   top: 0;
   z-index: 99;
-  min-height: 2.8rem;
+  /* min-height: 2.8rem; */
+  height: 70px;
+
   min-width: 100%;
+
   transition: 0.3s;
 }

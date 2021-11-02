@@ -10,7 +10,15 @@ import {
 import CartDetail from "../../shop/cart/cart-detail";
 
 // UI //
-import { Collapse, Box, Fade, Paper, Menu, IconButton } from "@mui/material";
+import {
+  Collapse,
+  Box,
+  Fade,
+  Paper,
+  Menu,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import LocalMallSharpIcon from "@mui/icons-material/LocalMallSharp";
@@ -48,7 +56,9 @@ export default function CartIcon(): JSX.Element {
   return (
     <Fragment>
       <Box onClick={handleClick} onMouseEnter={openMenu}>
-        <LocalMallIcon className={styles.cart_icon} />
+        <Tooltip title="Shopping bag">
+          <LocalMallIcon className={styles.cart_icon} />
+        </Tooltip>
       </Box>
       <div className={styles.cart_icon_number}>{cart.length}</div>
 

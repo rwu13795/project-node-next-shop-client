@@ -3,7 +3,7 @@ import { Fragment, useState, FormEvent } from "react";
 import SearchInputBar from "./search-input-bar";
 
 // UI //
-import { Divider, Grid, TextField, Box, Drawer } from "@mui/material";
+import { Divider, Grid, TextField, Box, Drawer, Tooltip } from "@mui/material";
 import SearchSharpIcon from "@mui/icons-material/SearchSharp";
 import CancelPresentationSharpIcon from "@mui/icons-material/CancelPresentationSharp";
 import styles from "./__search-bar.module.css";
@@ -20,10 +20,14 @@ export default function SearchIcon(): JSX.Element {
 
   return (
     <Fragment>
-      <SearchInputBar size="medium" />
+      <Box>
+        <SearchInputBar size="medium" />
+      </Box>
 
       <Box sx={{ display: { xs: "block", md: "none" } }} onClick={openMenu}>
-        <SearchSharpIcon className={styles.search_icon} />
+        <Tooltip title="Search">
+          <SearchSharpIcon className={styles.search_icon} />
+        </Tooltip>
       </Box>
 
       <Drawer open={isDrawerOpen} onClose={closeMenu} anchor="top">

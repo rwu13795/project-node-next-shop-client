@@ -60,11 +60,13 @@ const MenTshirtsPage: NextPage<PageProps> = ({ products: startProducts }) => {
   /////////////////////////////
 
   return (
-    <RenderSubCatImage
-      products={products}
-      isLoading={isLoading}
-      lastElementRef={lastElementRef}
-    />
+    <div>
+      <RenderSubCatImage
+        products={products}
+        isLoading={isLoading}
+        lastElementRef={lastElementRef}
+      />
+    </div>
   );
 };
 

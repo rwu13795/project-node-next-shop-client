@@ -13,7 +13,6 @@ import {
   Touched,
 } from "../../../utils/helper-functions/input-error-check";
 import {
-  AuthErrors,
   clearAuthErrors,
   resetPassword,
   selectAuthErrors,

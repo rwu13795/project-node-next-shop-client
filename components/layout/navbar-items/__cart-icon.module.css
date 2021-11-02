@@ -1,9 +1,9 @@
 .cart_icon {
-  width: 7.7vw;
-  height: 7.7vw;
+  width: 45px;
+  height: 45px;
   color: black;
-  max-width: 51px;
-  max-height: 51px;
+  /* max-width: 51px;
+  max-height: 51px; */
   cursor: pointer;
   /* border-radius: 2rem; */
   transition: 0.3s ease-in-out;
@@ -14,19 +14,34 @@
 }
 
 .cart_icon_number {
-  font-size: min(2.9vw, 20px);
+  font-size: 16px;
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
   background-color: black;
   color: white;
   border-radius: 1.5rem;
-  border: solid 0.5px white;
-  width: 4.6vw;
-  height: 4.6vw;
-  max-width: 31px;
-  max-height: 31px;
+  border: solid 1px white;
+  width: 25px;
+  height: 25px;
+  /* max-width: 31px;
+  max-height: 31px; */
   text-align: center;
+}
+
+@media screen and (max-width: 775px) {
+  .cart_icon {
+    width: 38px;
+    height: 38px;
+  }
+  .cart_icon_number {
+    font-size: 11px;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 18px;
+    height: 18px;
+  }
 }
 
 .cart_summary_menu {

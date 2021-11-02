@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, Fragment, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 import SelectColor from "./select-color";
 import { inputNames } from "../../../utils/enums-types/input-names";

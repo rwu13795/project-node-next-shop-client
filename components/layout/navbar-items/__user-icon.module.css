@@ -1,14 +1,15 @@
 /* user icon */
 .user_icon {
-  font-size: min(4.2vw, 33px);
-  width: 6.2vw;
-  height: 6.2vw;
+  font-size: 28px;
+  width: 35px;
+  height: 35px;
   background-color: black;
   border: black solid 2px;
-  max-width: 39px;
-  max-height: 39px;
+  /* max-width: 39px;
+  max-height: 39px; */
   text-align: center;
   transition: 0.3s ease-in-out;
+  margin-bottom: 5px;
 }
 .user_icon:hover {
   background-color: rgb(0, 138, 180);
@@ -18,14 +19,21 @@
   cursor: pointer;
   transition: 0.3s ease-in-out;
 }
+@media screen and (max-width: 775px) {
+  .user_icon {
+    font-size: 23px;
+    width: 30px;
+    height: 30px;
+  }
+}
 
 .user_icon_guest {
   /* margin-top: 0.4rem; */
-  width: 7.7vw;
-  height: 7.7vw;
+  width: 45px;
+  height: 45px;
   color: black;
-  max-width: 53px;
-  max-height: 53px;
+  /* max-width: 53px;
+  max-height: 53px; */
   border-radius: 2rem;
   transition: 0.3s ease-in-out;
 }
@@ -36,19 +44,25 @@
   transition: 0.3s ease-in-out;
   cursor: pointer;
 }
+@media screen and (max-width: 775px) {
+  .user_icon_guest {
+    width: 38px;
+    height: 38px;
+  }
+}
 
 .user_icon_sub {
-  width: 5.5vw;
-  height: 5.5vw;
+  width: 7vw;
+  height: 7vw;
   color: black;
-  max-width: 45px;
-  max-height: 45px;
+  max-width: 30px;
+  max-height: 30px;
   text-align: center;
   margin-right: 1vw;
 }
 .user_icon_sub_text {
   font-family: "Oswald", sans-serif;
-  font-size: min(4.5vw, 40px);
+  font-size: min(6vw, 25px);
   text-align: center;
   color: black;
 }

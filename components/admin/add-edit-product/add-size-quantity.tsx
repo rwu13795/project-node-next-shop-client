@@ -1,10 +1,9 @@
-import { ChangeEvent, Dispatch, Fragment, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
 import { inputNames } from "../../../utils/enums-types/input-names";
 import {
   ActionType,
   ReducerColorProps,
-  ReducerProductInfo,
 } from "../../../utils/react-hooks/add-product-reducer";
 import { AddInfoEvents } from "../../../pages/admin/add-product";
 import { Actions } from "../../../utils/enums-types/product-reducer-actions";
