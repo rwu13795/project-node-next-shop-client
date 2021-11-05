@@ -5,6 +5,8 @@ import { PageProductProps } from "../../utils/react-hooks/get-more-products";
 import ProductDetail from "../../components/shop/product/product-detail";
 import serverClient from "../../utils/axios-client/server-client";
 
+import styles from "./__product-detail.module.css";
+
 interface PageProps {
   product: PageProductProps;
 }
@@ -20,7 +22,9 @@ const ProductDetailPage: NextPage<PageProps> = ({ product }) => {
 export default ProductDetailPage;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const productId = context.params?.product_id as string;
+  const param = context.params?.product_id as string;
+  console.log(param);
+  const productId = param.slice(param.length - 24);
 
   const client = serverClient(context);
 

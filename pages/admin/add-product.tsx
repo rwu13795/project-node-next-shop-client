@@ -101,7 +101,7 @@ const AddProductPage: NextPage<PageProps> = ({
 
   return (
     <main className={styles.main}>
-      <Grid container className={styles.page_grid}>
+      <Grid container className={styles.main_grid}>
         <div className={styles.main_title}>Add New Product</div>
         <Divider />
 

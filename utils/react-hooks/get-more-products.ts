@@ -13,7 +13,7 @@ export interface PageColorProps {
 export interface PageProductInfo {
   title: string;
   main_cat: string;
-  sub_cat?: string;
+  sub_cat: string;
   price: number;
   description?: string;
 }
@@ -30,10 +30,14 @@ export default function useGetMoreProducts(
   main_cat: string,
   sub_cat: string
 ) {
-  const [products, setProducts] = useState<PageProductProps[]>(startProducts);
+  const [products, setProducts] = useState<PageProductProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
+
+  useEffect(() => {
+    setProducts(startProducts);
+  }, []);
 
   const ITEMS_PER_PAGE = 4;
 
@@ -62,6 +66,8 @@ export default function useGetMoreProducts(
       setIsLoading(false);
     }
   }, [fetchMoreData, pageNum]);
+
+  console.log("in get more", hasMore);
 
   return { isLoading, error, products, hasMore };
 }

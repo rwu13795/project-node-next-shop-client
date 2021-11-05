@@ -5,11 +5,11 @@
   height: auto;
 }
 
-.page_grid {
+.main_grid {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .main_title {

@@ -1,24 +1,21 @@
-.page_layout {
-  min-height: 90vh;
-}
-
-.page_grid {
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.main {
+  margin-left: min(5%, 4rem);
+  margin-right: min(5%, 4rem);
+  margin-bottom: 4rem;
+  height: 100vh;
 }
 
 .main_grid {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 70vw;
+  /* width: 70vw; */
 }
-@media screen and (min-width: 1400px) {
+/* @media screen and (min-width: 1400px) {
   .main_grid {
     max-width: 60rem;
   }
-}
+} */
 
 .main_grid_item {
   flex-direction: row;

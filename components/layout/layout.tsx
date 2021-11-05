@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { theme } from "../../styles/mui-theme";
-import classes from "./__layout.module.css";
+import styles from "./__layout.module.css";
 
 import MainNavigation from "./navbar/navigation";
 import { checkStock, getUserStatus } from "../../utils/redux-store/userSlice";
@@ -33,7 +33,10 @@ export default function Layout(props: Prop): JSX.Element {
     if (lockScrollBar) {
       setScrollBarStyle({ maxHeight: "100vh", overflow: "hidden" });
     } else {
-      setScrollBarStyle({});
+      // to hidden the weird x-scroll bar in Home page which appears after unlocking
+      // since all the pages' width is under 100vw, so setting the overflowX: "hidden"
+      // won't break anything in all the children pages
+      setScrollBarStyle({ overflowX: "hidden" });
     }
   }, [lockScrollBar]);
 
@@ -58,18 +61,15 @@ export default function Layout(props: Prop): JSX.Element {
     // the <ThemeProvider> here will provide theme for all MUI components inside
     // all the pages
 
-    <main className={classes.root_page_layout} style={scrollBarStyle}>
+    <main className={styles.root_page_layout} style={scrollBarStyle}>
       <ThemeProvider theme={theme}>
-        {/* <div style={{ height: "100%" }}> */}
-        {/* <Grid container className={classes.root_page_grid}> */}
         <MainNavigation page={props.page} />
-        {/* <Grid item className={classes.root_page_body}> */}
 
-        <main>{props.children}</main>
-        {/* </Grid> */}
-        {/* </Grid> */}
+        <main className={styles.main_component}>
+          <div className={styles.main_component_grid}>{props.children}</div>
+        </main>
+
         <Footer />
-        {/* </div> */}
       </ThemeProvider>
     </main>
   );

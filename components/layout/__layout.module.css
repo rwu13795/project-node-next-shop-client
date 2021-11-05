@@ -1,6 +1,7 @@
 .root_page_layout {
-  /* min-height: 110vh; */
+  /* width: 100vw; */
   height: auto;
+  /* overflow-x: hidden; */
   font-family: "Oswald", sans-serif;
   background-image: linear-gradient(
     to right,
@@ -11,21 +12,42 @@
   );
 }
 
-.root_page_grid {
+/* * * * * * * the layout for all the children pages * * * * * * */
+.main_component {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+}
+
+.main_component_grid {
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+}
+@media screen and (min-width: 775px) {
+  .main_component_grid {
+    width: 90vw;
+    max-width: 95rem;
+  }
+}
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+/* .root_page_grid {
   flex-direction: row;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100vh;
-}
+} */
 
 /* page_body is the overall width for the all pages' body */
 /* specific width can be used inside individual page to override this layout*/
 .root_page_body {
   /* margin-top: min(19vw, 19vh); */
   /* width: 100%; */
-  height: calc(100vh - 70px);
-  position: relative;
+  /* height: calc(100vh - 70px); */
+  /* position: relative; */
 
   /* overflow: hidden; */
   /* margin-left: min(3vw, 4rem);

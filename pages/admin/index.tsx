@@ -53,13 +53,13 @@ const AdminPage: NextPage = () => {
   };
 
   return (
-    <main className={styles.page_layout}>
-      {loggedInAsAdmin === true ? (
-        <div>
-          <CircularProgress />
-        </div>
-      ) : isRegistering ? (
-        <Grid container className={styles.main_grid}>
+    <main className={styles.main}>
+      <Grid container className={styles.main_grid}>
+        {loggedInAsAdmin === true ? (
+          <div>
+            <CircularProgress />
+          </div>
+        ) : isRegistering ? (
           <Grid>
             <button onClick={switchHandler}>Sign In</button>
             <div>Or</div>
@@ -70,20 +70,19 @@ const AdminPage: NextPage = () => {
               inputType={inputTypes.adminRegister}
             />
           </Grid>
-        </Grid>
-      ) : (
-        <Grid>
-          <div>Sign In</div>
-          <AuthForm
-            inputFieldsArray={signIn_inputFieldsArray}
-            inputType={inputTypes.adminSignIn}
-          />
-          <hr />
-
-          <div>Or</div>
-          <button onClick={switchHandler}>Register</button>
-        </Grid>
-      )}
+        ) : (
+          <Grid>
+            <div>Sign In</div>
+            <AuthForm
+              inputFieldsArray={signIn_inputFieldsArray}
+              inputType={inputTypes.adminSignIn}
+            />
+            <hr />
+            <div>Or</div>
+            <button onClick={switchHandler}>Register</button>
+          </Grid>
+        )}
+      </Grid>
     </main>
   );
 };

@@ -1,20 +1,47 @@
-import { Dispatch, Fragment, SetStateAction, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 import { Button, CircularProgress, SelectChangeEvent } from "@mui/material";
 
-import { PageProductProps } from "../../../utils/react-hooks/get-more-products";
+import useGetMoreProducts, {
+  PageProductProps,
+} from "../../../utils/react-hooks/get-more-products";
+import useLastElementRef from "../../../utils/react-hooks/last-elem-ref";
 
 interface Props {
-  products: PageProductProps[];
-  isLoading: boolean;
-  lastElementRef: (node: HTMLDivElement) => void;
+  // products: PageProductProps[];
+  // isLoading: boolean;
+  // lastElementRef: (node: HTMLDivElement) => void;
+  startProducts: PageProductProps[];
+  sub_cat: string;
+  main_cat: string;
 }
 
-export default function RenderSubCatImage(props: Props) {
-  const { products, isLoading, lastElementRef } = props;
+export default function RenderSubCatImage({
+  startProducts,
+  main_cat,
+  sub_cat,
+}: Props) {
   const [isRedirecting, setIsRedirecting] = useState<boolean>(false);
+
+  const [pageNum, setPageNum] = useState<number>(1);
+  const { isLoading, error, products, hasMore } = useGetMoreProducts(
+    pageNum,
+    startProducts,
+    main_cat,
+    sub_cat
+  );
+
+  const observer = useRef<IntersectionObserver>();
+  const lastElementRef = useLastElementRef(
+    isLoading,
+    observer,
+    hasMore,
+    setPageNum
+  );
+
+  console.log(products);
 
   return (
     <Fragment>
@@ -57,7 +84,9 @@ const RenderImage = ({
   setIsRedirecting: Dispatch<SetStateAction<boolean>>;
 }) => {
   return (
-    <Link href={`/shop/${p._id}`}>
+    <Link
+      href={`/shop/${p.productInfo.main_cat}-${p.productInfo.sub_cat}-${p._id}`}
+    >
       <a
         onClick={() => {
           setIsRedirecting(true);
