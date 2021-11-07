@@ -1,0 +1,30 @@
+.thumbs_swiper {
+  display: block;
+  width: 85px;
+  height: 400px;
+  margin: 5px;
+}
+
+.thumb_active {
+  height: 100%;
+  width: 85px;
+  box-sizing: border-box;
+  border: solid #008ab4 2.5px;
+}
+.thumb {
+  height: 100%;
+  box-sizing: border-box;
+  width: 85px;
+}
+
+.vertical_thumbs_container {
+  margin: 0 5px 0 5px;
+}
+
+.vertical_thumbs_nav_next {
+  transform: rotate(90deg);
+}
+
+.slide_image {
+  object-fit: cover;
+}

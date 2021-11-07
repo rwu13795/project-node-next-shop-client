@@ -8,7 +8,12 @@ import SearchIcon from "../navbar-items/search-icon";
 import MenuList from "../navbar-items/menu-list";
 import MenuIcon from "../navbar-items/menu-icon";
 
-export default function UserNavbar({ page }: { page?: string }): JSX.Element {
+interface Props {
+  page?: string;
+  page_cat?: string;
+}
+
+export default function UserNavbar({ page, page_cat }: Props): JSX.Element {
   const [showMenu_nav, setShowMenu_nav] = useState<boolean>(false);
 
   const onLeaveMenuGrid = () => {
@@ -31,9 +36,8 @@ export default function UserNavbar({ page }: { page?: string }): JSX.Element {
       >
         <MenuList
           setShowMenu_nav={setShowMenu_nav}
-          // setBorder={setBorder}
-          // border={border}
           showMenu_nav={showMenu_nav}
+          page_cat={page_cat}
         />
       </Grid>
 

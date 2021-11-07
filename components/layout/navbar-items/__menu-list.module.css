@@ -1,11 +1,15 @@
 .menu_list {
   text-decoration: none;
   color: inherit;
+  transition: ease-in 0.1s;
 }
 
 .menu_list:hover {
   text-decoration: none;
   color: inherit;
+  color: rgb(0, 138, 180);
+  border-bottom: #008ab4 solid 3px;
+  transition: ease-in 0.1s;
 }
 
 .menu_list_items {
@@ -64,15 +68,8 @@
   border-radius: 6px;
   position: absolute;
   box-shadow: 7px 7px 20px 0px rgb(0, 138, 180);
-  top: 3.5rem;
+  top: 4rem;
   left: 15vw;
-  z-index: 10;
-}
-.menu_list_collapse_box_empty {
-  border-radius: 6px;
-  position: absolute;
-  top: 5rem;
-  left: 8%;
   z-index: 10;
 }
 

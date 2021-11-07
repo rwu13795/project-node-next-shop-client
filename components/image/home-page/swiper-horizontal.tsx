@@ -9,9 +9,9 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import styles from "./__swiper-homePage.module.css";
+import styles from "./__swiper.module.css";
 import { MainCategory } from "../../../utils/enums-types/product-category";
-import Swiper_horizontal_NavButton from "./nav-button";
+import Swiper_horizontal_NavButton_homePage from "./nav-button-horizontal";
 
 SwiperCore.use([Pagination, Navigation]);
 
@@ -19,7 +19,7 @@ interface Props {
   srcProp: { md: string[] };
 }
 
-export default function Swiper_homePage_horizontal({
+export default function Swiper_horizontal_homePage({
   srcProp,
 }: Props): JSX.Element {
   const [slideNum, setSlideNum] = useState<number>(1);
@@ -125,7 +125,7 @@ export default function Swiper_homePage_horizontal({
           // );
         })}
         <div className={styles.horizontal_navbar}>
-          <Swiper_horizontal_NavButton
+          <Swiper_horizontal_NavButton_homePage
             slideNum={slideNum}
             total={srcProp.md.length}
           />

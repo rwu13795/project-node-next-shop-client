@@ -9,14 +9,14 @@ import { CSSProperties } from "react";
 
 import { MainCategory } from "../../../utils/enums-types/product-category";
 
-import styles from "./__swiper-homePage.module.css";
+import styles from "./__swiper.module.css";
 
 interface Props {
   slideNum: number;
   total: number;
 }
 
-export default function Swiper_horizontal_NavButton({
+export default function Swiper_horizontal_NavButton_homePage({
   slideNum,
   total,
 }: Props): JSX.Element {

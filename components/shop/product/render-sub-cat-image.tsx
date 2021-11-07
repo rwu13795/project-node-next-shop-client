@@ -85,7 +85,7 @@ const RenderImage = ({
 }) => {
   return (
     <Link
-      href={`/shop/${p.productInfo.main_cat}-${p.productInfo.sub_cat}-${p._id}`}
+      href={`/shop/product-detail/${p.productInfo.main_cat}-${p.productInfo.sub_cat}-${p._id}`}
     >
       <a
         onClick={() => {

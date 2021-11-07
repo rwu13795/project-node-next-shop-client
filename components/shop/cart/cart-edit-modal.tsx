@@ -5,7 +5,7 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 
-import ProductDetail from "../product/product-detail";
+import ProductDetail from "../product/product-detail/product-detail";
 import { PageProductProps } from "../../../utils/react-hooks/get-more-products";
 import { CartItem } from "../../../utils/redux-store/userSlice";
 import browserClient from "../../../utils/axios-client/browser-client";

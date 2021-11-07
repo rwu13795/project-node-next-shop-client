@@ -1,7 +1,5 @@
 import { Dispatch, Fragment, SetStateAction } from "react";
 
-import { Grid } from "@mui/material";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Pagination, Navigation, Mousewheel } from "swiper";
 import "swiper/css";
@@ -12,9 +10,9 @@ import { setLockScrollBar } from "../../../utils/redux-store/layoutSlice";
 import { useDispatch } from "react-redux";
 import { CSSProperties } from "react-transition-group/node_modules/@types/react";
 
-import Swiper_homePage_horizontal from "./swiper-horizontal";
+import Swiper_horizontal_homePage from "./swiper-horizontal";
 
-import styles from "./__swiper-homePage.module.css";
+import styles from "./__swiper.module.css";
 import { homeImageProps } from "./image-props";
 import { PaginationOptions } from "swiper/types/modules/pagination";
 import { TrainOutlined } from "@mui/icons-material";
@@ -39,7 +37,7 @@ const paginationOption: PaginationOptions = {
   },
 };
 
-export default function Swiper_homePage_vertical({
+export default function Swiper_vertical_homePage({
   setSlideEnd,
   slideEnd,
 }: Props): JSX.Element {
@@ -83,7 +81,7 @@ export default function Swiper_homePage_vertical({
                 width: "100vw",
               }}
             >
-              <Swiper_homePage_horizontal srcProp={prop} />
+              <Swiper_horizontal_homePage srcProp={prop} />
             </SwiperSlide>
           );
         })}

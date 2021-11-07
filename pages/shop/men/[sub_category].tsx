@@ -101,5 +101,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   console.log(data);
 
-  return { props: { products: data.products, sub_cat, main_cat } };
+  return {
+    props: { products: data.products, sub_cat, main_cat, page_cat: main_cat },
+  };
 }

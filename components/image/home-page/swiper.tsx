@@ -9,7 +9,7 @@ import "swiper/css/navigation";
 
 import { useDispatch } from "react-redux";
 import { setLockScrollBar } from "../../../utils/redux-store/layoutSlice";
-import Swiper_homePage_vertical from "./swiper-vertical";
+import Swiper_vertical_homePage from "./swiper-vertical";
 
 SwiperCore.use([Pagination, Navigation, Mousewheel]);
 
@@ -58,7 +58,7 @@ export default function Swiper_homePage({}: Props): JSX.Element {
     // won't get the height and width from the root node
 
     <div style={{ height: "100%", overflow: "hidden" }}>
-      <Swiper_homePage_vertical setSlideEnd={setSlideEnd} slideEnd={slideEnd} />
+      <Swiper_vertical_homePage setSlideEnd={setSlideEnd} slideEnd={slideEnd} />
     </div>
   );
 }

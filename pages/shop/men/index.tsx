@@ -41,3 +41,7 @@ const Men: NextPage = ({}) => {
 };
 
 export default Men;
+
+export function getStaticProps() {
+  return { props: { page_cat: "men" } };
+}

@@ -1,7 +1,7 @@
 .root_page_layout {
   /* width: 100vw; */
-  height: auto;
-  /* overflow-x: hidden; */
+  /* height: auto; */
+  overflow-x: hidden;
   font-family: "Oswald", sans-serif;
   background-image: linear-gradient(
     to right,
@@ -14,21 +14,23 @@
 
 /* * * * * * * the layout for all the children pages * * * * * * */
 .main_component {
+  margin-top: 73px;
   min-height: 100vh;
+  /* min-width: 100vw; */
   display: flex;
   justify-content: center;
-  /* align-items: center; */
 }
 
 .main_component_grid {
   display: flex;
   width: 100vw;
   justify-content: center;
+  align-items: flex-start;
 }
 @media screen and (min-width: 775px) {
   .main_component_grid {
-    width: 90vw;
-    max-width: 95rem;
+    width: 95vw;
+    max-width: 110rem;
   }
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

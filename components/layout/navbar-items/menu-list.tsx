@@ -23,9 +23,8 @@ import styles from "./__menu-list.module.css";
 
 interface Props {
   setShowMenu_nav: Dispatch<SetStateAction<boolean>>;
-  // setBorder: Dispatch<SetStateAction<CSSProperties>>;
-  // border: CSSProperties;
   showMenu_nav: boolean;
+  page_cat?: string;
 }
 
 const mui_sx = {
@@ -33,18 +32,21 @@ const mui_sx = {
   display: { xs: "none", md: "block" },
 } as SxProps<Theme>;
 
+const border_bot: CSSProperties = {
+  borderBottom: "solid 3px #008ab4",
+};
+
 export default function MenuList({
   setShowMenu_nav,
-  // setBorder,
-  // border,
   showMenu_nav,
+  page_cat,
 }: Props): JSX.Element {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [currentCat, setCurrentCat] = useState<string>("");
 
   const openMenu = (cat: string) => {
+    if (cat === MainCategory.accessories) return;
     setCurrentCat(cat);
-    // setBorder({ borderBottom: "2px #0099CC solid" });
     setShowMenu_nav(true);
     setShowMenu(true);
   };
@@ -142,7 +144,7 @@ export default function MenuList({
             <Link href={`/shop/${cat.toLowerCase()}`}>
               <a
                 className={styles.menu_list}
-                // style={cat === currentCat ? border : {}}
+                style={cat.toLowerCase() === page_cat ? border_bot : {}}
                 onMouseEnter={() => openMenu(cat)}
                 onClick={onClickHandler}
               >
@@ -152,16 +154,14 @@ export default function MenuList({
           </Grid>
         );
       })}
-      <Collapse
-        in={showMenu && showMenu_nav}
-        className={
-          currentCat === MainCategory.accessories
-            ? styles.menu_list_collapse_box_empty
-            : styles.menu_list_collapse_box
-        }
-      >
-        <ProductMenu currentCat={currentCat} />
-      </Collapse>
+      {currentCat !== MainCategory.accessories && (
+        <Collapse
+          in={showMenu && showMenu_nav}
+          className={styles.menu_list_collapse_box}
+        >
+          <ProductMenu currentCat={currentCat} />
+        </Collapse>
+      )}
     </Fragment>
   );
 }

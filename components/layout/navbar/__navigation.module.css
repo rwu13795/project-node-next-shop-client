@@ -2,13 +2,14 @@
   font-family: "Oswald", sans-serif;
   /* letter-spacing: 0.06em; */
   font-size: 20px;
-  position: sticky;
+  position: fixed;
   /* while using sticky position, you must specify the Y-axis where the
   element should stick to */
   top: 0;
+  left: 0;
   z-index: 99;
   /* min-height: 2.8rem; */
-  height: 70px;
+  height: 73px;
 
   min-width: 100%;
   background-color: white;
@@ -22,13 +23,19 @@ font-family: 'Monofett', cursive;
   font-family: "Oswald", sans-serif;
   /* letter-spacing: 0.06em; */
   font-size: 20px;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
   z-index: 99;
   /* min-height: 2.8rem; */
-  height: 70px;
+  height: 73px;
 
   min-width: 100%;
 
   transition: 0.3s;
+}
+
+.nav_logo {
+  padding-left: 5px;
+  cursor: pointer;
 }

@@ -16,9 +16,14 @@ import { border } from "@mui/system";
 interface Prop {
   children: React.ReactNode;
   page?: string;
+  page_cat?: string;
 }
 
-export default function Layout(props: Prop): JSX.Element {
+export default function Layout({
+  children,
+  page,
+  page_cat,
+}: Prop): JSX.Element {
   // since the Layout component will be rendered on every page,
   // the user auth will be checked no matter which page is loaded up first
   const dispatch = useDispatch();
@@ -27,8 +32,6 @@ export default function Layout(props: Prop): JSX.Element {
 
   const [scrollBarStyle, setScrollBarStyle] = useState({});
 
-  console.log("lockScrollBar", lockScrollBar);
-
   useEffect(() => {
     if (lockScrollBar) {
       setScrollBarStyle({ maxHeight: "100vh", overflow: "hidden" });
@@ -36,7 +39,7 @@ export default function Layout(props: Prop): JSX.Element {
       // to hidden the weird x-scroll bar in Home page which appears after unlocking
       // since all the pages' width is under 100vw, so setting the overflowX: "hidden"
       // won't break anything in all the children pages
-      setScrollBarStyle({ overflowX: "hidden" });
+      setScrollBarStyle({});
     }
   }, [lockScrollBar]);
 
@@ -63,10 +66,10 @@ export default function Layout(props: Prop): JSX.Element {
 
     <main className={styles.root_page_layout} style={scrollBarStyle}>
       <ThemeProvider theme={theme}>
-        <MainNavigation page={props.page} />
+        <MainNavigation page={page} page_cat={page_cat} />
 
         <main className={styles.main_component}>
-          <div className={styles.main_component_grid}>{props.children}</div>
+          <div className={styles.main_component_grid}>{children}</div>
         </main>
 
         <Footer />

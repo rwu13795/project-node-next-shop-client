@@ -34,9 +34,10 @@ import { selectPageLoading } from "../../../utils/redux-store/layoutSlice";
 
 interface Props {
   page?: string;
+  page_cat?: string;
 }
 
-export default function MainNavigation({ page }: Props) {
+export default function MainNavigation({ page, page_cat }: Props) {
   const dispatch = useDispatch();
   const router = useRouter();
   const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
@@ -45,9 +46,11 @@ export default function MainNavigation({ page }: Props) {
   const [classname, setClassname] = useState(styles.main_2);
   const [adminModal, setAdminModal] = useState<boolean>(false);
 
-  /////////////////////////////////////////////////////////
+  console.log("page_cat", page_cat);
+
+  /*******  Scroll Stop Listener for changing the color of the navbar  ********/
   const changeNavbarClassname = useCallback(() => {
-    console.log("checking window Y");
+    // console.log("checking window Y");
     if (window.scrollY < 100) {
       setClassname(styles.main_2);
     } else {
@@ -70,7 +73,7 @@ export default function MainNavigation({ page }: Props) {
         // Clear our timeout throughout the scroll
         window.clearTimeout(isScrolling);
 
-        console.log("setting to transparent");
+        // console.log("setting to transparent");
         setClassname(styles.main_2);
 
         // Set a timeout to run after scrolling ends
@@ -84,7 +87,7 @@ export default function MainNavigation({ page }: Props) {
   useEffect(() => {
     scrollStopListener(changeNavbarClassname);
   }, [scrollStopListener, changeNavbarClassname]);
-  /////////////////////////////////////////////////////////
+  /******************************************************************************/
 
   const adminSignOutHandler = () => {
     dispatch(adminSignOut());
@@ -104,7 +107,7 @@ export default function MainNavigation({ page }: Props) {
 
   let content;
   if (page !== "admin") {
-    content = <UserNavbar page={page} />;
+    content = <UserNavbar page={page} page_cat={page_cat} />;
   } else {
     content = (
       <div>
@@ -125,17 +128,14 @@ export default function MainNavigation({ page }: Props) {
         container
         justifyContent="space-between"
         alignItems="center"
-        sx={{ height: "70px" }}
+        sx={{ height: "73px" }}
       >
-        <Grid item md={3} sm={5} xs={5} sx={{ height: "70px" }}>
+        <Grid item md={3} sm={5} xs={5}>
           <Tooltip title="Home page">
             <Grid
               container
               justifyContent="flex-start"
-              style={{
-                paddingLeft: "5px",
-                height: "70px",
-              }}
+              className={styles.nav_logo}
               onClick={onLogoClickHandler}
             >
               <Image
@@ -155,7 +155,6 @@ export default function MainNavigation({ page }: Props) {
           container
           justifyContent="space-between"
           alignItems="center"
-          sx={{ height: "70px" }}
         >
           {content}
         </Grid>
