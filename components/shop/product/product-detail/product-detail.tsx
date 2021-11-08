@@ -39,12 +39,16 @@ export default function ProductDetail({
   editItem,
   handleClose,
 }: Props): JSX.Element {
+  /****************************************************************************/
   const _price = styles.product_desc_price;
   const _size = styles.product_desc_line_items + " " + styles.product_desc_size;
   const _line_item = styles.product_desc_line_items;
   const _line_item_grid = styles.product_desc_line_items_inner_grid;
   const _images_container = styles.product_images_container;
   const _desc_container = styles.product_desc_container;
+  const _divider = styles.product_desc_divider;
+  const _error = styles.product_desc_error;
+  const _detail = styles.product_desc_detail;
   /****************************************************************************/
 
   const { productInfo, colorPropsList, _id } = product;
@@ -117,78 +121,99 @@ export default function ProductDetail({
   };
 
   return (
-    <main>
-      <div>HOME/MEN/TOPS/CASUAL SHIRTS FLANNEL</div>
-
-      <Grid container className={styles.upper_grid}>
-        <Grid sx={{ display: { xs: "flex", md: "none" } }}>
-          <h2>{productInfo.title.toUpperCase()}</h2>
-        </Grid>
-        <Grid item xs={12} sm={12} md={8} className={_images_container}>
-          <ProductDetailImages
-            currentColor={currentColor}
-            previewImage={previewImage}
-          />
-        </Grid>
-
-        <Grid item container xs={12} sm={12} md={4} className={_desc_container}>
-          <Grid
-            sx={{ display: { md: "flex", xs: "none" } }}
-            className={_line_item}
-          >
+    <main className={styles.main_container}>
+      <Grid container className={styles.main_grid}>
+        <Grid container className={styles.upper_grid}>
+          <Grid sx={{ display: { xs: "flex", md: "none" } }}>
             <h2>{productInfo.title.toUpperCase()}</h2>
           </Grid>
-
-          <div className={_line_item}>Review *****</div>
-
-          <div className={_line_item}>
-            <div className={_line_item_grid}>
-              <div style={{ fontSize: "15px" }}>Price: </div>
-              <div className={_price}>$ {productInfo.price}</div>
-            </div>
-          </div>
-
-          <div className={_line_item}>
-            <SelectColors
-              colorPropsList={colorPropsList}
+          <Grid item xs={12} sm={12} md={8} className={_images_container}>
+            <ProductDetailImages
               currentColor={currentColor}
-              changeColorHandler={changeColorHandler}
-              setPreviewImage={setPreviewImage}
+              previewImage={previewImage}
             />
-          </div>
+          </Grid>
 
-          <div className={_size}>
-            <SelectSize
-              selectedSize={selectedSize}
-              sizeHandler={sizeHandler}
-              currentColor={currentColor}
-            />
-            {errors[inputNames.size]}
-          </div>
-
-          <div className={_line_item}>
-            <SelectQuantity
-              quantity={quantity}
-              disabled={selectedSize === ""}
-              availableQty={currentColor.sizes[selectedSize]}
-              setQuantity={setQuantity}
-              setErrors={setErrors}
-            />
-            {errors[inputNames.quantity]}
-          </div>
-
-          <div className={_line_item}>
-            <Button
-              variant="contained"
-              onClick={addToCartHandler}
-              className={styles.product_desc_cart}
+          <Grid
+            item
+            container
+            xs={12}
+            sm={12}
+            md={4}
+            className={_desc_container}
+          >
+            <Grid
+              sx={{ display: { xs: "none", md: "flex" } }}
+              className={_line_item}
             >
-              {editMode ? "Update" : "Add to cart"}
-            </Button>
-          </div>
+              <h2>{productInfo.title.toUpperCase()}</h2>
+            </Grid>
 
-          <div className={_line_item}>{productInfo.description}</div>
+            <div className={_line_item}>Review *****</div>
+
+            <div className={_line_item}>
+              <div className={_line_item_grid}>
+                <div style={{ fontSize: "18px" }}>Price: </div>
+                <div className={_price}>$ {productInfo.price}</div>
+              </div>
+            </div>
+
+            <div className={_divider}></div>
+
+            <div className={_line_item}>
+              <SelectColors
+                colorPropsList={colorPropsList}
+                currentColor={currentColor}
+                changeColorHandler={changeColorHandler}
+                setPreviewImage={setPreviewImage}
+              />
+            </div>
+
+            <div className={_line_item}>
+              <div className={_line_item_grid}>
+                <div style={{ fontSize: "18px" }}>Sizes: </div>
+                <SelectSize
+                  selectedSize={selectedSize}
+                  sizeHandler={sizeHandler}
+                  currentColor={currentColor}
+                />
+              </div>
+            </div>
+            <div className={_error}>{errors[inputNames.size]}</div>
+
+            <div className={_divider}></div>
+
+            <div className={_line_item}>
+              <div className={_line_item_grid}>
+                <SelectQuantity
+                  quantity={quantity}
+                  disabled={selectedSize === ""}
+                  availableQty={currentColor.sizes[selectedSize]}
+                  setQuantity={setQuantity}
+                  setErrors={setErrors}
+                />
+              </div>
+            </div>
+            <div className={_error}>{errors[inputNames.quantity]}</div>
+
+            <div className={_line_item}>
+              <Button
+                variant="contained"
+                onClick={addToCartHandler}
+                className={styles.product_desc_cart}
+              >
+                {editMode ? "Update" : "Add to cart"}
+              </Button>
+            </div>
+
+            <div className={_line_item}>
+              <div style={{ fontSize: "18px" }}>Product Detail: </div>
+              <div className={_detail}>{productInfo.description}</div>
+            </div>
+          </Grid>
         </Grid>
+
+        <Grid className={styles.lower_grid}></Grid>
       </Grid>
     </main>
   );

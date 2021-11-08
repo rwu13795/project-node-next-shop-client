@@ -10,7 +10,7 @@ import useGetMoreProducts, {
 } from "../../../utils/react-hooks/get-more-products";
 
 import useLastElementRef from "../../../utils/react-hooks/last-elem-ref";
-import RenderSubCatImage from "../../../components/shop/product/render-sub-cat-image";
+import RenderSubCatImage from "../../../components/shop/product/sub-cat-list";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setPageLoading } from "../../../utils/redux-store/layoutSlice";

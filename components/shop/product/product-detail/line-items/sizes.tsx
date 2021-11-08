@@ -19,7 +19,7 @@ function SelectSize({
   sizeHandler,
 }: Props): JSX.Element {
   return (
-    <div>
+    <div className={styles.sizes_container}>
       <ToggleButtonGroup
         value={selectedSize}
         exclusive

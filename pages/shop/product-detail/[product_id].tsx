@@ -5,7 +5,7 @@ import { PageProductProps } from "../../../utils/react-hooks/get-more-products";
 import ProductDetail from "../../../components/shop/product/product-detail/product-detail";
 import serverClient from "../../../utils/axios-client/server-client";
 
-import styles from "./__product-detail.module.css";
+import styles from "./__detail.module.css";
 
 interface PageProps {
   product: PageProductProps;
@@ -13,11 +13,15 @@ interface PageProps {
 
 const ProductDetailPage: NextPage<PageProps> = ({ product }) => {
   return !product ? (
-    <h1>No product found</h1>
+    <main>
+      <div>HOME/MEN/TOPS/CASUAL SHIRTS FLANNEL</div>
+      <h1>No product found</h1>
+    </main>
   ) : (
-    <div style={{ overflow: "hidden" }}>
+    <main className={styles.main_container}>
+      <div>HOME/MEN/TOPS/CASUAL SHIRTS FLANNEL</div>
       <ProductDetail product={product} />
-    </div>
+    </main>
   );
 };
 

@@ -4,6 +4,7 @@ export const colorNames = [
   { name: "Gray", code: "#808080" },
   { name: "Black", code: "#000000" },
   { name: "Red", code: "#FF0000" },
+  { name: "Orange", code: "#FF6700" },
   { name: "Brown", code: "#A52A2A" },
   { name: "Maroon", code: "#800000" },
   { name: "Yellow", code: "#FFFF00" },
