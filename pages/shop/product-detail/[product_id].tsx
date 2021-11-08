@@ -15,7 +15,9 @@ const ProductDetailPage: NextPage<PageProps> = ({ product }) => {
   return !product ? (
     <h1>No product found</h1>
   ) : (
-    <ProductDetail product={product} />
+    <div style={{ overflow: "hidden" }}>
+      <ProductDetail product={product} />
+    </div>
   );
 };
 

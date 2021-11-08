@@ -1,4 +1,13 @@
-import { Fragment, useEffect, useRef, useState, CSSProperties } from "react";
+import {
+  Fragment,
+  useEffect,
+  useRef,
+  useState,
+  CSSProperties,
+  memo,
+} from "react";
+import dynamic from "next/dynamic";
+import { useMediaQuery } from "react-responsive";
 
 import { Divider, Grid, TextField, Box, Tooltip } from "@mui/material";
 
@@ -13,8 +22,10 @@ interface Props {
   page_cat?: string;
 }
 
-export default function UserNavbar({ page, page_cat }: Props): JSX.Element {
+function UserNavbar({ page, page_cat }: Props): JSX.Element {
   const [showMenu_nav, setShowMenu_nav] = useState<boolean>(false);
+
+  const isSmall = useMediaQuery({ query: "(max-width: 765px)" });
 
   const onLeaveMenuGrid = () => {
     setShowMenu_nav(false);
@@ -27,6 +38,8 @@ export default function UserNavbar({ page, page_cat }: Props): JSX.Element {
         item
         container
         md={6}
+        sm={false}
+        xs={false}
         direction="row"
         justifyContent="flex-start"
         alignItems="center"
@@ -41,65 +54,63 @@ export default function UserNavbar({ page, page_cat }: Props): JSX.Element {
         />
       </Grid>
 
-      {/* * * * * * right navbar - MEDIUM * * * * * * */}
-      <Grid
-        item
-        container
-        md={6}
-        sm={false}
-        xs={false}
-        direction="row"
-        wrap="nowrap"
-        justifyContent="flex-end"
-        alignItems="center"
-        sx={{
-          display: { xs: "none", md: "flex" },
-        }}
-      >
-        <Grid item>
-          <SearchIcon />
+      {/* * * * * * * right navbar * * * * * * */}
+      {isSmall ? (
+        <Grid
+          item
+          container
+          md={false}
+          sm={12}
+          xs={12}
+          direction="row"
+          wrap="nowrap"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ display: { xs: "flex", md: "none" } }}
+        >
+          <Grid item>
+            <MenuIcon />
+          </Grid>
+          <Grid item>
+            <SearchIcon />
+          </Grid>
+          <Grid item sx={{ pl: "1vw" }}>
+            <UserIcon page={page} />
+          </Grid>
+          <Grid item sx={{ pl: "1vw", mr: "1rem" }}>
+            <CartIcon />
+          </Grid>
         </Grid>
-
-        <Grid item sx={{ ml: "2vw" }}>
-          <UserIcon page={page} />
+      ) : (
+        <Grid
+          item
+          container
+          md={6}
+          sm={false}
+          xs={false}
+          direction="row"
+          wrap="nowrap"
+          justifyContent="flex-end"
+          alignItems="center"
+          sx={{ display: { xs: "none", md: "flex" } }}
+        >
+          <Grid item>
+            <SearchIcon />
+          </Grid>
+          <Grid item sx={{ ml: "2vw" }}>
+            <UserIcon page={page} />
+          </Grid>
+          <Grid item sx={{ ml: "2vw", mr: "1rem" }}>
+            <CartIcon />
+          </Grid>
         </Grid>
-
-        <Grid item sx={{ ml: "2vw", mr: "1rem" }}>
-          <CartIcon />
-        </Grid>
-      </Grid>
-
-      {/* * * * * * right navbar - SMALL * * * * * * */}
-      <Grid
-        item
-        container
-        md={false}
-        sm={12}
-        xs={12}
-        direction="row"
-        wrap="nowrap"
-        justifyContent="space-between"
-        alignItems="center"
-        sx={{
-          display: { xs: "flex", md: "none" },
-        }}
-      >
-        <Grid item>
-          <MenuIcon />
-        </Grid>
-
-        <Grid item>
-          <SearchIcon />
-        </Grid>
-
-        <Grid item sx={{ pl: "1vw" }}>
-          <UserIcon page={page} />
-        </Grid>
-
-        <Grid item sx={{ pl: "1vw", mr: "1rem" }}>
-          <CartIcon />
-        </Grid>
-      </Grid>
+      )}
     </Fragment>
   );
 }
+
+export default memo(
+  dynamic(() => Promise.resolve(UserNavbar), {
+    ssr: false,
+  })
+);

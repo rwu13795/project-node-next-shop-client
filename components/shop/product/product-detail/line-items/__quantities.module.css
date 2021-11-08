@@ -1,0 +1,31 @@
+.form_container {
+  margin: 0;
+  min-width: 160px;
+}
+.form_label {
+  font-size: 27px;
+}
+.form_select {
+  padding-left: 1rem;
+  font-size: 35px;
+}
+.form_items {
+  font-size: 28px;
+}
+
+@media screen and (max-width: 765px) {
+  .form_container {
+    margin: 0;
+    min-width: 200px;
+  }
+  .form_label {
+    font-size: 22px;
+  }
+  .form_select {
+    padding-left: 1rem;
+    font-size: 26px;
+  }
+  .form_items {
+    font-size: 20px;
+  }
+}

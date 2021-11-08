@@ -8,7 +8,7 @@ let theme = createTheme({
     secondary: { main: "#75dfff" },
     warning: { main: "#fc9403" },
     error: { main: "#f44336" },
-    info: { main: "#008ab4", contrastText: "#ffffff" },
+    info: { main: "#00789e", contrastText: "#ffffff" },
   },
   typography: {
     // body1 controls all default MUI component's text font-size
@@ -32,8 +32,8 @@ let theme = createTheme({
     values: {
       xs: 0,
       sm: 560,
-      md: 775,
-      lg: 1100,
+      md: 765,
+      lg: 1080,
       xl: 1536,
     },
   },

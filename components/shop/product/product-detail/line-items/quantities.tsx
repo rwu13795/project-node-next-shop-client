@@ -1,3 +1,21 @@
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+  memo,
+} from "react";
+import { useDispatch } from "react-redux";
+import dynamic from "next/dynamic";
+
+import { inputNames } from "../../../../../utils/enums-types/input-names";
+import { Errors } from "../../../../../utils/helper-functions/input-error-check";
+import {
+  clearStockErrors,
+  directChangeQty,
+} from "../../../../../utils/redux-store/userSlice";
+
+// UI //
 import {
   FormControl,
   InputLabel,
@@ -6,14 +24,7 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { inputNames } from "../../../utils/enums-types/input-names";
-import { Errors } from "../../../utils/helper-functions/input-error-check";
-import {
-  clearStockErrors,
-  directChangeQty,
-} from "../../../utils/redux-store/userSlice";
+import styles from "./__quantities.module.css";
 
 interface Props {
   quantity: number;
@@ -25,7 +36,7 @@ interface Props {
   index?: number;
 }
 
-export default function SelectQuantity({
+function SelectQuantity({
   quantity,
   disabled,
   availableQty,
@@ -75,22 +86,22 @@ export default function SelectQuantity({
   };
 
   return (
-    <FormControl variant="standard" sx={{ m: 0, minWidth: 120, boxShadow: 0 }}>
-      <InputLabel style={{ fontSize: "1rem" }}>Quantity</InputLabel>
+    <FormControl variant="standard" className={styles.form_container}>
+      <InputLabel className={styles.form_label}>Quantity</InputLabel>
       <Select
         value={quantity}
         type="number"
         label="Quantity"
-        sx={{ m: 0, minWidth: 130 }}
         onChange={changeHandler}
         disabled={availableQty === 0 || disabled}
         // fixed the scrollbar lock when the select-menu is opened by adding
         // "disableScrollLock: true"
         MenuProps={{ disableScrollLock: true }}
+        className={styles.form_select}
       >
         {qtyArray.map((q) => {
           return (
-            <MenuItem key={q} value={q}>
+            <MenuItem key={q} value={q} className={styles.form_items}>
               {q}
             </MenuItem>
           );
@@ -99,3 +110,9 @@ export default function SelectQuantity({
     </FormControl>
   );
 }
+
+export default memo(
+  dynamic(() => Promise.resolve(SelectQuantity), {
+    ssr: false,
+  })
+);

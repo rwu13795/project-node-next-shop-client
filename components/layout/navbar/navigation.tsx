@@ -9,6 +9,7 @@ import {
   useState,
   CSSProperties,
   useCallback,
+  memo,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -44,6 +45,7 @@ export default function MainNavigation({ page, page_cat }: Props) {
   const pageLoading = useSelector(selectPageLoading);
 
   const [classname, setClassname] = useState(styles.main_2);
+
   const [adminModal, setAdminModal] = useState<boolean>(false);
 
   console.log("page_cat", page_cat);
@@ -86,7 +88,21 @@ export default function MainNavigation({ page, page_cat }: Props) {
 
   useEffect(() => {
     scrollStopListener(changeNavbarClassname);
+    return () => {
+      console.log("unmounting the scrollStopListener");
+      window.addEventListener(
+        "scroll",
+        (event) => {
+          event.stopImmediatePropagation();
+        },
+        true
+      );
+      window.removeEventListener("scroll", (event) => {
+        event.stopImmediatePropagation();
+      });
+    };
   }, [scrollStopListener, changeNavbarClassname]);
+
   /******************************************************************************/
 
   const adminSignOutHandler = () => {
@@ -135,8 +151,8 @@ export default function MainNavigation({ page, page_cat }: Props) {
             <Grid
               container
               justifyContent="flex-start"
-              className={styles.nav_logo}
               onClick={onLogoClickHandler}
+              className={styles.nav_logo}
             >
               <Image
                 src="/Nextjs-logo-1.svg"
@@ -159,6 +175,7 @@ export default function MainNavigation({ page, page_cat }: Props) {
           {content}
         </Grid>
       </Grid>
+
       <Box sx={{ width: "100%" }}>{pageLoading && <LinearProgress />}</Box>
     </main>
   );

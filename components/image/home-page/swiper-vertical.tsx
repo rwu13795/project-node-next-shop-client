@@ -57,7 +57,6 @@ export default function Swiper_vertical_homePage({
   return (
     <Fragment>
       <Swiper
-        className="mySwiper"
         onSlideChange={slideChangeHandler}
         onReachEnd={reachEndHandler}
         mousewheel={{
@@ -69,7 +68,7 @@ export default function Swiper_vertical_homePage({
         spaceBetween={0}
         direction="vertical"
         slidesPerView={1}
-        style={swiperStyle}
+        className={styles.swiper_vertical_home_page}
       >
         {homeImageProps.map((prop, index) => {
           return (
@@ -90,17 +89,6 @@ export default function Swiper_vertical_homePage({
     </Fragment>
   );
 }
-
-// style={swiperStyle}
-//
-
-const swiperStyle: CSSProperties = {
-  position: "relative",
-  display: "block",
-  width: "100vw",
-  height: "100%",
-  // objectFit: "cover",
-};
 
 const vertical_navbar: CSSProperties = {
   position: "absolute",

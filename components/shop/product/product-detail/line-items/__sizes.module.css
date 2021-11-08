@@ -1,0 +1,28 @@
+.toggle_button {
+  width: 95px;
+  height: 55px;
+  font-size: 18px;
+}
+
+/* weird glitch happens on touch mode, color won't change back after deselecting 
+   if the hover color is in used
+*/
+/* .toggle_button:hover {
+  background-color: #00789e;
+  color: #ffffff;
+} */
+
+@media screen and (max-width: 765px) {
+  .toggle_button {
+    width: 90px;
+    height: 50px;
+    font-size: 16px;
+  }
+}
+@media screen and (min-width: 765px) and (max-width: 1000px) {
+  .toggle_button {
+    width: 72px;
+    height: 50px;
+    font-size: 14px;
+  }
+}

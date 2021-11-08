@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import ToggleButton, { ToggleButtonProps } from "@mui/material/ToggleButton";
+import React, { useState, memo } from "react";
+import { PageColorProps } from "../../../../../utils/react-hooks/get-more-products";
+
+// UI //
+import { ToggleButtonStyled } from "../../../../../styles/mui-custom-components";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
-import { styled } from "@mui/material/styles";
-import { theme } from "../../../styles/mui-theme";
-import { ToggleButtonStyled } from "../../../styles/mui-custom-styled-components";
-import { PageColorProps } from "../../../utils/react-hooks/get-more-products";
+import styles from "./__sizes.module.css";
 
 interface Props {
   selectedSize: string;
@@ -13,13 +13,11 @@ interface Props {
   sizeHandler: (event: React.MouseEvent<HTMLElement>, size: string) => void;
 }
 
-export default function SelectSize({
+function SelectSize({
   selectedSize,
   currentColor,
   sizeHandler,
 }: Props): JSX.Element {
-  console.log("size editMode", selectedSize);
-
   return (
     <div>
       <ToggleButtonGroup
@@ -32,6 +30,7 @@ export default function SelectSize({
           value="small"
           aria-label="small"
           disabled={currentColor.sizes["small"] <= 0}
+          className={styles.toggle_button}
         >
           small
         </ToggleButtonStyled>
@@ -39,6 +38,7 @@ export default function SelectSize({
           value="medium"
           aria-label="medium"
           disabled={currentColor.sizes["medium"] <= 0}
+          className={styles.toggle_button}
         >
           Medium
         </ToggleButtonStyled>
@@ -46,6 +46,7 @@ export default function SelectSize({
           value="large"
           aria-label="large"
           disabled={currentColor.sizes["large"] <= 0}
+          className={styles.toggle_button}
         >
           Large
         </ToggleButtonStyled>
@@ -53,6 +54,8 @@ export default function SelectSize({
     </div>
   );
 }
+
+export default memo(SelectSize);
 
 /* Old method to create custom style */
 

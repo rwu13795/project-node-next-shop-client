@@ -13,17 +13,17 @@ import {
 export const ToggleButtonStyled = styled(ToggleButton)<ToggleButtonProps>(
   ({}) => ({
     "&.Mui-selected": {
-      backgroundColor: "black",
+      backgroundColor: "#008ab4",
       color: "#ffffff",
-      "&:hover": { backgroundColor: "black" },
-      "&:active": { backgroundColor: "grey" },
+      "&:hover": { backgroundColor: "#008ab4" },
+      "&:active": { backgroundColor: "#00789e" },
     },
     // "&:hover": {
-    //   backgroundColor: "grey",
-    //   color: "white",
+    //   backgroundColor: "#00789e",
+    //   color: "#ffffff",
     // },
     "&:active": {
-      backgroundColor: "grey",
+      backgroundColor: "#00789e",
     },
   })
 );

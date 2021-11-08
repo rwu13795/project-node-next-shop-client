@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState, Fragment } from "react";
+import { useEffect, useState, Fragment, memo } from "react";
 
 import {
   CartItem,
@@ -10,7 +10,7 @@ import {
   setChangeInCart,
 } from "../../../utils/redux-store/userSlice";
 import CartEditModal from "./cart-edit-modal";
-import SelectQuantity from "../product/select-quantity";
+import SelectQuantity from "../product/product-detail/line-items/quantities";
 
 interface Props {
   cart: CartItem[];
@@ -18,11 +18,7 @@ interface Props {
   cartDropDown?: boolean;
 }
 
-export default function CartDetail({
-  cart,
-  summaryMode,
-  cartDropDown,
-}: Props): JSX.Element {
+function CartDetail({ cart, summaryMode, cartDropDown }: Props): JSX.Element {
   const dispatch = useDispatch();
   const totalAmount = useSelector(selectTotalAmount);
 
@@ -88,3 +84,5 @@ export default function CartDetail({
     </Fragment>
   );
 }
+
+export default memo(CartDetail);

@@ -16,7 +16,6 @@
 .main_component {
   margin-top: 73px;
   min-height: 100vh;
-  /* min-width: 100vw; */
   display: flex;
   justify-content: center;
 }
@@ -24,6 +23,7 @@
 .main_component_grid {
   display: flex;
   width: 100vw;
+
   justify-content: center;
   align-items: flex-start;
 }

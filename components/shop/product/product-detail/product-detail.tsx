@@ -6,8 +6,10 @@ import {
   PageColorProps,
   PageProductProps,
 } from "../../../../utils/react-hooks/get-more-products";
-import SelectSize from "../select-size";
-import SelectQuantity from "../select-quantity";
+import ProductDetailImages from "./swiper-images/images";
+import SelectSize from "./line-items/sizes";
+import SelectQuantity from "./line-items/quantities";
+import SelectColors from "./line-items/colors";
 import { inputNames } from "../../../../utils/enums-types/input-names";
 import {
   Errors,
@@ -16,13 +18,11 @@ import {
 import {
   addToCartSession,
   CartItem,
-  selectCart,
 } from "../../../../utils/redux-store/userSlice";
-import { Button } from "@mui/material";
-import ProductDetailImages from "./product-images/images";
 
 // UI //
-import { Grid } from "@mui/material";
+import { Grid, Button, Box } from "@mui/material";
+import styles from "./__product-detail.module.css";
 
 interface Props {
   product: PageProductProps;
@@ -39,11 +39,16 @@ export default function ProductDetail({
   editItem,
   handleClose,
 }: Props): JSX.Element {
+  const _price = styles.product_desc_price;
+  const _size = styles.product_desc_line_items + " " + styles.product_desc_size;
+  const _line_item = styles.product_desc_line_items;
+  const _line_item_grid = styles.product_desc_line_items_inner_grid;
+  const _images_container = styles.product_images_container;
+  const _desc_container = styles.product_desc_container;
+  /****************************************************************************/
+
   const { productInfo, colorPropsList, _id } = product;
   const dispatch = useDispatch();
-  // const cartState = useSelector(selectCart);
-
-  // console.log(cartState);
 
   const [currentColor, setCurrentColor] = useState<PageColorProps>(() => {
     if (editMode && editItem) {
@@ -66,6 +71,7 @@ export default function ProductDetail({
     if (editMode && editItem) return editItem.quantity;
     else return 0;
   });
+  const [previewImage, setPreviewImage] = useState<string>("");
   const [errors, setErrors] = useState<Errors>({});
 
   const sizeHandler = (e: React.MouseEvent<HTMLElement>, size: string) => {
@@ -83,11 +89,11 @@ export default function ProductDetail({
   const addToCartHandler = () => {
     // console.log(selectedSize, quantity, currentColor.colorName);
     if (!selectedSize) {
-      setErrors({ [inputNames.size]: "please select a size" });
+      setErrors({ [inputNames.size]: "Please select a size" });
       return;
     }
     if (quantity === 0) {
-      setErrors({ [inputNames.quantity]: "please select quantities" });
+      setErrors({ [inputNames.quantity]: "Please select a valid quantity" });
       return;
     }
 
@@ -110,62 +116,78 @@ export default function ProductDetail({
     dispatch(addToCartSession({ item, editMode, index }));
   };
 
-  ///
-  console.log(currentColor.sizes);
-  ////
-
   return (
     <main>
       <div>HOME/MEN/TOPS/CASUAL SHIRTS FLANNEL</div>
 
-      <Grid
-        container
-        flexDirection="row"
-        wrap="nowrap"
-        justifyContent="space-between"
-      >
-        <Grid item sx={{ mr: "2rem" }} xs={12} sm={8} md={8}>
-          <ProductDetailImages currentColor={currentColor} />
+      <Grid container className={styles.upper_grid}>
+        <Grid sx={{ display: { xs: "flex", md: "none" } }}>
+          <h2>{productInfo.title.toUpperCase()}</h2>
+        </Grid>
+        <Grid item xs={12} sm={12} md={8} className={_images_container}>
+          <ProductDetailImages
+            currentColor={currentColor}
+            previewImage={previewImage}
+          />
         </Grid>
 
-        <Grid container item xs={12} sm={4} md={4}>
-          <div>product title : {productInfo.title}</div>
-          <h3>{productInfo.price} USD</h3>
-          <h3>{productInfo.description}</h3>
+        <Grid item container xs={12} sm={12} md={4} className={_desc_container}>
+          <Grid
+            sx={{ display: { md: "flex", xs: "none" } }}
+            className={_line_item}
+          >
+            <h2>{productInfo.title.toUpperCase()}</h2>
+          </Grid>
 
-          <div>
-            {colorPropsList.map((prop, index) => {
-              return (
-                <button
-                  onClick={() => {
-                    changeColorHandler(index);
-                  }}
-                  key={index}
-                >
-                  {prop.colorName}
-                </button>
-              );
-            })}
+          <div className={_line_item}>Review *****</div>
+
+          <div className={_line_item}>
+            <div className={_line_item_grid}>
+              <div style={{ fontSize: "15px" }}>Price: </div>
+              <div className={_price}>$ {productInfo.price}</div>
+            </div>
           </div>
-          <SelectSize
-            selectedSize={selectedSize}
-            sizeHandler={sizeHandler}
-            currentColor={currentColor}
-          />
-          {errors[inputNames.size]}
-          <SelectQuantity
-            quantity={quantity}
-            disabled={selectedSize === ""}
-            availableQty={currentColor.sizes[selectedSize]}
-            setQuantity={setQuantity}
-            setErrors={setErrors}
-          />
-          {errors[inputNames.quantity]}
-          <div>
-            <Button variant="contained" onClick={addToCartHandler}>
+
+          <div className={_line_item}>
+            <SelectColors
+              colorPropsList={colorPropsList}
+              currentColor={currentColor}
+              changeColorHandler={changeColorHandler}
+              setPreviewImage={setPreviewImage}
+            />
+          </div>
+
+          <div className={_size}>
+            <SelectSize
+              selectedSize={selectedSize}
+              sizeHandler={sizeHandler}
+              currentColor={currentColor}
+            />
+            {errors[inputNames.size]}
+          </div>
+
+          <div className={_line_item}>
+            <SelectQuantity
+              quantity={quantity}
+              disabled={selectedSize === ""}
+              availableQty={currentColor.sizes[selectedSize]}
+              setQuantity={setQuantity}
+              setErrors={setErrors}
+            />
+            {errors[inputNames.quantity]}
+          </div>
+
+          <div className={_line_item}>
+            <Button
+              variant="contained"
+              onClick={addToCartHandler}
+              className={styles.product_desc_cart}
+            >
               {editMode ? "Update" : "Add to cart"}
             </Button>
           </div>
+
+          <div className={_line_item}>{productInfo.description}</div>
         </Grid>
       </Grid>
     </main>
