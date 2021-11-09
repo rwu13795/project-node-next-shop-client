@@ -10,7 +10,9 @@ import ProductDetailImages from "./swiper-images/images";
 import SelectSize from "./line-items/sizes";
 import SelectQuantity from "./line-items/quantities";
 import SelectColors from "./line-items/colors";
+import ProductReviews from "./reviews/reviews";
 import { inputNames } from "../../../../utils/enums-types/input-names";
+import { Reviews } from "../../../../pages/shop/product-detail/[product_id]";
 import {
   Errors,
   onChangeErrorCheck,
@@ -26,6 +28,7 @@ import styles from "./__product-detail.module.css";
 
 interface Props {
   product: PageProductProps;
+  reviews: Reviews;
   editMode?: boolean;
   index?: number;
   editItem?: CartItem;
@@ -34,6 +37,7 @@ interface Props {
 
 export default function ProductDetail({
   product,
+  reviews,
   editMode,
   index,
   editItem,
@@ -149,7 +153,7 @@ export default function ProductDetail({
               <h2>{productInfo.title.toUpperCase()}</h2>
             </Grid>
 
-            <div className={_line_item}>Review *****</div>
+            <div className={_line_item}>Review ***** </div>
 
             <div className={_line_item}>
               <div className={_line_item_grid}>
@@ -213,7 +217,9 @@ export default function ProductDetail({
           </Grid>
         </Grid>
 
-        <Grid className={styles.lower_grid}></Grid>
+        <Grid className={styles.lower_grid}>
+          <ProductReviews reviews={reviews} />
+        </Grid>
       </Grid>
     </main>
   );

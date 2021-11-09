@@ -53,13 +53,23 @@ function Swiper_thumbs_product_detail_images({
     cursor: "pointer",
   } as CSSProperties;
 
+  const imageCount = currentColor.imageCount;
+
   return (
     <Box className={container}>
-      <div className="thumbs-prev-btn-product-detail" style={nav_botton}>
-        <Grid container justifyContent="center" className={nav_prev}>
-          <Image src="/angel-left-thin.svg" alt="left" width={30} height={30} />
-        </Grid>
-      </div>
+      {imageCount > 4 && (
+        <div className="thumbs-prev-btn-product-detail" style={nav_botton}>
+          <Grid container justifyContent="center" className={nav_prev}>
+            <Image
+              src="/angel-left-thin.svg"
+              alt="left"
+              width={30}
+              height={30}
+            />
+          </Grid>
+        </div>
+      )}
+
       <Swiper
         direction={screenSize === "large" ? "vertical" : "horizontal"}
         id="detail_images_thumbs"
@@ -90,17 +100,18 @@ function Swiper_thumbs_product_detail_images({
           );
         })}
       </Swiper>
-
-      <div className="thumbs-next-btn-product-detail" style={nav_botton}>
-        <Grid container justifyContent="center" className={nav_next}>
-          <Image
-            src="/angel-right-thin.svg"
-            alt="right"
-            width={30}
-            height={30}
-          />
-        </Grid>
-      </div>
+      {imageCount > 4 && (
+        <div className="thumbs-next-btn-product-detail" style={nav_botton}>
+          <Grid container justifyContent="center" className={nav_next}>
+            <Image
+              src="/angel-right-thin.svg"
+              alt="right"
+              width={30}
+              height={30}
+            />
+          </Grid>
+        </div>
+      )}
     </Box>
   );
 }

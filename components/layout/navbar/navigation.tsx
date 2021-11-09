@@ -147,21 +147,18 @@ export default function MainNavigation({ page, page_cat }: Props) {
         sx={{ height: "73px" }}
       >
         <Grid item md={3} sm={5} xs={5}>
-          <Tooltip title="Home page">
-            <Grid
-              container
-              justifyContent="flex-start"
-              onClick={onLogoClickHandler}
-              className={styles.nav_logo}
-            >
-              <Image
-                src="/Nextjs-logo-1.svg"
-                alt="NextJS Logo"
-                width={165}
-                height={75}
-              />
-            </Grid>
-          </Tooltip>
+          <Grid container justifyContent="flex-start">
+            <Tooltip title="Home page">
+              <Box onClick={onLogoClickHandler} className={styles.nav_logo}>
+                <Image
+                  src="/Nextjs-logo-1.svg"
+                  alt="NextJS Logo"
+                  width={165}
+                  height={75}
+                />
+              </Box>
+            </Tooltip>
+          </Grid>
         </Grid>
         <Grid
           item

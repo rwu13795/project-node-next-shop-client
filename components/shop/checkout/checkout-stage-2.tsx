@@ -7,7 +7,14 @@ import React, {
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TokenResult } from "@stripe/stripe-js";
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import {
+  CardElement,
+  useElements,
+  useStripe,
+  CardNumberElement,
+  CardExpiryElement,
+  CardCvcElement,
+} from "@stripe/react-stripe-js";
 
 import { Checkbox, SelectChangeEvent } from "@mui/material";
 
@@ -86,22 +93,22 @@ export default function CheckoutStage_2({
       inputErrors,
       setInputErrors
     );
-    if (hasError || cardErorr) return;
-    if (!cardComplete) {
-      setCardError({
-        type: "card_incomplete",
-        code: "0000",
-        message: "Required field",
-      });
-      return;
-    }
+    // if (hasError || cardErorr) return;
+    // if (!cardComplete) {
+    //   setCardError({
+    //     type: "card_incomplete",
+    //     code: "0000",
+    //     message: "Required field",
+    //   });
+    //   return;
+    // }
     //////////
     // NOTE //
     // the value inside the cardElement will be destoyed whenever this component is
     // unmounted. I need to create a onc-time-use token using the cardElement,
     // and pass the "token" back the checkout page, where the "confirmCardPayment" takes place
     if (setStripeCardToken && elements && stripe) {
-      const cardElement = elements.getElement(CardElement);
+      const cardElement = elements.getElement(CardNumberElement);
       if (cardElement) {
         let token = await stripe.createToken(cardElement);
         setStripeCardToken(token);
@@ -141,23 +148,12 @@ export default function CheckoutStage_2({
         </div>
         {inputFields(addressFields, billingAddress)}
         <div style={{ border: "red 2px solid" }}>
-          <TextFieldStyled
-            label="CARD"
-            variant="outlined"
-            disabled={true}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          <div style={{ position: "relative", bottom: "2rem" }}>
-            <CardElement
-              onChange={(e) => {
-                setCardError(e.error);
-                setCardComplete(e.complete);
-              }}
-            />
-            {cardErorr?.message}
-          </div>
+          Card Number
+          <CardNumberElement />
+          exp
+          <CardExpiryElement />
+          ccv
+          <CardCvcElement />
         </div>
       </div>
       <div>
@@ -166,3 +162,33 @@ export default function CheckoutStage_2({
     </main>
   );
 }
+
+// NOTE //
+/* In case you are using the CardNumberElement, CardExpiryElement, CardCvcElement, 
+   just use "elements.getElement(CardNumberElement)" to grab the "CardNumberElement"
+   the "elements.getElement" will automatically grab the Exp and CCV data
+   the rest is the same as using <CardElement />
+*/
+
+/*{/* <TextFieldStyled
+            label="CARD"
+            variant="outlined"
+            disabled={true}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <div style={{ position: "relative", bottom: "2rem" }}>
+            {/* <CardElement
+              onChange={(e) => {
+                setCardError(e.error);
+                setCardComplete(e.complete);
+              }}
+            /> */
+/* Card Number
+            <CardNumberElement />
+            exp
+            <CardExpiryElement />
+            ccv
+            <CardCvcElement />
+            {cardErorr?.message}  */

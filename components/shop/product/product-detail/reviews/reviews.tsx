@@ -1,24 +1,47 @@
-import React, { useState, memo } from "react";
+import React, { useState, Fragment, memo } from "react";
 import { PageColorProps } from "../../../../../utils/react-hooks/get-more-products";
 
-// UI //
-import { ToggleButtonStyled } from "../../../../../styles/mui-custom-components";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import { Reviews } from "../../../../../pages/shop/product-detail/[product_id]";
 
-import styles from "./__sizes.module.css";
+// UI //
+
+import { Grid } from "@mui/material";
+import styles from "./__reviews.module.css";
 
 interface Props {
-  selectedSize: string;
-  currentColor: PageColorProps;
-  sizeHandler: (event: React.MouseEvent<HTMLElement>, size: string) => void;
+  reviews: Reviews;
 }
 
-function ProductReview({
-  selectedSize,
-  currentColor,
-  sizeHandler,
-}: Props): JSX.Element {
-  return <div className={""}></div>;
+function ProductReviews({ reviews }: Props): JSX.Element {
+  const _box = styles.inner_grid_box;
+  const _inner_grid = styles.inner_grid;
+  const _lower_grid = styles._lower_grid;
+
+  return (
+    <main className={styles.main_grid}>
+      {reviews.total > 0 ? (
+        <Fragment>
+          <div className={_inner_grid}>
+            <div className={_box}>{reviews.averageRating}</div>
+            <div className={_box}>{reviews.allRatings.five}</div>
+          </div>
+          <div className={_inner_grid}>
+            {reviews.reviews.map((r, index) => {
+              return (
+                <div key={index} className={_box}>
+                  <div>{r.user_name}</div>
+                  <div>{r.title}</div>
+                  <div>{r.review}</div>
+                </div>
+              );
+            })}
+          </div>
+        </Fragment>
+      ) : (
+        <h1>No Review</h1>
+      )}
+    </main>
+  );
 }
 
-export default memo(ProductReview);
+export default memo(ProductReviews);

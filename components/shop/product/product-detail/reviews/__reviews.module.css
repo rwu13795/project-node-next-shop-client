@@ -1,0 +1,30 @@
+.main_grid {
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.inner_grid {
+  width: 90vw;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.inner_grid_box {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 40vw;
+}
+@media screen and (max-width: 765px) {
+  .inner_grid_box {
+    display: flex;
+    justify-content: center;
+    width: 90vw;
+  }
+}

@@ -1,0 +1,13 @@
+.page_link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.box {
+  display: inline-block;
+}
+
+.grey {
+  display: inline-block;
+  color: rgb(128, 128, 128);
+}
