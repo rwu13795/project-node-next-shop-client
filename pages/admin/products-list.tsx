@@ -82,7 +82,12 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
   }, []);
 
   if (!products) {
-    return <h1>No Product Found</h1>;
+    return (
+      <main>
+        <h1>No Product Found</h1>
+        <button onClick={goToAddProduct}>add new product</button>
+      </main>
+    );
   }
 
   return (

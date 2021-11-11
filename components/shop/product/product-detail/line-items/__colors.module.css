@@ -4,6 +4,7 @@
   align-items: center;
   height: 40px;
 }
+
 .color_ball {
   width: 30px;
   height: 30px;
@@ -36,4 +37,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.color_ball_container:hover {
+  cursor: pointer;
 }

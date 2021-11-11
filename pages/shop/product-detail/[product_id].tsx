@@ -11,7 +11,7 @@ import { Tooltip, Box, IconButton } from "@mui/material";
 import styles from "./__detail.module.css";
 import PageLinks from "../../../components/layout/page-links/links";
 
-interface ReviewProps {
+export interface ReviewProps {
   title: string;
   review: string;
   rating: string;
@@ -21,20 +21,30 @@ interface ReviewProps {
   size: string;
 }
 
-interface AllRatings {
-  one: number;
-  two: number;
-  three: number;
-  four: number;
+export interface AllRatings {
   five: number;
+  four: number;
+  three: number;
+  two: number;
+  one: number;
+  [rating: string]: number;
 }
 
 export interface Reviews {
+  _id: string;
   productId: string;
   averageRating: number;
   allRatings: AllRatings;
-  reviews: ReviewProps[];
+  allReviews: ReviewProps[];
   total: number;
+  reviewsByRating?: {
+    five: ReviewProps[];
+    four: ReviewProps[];
+    three: ReviewProps[];
+    two: ReviewProps[];
+    one: ReviewProps[];
+    [rating: string]: ReviewProps[];
+  };
 }
 
 interface PageProps {

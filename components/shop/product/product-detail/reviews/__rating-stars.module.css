@@ -1,0 +1,89 @@
+.ratings_container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.ratings {
+  position: relative;
+  vertical-align: middle;
+  display: inline-block;
+  color: #b1b1b1;
+  overflow: hidden;
+  margin-right: 15px;
+}
+.ratings:hover {
+  cursor: pointer;
+}
+
+.full_stars {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #fde16d;
+}
+
+.empty_stars:before,
+.full_stars:before {
+  content: "\2605\2605\2605\2605\2605";
+  font-size: 18pt;
+}
+
+.empty_stars:before {
+  -webkit-text-stroke: 1px #848484;
+}
+
+.full_stars:before {
+  -webkit-text-stroke: 1px orange;
+}
+
+.button {
+  margin-left: 15px;
+  border: solid 2px #00789e;
+  padding: 2px 4px 2px 4px;
+}
+.button:hover {
+  background-color: #00789e;
+  color: white;
+  cursor: pointer;
+}
+
+/* Large stars */
+.full_stars_large {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #fde16d;
+}
+
+.empty_stars_large:before,
+.full_stars_large:before {
+  content: "\2605\2605\2605\2605\2605";
+  font-size: 35pt;
+}
+.empty_stars_large:before {
+  -webkit-text-stroke: 1px #848484;
+}
+
+.full_stars_large:before {
+  -webkit-text-stroke: 1px orange;
+}
+
+.reviews_link {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 765px) {
+  .empty_stars_large:before,
+  .full_stars_large:before {
+    content: "\2605\2605\2605\2605\2605";
+    font-size: min(30pt, 9vw);
+  }
+}

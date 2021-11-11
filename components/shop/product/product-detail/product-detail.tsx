@@ -11,6 +11,7 @@ import SelectSize from "./line-items/sizes";
 import SelectQuantity from "./line-items/quantities";
 import SelectColors from "./line-items/colors";
 import ProductReviews from "./reviews/reviews";
+import RatingSummary from "./reviews/rating-summary";
 import { inputNames } from "../../../../utils/enums-types/input-names";
 import { Reviews } from "../../../../pages/shop/product-detail/[product_id]";
 import {
@@ -43,18 +44,7 @@ export default function ProductDetail({
   editItem,
   handleClose,
 }: Props): JSX.Element {
-  /****************************************************************************/
-  const _price = styles.product_desc_price;
-  const _size = styles.product_desc_line_items + " " + styles.product_desc_size;
-  const _line_item = styles.product_desc_line_items;
-  const _line_item_grid = styles.product_desc_line_items_inner_grid;
-  const _images_container = styles.product_images_container;
-  const _desc_container = styles.product_desc_container;
-  const _divider = styles.product_desc_divider;
-  const _error = styles.product_desc_error;
-  const _detail = styles.product_desc_detail;
-  /****************************************************************************/
-
+  const { averageRating, total } = reviews;
   const { productInfo, colorPropsList, _id } = product;
   const dispatch = useDispatch();
 
@@ -129,7 +119,7 @@ export default function ProductDetail({
       <Grid container className={styles.main_grid}>
         <Grid container className={styles.upper_grid}>
           <Grid sx={{ display: { xs: "flex", md: "none" } }}>
-            <h2>{productInfo.title.toUpperCase()}</h2>
+            <div className={_title}>{productInfo.title.toUpperCase()}</div>
           </Grid>
           <Grid item xs={12} sm={12} md={8} className={_images_container}>
             <ProductDetailImages
@@ -150,10 +140,12 @@ export default function ProductDetail({
               sx={{ display: { xs: "none", md: "flex" } }}
               className={_line_item}
             >
-              <h2>{productInfo.title.toUpperCase()}</h2>
+              <div className={_title}>{productInfo.title.toUpperCase()}</div>
             </Grid>
 
-            <div className={_line_item}>Review ***** </div>
+            <div className={_line_item}>
+              <RatingSummary averageRating={averageRating} total={total} />
+            </div>
 
             <div className={_line_item}>
               <div className={_line_item_grid}>
@@ -210,11 +202,25 @@ export default function ProductDetail({
               </Button>
             </div>
 
-            <div className={_line_item}>
-              <div style={{ fontSize: "18px" }}>Product Detail: </div>
-              <div className={_detail}>{productInfo.description}</div>
-            </div>
+            <Grid
+              sx={{
+                display: { xs: "none", sm: "none", md: "none", lg: "flex" },
+              }}
+            >
+              <div className={_line_item}>
+                <div style={{ fontSize: "18px" }}>Product Detail: </div>
+                <div className={_detail}>{productInfo.description}</div>
+              </div>
+            </Grid>
           </Grid>
+        </Grid>
+
+        <Grid sx={{ display: { md: "flex", lg: "none" } }}>
+          <div className={styles.product_desc_detail_box}>
+            <div style={{ fontSize: "18px" }}>Product Detail: </div>
+            <div className={_detail}>{productInfo.description}</div>
+            <div className={_divider} style={{ width: "100%" }}></div>
+          </div>
         </Grid>
 
         <Grid className={styles.lower_grid}>
@@ -224,3 +230,13 @@ export default function ProductDetail({
     </main>
   );
 }
+
+const _price = styles.product_desc_price;
+const _title = styles.product_desc_title;
+const _line_item = styles.product_desc_line_items;
+const _line_item_grid = styles.product_desc_line_items_inner_grid;
+const _images_container = styles.product_images_container;
+const _desc_container = styles.product_desc_container;
+const _divider = styles.product_desc_divider;
+const _error = styles.product_desc_error;
+const _detail = styles.product_desc_detail;

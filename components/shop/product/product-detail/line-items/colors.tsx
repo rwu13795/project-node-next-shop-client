@@ -28,7 +28,7 @@ function SelectColors({
 
   return (
     <div className={_container}>
-      <div style={{ marginRight: "5px" }}>Colors:</div>
+      <div style={{ marginRight: "14px" }}>Colors:</div>
       {colorPropsList.map((prop, index) => {
         let active: string = _ring;
         if (prop.colorName === currentColor.colorName) {
