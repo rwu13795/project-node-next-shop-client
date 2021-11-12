@@ -1,0 +1,51 @@
+import { Fragment, useState, memo } from "react";
+
+import ProductReviews from "./reviews";
+import { Reviews } from "../../../../../pages/shop/product-detail/[product_id]";
+
+// UI //
+import {
+  Drawer,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  List,
+  Collapse,
+  Divider,
+  Grid,
+  Box,
+} from "@mui/material";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import styles from "./__reviews-collapse-box.module.css";
+
+interface Props {
+  reviews: Reviews;
+  page?: string;
+}
+
+function ReviewsCollapseBox({ reviews, page }: Props): JSX.Element {
+  const [expand, setExpand] = useState<boolean>(false);
+
+  const toggleExpand = () => {
+    setExpand(!expand);
+  };
+
+  return (
+    <Grid sx={{ width: "90vw" }}>
+      {/* <Divider /> */}
+      <ListItemButton onClick={toggleExpand} className={styles.collapse_box}>
+        <ListItemText primary="REVIEWS" />
+        {expand ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
+      <Divider />
+
+      <Collapse in={expand} timeout="auto" unmountOnExit>
+        <ProductReviews reviews={reviews} page={page} />
+        <Divider />
+      </Collapse>
+    </Grid>
+  );
+}
+
+export default memo(ReviewsCollapseBox);

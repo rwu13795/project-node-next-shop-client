@@ -18,7 +18,7 @@ function RatingSummary({ averageRating, total }: Props): JSX.Element {
     <div className={styles.ratings_container}>
       <div style={{ marginRight: "15px" }}>Reviews:</div>
       <RatingStars averageRating={averageRating} total={total} />
-      <div>{`${averageRating} (${total})`}</div>
+      <div style={{ marginRight: "15px" }}>{`${averageRating} (${total})`}</div>
       <div className={styles.button}>Write a review</div>
     </div>
   );

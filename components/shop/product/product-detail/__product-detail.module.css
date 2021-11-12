@@ -80,9 +80,15 @@
   width: 75vw;
 }
 .product_desc_detail {
-  font-size: 15px;
+  font-size: 14px;
+  font-family: sans-serif;
   margin-left: 10px;
   font-weight: lighter;
+}
+
+.product_desc_detail_collapse_box {
+  margin: 10px 5px 10px 5px;
+  width: 90vw;
 }
 
 @media screen and (max-width: 765px) {
@@ -103,7 +109,8 @@
     height: 50px;
   }
   .product_desc_detail_box {
-    width: 90vw;
+    width: 85vw;
+    margin: 10px 10px 15px 10px;
   }
   .product_desc_line_items {
     width: 90vw;

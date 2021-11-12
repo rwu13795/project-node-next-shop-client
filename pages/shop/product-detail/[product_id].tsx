@@ -19,6 +19,7 @@ export interface ReviewProps {
   user_name: string;
   user_email: string;
   size: string;
+  _id: string;
 }
 
 export interface AllRatings {

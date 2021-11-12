@@ -35,6 +35,7 @@ function RatingBars({
       : styles.bars_detail_container_empty;
 
   const setFilter = async () => {
+    if (ratingNum < 1) return;
     await filterReviews(star);
   };
 

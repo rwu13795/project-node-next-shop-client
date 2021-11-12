@@ -33,6 +33,7 @@ export default function MenuIcon(): JSX.Element {
         open={isDrawerOpen}
         onClose={closeMenu}
         anchor="left"
+        // set the background color in the main drawer "& .MuiDrawer-paper"
         sx={{
           width: "100vw",
           "& .MuiDrawer-paper": {

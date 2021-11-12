@@ -1,5 +1,6 @@
 .main_container {
   margin-top: 65px;
+  max-width: 110rem;
 }
 
 .main_grid {
@@ -41,7 +42,8 @@
   border-bottom: solid 2px #00789e;
   position: relative;
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
+  padding-bottom: 5px;
   width: 30vw;
 }
 
@@ -55,21 +57,42 @@
 .rating_bars_container {
 }
 
+.reviews_nav_button {
+  height: 30px;
+  font-size: 20px;
+}
+
+.reviews_filter_button {
+  font-weight: bold;
+}
+.reviews_clear_filter_icon {
+  margin-left: 5px;
+  width: 20px;
+  height: 20px;
+}
+
+.reviews_sub_link {
+  color: inherit;
+  text-decoration: none;
+}
+
 @media screen and (min-width: 765px) and (max-width: 1080px) {
   .inner_grid_box {
     width: 70vw;
   }
 }
 @media screen and (max-width: 765px) {
+  .main_container {
+    margin-top: 10px;
+    width: 90vw;
+  }
   .outer_grid_box {
     width: 90vw;
   }
   .inner_grid_box {
     width: 90vw;
   }
-  .main_container {
-    margin-top: 40px;
-  }
+
   .reviews_desc_box {
     font-size: min(28px, 6vw);
   }

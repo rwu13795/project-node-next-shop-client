@@ -10,8 +10,9 @@ import ProductDetailImages from "./swiper-images/images";
 import SelectSize from "./line-items/sizes";
 import SelectQuantity from "./line-items/quantities";
 import SelectColors from "./line-items/colors";
-import ProductReviews from "./reviews/reviews";
+import ReviewsWrapper from "./reviews/reviews-wrapper";
 import RatingSummary from "./reviews/rating-summary";
+import ProductDescriptionWrapper from "./product-desc-wrapper";
 import { inputNames } from "../../../../utils/enums-types/input-names";
 import { Reviews } from "../../../../pages/shop/product-detail/[product_id]";
 import {
@@ -44,9 +45,10 @@ export default function ProductDetail({
   editItem,
   handleClose,
 }: Props): JSX.Element {
+  const dispatch = useDispatch();
+
   const { averageRating, total } = reviews;
   const { productInfo, colorPropsList, _id } = product;
-  const dispatch = useDispatch();
 
   const [currentColor, setCurrentColor] = useState<PageColorProps>(() => {
     if (editMode && editItem) {
@@ -215,16 +217,15 @@ export default function ProductDetail({
           </Grid>
         </Grid>
 
-        <Grid sx={{ display: { md: "flex", lg: "none" } }}>
-          <div className={styles.product_desc_detail_box}>
-            <div style={{ fontSize: "18px" }}>Product Detail: </div>
-            <div className={_detail}>{productInfo.description}</div>
-            <div className={_divider} style={{ width: "100%" }}></div>
-          </div>
+        <Grid className={styles.lower_grid}>
+          <ProductDescriptionWrapper description={productInfo.description} />
         </Grid>
 
-        <Grid className={styles.lower_grid}>
-          <ProductReviews reviews={reviews} />
+        <Grid
+          className={styles.lower_grid}
+          sx={{ display: { xs: "none", md: "flex" } }}
+        >
+          <ReviewsWrapper reviews={reviews} />
         </Grid>
       </Grid>
     </main>

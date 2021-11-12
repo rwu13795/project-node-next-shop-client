@@ -1,6 +1,9 @@
 import React, { useState, Fragment, memo } from "react";
-import { PageColorProps } from "../../../../../utils/react-hooks/get-more-products";
 
+import Image from "next/image";
+
+import browserClient from "../../../../../utils/axios-client/browser-client";
+import { PageColorProps } from "../../../../../utils/react-hooks/get-more-products";
 import {
   Reviews,
   ReviewProps,
@@ -10,12 +13,13 @@ import RatingBars from "./rating-bars";
 import SingleReview from "./single-review";
 
 // UI //
-import { Grid } from "@mui/material";
+import { Button, Grid, Tooltip } from "@mui/material";
+import CancelIcon from "@mui/icons-material/Cancel";
 import styles from "./__reviews.module.css";
-import browserClient from "../../../../../utils/axios-client/browser-client";
 
 interface Props {
   reviews: Reviews;
+  page?: string;
 }
 
 function ProductReviews({ reviews }: Props): JSX.Element {
@@ -24,7 +28,7 @@ function ProductReviews({ reviews }: Props): JSX.Element {
     total,
     allReviews,
     allRatings,
-    _id: reviewId,
+    _id: reviewPrimaryId,
   } = reviews;
   const client = browserClient();
 
@@ -49,7 +53,7 @@ function ProductReviews({ reviews }: Props): JSX.Element {
     }
     const { data } = await client.post(
       "http://localhost:5000/api/products/get-reviews",
-      { reviewId, pageNum: newPage, filter: reviewFilter }
+      { reviewPrimaryId, pageNum: newPage, filter: reviewFilter }
     );
     setPageNum(newPage);
     setCurrentReviews(data.reviews);
@@ -66,10 +70,16 @@ function ProductReviews({ reviews }: Props): JSX.Element {
     setReviewFilter(star);
     const { data } = await client.post(
       "http://localhost:5000/api/products/get-reviews",
-      { reviewId, pageNum: 1, filter: star }
+      { reviewPrimaryId, pageNum: 1, filter: star }
     );
     setPageNum(1);
     setCurrentReviews(data.reviews);
+  };
+
+  const clearReviewsFilter = () => {
+    setReviewFilter("");
+    setPageNum(1);
+    setCurrentReviews(allReviews);
   };
 
   return (
@@ -81,6 +91,7 @@ function ProductReviews({ reviews }: Props): JSX.Element {
               <h1>Reviews</h1>
             </a>
           </div>
+
           <Grid
             container
             justifyContent="center"
@@ -145,18 +156,32 @@ function ProductReviews({ reviews }: Props): JSX.Element {
             </Grid>
           </Grid>
 
-          <Grid container justifyContent="center" className={_outer_grid}>
-            <div className={_sub_title}>
-              {num1}-{num2} of{" "}
-              {reviewFilter !== "" ? allRatings[reviewFilter] : total} Reviews
-            </div>
+          <Grid
+            container
+            justifyContent="center"
+            alignItems="center"
+            direction="column"
+            className={_outer_grid}
+          >
+            <a id="reviews_sub">
+              <div className={_sub_title}>
+                {num1}-{num2} of{" "}
+                {reviewFilter !== "" ? allRatings[reviewFilter] : total} Reviews
+              </div>
+            </a>
+            {reviewFilter !== "" && (
+              <Tooltip title="Clear filter">
+                <Button
+                  variant="outlined"
+                  onClick={clearReviewsFilter}
+                  className={_filter_button}
+                >
+                  {starNum[reviewFilter]} Stars{" "}
+                  <CancelIcon className={_clear} />
+                </Button>
+              </Tooltip>
+            )}
           </Grid>
-
-          {reviewFilter !== "" && (
-            <Grid container justifyContent="center" className={_outer_grid}>
-              <div>{starNum[reviewFilter]} Stars </div>
-            </Grid>
-          )}
 
           <Grid container justifyContent="center" className={_outer_grid}>
             {currentReviews.map((review, index) => {
@@ -170,7 +195,13 @@ function ProductReviews({ reviews }: Props): JSX.Element {
                   lg={6}
                   className={_box}
                 >
-                  <SingleReview review={review} />
+                  <SingleReview
+                    review={review}
+                    pageNum={pageNum}
+                    reviewPrimaryId={reviewPrimaryId}
+                    setPageNum={setPageNum}
+                    setCurrentReviews={setCurrentReviews}
+                  />
                 </Grid>
               );
             })}
@@ -178,18 +209,28 @@ function ProductReviews({ reviews }: Props): JSX.Element {
 
           {totalReviews > REVIEWS_PER_PAGE && (
             <Grid container justifyContent="center" className={_outer_grid}>
-              <button
+              <Button
+                variant="outlined"
                 onClick={() => getMoreReviews("prev")}
                 disabled={pageNum === 1}
+                className={_nav_button}
               >
-                prev
-              </button>
-              <button
+                <a href="#reviews_sub" className={_link}>
+                  ◀
+                </a>
+              </Button>
+              <Button
+                variant="outlined"
                 onClick={() => getMoreReviews("next")}
-                disabled={currentReviews.length < REVIEWS_PER_PAGE}
+                disabled={
+                  currentReviews.length < REVIEWS_PER_PAGE || num2 === total
+                }
+                className={_nav_button}
               >
-                next
-              </button>
+                <a href="#reviews_sub" className={_link}>
+                  ▶
+                </a>
+              </Button>
             </Grid>
           )}
         </Fragment>
@@ -208,6 +249,16 @@ const _outer_grid = styles.outer_grid_box;
 const _title = styles.title_box;
 const _sub_title = styles.sub_title_box;
 const _rating_bars = styles.rating_bars_container;
-const starNum = { five: 5, four: 4, three: 3, two: 2, one: 1 } as {
+const _nav_button = styles.reviews_nav_button;
+const _filter_button = styles.reviews_filter_button;
+const _clear = styles.reviews_clear_filter_icon;
+const _link = styles.reviews_sub_link;
+
+export const starNum: {
+  five: number;
+  four: number;
+  three: number;
+  two: 2;
+  one: number;
   [key: string]: number;
-};
+} = { five: 5, four: 4, three: 3, two: 2, one: 1 };
