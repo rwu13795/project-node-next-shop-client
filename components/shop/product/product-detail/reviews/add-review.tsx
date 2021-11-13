@@ -49,16 +49,11 @@ interface Props {
 
 const inputFieldsArray = ["title", "review", "nickname", "email", "size"];
 
-const ratingKeys = ["one", "two", "three", "four", "five"];
-
 export default function AddReviewModal({
   productId,
   openModal,
   setOpenModal,
 }: Props): JSX.Element {
-  const router = useRouter();
-  const dispatch = useDispatch();
-
   const [inputValues, setInputValue] = useState<InputValues>(() => {
     return initializeValues(inputFieldsArray);
   });
@@ -109,10 +104,39 @@ export default function AddReviewModal({
     // timer to close -- closeModal();
   };
 
-  /* * * * * * * * * */
-  // stars selecting //
-  //
-  /* * * * * * * * * */
+  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+  // I tried to put starsSelecting to a child component, but it seemed that some of
+  // the states could not be passed correctly
+
+  return (
+    <Fragment>
+      <Modal
+        disableScrollLock={true}
+        open={openModal}
+        onClose={closeModal}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={openModal}>
+          <Box className={styles.main_container}>
+            {SelectStars(setRating)}
+            {inputFields(inputFieldsArray, inputValues)}
+            <button onClick={reviewSubmitHandler}>POST REVIEW</button>
+            <button onClick={closeModal}>CANCEL</button>
+          </Box>
+        </Fade>
+      </Modal>
+    </Fragment>
+  );
+}
+
+/* * * * * * * * * */
+// stars selecting //
+/* * * * * * * * * */
+const SelectStars = (setRating: Dispatch<SetStateAction<string>>) => {
   const initialColor = [
     styles.stars,
     styles.stars,
@@ -120,6 +144,7 @@ export default function AddReviewModal({
     styles.stars,
     styles.stars,
   ];
+  const ratingKeys = ["one", "two", "three", "four", "five"];
   const [starsColor, setStarsColor] = useState(initialColor);
   const [selectedStars, setSelectedStars] = useState(starsColor);
   const [isRated, setIsRated] = useState(false);
@@ -142,7 +167,6 @@ export default function AddReviewModal({
       for (let i = 0; i < rating; i++) {
         newColor[i] = styles.stars_active;
       }
-      console.log(newColor);
       return newColor;
     });
   };
@@ -154,111 +178,24 @@ export default function AddReviewModal({
       setStarsColor(selectedStars);
     }
   };
-  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-  return (
-    <Fragment>
-      <Modal
-        disableScrollLock={true}
-        open={openModal}
-        onClose={closeModal}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
+  return ratingKeys.map((key, index) => {
+    return (
+      <div
+        key={key}
+        className={starsColor[index]}
+        onClick={() => {
+          onClickHandler(index + 1, key);
+        }}
+        onMouseEnter={() => {
+          onMouseEnterHandler(index + 1);
+        }}
+        onMouseOut={() => {
+          onMouseOutHandler(index + 1);
         }}
       >
-        <Fade in={openModal}>
-          <Box className={styles.main_container}>
-            {ratingKeys.map((key, index) => {
-              return (
-                <div
-                  key={key}
-                  className={starsColor[index]}
-                  onClick={() => {
-                    onClickHandler(index + 1, key);
-                  }}
-                  onMouseEnter={() => {
-                    onMouseEnterHandler(index + 1);
-                  }}
-                  onMouseOut={() => {
-                    onMouseOutHandler(index + 1);
-                  }}
-                >
-                  ★
-                </div>
-              );
-            })}
-
-            {inputFields(inputFieldsArray, inputValues)}
-            <button onClick={reviewSubmitHandler}>POST REVIEW</button>
-            <button onClick={closeModal}>CANCEL</button>
-          </Box>
-        </Fade>
-      </Modal>
-    </Fragment>
-  );
-}
-
-/* * * * * * * * * * * * */
-// SelectStarsComponent //
-/* * * * * * * * * * * * */
-interface SubProps {
-  ratingKey: string;
-  index: number;
-  starsColor: string[];
-  selectedStars: string[];
-  setStarsColor: Dispatch<SetStateAction<string[]>>;
-  setSelectedStars: Dispatch<SetStateAction<string[]>>;
-  setRating: Dispatch<SetStateAction<string>>;
-}
-
-// function SelectStarsComponent({
-//   ratingKey,
-//   index,
-//   starsColor,
-//   selectedStars,
-//   setStarsColor,
-//   setSelectedStars,
-//   setRating,
-// }: SubProps): JSX.Element {
-
-//     const [isRated, setIsRated] = useState(false);
-//   const onClickHandler = (rating: number, ratingKey: string) => {
-//     setIsRated(true);
-//     setRating(ratingKey);
-//     setStarsColor(() => {
-//       let newColor = initialColor;
-//       for (let i = 0; i < rating; i++) {
-//         newColor[i] = styles.stars_active;
-//       }
-//       setSelectedStars(newColor);
-//       return newColor;
-//     });
-//   };
-
-//   const onMouseEnterHandler = (rating: number) => {
-//     setStarsColor(() => {
-//       let newColor = initialColor;
-//       for (let i = 0; i < rating; i++) {
-//         newColor[i] = styles.stars_active;
-//       }
-//       console.log(newColor);
-//       return newColor;
-//     });
-//   };
-
-//   const onMouseOutHandler = (rating: number) => {
-//     if (!isRated) {
-//       setStarsColor(initialColor);
-//     } else {
-//       setStarsColor(selectedStars);
-//     }
-//   };
-
-//   return (
-
-//   );
-// }
-
-// const SelectStars = memo(SelectStarsComponent);
+        ★
+      </div>
+    );
+  });
+};
