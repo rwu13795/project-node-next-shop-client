@@ -10,15 +10,15 @@ import { Grid, Tooltip } from "@mui/material";
 import styles from "./__rating-stars.module.css";
 
 interface Props {
-  productId: string;
   averageRating: number;
   total: number;
+  setOpenAddReivewModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function RatingSummary({
   averageRating,
   total,
-  productId,
+  setOpenAddReivewModal,
 }: Props): JSX.Element {
   const [openModal, setOpenModal] = useState<boolean>(false);
 
@@ -31,15 +31,12 @@ function RatingSummary({
       <div style={{ marginRight: "15px" }}>Reviews:</div>
       <RatingStars averageRating={averageRating} total={total} />
       <div style={{ marginRight: "15px" }}>{`${averageRating} (${total})`}</div>
-      <div className={styles.button} onClick={writeReviewHandler}>
+      <div
+        className={styles.button}
+        onClick={() => setOpenAddReivewModal(true)}
+      >
         Write a review
       </div>
-
-      <AddReviewModal
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-        productId={productId}
-      />
     </div>
   );
 }

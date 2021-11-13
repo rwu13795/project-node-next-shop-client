@@ -65,12 +65,18 @@ interface SignInBody {
   password: string;
 }
 
+interface EditItem {
+  index: number;
+  item: CartItem;
+}
+
 interface UserState {
   currentUser: CurrentUser;
   changeInCart: boolean;
   loadingStatus: string;
   authErrors: AuthErrors;
   csrfToken: string;
+  editItem?: EditItem;
 }
 
 const initialState: UserState = {
@@ -329,6 +335,9 @@ const userSlice = createSlice({
     clearStockErrors(state, action: PayloadAction<number>) {
       state.currentUser.cart[action.payload].stockError = "";
     },
+    setEditItem(state, action: PayloadAction<EditItem>) {
+      state.editItem = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -532,6 +541,7 @@ export const {
   setChangeInCart,
   setLoadingStatus,
   clearStockErrors,
+  setEditItem,
 } = userSlice.actions;
 export {
   signIn,
@@ -586,4 +596,8 @@ export const selectTotalAmount = createSelector([selectCart], (cart) => {
 export const selectCsrfToken = createSelector(
   [selectUser],
   (userState) => userState.csrfToken
+);
+export const selectEditItem = createSelector(
+  [selectUser],
+  (userState) => userState.editItem
 );

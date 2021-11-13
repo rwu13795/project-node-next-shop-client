@@ -11,6 +11,7 @@ import {
 import RatingStars from "./rating-stars";
 import RatingBars from "./rating-bars";
 import SingleReview from "./single-review";
+import AddReviewModal from "./add-review";
 
 // UI //
 import { Button, Grid, Tooltip } from "@mui/material";
@@ -19,16 +20,24 @@ import styles from "./__reviews.module.css";
 
 interface Props {
   reviews: Reviews;
+  setOpenAddReivewModal: React.Dispatch<React.SetStateAction<boolean>>;
+  openAddReivewModal: boolean;
   page?: string;
 }
 
-function ProductReviews({ reviews }: Props): JSX.Element {
+function ProductReviews({
+  reviews,
+  setOpenAddReivewModal,
+  openAddReivewModal,
+  page,
+}: Props): JSX.Element {
   const {
     averageRating,
     total,
     allReviews,
     allRatings,
     _id: reviewPrimaryId,
+    productId,
   } = reviews;
   const client = browserClient();
 
@@ -80,6 +89,15 @@ function ProductReviews({ reviews }: Props): JSX.Element {
     setReviewFilter("");
     setPageNum(1);
     setCurrentReviews(allReviews);
+  };
+
+  const refreshReviews = async () => {
+    const { data } = await client.post(
+      "http://localhost:5000/api/products/get-reviews",
+      { reviewPrimaryId, pageNum, filter: "" }
+    );
+
+    setCurrentReviews(data.reviews);
   };
 
   return (
@@ -201,6 +219,7 @@ function ProductReviews({ reviews }: Props): JSX.Element {
                     reviewPrimaryId={reviewPrimaryId}
                     setPageNum={setPageNum}
                     setCurrentReviews={setCurrentReviews}
+                    page={page}
                   />
                 </Grid>
               );
@@ -237,6 +256,13 @@ function ProductReviews({ reviews }: Props): JSX.Element {
       ) : (
         <h1>No review yet, be the first one to write a review</h1>
       )}
+
+      <AddReviewModal
+        openAddReivewModal={openAddReivewModal}
+        setOpenAddReivewModal={setOpenAddReivewModal}
+        productId={productId}
+        refreshReviews={refreshReviews}
+      />
     </Grid>
   );
 }

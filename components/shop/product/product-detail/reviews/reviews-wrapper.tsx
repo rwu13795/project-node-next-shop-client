@@ -1,4 +1,4 @@
-import { Fragment, memo } from "react";
+import React, { Fragment, memo } from "react";
 import dynamic from "next/dynamic";
 import { useMediaQuery } from "react-responsive";
 
@@ -8,18 +8,35 @@ import { Reviews } from "../../../../../pages/shop/product-detail/[product_id]";
 
 interface Props {
   reviews: Reviews;
+  setOpenAddReivewModal: React.Dispatch<React.SetStateAction<boolean>>;
+  openAddReivewModal: boolean;
   page?: string;
 }
 
-function ReviewsWrapper({ reviews, page }: Props): JSX.Element {
+function ReviewsWrapper({
+  reviews,
+  setOpenAddReivewModal,
+  openAddReivewModal,
+  page,
+}: Props): JSX.Element {
   const isSmall = useMediaQuery({ query: "(max-width: 765px)" });
 
   return (
     <Fragment>
       {isSmall ? (
-        <ReviewsCollapseBox reviews={reviews} page={page} />
+        <ReviewsCollapseBox
+          reviews={reviews}
+          page={page}
+          setOpenAddReivewModal={setOpenAddReivewModal}
+          openAddReivewModal={openAddReivewModal}
+        />
       ) : (
-        <ProductReviews reviews={reviews} page={page} />
+        <ProductReviews
+          reviews={reviews}
+          page={page}
+          setOpenAddReivewModal={setOpenAddReivewModal}
+          openAddReivewModal={openAddReivewModal}
+        />
       )}
     </Fragment>
   );

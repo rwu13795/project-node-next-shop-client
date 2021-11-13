@@ -33,13 +33,17 @@ export default function CartIcon(): JSX.Element {
   const [showCart, setShowCart] = useState<boolean>(false);
 
   useEffect(() => {
+    let timerId: any;
     if (changeInCart) {
       setShowCart(true);
-      setTimeout(() => {
+      timerId = setTimeout(() => {
         dispatch(setChangeInCart(false));
         setShowCart(false);
       }, 5000);
     }
+    return () => {
+      clearTimeout(timerId);
+    };
   }, [changeInCart, dispatch]);
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {

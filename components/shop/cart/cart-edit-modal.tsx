@@ -1,22 +1,29 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, memo } from "react";
+import dynamic from "next/dynamic";
+import { useMediaQuery } from "react-responsive";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+
+import ProductDetail from "../product/product-detail/product-detail";
+import { PageProductProps } from "../../../utils/react-hooks/get-more-products";
+import { CartItem, setEditItem } from "../../../utils/redux-store/userSlice";
+import browserClient from "../../../utils/axios-client/browser-client";
+import { Reviews } from "../../../pages/shop/product-detail/[product_id]";
+
+// UI //
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 
-import ProductDetail from "../product/product-detail/product-detail";
-import { PageProductProps } from "../../../utils/react-hooks/get-more-products";
-import { CartItem } from "../../../utils/redux-store/userSlice";
-import browserClient from "../../../utils/axios-client/browser-client";
-
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  outerHeight: 800,
-  width: 800,
+  width: "90vw",
+  innerHeight: "auto",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -25,6 +32,7 @@ const style = {
 
 interface ProductProps {
   product: PageProductProps;
+  reviews: Reviews;
 }
 
 interface Props {
@@ -34,27 +42,21 @@ interface Props {
   editItem: CartItem;
 }
 
-export default function CartEditModal({
-  category,
-  productId,
-  index,
-  editItem,
-}: Props) {
+function CartEditModal({ category, productId, index, editItem }: Props) {
   const client = browserClient();
+  const isSmall = useMediaQuery({ query: "(max-width: 765px)" });
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
   const [product, setProduct] = useState<PageProductProps | undefined>();
 
+  // fetch the item which is being edited for the modal in large screen
   const fetchProduct = useCallback(async () => {
     try {
       const { data } = await client.get<ProductProps>(
         `http://localhost:5000/api/products/detail/${productId}`
       );
-      console.log(data.product);
-
       setProduct(data.product);
     } catch (err) {
       console.log(err);
@@ -63,39 +65,59 @@ export default function CartEditModal({
   }, []);
 
   useEffect(() => {
-    fetchProduct();
-  }, [fetchProduct]);
+    dispatch(setEditItem({ index, item: editItem }));
+    if (!isSmall) {
+      fetchProduct();
+    }
+  }, [fetchProduct, dispatch, isSmall, index, editItem]);
+
+  const handleClose = () => setOpen(false);
+  const editItemHandler = () => {
+    if (isSmall) {
+      // if the screen is small, don't use the modal, render a new product detail
+      // page with the editItem info
+      router.push(`/shop/product-detail/${category}-edit-${productId}`);
+    } else {
+      setOpen(true);
+    }
+  };
 
   return (
     <div>
-      <Button onClick={handleOpen}>Edit Details</Button>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <Box sx={style}>
-            {!product ? (
-              <h1>No product found</h1>
-            ) : (
-              <ProductDetail
-                product={product}
-                editMode={true}
-                index={index}
-                handleClose={handleClose}
-                editItem={editItem}
-              />
-            )}
-          </Box>
-        </Fade>
-      </Modal>
+      <Button onClick={editItemHandler}>Edit Details</Button>
+      {!isSmall && (
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={open}
+          onClose={handleClose}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={open}>
+            <Box sx={style}>
+              {!product ? (
+                <h1>No product found</h1>
+              ) : (
+                <ProductDetail
+                  product={product}
+                  editMode={true}
+                  handleClose={handleClose}
+                />
+              )}
+            </Box>
+          </Fade>
+        </Modal>
+      )}
     </div>
   );
 }
+
+export default memo(
+  dynamic(() => Promise.resolve(CartEditModal), {
+    ssr: false,
+  })
+);

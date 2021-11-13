@@ -46,7 +46,6 @@ export default function MenuList({
   page_cat,
 }: Props): JSX.Element {
   const [showMenu, setShowMenu] = useState<boolean>(false);
-  // const [currentCat, setCurrentCat] = useState<string>("");
 
   const openMenu = (cat: string) => {
     if (cat === MainCategory.accessories) {
@@ -58,16 +57,6 @@ export default function MenuList({
       setShowMenu(true);
     }
   };
-
-  // const closeMenu = () => {
-  //   if (showMenu_nav) {
-  //     console.log(" menu nav ");
-  //   } else {
-  //     console.log("close menu");
-  //     setCurrentCat("");
-  //     setShowMenu(false);
-  //   }
-  // };
 
   const onClickHandler = () => {
     setShowMenu_nav(false);

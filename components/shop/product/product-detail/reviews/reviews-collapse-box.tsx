@@ -1,4 +1,4 @@
-import { Fragment, useState, memo } from "react";
+import React, { Fragment, useState, memo } from "react";
 
 import ProductReviews from "./reviews";
 import { Reviews } from "../../../../../pages/shop/product-detail/[product_id]";
@@ -21,10 +21,17 @@ import styles from "./__reviews-collapse-box.module.css";
 
 interface Props {
   reviews: Reviews;
+  setOpenAddReivewModal: React.Dispatch<React.SetStateAction<boolean>>;
+  openAddReivewModal: boolean;
   page?: string;
 }
 
-function ReviewsCollapseBox({ reviews, page }: Props): JSX.Element {
+function ReviewsCollapseBox({
+  reviews,
+  setOpenAddReivewModal,
+  openAddReivewModal,
+  page,
+}: Props): JSX.Element {
   const [expand, setExpand] = useState<boolean>(false);
 
   const toggleExpand = () => {
@@ -41,7 +48,12 @@ function ReviewsCollapseBox({ reviews, page }: Props): JSX.Element {
       <Divider />
 
       <Collapse in={expand} timeout="auto" unmountOnExit>
-        <ProductReviews reviews={reviews} page={page} />
+        <ProductReviews
+          reviews={reviews}
+          page={page}
+          setOpenAddReivewModal={setOpenAddReivewModal}
+          openAddReivewModal={openAddReivewModal}
+        />
         <Divider />
       </Collapse>
     </Grid>

@@ -22,18 +22,19 @@ import {
 import {
   addToCartSession,
   CartItem,
+  selectEditItem,
 } from "../../../../utils/redux-store/userSlice";
 
 // UI //
 import { Grid, Button, Box } from "@mui/material";
 import styles from "./__product-detail.module.css";
+import { useRouter } from "next/router";
 
 interface Props {
   product: PageProductProps;
-  reviews: Reviews;
+  reviews?: Reviews;
   editMode?: boolean;
-  index?: number;
-  editItem?: CartItem;
+  isSmall?: boolean;
   handleClose?: () => void; // the function to close the modal onClick "Update"
 }
 
@@ -41,19 +42,20 @@ export default function ProductDetail({
   product,
   reviews,
   editMode,
-  index,
-  editItem,
+  isSmall,
   handleClose,
 }: Props): JSX.Element {
   const dispatch = useDispatch();
+  const router = useRouter();
+  // get the editItem info from the Cart-detail-page
+  const editItem = useSelector(selectEditItem);
 
-  const { averageRating, total, productId } = reviews;
   const { productInfo, colorPropsList, _id } = product;
 
   const [currentColor, setCurrentColor] = useState<PageColorProps>(() => {
     if (editMode && editItem) {
       for (let colorProps of colorPropsList) {
-        if (colorProps.colorName === editItem.colorName) {
+        if (colorProps.colorName === editItem.item.colorName) {
           return colorProps;
         }
       }
@@ -62,17 +64,19 @@ export default function ProductDetail({
       return colorPropsList[0];
     }
   });
-  // if in editMode, initailize the props with the selected info in the current cart
+
+  // if in editMode, initailize the props with the editItem in the redux-store
   const [selectedSize, setSelectedSize] = useState<string>(() => {
-    if (editMode && editItem) return editItem.size;
+    if (editMode && editItem) return editItem.item.size;
     else return "";
   });
   const [quantity, setQuantity] = useState<number>(() => {
-    if (editMode && editItem) return editItem.quantity;
+    if (editMode && editItem) return editItem.item.quantity;
     else return 0;
   });
   const [previewImage, setPreviewImage] = useState<string>("");
   const [errors, setErrors] = useState<Errors>({});
+  const [openAddReivewModal, setOpenAddReivewModal] = useState<boolean>(false);
 
   const sizeHandler = (e: React.MouseEvent<HTMLElement>, size: string) => {
     setSelectedSize(size);
@@ -113,7 +117,11 @@ export default function ProductDetail({
     if (editMode && handleClose) {
       handleClose();
     }
-    dispatch(addToCartSession({ item, editMode, index }));
+    // update the cart, adding new item or editing item both can use the same reducer
+    dispatch(addToCartSession({ item, editMode, index: editItem?.index }));
+    if (editMode && isSmall) {
+      router.push("/shop/cart");
+    }
   };
 
   return (
@@ -145,13 +153,15 @@ export default function ProductDetail({
               <div className={_title}>{productInfo.title.toUpperCase()}</div>
             </Grid>
 
-            <div className={_line_item}>
-              <RatingSummary
-                averageRating={averageRating}
-                total={total}
-                productId={productId}
-              />
-            </div>
+            {!editMode && reviews && (
+              <div className={_line_item}>
+                <RatingSummary
+                  averageRating={reviews.averageRating}
+                  total={reviews.total}
+                  setOpenAddReivewModal={setOpenAddReivewModal}
+                />
+              </div>
+            )}
 
             <div className={_line_item}>
               <div className={_line_item_grid}>
@@ -229,7 +239,13 @@ export default function ProductDetail({
           className={styles.lower_grid}
           sx={{ display: { xs: "none", md: "flex" } }}
         >
-          <ReviewsWrapper reviews={reviews} />
+          {!editMode && reviews && (
+            <ReviewsWrapper
+              reviews={reviews}
+              setOpenAddReivewModal={setOpenAddReivewModal}
+              openAddReivewModal={openAddReivewModal}
+            />
+          )}
         </Grid>
       </Grid>
     </main>

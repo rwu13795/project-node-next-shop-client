@@ -51,9 +51,16 @@ export interface Reviews {
 interface PageProps {
   product: PageProductProps;
   reviews: Reviews;
+  editMode: boolean;
+  isSmall: boolean;
 }
 
-const ProductDetailPage: NextPage<PageProps> = ({ product, reviews }) => {
+const ProductDetailPage: NextPage<PageProps> = ({
+  product,
+  reviews,
+  editMode,
+  isSmall,
+}) => {
   const { main_cat, sub_cat, title } = product.productInfo;
   const props = { main_cat, sub_cat, title };
 
@@ -61,7 +68,12 @@ const ProductDetailPage: NextPage<PageProps> = ({ product, reviews }) => {
     <main className={styles.main_container}>
       <PageLinks {...props} />
       {product ? (
-        <ProductDetail product={product} reviews={reviews} />
+        <ProductDetail
+          product={product}
+          reviews={reviews}
+          editMode={editMode}
+          isSmall={isSmall}
+        />
       ) : (
         <h1>No product found</h1>
       )}
@@ -71,12 +83,25 @@ const ProductDetailPage: NextPage<PageProps> = ({ product, reviews }) => {
 
 export default ProductDetailPage;
 
+/*
+    in /shop/product-detail/[product_id], [product_id] will match anything
+    param = context.params?.product_id as string; is used to extract info from the link
+
+    example
+    `/shop/product-detail/${p.productInfo.main_cat}-${p.productInfo.sub_cat}-${p._id}`
+
+    I can replace the "sub_cat" as "edit" for the card-edit-modal for small screen
+ */
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const param = context.params?.product_id as string;
   console.log(param);
   const productId = param.slice(param.length - 24);
   // the "main_cat is used to highlight the navbar menu list"
   const main_cat = param.split("-")[0];
+  const secondString = param.split("-")[1];
+
+  const editMode: boolean = secondString === "edit";
+  const isSmall = editMode;
 
   const client = serverClient(context);
 
@@ -90,6 +115,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         product: data.product,
         reviews: data.reviews,
         page_cat: main_cat,
+        editMode,
+        isSmall,
       },
     };
   } catch (err) {

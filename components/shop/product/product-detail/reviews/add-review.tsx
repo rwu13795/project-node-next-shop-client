@@ -6,7 +6,9 @@ import {
   FocusEvent,
   ChangeEvent,
   MouseEvent,
+  useMemo,
   memo,
+  useEffect,
 } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
@@ -27,6 +29,7 @@ import {
 import { Menu, Modal, Box, Backdrop, Fade } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material";
 import styles from "./__add-review.module.css";
+import browserClient from "../../../../../utils/axios-client/browser-client";
 
 const style = {
   position: "absolute" as "absolute",
@@ -43,23 +46,29 @@ const style = {
 
 interface Props {
   productId: string;
-  openModal: boolean;
-  setOpenModal: Dispatch<SetStateAction<boolean>>;
+  setOpenAddReivewModal: Dispatch<React.SetStateAction<boolean>>;
+  openAddReivewModal: boolean;
+  refreshReviews: () => Promise<void>;
 }
 
 const inputFieldsArray = ["title", "review", "nickname", "email", "size"];
 
 function AddReviewModal({
   productId,
-  openModal,
-  setOpenModal,
+  openAddReivewModal,
+  setOpenAddReivewModal,
+  refreshReviews,
 }: Props): JSX.Element {
+  const client = browserClient();
+
   const [inputValues, setInputValue] = useState<InputValues>(() => {
     return initializeValues(inputFieldsArray);
   });
   const [inputErrors, setInputErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Touched>({});
   const [rating, setRating] = useState<string>("");
+  const [ratingError, setRatingError] = useState<string>("");
+  const [submited, setSubmited] = useState<boolean>(false);
 
   const onFocusHandler = (e: FocusEvent<HTMLInputElement>) => {
     const { name } = e.currentTarget;
@@ -92,23 +101,41 @@ function AddReviewModal({
     );
   };
 
-  const closeModal = () => setOpenModal(false);
+  const closeModal = () => {
+    setRating("");
+    setOpenAddReivewModal(false);
+  };
 
-  const reviewSubmitHandler = () => {
+  const reviewSubmitHandler = async () => {
     let hasError = false;
     hasError = onSubmitErrorCheck(inputValues, inputErrors, setInputErrors);
+    if (rating === "") {
+      setRatingError("Rating required");
+      hasError = true;
+    }
     if (hasError) return;
-    console.log("POST REVIEW", inputValues);
-    console.log("RATING", rating);
-    // dispatch(setPageLoading(true));
-    // timer to close -- closeModal();
+
+    await client.post("http://localhost:5000/api/products/add-review", {
+      productId,
+      reviewProps: {
+        title: inputValues.title,
+        review: inputValues.review,
+        rating,
+        user_name: inputValues.nickname,
+        user_email: inputValues.email,
+        size: inputValues.size,
+      },
+    });
+
+    setSubmited(true);
+    await refreshReviews();
   };
 
   return (
     <Fragment>
       <Modal
         disableScrollLock={true}
-        open={openModal}
+        open={openAddReivewModal}
         onClose={closeModal}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -116,14 +143,20 @@ function AddReviewModal({
           timeout: 500,
         }}
       >
-        <Fade in={openModal}>
-          <Box className={styles.main_container}>
-            <div className={styles.stars_container}>
-              {SelectStars(setRating)}
+        <Fade in={openAddReivewModal}>
+          <Box className={styles.modal_box}>
+            <div className={styles.main_grid}>
+              <div className={styles.stars_container}>
+                {SelectStars(setRating, setRatingError, openAddReivewModal)}
+                {ratingError}
+              </div>
+              {inputFields(inputFieldsArray, inputValues)}
+              <button onClick={reviewSubmitHandler} disabled={submited}>
+                POST REVIEW
+              </button>
+              <button onClick={closeModal}>CANCEL</button>
+              {submited && <div>Thank you for submitting your feedback!</div>}
             </div>
-            {inputFields(inputFieldsArray, inputValues)}
-            <button onClick={reviewSubmitHandler}>POST REVIEW</button>
-            <button onClick={closeModal}>CANCEL</button>
           </Box>
         </Fade>
       </Modal>
@@ -136,7 +169,11 @@ export default memo(AddReviewModal);
 /* * * * * * * * * */
 // stars selecting //
 /* * * * * * * * * */
-const SelectStars = (setRating: Dispatch<SetStateAction<string>>) => {
+const SelectStars = (
+  setRating: Dispatch<SetStateAction<string>>,
+  setRatingError: Dispatch<SetStateAction<string>>,
+  openAddReivewModal: boolean
+) => {
   const initialColor = [
     styles.stars,
     styles.stars,
@@ -151,6 +188,7 @@ const SelectStars = (setRating: Dispatch<SetStateAction<string>>) => {
   const onClickHandler = (rating: number, ratingKey: string) => {
     setIsRated(true);
     setRating(ratingKey);
+    setRatingError("");
     setStarsColor(() => {
       let newColor = initialColor;
       for (let i = 0; i < rating; i++) {
@@ -160,6 +198,13 @@ const SelectStars = (setRating: Dispatch<SetStateAction<string>>) => {
       return newColor;
     });
   };
+
+  useEffect(() => {
+    if (!openAddReivewModal) {
+      setStarsColor(initialColor);
+      setSelectedStars(initialColor);
+    }
+  }, [openAddReivewModal]);
 
   const onMouseEnterHandler = (rating: number) => {
     setStarsColor(() => {
