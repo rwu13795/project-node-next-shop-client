@@ -2,7 +2,7 @@ import { useState, Fragment } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import AuthForm from "../../auth/forms/auth-form";
+import AuthForm from "../../forms/auth-form";
 import { inputFieldsArray } from "../../../pages/auth/sign-in";
 import { inputTypes } from "../../../utils/enums-types/input-types";
 

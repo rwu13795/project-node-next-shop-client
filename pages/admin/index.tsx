@@ -3,7 +3,7 @@ import { useRouter } from "next/dist/client/router";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
-import AuthForm from "../../components/auth/forms/auth-form";
+import AuthForm from "../../components/forms/auth-form";
 import { inputNames } from "../../utils/enums-types/input-names";
 import { inputTypes } from "../../utils/enums-types/input-types";
 import {

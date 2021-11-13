@@ -1,0 +1,38 @@
+.main_container {
+  width: 650px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* outerHeight: 800; */
+  background-color: cornsilk;
+  border: 2px solid #00789e;
+  box-shadow: 3px 6px 6px #00789e;
+}
+
+@media screen and (max-width: 765px) {
+  .main_container {
+    width: 95vw;
+  }
+}
+
+.stars {
+  display: flex;
+  justify-content: flex-start;
+  width: 18px;
+  font-size: 20px;
+}
+.stars:hover {
+  cursor: pointer;
+  background-color: blue;
+}
+.stars_active {
+  display: flex;
+  justify-content: flex-start;
+  width: 18px;
+  font-size: 20px;
+  background-color: blue;
+}
+.stars_active:hover {
+  cursor: pointer;
+}

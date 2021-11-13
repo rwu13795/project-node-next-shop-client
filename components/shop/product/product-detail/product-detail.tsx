@@ -47,7 +47,7 @@ export default function ProductDetail({
 }: Props): JSX.Element {
   const dispatch = useDispatch();
 
-  const { averageRating, total } = reviews;
+  const { averageRating, total, productId } = reviews;
   const { productInfo, colorPropsList, _id } = product;
 
   const [currentColor, setCurrentColor] = useState<PageColorProps>(() => {
@@ -146,7 +146,11 @@ export default function ProductDetail({
             </Grid>
 
             <div className={_line_item}>
-              <RatingSummary averageRating={averageRating} total={total} />
+              <RatingSummary
+                averageRating={averageRating}
+                total={total}
+                productId={productId}
+              />
             </div>
 
             <div className={_line_item}>

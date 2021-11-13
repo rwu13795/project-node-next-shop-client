@@ -1,7 +1,7 @@
 import { GetServerSidePropsContext, NextPage } from "next";
 
 import serverClient from "../../../utils/axios-client/server-client";
-import ForgotPasswordReset from "../../../components/auth/forms/forgot-pw-reset";
+import ForgotPasswordReset from "../../../components/forms/forgot-pw-reset";
 
 interface PageProps {
   userId: string;

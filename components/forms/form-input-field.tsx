@@ -1,5 +1,5 @@
 import { ChangeEvent, FocusEvent } from "react";
-import { inputNames } from "../../../utils/enums-types/input-names";
+import { inputNames } from "../../utils/enums-types/input-names";
 
 interface Props {
   inputName: string;
@@ -45,6 +45,8 @@ export default function FormInputField(props: Props): JSX.Element {
 
   const regex = /[_]/g;
 
+  /////////////////////////////////////////////////////////////////////////
+  // this is where I should replace the "input" and "error" with the MUI //
   return (
     <div>
       <label>{inputName.replace(regex, " ").toUpperCase()}</label>

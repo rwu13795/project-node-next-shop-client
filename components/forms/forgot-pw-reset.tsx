@@ -11,19 +11,19 @@ import {
   onFocusErrorCheck,
   onSubmitErrorCheck,
   Touched,
-} from "../../../utils/helper-functions/input-error-check";
-import renderInputFields from "../../../utils/helper-functions/render-input-fields";
+} from "../../utils/helper-functions/input-error-check";
+import renderInputFields from "../../utils/helper-functions/render-input-fields";
 
 import {
   clearAuthErrors,
   forgotPassword_Reset,
   selectAuthErrors,
   selectLoadingStatus_user,
-} from "../../../utils/redux-store/userSlice";
-import { inputNames } from "../../../utils/enums-types/input-names";
-import { initializeValues } from "../../../utils/helper-functions/initialize-values";
-import { loadingStatus } from "../../../utils/enums-types/loading-status";
-import Redirect_to_signIn from "../redirect-to-sign-In";
+} from "../../utils/redux-store/userSlice";
+import { inputNames } from "../../utils/enums-types/input-names";
+import { initializeValues } from "../../utils/helper-functions/initialize-values";
+import { loadingStatus } from "../../utils/enums-types/loading-status";
+import Redirect_to_signIn from "../auth/redirect-to-sign-In";
 
 interface Props {
   userId: string;

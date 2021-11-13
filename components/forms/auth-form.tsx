@@ -8,27 +8,24 @@ import {
   onBlurErrorCheck,
   onChangeErrorCheck,
   onFocusErrorCheck,
-} from "../../../utils/helper-functions/input-error-check";
+} from "../../utils/helper-functions/input-error-check";
 import {
   Touched,
   Errors,
-} from "../../../utils/helper-functions/input-error-check";
-import {
-  clearAuthErrors,
-  AuthErrors,
-} from "../../../utils/redux-store/userSlice";
+} from "../../utils/helper-functions/input-error-check";
+import { clearAuthErrors, AuthErrors } from "../../utils/redux-store/userSlice";
 
-import { inputTypes } from "../../../utils/enums-types/input-types";
-import renderInputFields from "../../../utils/helper-functions/render-input-fields";
+import { inputTypes } from "../../utils/enums-types/input-types";
+import renderInputFields from "../../utils/helper-functions/render-input-fields";
 import {
   AdminErrors,
   clearAdminErrors,
-} from "../../../utils/redux-store/adminSlice";
+} from "../../utils/redux-store/adminSlice";
 import UserSignIn from "./user-sign-in";
 import UserSignUp from "./user-sign-up";
-import AdminSignIn from "../../admin/admin-sign-in";
-import AdminRegister from "../../admin/admin-register";
-import { initializeValues } from "../../../utils/helper-functions/initialize-values";
+import AdminSignIn from "../admin/admin-sign-in";
+import AdminRegister from "../admin/admin-register";
+import { initializeValues } from "../../utils/helper-functions/initialize-values";
 
 interface Props {
   inputType: string; // "signIn" | "signUp"

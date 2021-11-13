@@ -9,7 +9,7 @@ import {
 } from "../../utils/redux-store/userSlice";
 import { selectPageLoading } from "../../utils/redux-store/layoutSlice";
 import serverClient from "../../utils/axios-client/server-client";
-import AuthForm from "../../components/auth/forms/auth-form";
+import AuthForm from "../../components/forms/auth-form";
 import { inputTypes } from "../../utils/enums-types/input-types";
 import { inputNames } from "../../utils/enums-types/input-names";
 

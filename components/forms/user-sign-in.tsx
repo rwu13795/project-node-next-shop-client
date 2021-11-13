@@ -8,8 +8,8 @@ import {
   Errors,
   InputValues,
   onSubmitErrorCheck,
-} from "../../../utils/helper-functions/input-error-check";
-import { AdminErrors } from "../../../utils/redux-store/adminSlice";
+} from "../../utils/helper-functions/input-error-check";
+import { AdminErrors } from "../../utils/redux-store/adminSlice";
 import {
   AuthErrors,
   clearAuthErrors,
@@ -18,10 +18,10 @@ import {
   selectLoadingStatus_user,
   setLoadingStatus,
   signIn,
-} from "../../../utils/redux-store/userSlice";
-import { inputNames } from "../../../utils/enums-types/input-names";
-import { loadingStatus } from "../../../utils/enums-types/loading-status";
-import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
+} from "../../utils/redux-store/userSlice";
+import { inputNames } from "../../utils/enums-types/input-names";
+import { loadingStatus } from "../../utils/enums-types/loading-status";
+import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 
 interface Props {
   inputFieldsArray: string[];
