@@ -24,13 +24,21 @@ interface Props {
   propError: Errors;
   editMode: boolean;
   setErrors: Dispatch<SetStateAction<Errors>>;
+  setFormHasError: Dispatch<SetStateAction<boolean>>;
 }
 
 const sizesArray = [inputNames.small, inputNames.medium, inputNames.large];
 
 export default function AddColorsProps(props: Props): JSX.Element {
-  const { colorProps, listIndex, dispatch, propError, editMode, setErrors } =
-    props;
+  const {
+    colorProps,
+    listIndex,
+    dispatch,
+    propError,
+    editMode,
+    setErrors,
+    setFormHasError,
+  } = props;
 
   const removeColorHandler = () => {
     dispatch({ type: Actions.removeColor, payload: { listIndex, editMode } });
@@ -63,6 +71,7 @@ export default function AddColorsProps(props: Props): JSX.Element {
             dispatch={dispatch}
             propError={propError}
             setErrors={setErrors}
+            setFormHasError={setFormHasError}
           />
         </Grid>
         <Grid
@@ -84,6 +93,7 @@ export default function AddColorsProps(props: Props): JSX.Element {
                 dispatch={dispatch}
                 propError={propError}
                 setErrors={setErrors}
+                setFormHasError={setFormHasError}
               />
             );
           })}
@@ -97,6 +107,7 @@ export default function AddColorsProps(props: Props): JSX.Element {
           dispatch={dispatch}
           editMode={editMode}
           propError={propError}
+          setFormHasError={setFormHasError}
         />
       </Grid>
     </Grid>

@@ -32,7 +32,6 @@ const style = {
 
 interface ProductProps {
   product: PageProductProps;
-  reviews: Reviews;
 }
 
 interface Props {
@@ -64,20 +63,15 @@ function CartEditModal({ category, productId, index, editItem }: Props) {
     }
   }, []);
 
-  useEffect(() => {
-    dispatch(setEditItem({ index, item: editItem }));
-    if (!isSmall) {
-      fetchProduct();
-    }
-  }, [fetchProduct, dispatch, isSmall, index, editItem]);
-
   const handleClose = () => setOpen(false);
   const editItemHandler = () => {
+    dispatch(setEditItem({ index, item: editItem }));
     if (isSmall) {
       // if the screen is small, don't use the modal, render a new product detail
       // page with the editItem info
       router.push(`/shop/product-detail/${category}-edit-${productId}`);
     } else {
+      fetchProduct();
       setOpen(true);
     }
   };

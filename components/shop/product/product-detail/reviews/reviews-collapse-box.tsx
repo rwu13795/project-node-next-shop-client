@@ -20,15 +20,17 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import styles from "./__reviews-collapse-box.module.css";
 
 interface Props {
-  reviews: Reviews;
+  reviewDoc: Reviews;
   setOpenAddReivewModal: React.Dispatch<React.SetStateAction<boolean>>;
   openAddReivewModal: boolean;
   page?: string;
+  refreshReviews?: () => Promise<void>;
 }
 
 function ReviewsCollapseBox({
-  reviews,
+  reviewDoc,
   setOpenAddReivewModal,
+  refreshReviews,
   openAddReivewModal,
   page,
 }: Props): JSX.Element {
@@ -49,8 +51,9 @@ function ReviewsCollapseBox({
 
       <Collapse in={expand} timeout="auto" unmountOnExit>
         <ProductReviews
-          reviews={reviews}
+          reviewDoc={reviewDoc}
           page={page}
+          refreshReviews={refreshReviews}
           setOpenAddReivewModal={setOpenAddReivewModal}
           openAddReivewModal={openAddReivewModal}
         />

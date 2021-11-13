@@ -7,15 +7,17 @@ import ReviewsCollapseBox from "./reviews-collapse-box";
 import { Reviews } from "../../../../../pages/shop/product-detail/[product_id]";
 
 interface Props {
-  reviews: Reviews;
+  reviewDoc: Reviews;
   setOpenAddReivewModal: React.Dispatch<React.SetStateAction<boolean>>;
   openAddReivewModal: boolean;
   page?: string;
+  refreshReviews?: () => Promise<void>;
 }
 
 function ReviewsWrapper({
-  reviews,
+  reviewDoc,
   setOpenAddReivewModal,
+  refreshReviews,
   openAddReivewModal,
   page,
 }: Props): JSX.Element {
@@ -25,16 +27,18 @@ function ReviewsWrapper({
     <Fragment>
       {isSmall ? (
         <ReviewsCollapseBox
-          reviews={reviews}
+          reviewDoc={reviewDoc}
           page={page}
           setOpenAddReivewModal={setOpenAddReivewModal}
+          refreshReviews={refreshReviews}
           openAddReivewModal={openAddReivewModal}
         />
       ) : (
         <ProductReviews
-          reviews={reviews}
+          reviewDoc={reviewDoc}
           page={page}
           setOpenAddReivewModal={setOpenAddReivewModal}
+          refreshReviews={refreshReviews}
           openAddReivewModal={openAddReivewModal}
         />
       )}

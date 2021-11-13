@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext, NextPage } from "next";
+import { useState } from "react";
 import Link from "next/link";
 
 import { PageProductProps } from "../../../utils/react-hooks/get-more-products";
@@ -10,6 +11,7 @@ import serverClient from "../../../utils/axios-client/server-client";
 import { Tooltip, Box, IconButton } from "@mui/material";
 import styles from "./__detail.module.css";
 import PageLinks from "../../../components/layout/page-links/links";
+import browserClient from "../../../utils/axios-client/browser-client";
 
 export interface ReviewProps {
   title: string;
@@ -63,6 +65,17 @@ const ProductDetailPage: NextPage<PageProps> = ({
 }) => {
   const { main_cat, sub_cat, title } = product.productInfo;
   const props = { main_cat, sub_cat, title };
+  const client = browserClient();
+
+  const [reviewDoc, setReviewDoc] = useState<Reviews>(reviews);
+
+  const refreshReviews = async () => {
+    const { data } = await client.post(
+      "http://localhost:5000/api/products/get-reviews",
+      { productId: product._id, pageNum: 1, filter: "", refresh: true }
+    );
+    setReviewDoc(data.reviewDoc);
+  };
 
   return (
     <main className={styles.main_container}>
@@ -70,9 +83,10 @@ const ProductDetailPage: NextPage<PageProps> = ({
       {product ? (
         <ProductDetail
           product={product}
-          reviews={reviews}
+          reviewDoc={reviewDoc}
           editMode={editMode}
           isSmall={isSmall}
+          refreshReviews={refreshReviews}
         />
       ) : (
         <h1>No product found</h1>

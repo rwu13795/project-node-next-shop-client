@@ -195,6 +195,12 @@
   max-height: 1.1rem;
 }
 
+.form_error {
+  color: #f44336;
+  font-size: 20px;
+  margin-top: 20px;
+}
+
 .input_box_shadow {
   box-shadow: 2px 2px 5px black;
 }

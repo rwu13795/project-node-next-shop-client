@@ -1,5 +1,11 @@
 import { useRouter } from "next/dist/client/router";
-import React, { Dispatch, SetStateAction, Fragment } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  Fragment,
+  useState,
+  useEffect,
+} from "react";
 
 import { Errors } from "../../../utils/helper-functions/input-error-check";
 import {
@@ -58,6 +64,28 @@ export default function ProductForm(props: Props): JSX.Element {
 
   const pageLoading = useSelector(selectPageLoading);
 
+  const [formHasError, setFormHasError] = useState<boolean>(false);
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isSubmitted) {
+      setFormHasError(Object.keys(propError).length !== 0);
+      setIsSubmitted(false);
+    }
+  }, [isSubmitted, propError]);
+
+  console.log("isSubmitted", isSubmitted);
+  console.log("formHasError", formHasError);
+
+  const onSubmitHandler = () => {
+    reduxDispatch(setPageLoading(true));
+    uploadHandler();
+    // have to wait for a bit to let the propError update
+    setTimeout(() => {
+      setIsSubmitted((prev) => !prev);
+    }, 500);
+  };
+
   return (
     <Grid
       container
@@ -68,13 +96,7 @@ export default function ProductForm(props: Props): JSX.Element {
       <Grid item container justifyContent="center" md={6}>
         <div className={main_styles.text_3}>Product Info</div>
       </Grid>
-      <Grid
-        item
-        container
-        // flexDirection="row"
-        // justifyContent="center"
-        // alignItems="center"
-      >
+      <Grid item container>
         <Grid
           item
           container
@@ -87,6 +109,7 @@ export default function ProductForm(props: Props): JSX.Element {
             productInfo={productInfo}
             propError={propError}
             setErrors={setErrors}
+            setFormHasError={setFormHasError}
           />
 
           <AddTitle
@@ -94,12 +117,14 @@ export default function ProductForm(props: Props): JSX.Element {
             productInfo={productInfo}
             propError={propError}
             setErrors={setErrors}
+            setFormHasError={setFormHasError}
           />
           <AddPrice
             dispatchAddInfo={dispatchAddInfo}
             productInfo={productInfo}
             propError={propError}
             setErrors={setErrors}
+            setFormHasError={setFormHasError}
           />
         </Grid>
         <Grid
@@ -114,6 +139,7 @@ export default function ProductForm(props: Props): JSX.Element {
             productInfo={productInfo}
             propError={propError}
             setErrors={setErrors}
+            setFormHasError={setFormHasError}
           />
         </Grid>
       </Grid>
@@ -129,6 +155,7 @@ export default function ProductForm(props: Props): JSX.Element {
                 propError={propError}
                 editMode={editMode}
                 setErrors={setErrors}
+                setFormHasError={setFormHasError}
               />
             </Fragment>
           );
@@ -155,10 +182,7 @@ export default function ProductForm(props: Props): JSX.Element {
             startIcon={<SaveIcon className={styles.form_button_icon} />}
             className={styles.form_button}
             variant="contained"
-            onClick={() => {
-              reduxDispatch(setPageLoading(true));
-              uploadHandler();
-            }}
+            onClick={onSubmitHandler}
           >
             Save
           </LoadingButton>
@@ -173,6 +197,13 @@ export default function ProductForm(props: Props): JSX.Element {
             Cancel
           </Button>
         </Grid>
+      </Grid>
+      <Grid>
+        {formHasError && (
+          <div className={styles.form_error}>
+            Something is missing, please check the form again
+          </div>
+        )}
       </Grid>
     </Grid>
   );

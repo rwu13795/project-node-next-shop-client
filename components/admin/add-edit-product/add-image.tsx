@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, useState } from "react";
+import { ChangeEvent, Dispatch, useState, SetStateAction } from "react";
 import Image from "next/image";
 
 import { inputNames } from "../../../utils/enums-types/input-names";
@@ -29,15 +29,24 @@ interface Props {
   dispatch: Dispatch<ActionType>;
   editMode: boolean;
   propError: Errors;
+  setFormHasError: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function AddImage(props: Props): JSX.Element {
-  const { colorProps, listIndex, dispatch, editMode, propError } = props;
+  const {
+    colorProps,
+    listIndex,
+    dispatch,
+    editMode,
+    propError,
+    setFormHasError,
+  } = props;
 
   const [editImage, setEditImage] = useState<boolean>(false);
 
   const addImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const newImage = (e.target.files as FileList)[0];
+    setFormHasError(false);
     dispatch({ type: Actions.addImage, payload: { listIndex, newImage } });
   };
 

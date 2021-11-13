@@ -31,13 +31,23 @@ interface Props {
   dispatch: Dispatch<ActionType>;
   propError: Errors;
   setErrors: Dispatch<SetStateAction<Errors>>;
+  setFormHasError: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function AddSizeQuantity(props: Props): JSX.Element {
-  const { colorProps, listIndex, size, dispatch, propError, setErrors } = props;
+  const {
+    colorProps,
+    listIndex,
+    size,
+    dispatch,
+    propError,
+    setErrors,
+    setFormHasError,
+  } = props;
 
   const sizesChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { name: inputField, value: inputValue } = e.currentTarget;
+    setFormHasError(false);
     onChangeErrorCheck(inputField, inputValue, setErrors);
     dispatch({
       type: Actions.addSizes,

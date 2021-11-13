@@ -34,10 +34,17 @@ interface Props {
   productInfo: ReducerProductInfo;
   propError: Errors;
   setErrors: Dispatch<SetStateAction<Errors>>;
+  setFormHasError: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function SelectCategory(props: Props): JSX.Element {
-  const { dispatchAddInfo, productInfo, propError, setErrors } = props;
+  const {
+    dispatchAddInfo,
+    productInfo,
+    propError,
+    setErrors,
+    setFormHasError,
+  } = props;
 
   const [noMainCat, setNoMainCat] = useState<boolean>(true);
   const [subCatArray, setSubCatArray] = useState<string[]>([""]);
@@ -65,6 +72,7 @@ export default function SelectCategory(props: Props): JSX.Element {
 
   const onChangeHandler = (e: SelectChangeEvent<string>) => {
     const { name, value } = e.target;
+    setFormHasError(false);
     onChangeErrorCheck(name, value, setErrors);
     dispatchAddInfo(e);
   };

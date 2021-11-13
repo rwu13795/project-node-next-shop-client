@@ -24,12 +24,20 @@ interface Props {
   productInfo: ReducerProductInfo;
   propError: Errors;
   setErrors: Dispatch<SetStateAction<Errors>>;
+  setFormHasError: Dispatch<SetStateAction<boolean>>;
 }
 export default function AddPrice(props: Props): JSX.Element {
-  const { productInfo, dispatchAddInfo, propError, setErrors } = props;
+  const {
+    productInfo,
+    dispatchAddInfo,
+    propError,
+    setErrors,
+    setFormHasError,
+  } = props;
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
+    setFormHasError(false);
     onChangeErrorCheck(name, value, setErrors);
     dispatchAddInfo(e);
   };

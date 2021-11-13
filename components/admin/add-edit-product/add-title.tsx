@@ -21,13 +21,21 @@ interface Props {
   productInfo: ReducerProductInfo;
   propError: Errors;
   setErrors: Dispatch<SetStateAction<Errors>>;
+  setFormHasError: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function AddTitle(props: Props): JSX.Element {
-  const { dispatchAddInfo, productInfo, propError, setErrors } = props;
+  const {
+    dispatchAddInfo,
+    productInfo,
+    propError,
+    setErrors,
+    setFormHasError,
+  } = props;
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
+    setFormHasError(false);
     onChangeErrorCheck(name, value, setErrors);
     dispatchAddInfo(e);
   };

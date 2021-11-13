@@ -1,4 +1,4 @@
-import React, { useState, Fragment, memo } from "react";
+import React, { useState, Fragment, memo, useEffect } from "react";
 
 import Image from "next/image";
 
@@ -19,15 +19,17 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import styles from "./__reviews.module.css";
 
 interface Props {
-  reviews: Reviews;
+  reviewDoc: Reviews;
   setOpenAddReivewModal: React.Dispatch<React.SetStateAction<boolean>>;
   openAddReivewModal: boolean;
   page?: string;
+  refreshReviews?: () => Promise<void>;
 }
 
 function ProductReviews({
-  reviews,
+  reviewDoc,
   setOpenAddReivewModal,
+  refreshReviews,
   openAddReivewModal,
   page,
 }: Props): JSX.Element {
@@ -38,13 +40,17 @@ function ProductReviews({
     allRatings,
     _id: reviewPrimaryId,
     productId,
-  } = reviews;
+  } = reviewDoc;
   const client = browserClient();
 
   const [currentReviews, setCurrentReviews] =
     useState<ReviewProps[]>(allReviews);
   const [pageNum, setPageNum] = useState<number>(1);
   const [reviewFilter, setReviewFilter] = useState<string>("");
+
+  useEffect(() => {
+    setCurrentReviews(allReviews);
+  }, [allReviews]);
 
   const REVIEWS_PER_PAGE = 6;
   const num1 = pageNum > 1 ? (pageNum - 1) * REVIEWS_PER_PAGE + 1 : pageNum;
@@ -91,18 +97,9 @@ function ProductReviews({
     setCurrentReviews(allReviews);
   };
 
-  const refreshReviews = async () => {
-    const { data } = await client.post(
-      "http://localhost:5000/api/products/get-reviews",
-      { reviewPrimaryId, pageNum, filter: "" }
-    );
-
-    setCurrentReviews(data.reviews);
-  };
-
   return (
     <Grid container justifyContent="center" className={_container}>
-      {reviews.total > 0 ? (
+      {reviewDoc.total > 0 ? (
         <Fragment>
           <div className={_title}>
             <a id="product_reviews">

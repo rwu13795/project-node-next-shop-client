@@ -32,7 +32,8 @@ import { useRouter } from "next/router";
 
 interface Props {
   product: PageProductProps;
-  reviews?: Reviews;
+  refreshReviews?: () => Promise<void>;
+  reviewDoc?: Reviews;
   editMode?: boolean;
   isSmall?: boolean;
   handleClose?: () => void; // the function to close the modal onClick "Update"
@@ -40,9 +41,10 @@ interface Props {
 
 export default function ProductDetail({
   product,
-  reviews,
+  reviewDoc,
   editMode,
   isSmall,
+  refreshReviews,
   handleClose,
 }: Props): JSX.Element {
   const dispatch = useDispatch();
@@ -153,11 +155,11 @@ export default function ProductDetail({
               <div className={_title}>{productInfo.title.toUpperCase()}</div>
             </Grid>
 
-            {!editMode && reviews && (
+            {!editMode && reviewDoc && (
               <div className={_line_item}>
                 <RatingSummary
-                  averageRating={reviews.averageRating}
-                  total={reviews.total}
+                  averageRating={reviewDoc.averageRating}
+                  total={reviewDoc.total}
                   setOpenAddReivewModal={setOpenAddReivewModal}
                 />
               </div>
@@ -239,11 +241,12 @@ export default function ProductDetail({
           className={styles.lower_grid}
           sx={{ display: { xs: "none", md: "flex" } }}
         >
-          {!editMode && reviews && (
+          {!editMode && reviewDoc && (
             <ReviewsWrapper
-              reviews={reviews}
+              reviewDoc={reviewDoc}
               setOpenAddReivewModal={setOpenAddReivewModal}
               openAddReivewModal={openAddReivewModal}
+              refreshReviews={refreshReviews}
             />
           )}
         </Grid>

@@ -33,10 +33,18 @@ interface Props {
   dispatch: Dispatch<ActionType>;
   propError: Errors;
   setErrors: Dispatch<SetStateAction<Errors>>;
+  setFormHasError: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function SelectColor(props: Props): JSX.Element {
-  const { colorProps, listIndex, dispatch, propError, setErrors } = props;
+  const {
+    colorProps,
+    listIndex,
+    dispatch,
+    propError,
+    setErrors,
+    setFormHasError,
+  } = props;
 
   const selectColorHandler = (
     e:
@@ -45,6 +53,7 @@ export default function SelectColor(props: Props): JSX.Element {
   ) => {
     const inputValue = e.target.value;
     const inputField = e.target.name;
+    setFormHasError(false);
     onChangeErrorCheck(inputField, inputValue, setErrors);
     dispatch({
       type: Actions.addColorInfo,

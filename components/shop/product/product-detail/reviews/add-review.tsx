@@ -48,7 +48,7 @@ interface Props {
   productId: string;
   setOpenAddReivewModal: Dispatch<React.SetStateAction<boolean>>;
   openAddReivewModal: boolean;
-  refreshReviews: () => Promise<void>;
+  refreshReviews?: () => Promise<void>;
 }
 
 const inputFieldsArray = ["title", "review", "nickname", "email", "size"];
@@ -128,7 +128,9 @@ function AddReviewModal({
     });
 
     setSubmited(true);
-    await refreshReviews();
+    if (refreshReviews) {
+      await refreshReviews();
+    }
   };
 
   return (
