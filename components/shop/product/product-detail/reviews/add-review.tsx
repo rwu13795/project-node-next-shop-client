@@ -49,7 +49,7 @@ interface Props {
 
 const inputFieldsArray = ["title", "review", "nickname", "email", "size"];
 
-export default function AddReviewModal({
+function AddReviewModal({
   productId,
   openModal,
   setOpenModal,
@@ -104,10 +104,6 @@ export default function AddReviewModal({
     // timer to close -- closeModal();
   };
 
-  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-  // I tried to put starsSelecting to a child component, but it seemed that some of
-  // the states could not be passed correctly
-
   return (
     <Fragment>
       <Modal
@@ -122,7 +118,9 @@ export default function AddReviewModal({
       >
         <Fade in={openModal}>
           <Box className={styles.main_container}>
-            {SelectStars(setRating)}
+            <div className={styles.stars_container}>
+              {SelectStars(setRating)}
+            </div>
             {inputFields(inputFieldsArray, inputValues)}
             <button onClick={reviewSubmitHandler}>POST REVIEW</button>
             <button onClick={closeModal}>CANCEL</button>
@@ -132,6 +130,8 @@ export default function AddReviewModal({
     </Fragment>
   );
 }
+
+export default memo(AddReviewModal);
 
 /* * * * * * * * * */
 // stars selecting //

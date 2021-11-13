@@ -24,6 +24,8 @@ import styles from "./__menu-list.module.css";
 interface Props {
   setShowMenu_nav: Dispatch<SetStateAction<boolean>>;
   showMenu_nav: boolean;
+  setCurrentCat: Dispatch<SetStateAction<string>>;
+  currentCat: string;
   page_cat?: string;
 }
 
@@ -39,23 +41,33 @@ const border_bot: CSSProperties = {
 export default function MenuList({
   setShowMenu_nav,
   showMenu_nav,
+  setCurrentCat,
+  currentCat,
   page_cat,
 }: Props): JSX.Element {
   const [showMenu, setShowMenu] = useState<boolean>(false);
-  const [currentCat, setCurrentCat] = useState<string>("");
+  // const [currentCat, setCurrentCat] = useState<string>("");
 
   const openMenu = (cat: string) => {
-    if (cat === MainCategory.accessories) return;
-    setCurrentCat(cat);
-    setShowMenu_nav(true);
-    setShowMenu(true);
+    if (cat === MainCategory.accessories) {
+      setShowMenu_nav(false);
+      setShowMenu(false);
+    } else {
+      setCurrentCat(cat);
+      setShowMenu_nav(true);
+      setShowMenu(true);
+    }
   };
 
-  const closeMenu = () => {
-    if (showMenu_nav) return;
-    else setShowMenu(false);
-    // setBorder({});
-  };
+  // const closeMenu = () => {
+  //   if (showMenu_nav) {
+  //     console.log(" menu nav ");
+  //   } else {
+  //     console.log("close menu");
+  //     setCurrentCat("");
+  //     setShowMenu(false);
+  //   }
+  // };
 
   const onClickHandler = () => {
     setShowMenu_nav(false);
@@ -96,7 +108,6 @@ export default function MenuList({
           justifyContent="center"
           alignItems="flex-start"
           className={styles.menu_list_items}
-          onMouseLeave={closeMenu}
         >
           {keys.map((key) => {
             return (
@@ -144,7 +155,12 @@ export default function MenuList({
             <Link href={`/shop/${cat.toLowerCase()}`}>
               <a
                 className={styles.menu_list}
-                style={cat.toLowerCase() === page_cat ? border_bot : {}}
+                style={
+                  cat.toLowerCase() === page_cat ||
+                  (cat === currentCat && showMenu)
+                    ? border_bot
+                    : {}
+                }
                 onMouseEnter={() => openMenu(cat)}
                 onClick={onClickHandler}
               >

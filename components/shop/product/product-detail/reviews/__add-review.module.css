@@ -16,11 +16,18 @@
   }
 }
 
+.stars_container {
+  width: 160px;
+  display: flex;
+  justify-content: flex-start;
+}
+
 .stars {
   display: flex;
   justify-content: flex-start;
-  width: 18px;
-  font-size: 20px;
+  width: 30px;
+  font-size: 24px;
+  border: solid red 2px;
 }
 .stars:hover {
   cursor: pointer;
@@ -32,6 +39,9 @@
   width: 18px;
   font-size: 20px;
   background-color: blue;
+  width: 30px;
+  font-size: 24px;
+  border: solid red 2px;
 }
 .stars_active:hover {
   cursor: pointer;

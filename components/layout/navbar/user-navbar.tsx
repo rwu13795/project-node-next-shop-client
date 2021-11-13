@@ -24,11 +24,15 @@ interface Props {
 
 function UserNavbar({ page, page_cat }: Props): JSX.Element {
   const [showMenu_nav, setShowMenu_nav] = useState<boolean>(false);
+  const [currentCat, setCurrentCat] = useState<string>("");
 
   const isSmall = useMediaQuery({ query: "(max-width: 765px)" });
 
   const onLeaveMenuGrid = () => {
     setShowMenu_nav(false);
+    // the currentCat is maintained in the parent, so that the border-bottom
+    // is set individually according to the currentCat
+    setCurrentCat("");
   };
 
   return (
@@ -50,6 +54,8 @@ function UserNavbar({ page, page_cat }: Props): JSX.Element {
         <MenuList
           setShowMenu_nav={setShowMenu_nav}
           showMenu_nav={showMenu_nav}
+          setCurrentCat={setCurrentCat}
+          currentCat={currentCat}
           page_cat={page_cat}
         />
       </Grid>
