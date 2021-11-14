@@ -1,4 +1,11 @@
-import React, { useState, Fragment, memo, useEffect } from "react";
+import React, {
+  useState,
+  Fragment,
+  memo,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { PageColorProps } from "../../../../../utils/react-hooks/get-more-products";
 
 import {
@@ -19,42 +26,45 @@ interface Props {
   pageNum: number;
   setPageNum: React.Dispatch<React.SetStateAction<number>>;
   setCurrentReviews: React.Dispatch<React.SetStateAction<ReviewProps[]>>;
+  clearReviewsFilter: () => void;
+  reviewFilter: string;
   page?: string;
+  refreshReviewsAdmin?: (
+    pageNum: number,
+    reviewFilter: string
+  ) => Promise<void>;
 }
 
 function SingleReview({
   review: reviewObject,
   reviewPrimaryId,
   pageNum,
-  setPageNum,
-  setCurrentReviews,
+  reviewFilter,
+  refreshReviewsAdmin,
   page,
 }: Props): JSX.Element {
-  const {
-    user_name,
-    rating,
-    date,
-    title,
-    review,
-    size,
-    _id: id_allReviews,
-  } = reviewObject;
+  const { user_name, rating, date, title, review, size, _id, id_allReviews } =
+    reviewObject;
   const client = browserClient();
 
-  const isLong = review.length > 300;
-  const shortText = isLong ? review.slice(0, 300) + "..." : review;
-  const [body, setBody] = useState<string>("");
+  const [isLong, setIsLong] = useState<boolean>(review.length > 300);
+  const [shortText, setShortText] = useState<string>(
+    isLong ? review.slice(0, 300) + "..." : review
+  );
+  const [body, setBody] = useState<string>(shortText);
   const [showMore, setShowMore] = useState<boolean>(false);
 
   // there are some weird behaviors where the body will retain the last review body
-  // after I fetched more reviews and update this SingleReview component
-  // all the props passed from the parent are updated, but somehow, the "body" and "showMore"
-  // retained the old values and won't update automatically
-  // I have to manually use the "useEffect" to update the review body
+  // if the new and old reviews are literally the same, then it won't update the
+  // component (it happens when I put the same review body in different reviews )
   useEffect(() => {
+    /*
+    setIsLong(review.length > 300);
+    setShortText(review.length > 300 ?  review.slice(0, 300) + "..." : review);
+    */
     setBody(shortText);
     setShowMore(false);
-  }, [shortText]);
+  }, [review, shortText]);
 
   const showMoreLess = () => {
     if (!showMore) {
@@ -67,28 +77,25 @@ function SingleReview({
   };
 
   const deleteReviewHandler = async () => {
+    // id_allReviews only exists in the "reviewsByRating", so when the reviews are
+    // filtered, the "_id" is the "_id" of the "reviewsByRating" review,
+    // not the "_id" of the "allReviews"
+    let id: string;
+    if (id_allReviews) {
+      id = id_allReviews;
+    } else {
+      id = _id;
+    }
     await client.post("http://localhost:5000/api/products/delete-review", {
-      id_allReviews,
+      id_allReviews: id,
       reviewPrimaryId,
       rating,
     });
 
     // refresh the reviews after deleting
-    const { data } = await client.post(
-      "http://localhost:5000/api/products/get-reviews",
-      { reviewPrimaryId, pageNum, filter: "" }
-    );
-    if (data.reviews.length > 0) {
-      setCurrentReviews(data.reviews);
-    } else {
-      if (pageNum > 1) {
-        const { data } = await client.post(
-          "http://localhost:5000/api/products/get-reviews",
-          { reviewPrimaryId, pageNum: pageNum - 1, filter: "" }
-        );
-        setPageNum((prev) => prev - 1);
-        setCurrentReviews(data.reviews);
-      }
+    if (refreshReviewsAdmin) {
+      console.log("deleting review");
+      refreshReviewsAdmin(pageNum, reviewFilter);
     }
   };
 

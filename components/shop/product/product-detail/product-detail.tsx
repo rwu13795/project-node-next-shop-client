@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -32,20 +32,22 @@ import { useRouter } from "next/router";
 
 interface Props {
   product: PageProductProps;
-  refreshReviews?: () => Promise<void>;
   reviewDoc?: Reviews;
-  editMode?: boolean;
+  editModeItem?: boolean;
   isSmall?: boolean;
   handleClose?: () => void; // the function to close the modal onClick "Update"
+  refreshReviewsUser?: (pageNum: number, reviewFilter: string) => Promise<void>;
+  resetReviewsUser?: () => void;
 }
 
 export default function ProductDetail({
   product,
   reviewDoc,
-  editMode,
+  editModeItem,
   isSmall,
-  refreshReviews,
   handleClose,
+  refreshReviewsUser,
+  resetReviewsUser,
 }: Props): JSX.Element {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -55,7 +57,7 @@ export default function ProductDetail({
   const { productInfo, colorPropsList, _id } = product;
 
   const [currentColor, setCurrentColor] = useState<PageColorProps>(() => {
-    if (editMode && editItem) {
+    if (editModeItem && editItem) {
       for (let colorProps of colorPropsList) {
         if (colorProps.colorName === editItem.item.colorName) {
           return colorProps;
@@ -69,11 +71,11 @@ export default function ProductDetail({
 
   // if in editMode, initailize the props with the editItem in the redux-store
   const [selectedSize, setSelectedSize] = useState<string>(() => {
-    if (editMode && editItem) return editItem.item.size;
+    if (editModeItem && editItem) return editItem.item.size;
     else return "";
   });
   const [quantity, setQuantity] = useState<number>(() => {
-    if (editMode && editItem) return editItem.item.quantity;
+    if (editModeItem && editItem) return editItem.item.quantity;
     else return 0;
   });
   const [previewImage, setPreviewImage] = useState<string>("");
@@ -116,12 +118,14 @@ export default function ProductDetail({
       availableQty: currentColor.sizes[selectedSize],
       stockError: "",
     };
-    if (editMode && handleClose) {
+    if (editModeItem && handleClose) {
       handleClose();
     }
     // update the cart, adding new item or editing item both can use the same reducer
-    dispatch(addToCartSession({ item, editMode, index: editItem?.index }));
-    if (editMode && isSmall) {
+    dispatch(
+      addToCartSession({ item, editMode: editModeItem, index: editItem?.index })
+    );
+    if (editModeItem && isSmall) {
       router.push("/shop/cart");
     }
   };
@@ -155,7 +159,7 @@ export default function ProductDetail({
               <div className={_title}>{productInfo.title.toUpperCase()}</div>
             </Grid>
 
-            {!editMode && reviewDoc && (
+            {!editModeItem && reviewDoc && (
               <div className={_line_item}>
                 <RatingSummary
                   averageRating={reviewDoc.averageRating}
@@ -216,7 +220,7 @@ export default function ProductDetail({
                 onClick={addToCartHandler}
                 className={styles.product_desc_cart}
               >
-                {editMode ? "Update" : "Add to cart"}
+                {editModeItem ? "Update" : "Add to cart"}
               </Button>
             </div>
 
@@ -241,12 +245,13 @@ export default function ProductDetail({
           className={styles.lower_grid}
           sx={{ display: { xs: "none", md: "flex" } }}
         >
-          {!editMode && reviewDoc && (
+          {!editModeItem && reviewDoc && (
             <ReviewsWrapper
               reviewDoc={reviewDoc}
               setOpenAddReivewModal={setOpenAddReivewModal}
               openAddReivewModal={openAddReivewModal}
-              refreshReviews={refreshReviews}
+              refreshReviewsUser={refreshReviewsUser}
+              resetReviewsUser={resetReviewsUser}
             />
           )}
         </Grid>

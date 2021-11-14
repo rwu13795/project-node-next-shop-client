@@ -74,9 +74,6 @@ export default function ProductForm(props: Props): JSX.Element {
     }
   }, [isSubmitted, propError]);
 
-  console.log("isSubmitted", isSubmitted);
-  console.log("formHasError", formHasError);
-
   const onSubmitHandler = () => {
     reduxDispatch(setPageLoading(true));
     uploadHandler();
@@ -191,7 +188,7 @@ export default function ProductForm(props: Props): JSX.Element {
             variant="outlined"
             className={styles.form_button}
             onClick={() => {
-              router.back();
+              router.push("/admin/products-list");
             }}
           >
             Cancel

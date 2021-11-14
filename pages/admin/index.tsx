@@ -41,11 +41,11 @@ const AdminPage: NextPage = () => {
 
   useEffect(() => {
     if (loggedInAsAdmin) {
-      router.push(
-        `/admin/products-list?admin_username=${adminUser.admin_username}&page=1`
-      );
+      router.push(`/admin/products-list`);
     }
   }, [loggedInAsAdmin, adminUser.admin_username, router]);
+
+  // `/admin/products-list?admin_username=${adminUser.admin_username}&page=1`
 
   const switchHandler = () => {
     dispatch(clearAdminErrors("all"));

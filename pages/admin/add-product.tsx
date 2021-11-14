@@ -1,6 +1,14 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
-import React, { useReducer, ChangeEvent, useEffect } from "react";
+import React, {
+  useReducer,
+  ChangeEvent,
+  useEffect,
+  useState,
+  SyntheticEvent,
+  Dispatch,
+  SetStateAction,
+} from "react";
 
 import useUpload from "../../utils/react-hooks/add-product-upload";
 import addProductReducer, {
@@ -12,6 +20,7 @@ import { Actions } from "../../utils/enums-types/product-reducer-actions";
 import serverClient from "../../utils/axios-client/server-client";
 import { useDispatch, useSelector } from "react-redux";
 import ProductForm from "../../components/admin/add-edit-product/product-form";
+import ProductReviews from "../../components/shop/product/product-detail/reviews/reviews";
 import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 import {
   selectAdminUser,
@@ -20,8 +29,18 @@ import {
 } from "../../utils/redux-store/adminSlice";
 
 // UI
-import { Divider, SelectChangeEvent, Grid } from "@mui/material";
+import {
+  Divider,
+  SelectChangeEvent,
+  Grid,
+  Tab,
+  Box,
+  Button,
+} from "@mui/material";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
 import styles from "./__add-product.module.css";
+import { Reviews } from "../shop/product-detail/[product_id]";
+import browserClient from "../../utils/axios-client/browser-client";
 
 const initialProductState: ProductState = {
   colorPropsList: [initialColorProps],
@@ -36,21 +55,30 @@ export type AddInfoEvents =
 interface PageProps {
   productId: string;
   product: ProductState;
+  reviews: Reviews;
   editMode: boolean;
-  loggedInAsAdmin: boolean;
+  page: string;
 }
 
 const AddProductPage: NextPage<PageProps> = ({
   productId,
   product,
   editMode,
+  reviews,
+  page,
 }) => {
+  const client = browserClient();
   const router = useRouter();
   const reduxDispatch = useDispatch();
 
   const adminUser = useSelector(selectAdminUser);
   const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
   const csrfToken = useSelector(selectCsrfToken_admin);
+
+  const [stage, setStage] = useState<string>("1");
+  const [reviewDoc, setReviewDoc] = useState<Reviews>(reviews);
+  const [stayOnPage, setStayOnPage] = useState<number>(1);
+  const [stayOnFilter, setStayOnFilter] = useState<string>("");
 
   useEffect(() => {
     if (!loggedInAsAdmin) {
@@ -62,6 +90,10 @@ const AddProductPage: NextPage<PageProps> = ({
     addProductReducer,
     product ? product : initialProductState
   );
+
+  useEffect(() => {
+    reduxDispatch(setPageLoading(false));
+  }, []);
 
   const dispatchAddInfo = (e: AddInfoEvents) => {
     const inputValue = e.target.value;
@@ -91,9 +123,21 @@ const AddProductPage: NextPage<PageProps> = ({
     await postUpload();
   };
 
-  useEffect(() => {
-    reduxDispatch(setPageLoading(false));
-  }, []);
+  const tagChangeHandler = (event: SyntheticEvent, newValue: string) => {
+    setStage(newValue);
+  };
+
+  const refreshReviewsAdmin = async (pageNum: number, reviewFilter: string) => {
+    const { data } = await client.post(
+      "http://localhost:5000/api/products/get-reviews",
+      { productId, pageNum, filter: reviewFilter }
+    );
+    const { reviewDoc, newPage } = data;
+
+    setStayOnFilter(reviewFilter);
+    setStayOnPage(newPage);
+    setReviewDoc(reviewDoc);
+  };
 
   if (!loggedInAsAdmin) {
     return <h2>Loading . . . </h2>;
@@ -101,22 +145,79 @@ const AddProductPage: NextPage<PageProps> = ({
 
   return (
     <main className={styles.main}>
-      <Grid container className={styles.main_grid}>
-        <div className={styles.main_title}>Add New Product</div>
-        <Divider />
+      {editMode ? (
+        <Grid container className={styles.main_grid}>
+          <TabContext value={stage}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Grid container justifyContent="space-evenly" wrap="nowrap">
+                <TabList onChange={tagChangeHandler}>
+                  <Tab
+                    label="EDIT PRODUCT"
+                    value={"1"}
+                    sx={{ typography: "h3" }}
+                  />
+                  <Tab
+                    label="EDIT REVIEWS"
+                    value={"2"}
+                    sx={{ typography: "h3" }}
+                  />
+                </TabList>
+              </Grid>
+            </Box>
+            <TabPanel value={"1"}>
+              <ProductForm
+                dispatchAddInfo={dispatchAddInfo}
+                productInfo={state.productInfo}
+                colorPropsList={state.colorPropsList}
+                propError={errors}
+                setErrors={setErrors}
+                editMode={editMode}
+                dispatch={dispatch}
+                uploadHandler={uploadHandler}
+                uploading={uploading}
+              />
+            </TabPanel>
+            <TabPanel value={"2"}>
+              <ProductReviews
+                reviewDoc={reviewDoc}
+                page={page}
+                openAddReivewModal={false}
+                refreshReviewsAdmin={refreshReviewsAdmin}
+                stayOnPage={stayOnPage}
+                stayOnFilter={stayOnFilter}
+                editMode={editMode}
+              />
+              <Button
+                color="error"
+                variant="outlined"
+                className={styles.form_button}
+                onClick={() => {
+                  router.push("/admin/products-list");
+                }}
+              >
+                Cancel
+              </Button>
+            </TabPanel>
+          </TabContext>
+        </Grid>
+      ) : (
+        <Grid container className={styles.main_grid}>
+          <div className={styles.main_title}>Add New Product</div>
+          <Divider />
 
-        <ProductForm
-          dispatchAddInfo={dispatchAddInfo}
-          productInfo={state.productInfo}
-          colorPropsList={state.colorPropsList}
-          propError={errors}
-          setErrors={setErrors}
-          editMode={editMode}
-          dispatch={dispatch}
-          uploadHandler={uploadHandler}
-          uploading={uploading}
-        />
-      </Grid>
+          <ProductForm
+            dispatchAddInfo={dispatchAddInfo}
+            productInfo={state.productInfo}
+            colorPropsList={state.colorPropsList}
+            propError={errors}
+            setErrors={setErrors}
+            editMode={editMode}
+            dispatch={dispatch}
+            uploadHandler={uploadHandler}
+            uploading={uploading}
+          />
+        </Grid>
+      )}
     </main>
   );
 };
@@ -144,7 +245,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         productId,
         product: data.product || null,
         editMode: productId ? true : false,
-        // csrfToken: data.csrfToken,
+        reviews: data.reviews,
         page: "admin",
       },
     };

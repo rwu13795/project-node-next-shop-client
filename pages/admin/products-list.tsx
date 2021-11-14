@@ -20,12 +20,11 @@ import browserClient from "../../utils/axios-client/browser-client";
 interface PageProps {
   productsTotal: number;
   products: PageProductProps[];
-  page_num: number;
 }
 
 const AdmimProductsListPage: NextPage<PageProps> = ({
   products: startProducts,
-  page_num,
+  productsTotal,
 }) => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -37,13 +36,13 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
 
   const [products, setProducts] = useState<PageProductProps[]>(startProducts);
 
-  const [params] = useState({ admin_username, page_num });
+  const [params] = useState({ admin_username, page_num: 1 });
 
-  // useEffect(() => {
-  //   if (!loggedInAsAdmin) {
-  //     router.push("/admin");
-  //   }
-  // }, [loggedInAsAdmin, router, dispatch]);
+  useEffect(() => {
+    if (!loggedInAsAdmin) {
+      router.push("/admin");
+    }
+  }, [loggedInAsAdmin, router, dispatch]);
 
   const fetchNewList = useCallback(async () => {
     const { data }: { data: PageProps } = await client.get(
@@ -132,33 +131,29 @@ export default AdmimProductsListPage;
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const client = serverClient(context);
 
-  const { admin_username, page: page_num } = context.query;
+  // const { admin_username, page: page_num } = context.query;
 
-  if (admin_username === undefined || admin_username === "") {
-    return {
-      redirect: {
-        destination: "/admin",
-        permanent: false,
-      },
-    };
-  }
+  // if (admin_username === undefined || admin_username === "") {
+  //   return {
+  //     redirect: {
+  //       destination: "/admin",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
 
-  const params = { admin_username, page_num };
+  // const params = { admin_username, page_num };
 
   try {
     const { data }: { data: PageProps } = await client.get(
-      "http://localhost:5000/api/admin/get-products-list",
-      { params }
+      "http://localhost:5000/api/admin/get-products-list"
     );
-
-    console.log(data);
 
     return {
       props: {
         page: "admin",
         products: data.products,
         productsTotal: data.productsTotal,
-        page_num,
       },
     };
   } catch (err) {
@@ -166,7 +161,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     return {
       redirect: {
-        destination: "/admin",
+        destination: "/",
         permanent: false,
       },
     };

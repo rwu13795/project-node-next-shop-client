@@ -46,9 +46,11 @@ const style = {
 
 interface Props {
   productId: string;
-  setOpenAddReivewModal: Dispatch<React.SetStateAction<boolean>>;
   openAddReivewModal: boolean;
-  refreshReviews?: () => Promise<void>;
+  setReviewFilter: Dispatch<React.SetStateAction<string>>;
+  setPageNum: Dispatch<React.SetStateAction<number>>;
+  setOpenAddReivewModal?: Dispatch<React.SetStateAction<boolean>>;
+  refreshReviewsUser?: (pageNum: number, reviewFilter: string) => Promise<void>;
 }
 
 const inputFieldsArray = ["title", "review", "nickname", "email", "size"];
@@ -57,7 +59,9 @@ function AddReviewModal({
   productId,
   openAddReivewModal,
   setOpenAddReivewModal,
-  refreshReviews,
+  refreshReviewsUser,
+  setReviewFilter,
+  setPageNum,
 }: Props): JSX.Element {
   const client = browserClient();
 
@@ -103,7 +107,7 @@ function AddReviewModal({
 
   const closeModal = () => {
     setRating("");
-    setOpenAddReivewModal(false);
+    if (setOpenAddReivewModal) setOpenAddReivewModal(false);
   };
 
   const reviewSubmitHandler = async () => {
@@ -128,8 +132,10 @@ function AddReviewModal({
     });
 
     setSubmited(true);
-    if (refreshReviews) {
-      await refreshReviews();
+    if (refreshReviewsUser) {
+      await refreshReviewsUser(1, "");
+      setReviewFilter("");
+      setPageNum(1);
     }
   };
 

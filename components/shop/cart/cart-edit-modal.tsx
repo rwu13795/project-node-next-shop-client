@@ -98,7 +98,7 @@ function CartEditModal({ category, productId, index, editItem }: Props) {
               ) : (
                 <ProductDetail
                   product={product}
-                  editMode={true}
+                  editModeItem={true}
                   handleClose={handleClose}
                 />
               )}

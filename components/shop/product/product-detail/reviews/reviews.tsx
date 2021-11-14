@@ -1,4 +1,11 @@
-import React, { useState, Fragment, memo, useEffect } from "react";
+import React, {
+  useState,
+  Fragment,
+  memo,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from "react";
 
 import Image from "next/image";
 
@@ -20,18 +27,31 @@ import styles from "./__reviews.module.css";
 
 interface Props {
   reviewDoc: Reviews;
-  setOpenAddReivewModal: React.Dispatch<React.SetStateAction<boolean>>;
   openAddReivewModal: boolean;
   page?: string;
-  refreshReviews?: () => Promise<void>;
+  editMode?: boolean;
+  stayOnPage?: number;
+  stayOnFilter?: string;
+  setOpenAddReivewModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  refreshReviewsUser?: (pageNum: number, reviewFilter: string) => Promise<void>;
+  resetReviewsUser?: () => void;
+  refreshReviewsAdmin?: (
+    pageNum: number,
+    reviewFilter: string
+  ) => Promise<void>;
 }
 
 function ProductReviews({
   reviewDoc,
-  setOpenAddReivewModal,
-  refreshReviews,
   openAddReivewModal,
   page,
+  editMode,
+  stayOnPage,
+  stayOnFilter,
+  setOpenAddReivewModal,
+  refreshReviewsUser,
+  resetReviewsUser,
+  refreshReviewsAdmin,
 }: Props): JSX.Element {
   const {
     averageRating,
@@ -48,9 +68,15 @@ function ProductReviews({
   const [pageNum, setPageNum] = useState<number>(1);
   const [reviewFilter, setReviewFilter] = useState<string>("");
 
+  // console.log(stayOnFilter);
+
   useEffect(() => {
     setCurrentReviews(allReviews);
-  }, [allReviews]);
+    if (editMode) {
+      setPageNum(stayOnPage ? stayOnPage : 1);
+      setReviewFilter(stayOnFilter ? stayOnFilter : "");
+    }
+  }, [allReviews, stayOnPage, stayOnFilter, editMode]);
 
   const REVIEWS_PER_PAGE = 6;
   const num1 = pageNum > 1 ? (pageNum - 1) * REVIEWS_PER_PAGE + 1 : pageNum;
@@ -66,35 +92,56 @@ function ProductReviews({
     } else {
       newPage = pageNum - 1;
     }
-    const { data } = await client.post(
-      "http://localhost:5000/api/products/get-reviews",
-      { reviewPrimaryId, pageNum: newPage, filter: reviewFilter }
-    );
-    setPageNum(newPage);
-    setCurrentReviews(data.reviews);
+
+    // have to branch here, the Admin edit-review use different logic
+    if (editMode && refreshReviewsAdmin) {
+      await refreshReviewsAdmin(newPage, reviewFilter);
+    } else {
+      if (refreshReviewsUser) {
+        await refreshReviewsUser(newPage, reviewFilter);
+        setPageNum(newPage);
+      }
+    }
   };
 
   const filterReviews = async (star: string) => {
     if (reviewFilter === star) {
-      setReviewFilter("");
-      setPageNum(1);
-      setCurrentReviews(allReviews);
-      return;
+      clearReviewsFilter();
+    } else {
+      // only return the fisrt page of the filtered reviews, not the entire reviewDoc
+      setReviewFilter(star);
+      // const { data } = await client.post(
+      //   "http://localhost:5000/api/products/get-reviews",
+      //   { productId, pageNum: 1, filter: star, refresh: false }
+      // );
+      // setPageNum(1);
+      // setCurrentReviews(data.reviews);
+      if (refreshReviewsUser) {
+        await refreshReviewsUser(1, star);
+        setPageNum(1);
+      }
+      if (refreshReviewsAdmin) {
+        await refreshReviewsAdmin(1, star);
+        setPageNum(1);
+      }
     }
-
-    setReviewFilter(star);
-    const { data } = await client.post(
-      "http://localhost:5000/api/products/get-reviews",
-      { reviewPrimaryId, pageNum: 1, filter: star }
-    );
-    setPageNum(1);
-    setCurrentReviews(data.reviews);
   };
 
-  const clearReviewsFilter = () => {
-    setReviewFilter("");
-    setPageNum(1);
-    setCurrentReviews(allReviews);
+  const clearReviewsFilter = async () => {
+    if (editMode && refreshReviewsAdmin) {
+      // have to make an api call in the the Admin component for clearing the filter
+      // because the "initialDoc" is still keeping the deleted review
+      // can't use the "initialDoc" in the Admin component
+      await refreshReviewsAdmin(1, "");
+    }
+    if (resetReviewsUser) {
+      resetReviewsUser();
+    }
+
+    setTimeout(() => {
+      setReviewFilter("");
+      setPageNum(1);
+    }, 100);
   };
 
   return (
@@ -216,6 +263,9 @@ function ProductReviews({
                     reviewPrimaryId={reviewPrimaryId}
                     setPageNum={setPageNum}
                     setCurrentReviews={setCurrentReviews}
+                    refreshReviewsAdmin={refreshReviewsAdmin}
+                    clearReviewsFilter={clearReviewsFilter}
+                    reviewFilter={reviewFilter}
                     page={page}
                   />
                 </Grid>
@@ -239,7 +289,10 @@ function ProductReviews({
                 variant="outlined"
                 onClick={() => getMoreReviews("next")}
                 disabled={
-                  currentReviews.length < REVIEWS_PER_PAGE || num2 === total
+                  currentReviews.length < REVIEWS_PER_PAGE ||
+                  (reviewFilter !== ""
+                    ? num2 === allRatings[reviewFilter]
+                    : num2 === total)
                 }
                 className={_nav_button}
               >
@@ -258,7 +311,9 @@ function ProductReviews({
         openAddReivewModal={openAddReivewModal}
         setOpenAddReivewModal={setOpenAddReivewModal}
         productId={productId}
-        refreshReviews={refreshReviews}
+        refreshReviewsUser={refreshReviewsUser}
+        setReviewFilter={setReviewFilter}
+        setPageNum={setPageNum}
       />
     </Grid>
   );

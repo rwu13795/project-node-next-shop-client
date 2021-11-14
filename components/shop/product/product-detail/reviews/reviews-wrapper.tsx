@@ -1,4 +1,4 @@
-import React, { Fragment, memo } from "react";
+import React, { Fragment, memo, Dispatch, SetStateAction } from "react";
 import dynamic from "next/dynamic";
 import { useMediaQuery } from "react-responsive";
 
@@ -11,15 +11,17 @@ interface Props {
   setOpenAddReivewModal: React.Dispatch<React.SetStateAction<boolean>>;
   openAddReivewModal: boolean;
   page?: string;
-  refreshReviews?: () => Promise<void>;
+  refreshReviewsUser?: (pageNum: number, reviewFilter: string) => Promise<void>;
+  resetReviewsUser?: () => void;
 }
 
 function ReviewsWrapper({
   reviewDoc,
-  setOpenAddReivewModal,
-  refreshReviews,
-  openAddReivewModal,
   page,
+  openAddReivewModal,
+  setOpenAddReivewModal,
+  refreshReviewsUser,
+  resetReviewsUser,
 }: Props): JSX.Element {
   const isSmall = useMediaQuery({ query: "(max-width: 765px)" });
 
@@ -30,7 +32,8 @@ function ReviewsWrapper({
           reviewDoc={reviewDoc}
           page={page}
           setOpenAddReivewModal={setOpenAddReivewModal}
-          refreshReviews={refreshReviews}
+          refreshReviewsUser={refreshReviewsUser}
+          resetReviewsUser={resetReviewsUser}
           openAddReivewModal={openAddReivewModal}
         />
       ) : (
@@ -38,7 +41,8 @@ function ReviewsWrapper({
           reviewDoc={reviewDoc}
           page={page}
           setOpenAddReivewModal={setOpenAddReivewModal}
-          refreshReviews={refreshReviews}
+          refreshReviewsUser={refreshReviewsUser}
+          resetReviewsUser={resetReviewsUser}
           openAddReivewModal={openAddReivewModal}
         />
       )}

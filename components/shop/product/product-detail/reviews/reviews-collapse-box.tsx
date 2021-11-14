@@ -1,4 +1,10 @@
-import React, { Fragment, useState, memo } from "react";
+import React, {
+  Fragment,
+  useState,
+  memo,
+  Dispatch,
+  SetStateAction,
+} from "react";
 
 import ProductReviews from "./reviews";
 import { Reviews } from "../../../../../pages/shop/product-detail/[product_id]";
@@ -24,15 +30,17 @@ interface Props {
   setOpenAddReivewModal: React.Dispatch<React.SetStateAction<boolean>>;
   openAddReivewModal: boolean;
   page?: string;
-  refreshReviews?: () => Promise<void>;
+  refreshReviewsUser?: (pageNum: number, reviewFilter: string) => Promise<void>;
+  resetReviewsUser?: () => void;
 }
 
 function ReviewsCollapseBox({
   reviewDoc,
-  setOpenAddReivewModal,
-  refreshReviews,
   openAddReivewModal,
   page,
+  setOpenAddReivewModal,
+  refreshReviewsUser,
+  resetReviewsUser,
 }: Props): JSX.Element {
   const [expand, setExpand] = useState<boolean>(false);
 
@@ -53,7 +61,8 @@ function ReviewsCollapseBox({
         <ProductReviews
           reviewDoc={reviewDoc}
           page={page}
-          refreshReviews={refreshReviews}
+          refreshReviewsUser={refreshReviewsUser}
+          resetReviewsUser={resetReviewsUser}
           setOpenAddReivewModal={setOpenAddReivewModal}
           openAddReivewModal={openAddReivewModal}
         />

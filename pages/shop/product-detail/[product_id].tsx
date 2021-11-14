@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext, NextPage } from "next";
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 import Link from "next/link";
 
 import { PageProductProps } from "../../../utils/react-hooks/get-more-products";
@@ -22,6 +22,7 @@ export interface ReviewProps {
   user_email: string;
   size: string;
   _id: string;
+  id_allReviews?: string;
 }
 
 export interface AllRatings {
@@ -53,28 +54,38 @@ export interface Reviews {
 interface PageProps {
   product: PageProductProps;
   reviews: Reviews;
-  editMode: boolean;
+  editModeItem: boolean;
   isSmall: boolean;
 }
 
 const ProductDetailPage: NextPage<PageProps> = ({
   product,
   reviews,
-  editMode,
+  editModeItem,
   isSmall,
 }) => {
   const { main_cat, sub_cat, title } = product.productInfo;
   const props = { main_cat, sub_cat, title };
   const client = browserClient();
 
+  const [initialReviewDoc, setInitialReviewDoc] = useState<Reviews>(reviews);
   const [reviewDoc, setReviewDoc] = useState<Reviews>(reviews);
 
-  const refreshReviews = async () => {
+  const refreshReviewsUser = async (pageNum: number, reviewFilter: string) => {
     const { data } = await client.post(
       "http://localhost:5000/api/products/get-reviews",
-      { productId: product._id, pageNum: 1, filter: "", refresh: true }
+      { productId: product._id, pageNum, filter: reviewFilter, refresh: true }
     );
+    if (pageNum === 1 && reviewFilter === "") {
+      setInitialReviewDoc(data.reviewDoc);
+    }
     setReviewDoc(data.reviewDoc);
+  };
+
+  // clear the filter without making another api call
+  // set the review back to page 1 reviews
+  const resetReviewsUser = () => {
+    setReviewDoc(initialReviewDoc);
   };
 
   return (
@@ -84,9 +95,10 @@ const ProductDetailPage: NextPage<PageProps> = ({
         <ProductDetail
           product={product}
           reviewDoc={reviewDoc}
-          editMode={editMode}
+          editModeItem={editModeItem}
           isSmall={isSmall}
-          refreshReviews={refreshReviews}
+          refreshReviewsUser={refreshReviewsUser}
+          resetReviewsUser={resetReviewsUser}
         />
       ) : (
         <h1>No product found</h1>
@@ -114,8 +126,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const main_cat = param.split("-")[0];
   const secondString = param.split("-")[1];
 
-  const editMode: boolean = secondString === "edit";
-  const isSmall = editMode;
+  const editModeItem: boolean = secondString === "edit";
+  const isSmall = editModeItem;
 
   const client = serverClient(context);
 
@@ -129,7 +141,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         product: data.product,
         reviews: data.reviews,
         page_cat: main_cat,
-        editMode,
+        editModeItem,
         isSmall,
       },
     };
