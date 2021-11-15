@@ -21,10 +21,11 @@ interface PaymentDetail {
 // have to use InputValue interface for all these states
 // otherwise, I could map all these values dynamically using the
 // [inputName]: inputValue (computed properties)
-interface CheckoutState {
+interface ShopState {
   shippingAddress: InputValues;
   billingAddress: InputValues;
   contactInfo: InputValues;
+  previewColorIndex: number;
 }
 
 interface CreateOrderBody {
@@ -62,10 +63,11 @@ const initialShippingAddress = initializeValue(addressFields);
 const initialBillingAddress = initializeValue(addressFields);
 const initialContactInfo = initializeValue(contactFields);
 
-const initialState: CheckoutState = {
+const initialState: ShopState = {
   shippingAddress: initialShippingAddress,
   billingAddress: initialBillingAddress,
   contactInfo: initialContactInfo,
+  previewColorIndex: -1,
 };
 
 const createOrderHistory = createAsyncThunk<
@@ -73,7 +75,7 @@ const createOrderHistory = createAsyncThunk<
   CreateOrderBody,
   { state: RootState }
 >(
-  "checkout/createOrderHistory",
+  "shop/createOrderHistory",
   async ({ currentUser, totalAmount, paymentDetail }, thunkAPI) => {
     const state = thunkAPI.getState();
 
@@ -81,9 +83,9 @@ const createOrderHistory = createAsyncThunk<
       serverUrl + "/shop/create-order-history",
       {
         currentUser,
-        shippingAddress: state.checkout.shippingAddress,
-        billingAddress: state.checkout.billingAddress,
-        contactInfo: state.checkout.contactInfo,
+        shippingAddress: state.shop.shippingAddress,
+        billingAddress: state.shop.billingAddress,
+        contactInfo: state.shop.contactInfo,
         totalAmount,
         paymentDetail,
       }
@@ -93,8 +95,8 @@ const createOrderHistory = createAsyncThunk<
   }
 );
 
-const checkoutSlice = createSlice({
-  name: "checkout",
+const shopSlice = createSlice({
+  name: "shop",
   initialState,
   reducers: {
     setContactInfo(
@@ -165,22 +167,22 @@ export const {
   toggleBillingAddress,
   loadUserInfo,
   clearCheckoutInfo,
-} = checkoutSlice.actions;
+} = shopSlice.actions;
 export { createOrderHistory };
 
-export default checkoutSlice.reducer;
+export default shopSlice.reducer;
 
-const selectCheckout = (state: RootState) => state.checkout;
+const selectCheckout = (state: RootState) => state.shop;
 
 export const selectContactInfo = createSelector(
   [selectCheckout],
-  (checkoutState) => checkoutState.contactInfo
+  (shopState) => shopState.contactInfo
 );
 export const selectShippingAddress = createSelector(
   [selectCheckout],
-  (checkoutState) => checkoutState.shippingAddress
+  (shopState) => shopState.shippingAddress
 );
 export const selectBillingAddress = createSelector(
   [selectCheckout],
-  (checkoutState) => checkoutState.billingAddress
+  (shopState) => shopState.billingAddress
 );

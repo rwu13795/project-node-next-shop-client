@@ -28,7 +28,7 @@ import {
   contactFields,
   setShippingAddress,
   setContactInfo,
-} from "../../../utils/redux-store/checkoutSlice";
+} from "../../../utils/redux-store/shopSlice";
 
 import renderInputFields from "../../../utils/helper-functions/render-input-fields";
 import { AllowedStages } from "../../../pages/shop/checkout";

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useCallback, useState } from "react";
 
 import serverClient from "../../utils/axios-client/server-client";
+import ProductPreview from "../../components/image/product-preview/preview";
 import { PageProductProps } from "../../utils/react-hooks/get-more-products";
 import {
   deleteProduct,
@@ -97,21 +98,11 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
         {products.map((p) => {
           return (
             <div key={p._id}>
-              <div>Title: {p.productInfo.title}</div>
-              <div>Price: {p.productInfo.price}</div>
-              <div>Description: {p.productInfo.description}</div>
-              <Image
-                src={p.colorPropsList[0].imageFiles[0]}
-                alt={p.productInfo.title}
-                width={100}
-                height={100}
+              <ProductPreview
+                productId={p._id}
+                colorPropsList={p.colorPropsList}
+                productInfo={p.productInfo}
               />
-              <div>
-                Colors:
-                {p.colorPropsList.map((prop) => {
-                  return <span key={prop.colorName}>{prop.colorName} </span>;
-                })}
-              </div>
               <div>
                 <button onClick={() => editButtonHandler(p._id)}>Edit</button>
                 <button onClick={() => deleteButtonHandler(p._id)}>
@@ -167,3 +158,19 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     };
   }
 }
+
+//   <div>Title: {p.productInfo.title}</div>
+//   <div>Price: {p.productInfo.price}</div>
+//   <div>Description: {p.productInfo.description}</div>
+//   <Image
+//     src={p.colorPropsList[0].imageFiles[0]}
+//     alt={p.productInfo.title}
+//     width={100}
+//     height={100}
+//   />
+//   <div>
+//     Colors:
+//     {p.colorPropsList.map((prop) => {
+//       return <span key={prop.colorName}>{prop.colorName} </span>;
+//     })}
+//   </div>

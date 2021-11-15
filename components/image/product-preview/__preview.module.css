@@ -1,0 +1,45 @@
+.color_container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 40px;
+  flex-flow: row nowrap;
+}
+
+.color_ball {
+  width: 30px;
+  height: 30px;
+  border-radius: 2rem;
+  border: solid black 1px;
+}
+.color_ball_outer_ring {
+  width: 36px;
+  height: 36px;
+  border-radius: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.color_ball_outer_ring:hover {
+  border: #31ccfc solid 2px;
+}
+.color_ball_outer_ring_active {
+  border: #00789e solid 2px;
+  width: 36px;
+  height: 36px;
+  border-radius: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.color_ball_container {
+  margin: 0 5px 0 5px;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.color_ball_container:hover {
+  cursor: pointer;
+}

@@ -18,7 +18,7 @@ import {
 } from "../../utils/redux-store/userSlice";
 
 import CartDetail from "../../components/shop/cart/cart-detail";
-import { loadUserInfo } from "../../utils/redux-store/checkoutSlice";
+import { loadUserInfo } from "../../utils/redux-store/shopSlice";
 import CheckoutStage_1 from "../../components/shop/checkout/checkout-stage-1";
 import CheckoutStage_2 from "../../components/shop/checkout/checkout-stage-2";
 import CheckoutStage_3 from "../../components/shop/checkout/checkout-stage-3";

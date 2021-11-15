@@ -1,6 +1,7 @@
 .main_grid {
   width: 35vw;
-  max-width: 50rem;
+  max-width: 40rem;
+  margin: 5px;
 }
 
 .upper_grid {

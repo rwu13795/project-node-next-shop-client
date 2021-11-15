@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@mui/material";
 
 import browserClient from "../../../utils/axios-client/browser-client";
-import { createOrderHistory } from "../../../utils/redux-store/checkoutSlice";
+import { createOrderHistory } from "../../../utils/redux-store/shopSlice";
 import {
   clearCartSession,
   selectCsrfToken,

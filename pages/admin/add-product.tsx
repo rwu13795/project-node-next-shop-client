@@ -149,20 +149,26 @@ const AddProductPage: NextPage<PageProps> = ({
         <Grid container className={styles.main_grid}>
           <TabContext value={stage}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <Grid container justifyContent="space-evenly" wrap="nowrap">
+              <Grid
+                container
+                wrap="nowrap"
+                justifyContent="space-around"
+                className={styles.edit_tab_grid}
+              >
                 <TabList onChange={tagChangeHandler}>
                   <Tab
                     label="EDIT PRODUCT"
                     value={"1"}
-                    sx={{ typography: "h3" }}
+                    className={styles.edit_tab}
                   />
                   <Tab
                     label="EDIT REVIEWS"
                     value={"2"}
-                    sx={{ typography: "h3" }}
+                    className={styles.edit_tab}
                   />
                 </TabList>
               </Grid>
+              <Divider />
             </Box>
             <TabPanel value={"1"}>
               <ProductForm
@@ -195,7 +201,7 @@ const AddProductPage: NextPage<PageProps> = ({
                   router.push("/admin/products-list");
                 }}
               >
-                Cancel
+                Back
               </Button>
             </TabPanel>
           </TabContext>
@@ -203,7 +209,6 @@ const AddProductPage: NextPage<PageProps> = ({
       ) : (
         <Grid container className={styles.main_grid}>
           <div className={styles.main_title}>Add New Product</div>
-          <Divider />
 
           <ProductForm
             dispatchAddInfo={dispatchAddInfo}

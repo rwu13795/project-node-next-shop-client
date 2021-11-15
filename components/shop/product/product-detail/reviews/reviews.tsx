@@ -138,14 +138,16 @@ function ProductReviews({
       resetReviewsUser();
     }
 
-    setTimeout(() => {
-      setReviewFilter("");
-      setPageNum(1);
-    }, 100);
+    setReviewFilter("");
+    setPageNum(1);
   };
 
   return (
-    <Grid container justifyContent="center" className={_container}>
+    <Grid
+      container
+      justifyContent="center"
+      className={page === "admin" ? _container_admin : _container}
+    >
       {reviewDoc.total > 0 ? (
         <Fragment>
           <div className={_title}>
@@ -322,6 +324,7 @@ function ProductReviews({
 export default memo(ProductReviews);
 
 const _container = styles.main_container;
+const _container_admin = styles.main_container_admin;
 const _box = styles.inner_grid_box;
 const _outer_grid = styles.outer_grid_box;
 const _title = styles.title_box;

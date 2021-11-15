@@ -91,7 +91,7 @@ export default function ProductForm(props: Props): JSX.Element {
       className={styles.main_grid}
     >
       <Grid item container justifyContent="center" md={6}>
-        <div className={main_styles.text_3}>Product Info</div>
+        <h1>Product Info</h1>
       </Grid>
       <Grid item container>
         <Grid

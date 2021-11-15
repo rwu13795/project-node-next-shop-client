@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import adminSlice from "./adminSlice";
-import checkoutSlice from "./checkoutSlice";
+import shopSlice from "./shopSlice";
 import layoutSlice from "./layoutSlice";
 import userSlice from "./userSlice";
 
@@ -9,7 +9,7 @@ const store = configureStore({
   reducer: {
     admin: adminSlice,
     user: userSlice,
-    checkout: checkoutSlice,
+    shop: shopSlice,
     layout: layoutSlice,
   },
 });

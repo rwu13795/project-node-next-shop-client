@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { useDispatch } from "react-redux";
-import { clearCheckoutInfo } from "../../utils/redux-store/checkoutSlice";
+import { clearCheckoutInfo } from "../../utils/redux-store/shopSlice";
 import { clearCartSession } from "../../utils/redux-store/userSlice";
 
 const PaymentSuccessful: NextPage = ({}) => {

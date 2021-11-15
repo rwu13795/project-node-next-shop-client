@@ -6,6 +6,7 @@ import { ToggleButtonStyled } from "../../../../../styles/mui-custom-components"
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 import styles from "./__colors.module.css";
+import { useRouter } from "next/router";
 
 interface Props {
   colorPropsList: PageColorProps[];

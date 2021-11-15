@@ -1,6 +1,11 @@
 .main_container {
   margin-top: 65px;
-  max-width: 110rem;
+  max-width: 90rem;
+}
+
+.main_container_admin {
+  margin-top: 18px;
+  max-width: 90rem;
 }
 
 .main_grid {
@@ -37,6 +42,7 @@
   position: relative;
   text-align: center;
   margin-bottom: 25px;
+  max-width: 50rem;
 }
 .sub_title_box {
   border-bottom: solid 2px #00789e;
@@ -45,6 +51,7 @@
   margin-bottom: 5px;
   padding-bottom: 5px;
   width: 30vw;
+  max-width: 34rem;
 }
 
 .reviews_desc_box {

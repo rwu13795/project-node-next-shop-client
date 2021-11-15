@@ -2,6 +2,7 @@
   margin-left: min(5%, 4rem);
   margin-right: min(5%, 4rem);
   margin-bottom: 4rem;
+  margin-top: 2rem;
   height: auto;
 }
 
@@ -13,12 +14,53 @@
 }
 
 .main_title {
-  font-size: min(10vw, 3.1rem);
+  font-size: min(6vw, 2.5rem);
   margin-top: 0;
   margin-bottom: 1rem;
   text-align: center;
+  font-weight: bold;
+  width: 90vw;
+  padding-bottom: 20px;
+  border-bottom: solid #008ab4 2px;
 }
 
 .page_body {
   margin-top: 1rem;
+}
+
+.edit_tab_grid {
+  width: 80vw;
+}
+.edit_tab {
+  width: 340px;
+  font-size: min(6vw, 2.5rem);
+  font-weight: bold;
+  font-family: "Oswald", sans-serif;
+}
+
+.form_button {
+  font-size: min(4vw, 1.2rem);
+  left: 70vw;
+  position: relative;
+}
+
+@media screen and (min-width: 1400px) {
+  .main_title {
+    max-width: 90rem;
+  }
+  .edit_tab_grid {
+    max-width: 90rem;
+  }
+}
+
+@media screen and (max-width: 765px) {
+  .edit_tab {
+    width: 34vw;
+    font-size: min(4vw, 20px);
+    font-weight: bold;
+    font-family: "Oswald", sans-serif;
+  }
+  .edit_tab_grid {
+    width: 90vw;
+  }
 }

@@ -35,7 +35,7 @@ import {
   addressFields,
   setBillingAddress,
   toggleBillingAddress,
-} from "../../../utils/redux-store/checkoutSlice";
+} from "../../../utils/redux-store/shopSlice";
 import { AllowedStages } from "../../../pages/shop/checkout";
 import { TextFieldStyled } from "../../../styles/mui-custom-components";
 import renderInputFields from "../../../utils/helper-functions/render-input-fields";
