@@ -18,6 +18,17 @@ import {
 import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 import browserClient from "../../utils/axios-client/browser-client";
 
+// UI //
+import {
+  Divider,
+  Grid,
+  TextField,
+  Box,
+  Pagination,
+  Button,
+} from "@mui/material";
+import styles from "./__product-list.module.css";
+
 interface PageProps {
   productsTotal: number;
   products: PageProductProps[];
@@ -25,8 +36,10 @@ interface PageProps {
 
 const AdmimProductsListPage: NextPage<PageProps> = ({
   products: startProducts,
-  productsTotal,
+  productsTotal: startProductsTotal,
 }) => {
+  const ITEMS_PER_PAGE = 6;
+
   const router = useRouter();
   const dispatch = useDispatch();
   const client = browserClient();
@@ -36,31 +49,55 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
   const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
 
   const [products, setProducts] = useState<PageProductProps[]>(startProducts);
+  const [productsTotal, setProductsTotal] =
+    useState<number>(startProductsTotal);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const [params] = useState({ admin_username, page_num: 1 });
+  useEffect(() => {
+    dispatch(getAdminStatus());
+  }, []);
 
   useEffect(() => {
     if (!loggedInAsAdmin) {
       router.push("/admin");
     }
-  }, [loggedInAsAdmin, router, dispatch]);
+  }, []);
 
-  const fetchNewList = useCallback(async () => {
-    const { data }: { data: PageProps } = await client.get(
-      "http://localhost:5000/api/admin/get-products-list",
-      { params }
-    );
-    setProducts(data.products);
-  }, [params, client]);
+  const fetchNewList = useCallback(
+    async (pageNum: number) => {
+      const { data }: { data: PageProps } = await client.get(
+        "http://localhost:5000/api/admin/get-products-list",
+        { params: { pageNum } }
+      );
+      setProducts(data.products);
+      setProductsTotal(data.productsTotal);
+    },
+    [client]
+  );
 
   useEffect(() => {
-    // reload the page after deleting an item
+    // fetch new list after deleting an item to update the page
     if (loadingStatus === "succeeded") {
       dispatch(setLoadingStatus_admin("idle"));
-      fetchNewList();
+      // if products.length less than 2, that means there was only 1 item on the
+      // current page before deleting, so I need to fetch items from the page in front
+      if (products.length < 2 && currentPage > 1) {
+        fetchNewList(currentPage - 1);
+        setCurrentPage((prev) => prev - 1);
+      } else {
+        fetchNewList(currentPage);
+      }
+
       dispatch(setPageLoading(false));
     }
-  }, [loadingStatus, dispatch, router, fetchNewList]);
+  }, [
+    loadingStatus,
+    dispatch,
+    router,
+    fetchNewList,
+    currentPage,
+    products.length,
+  ]);
 
   const goToAddProduct = () => {
     dispatch(setPageLoading(true));
@@ -81,6 +118,15 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
     dispatch(setPageLoading(false));
   }, []);
 
+  const changePageHandler = async (event: any, page: number) => {
+    console.log(page);
+    if (page === currentPage) {
+      return;
+    }
+    await fetchNewList(page);
+    setCurrentPage(page);
+  };
+
   if (!products) {
     return (
       <main>
@@ -91,13 +137,25 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
   }
 
   return (
-    <main>
-      <button onClick={goToAddProduct}>add new product</button>
+    <main className={styles.main}>
+      <div className={styles.inner_grid}>
+        <Button variant="outlined" onClick={goToAddProduct}>
+          add new product
+        </Button>
+      </div>
 
-      <div>
+      <Grid container className={styles.main_grid}>
         {products.map((p) => {
           return (
-            <div key={p._id}>
+            <Grid
+              item
+              container
+              className={styles.inner_grid}
+              md={4}
+              sm={6}
+              xs={6}
+              key={p._id}
+            >
               <ProductPreview
                 productId={p._id}
                 colorPropsList={p.colorPropsList}
@@ -109,9 +167,23 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
                   Delete
                 </button>
               </div>
-            </div>
+            </Grid>
           );
         })}
+      </Grid>
+      <div className={`${styles.inner_grid} ${styles.margin_bottom}`}>
+        <Pagination
+          count={Math.ceil(productsTotal / ITEMS_PER_PAGE)}
+          color="primary"
+          onChange={changePageHandler}
+          page={currentPage}
+        />
+      </div>
+
+      <div className={`${styles.inner_grid} ${styles.margin_bottom}`}>
+        <Button variant="outlined" onClick={goToAddProduct}>
+          add new product
+        </Button>
       </div>
     </main>
   );
@@ -121,19 +193,6 @@ export default AdmimProductsListPage;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const client = serverClient(context);
-
-  // const { admin_username, page: page_num } = context.query;
-
-  // if (admin_username === undefined || admin_username === "") {
-  //   return {
-  //     redirect: {
-  //       destination: "/admin",
-  //       permanent: false,
-  //     },
-  //   };
-  // }
-
-  // const params = { admin_username, page_num };
 
   try {
     const { data }: { data: PageProps } = await client.get(
@@ -152,25 +211,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     return {
       redirect: {
-        destination: "/",
+        destination: "/admin",
         permanent: false,
       },
     };
   }
 }
-
-//   <div>Title: {p.productInfo.title}</div>
-//   <div>Price: {p.productInfo.price}</div>
-//   <div>Description: {p.productInfo.description}</div>
-//   <Image
-//     src={p.colorPropsList[0].imageFiles[0]}
-//     alt={p.productInfo.title}
-//     width={100}
-//     height={100}
-//   />
-//   <div>
-//     Colors:
-//     {p.colorPropsList.map((prop) => {
-//       return <span key={prop.colorName}>{prop.colorName} </span>;
-//     })}
-//   </div>

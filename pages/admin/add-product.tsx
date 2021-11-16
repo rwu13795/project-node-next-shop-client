@@ -23,6 +23,7 @@ import ProductForm from "../../components/admin/add-edit-product/product-form";
 import ProductReviews from "../../components/shop/product/product-detail/reviews/reviews";
 import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 import {
+  getAdminStatus,
   selectAdminUser,
   selectCsrfToken_admin,
   selectLoggedInAsAdmin,
@@ -80,16 +81,24 @@ const AddProductPage: NextPage<PageProps> = ({
   const [stayOnPage, setStayOnPage] = useState<number>(1);
   const [stayOnFilter, setStayOnFilter] = useState<string>("");
 
+  const [checkingAuth, setCheckingAuth] = useState<boolean>(true);
+
   useEffect(() => {
-    if (!loggedInAsAdmin) {
-      router.push("/admin");
-    }
-  });
+    reduxDispatch(getAdminStatus());
+  }, [reduxDispatch]);
 
   const [state, dispatch] = useReducer(
     addProductReducer,
     product ? product : initialProductState
   );
+
+  useEffect(() => {
+    if (!loggedInAsAdmin) {
+      router.push("/admin");
+    } else {
+      setCheckingAuth(false);
+    }
+  }, []);
 
   useEffect(() => {
     reduxDispatch(setPageLoading(false));
@@ -139,8 +148,12 @@ const AddProductPage: NextPage<PageProps> = ({
     setReviewDoc(reviewDoc);
   };
 
-  if (!loggedInAsAdmin) {
-    return <h2>Loading . . . </h2>;
+  // if (!loggedInAsAdmin) {
+  //   return <h2>Loading . . . </h2>;
+  // }
+
+  if (checkingAuth) {
+    return <div>Loading ...</div>;
   }
 
   return (
@@ -243,7 +256,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     // if no productId is found in the query, that means we are NOT editting the product
     // send a arbitary id number to let Node server know
     const { data }: { data: PageProps } = await client.get(
-      `http://localhost:5000/api/products/detail/${productId}`
+      `http://localhost:5000/api/products/detail/${productId}?admin="yes"`
     );
     return {
       props: {
@@ -255,9 +268,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       },
     };
   } catch (err) {
-    console.log(
-      "in add-product page catch error - something went wrong in the server"
-    );
+    console.log("in add-product page catch error - Admin auth required");
     return {
       props: { page: "admin" },
     };

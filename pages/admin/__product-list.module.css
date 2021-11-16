@@ -1,0 +1,29 @@
+.main {
+  margin-top: 50px;
+}
+
+.main_grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70vw;
+  max-width: 90rem;
+  margin-bottom: 60px;
+}
+
+.inner_grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column nowrap;
+}
+
+.margin_bottom {
+  margin-bottom: 40px;
+}
+
+@media screen and (max-width: 765px) {
+  .main_grid {
+    width: 90vw;
+  }
+}

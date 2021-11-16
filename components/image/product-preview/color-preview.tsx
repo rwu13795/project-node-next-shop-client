@@ -49,10 +49,10 @@ function PreviewColor({
   const onMouseEnterHandler = () => {
     setActiveIndex(colorIndex);
     setPreviewImage(imageFiles[0]);
+    
+    // dispatch colorIndex here !!!!!!!!!!
   };
   const onClickHandler = () => {
-    // dispatch colorIndex here !!!!!!!!!!
-
     router.push(productLink);
   };
 

@@ -56,11 +56,18 @@ function ProductPreview({
       temp[activeIndex] = true;
       return temp;
     });
-  }, [activeIndex, initialActiveColor]);
+  }, [activeIndex]);
 
   return (
     <div style={{ marginTop: "60px" }}>
-      <Image src={previewImage} alt={previewImage} width={150} height={180} />
+      <div className={styles.image_box}>
+        <Image
+          src={previewImage}
+          alt={previewImage}
+          layout="fill"
+          loading="eager"
+        />
+      </div>
       <div className={styles.color_container}>
         {colorPropsList.map((props, index) => {
           return (

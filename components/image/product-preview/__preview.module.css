@@ -3,7 +3,7 @@
   justify-content: flex-start;
   align-items: center;
   height: 40px;
-  flex-flow: row nowrap;
+  flex-flow: row;
 }
 
 .color_ball {
@@ -42,4 +42,47 @@
 }
 .color_ball_container:hover {
   cursor: pointer;
+}
+
+.image_box {
+  width: min(260px, 20vw);
+  height: min(292px, 24vw);
+  margin-bottom: 10px;
+  position: relative;
+  object-fit: cover;
+  box-shadow: 2px 4px 6px;
+}
+
+@media screen and (min-width: 765px) and (max-width: 1250px) {
+}
+
+@media screen and (max-width: 765px) {
+  .image_box {
+    width: min(260px, 38vw);
+    height: min(292px, 44vw);
+  }
+
+  .color_container {
+    height: min(40px, 5.2vw);
+  }
+
+  .color_ball {
+    width: min(30px, 4vw);
+    height: min(30px, 3.8vw);
+  }
+  .color_ball_outer_ring {
+    width: min(36px, 5.2vw);
+    height: min(36px, 5vw);
+  }
+
+  .color_ball_outer_ring_active {
+    /* border: #00789e solid 2px; */
+    width: min(36px, 5.2vw);
+    height: min(36px, 5vw);
+  }
+  .color_ball_container {
+    margin: 0 5px 0 5px;
+    height: min(40px, 5.4vw);
+    width: min(40px, 5.4vw);
+  }
 }
