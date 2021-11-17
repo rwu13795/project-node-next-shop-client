@@ -45,9 +45,9 @@ export default function AddImage(props: Props): JSX.Element {
   const [editImage, setEditImage] = useState<boolean>(false);
 
   const addImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const newImage = (e.target.files as FileList)[0];
+    const newImagesList = e.target.files as FileList;
     setFormHasError(false);
-    dispatch({ type: Actions.addImage, payload: { listIndex, newImage } });
+    dispatch({ type: Actions.addImage, payload: { listIndex, newImagesList } });
   };
 
   const replaceImageHandler = (
@@ -164,6 +164,7 @@ export default function AddImage(props: Props): JSX.Element {
             <AddBoxIcon className={styles.image_button_large} />
           </InputLabel>
           <input
+            multiple
             type="file"
             accept="image/jpeg"
             name={inputNames.addImage}

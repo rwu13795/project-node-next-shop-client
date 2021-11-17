@@ -26,7 +26,10 @@ export type ActionType =
       type: Actions.addInfo;
       payload: { inputField: string; inputValue: string };
     }
-  | { type: Actions.addImage; payload: { listIndex: number; newImage: File } }
+  | {
+      type: Actions.addImage;
+      payload: { listIndex: number; newImagesList: FileList };
+    }
   | {
       type: Actions.replaceImage;
       payload: {
@@ -84,10 +87,12 @@ export default function addProductReducer(
       });
     }
     case Actions.addImage: {
-      const { listIndex, newImage } = action.payload;
+      const { listIndex, newImagesList } = action.payload;
       return produce(state, (newState) => {
-        if (newImage !== undefined) {
-          newState.colorPropsList[listIndex].imageFiles.push(newImage);
+        if (newImagesList !== undefined) {
+          newState.colorPropsList[listIndex].imageFiles.push(
+            ...Array.from(newImagesList)
+          );
           newState.colorPropsList[listIndex].imageCount =
             newState.colorPropsList[listIndex].imageFiles.length;
         }

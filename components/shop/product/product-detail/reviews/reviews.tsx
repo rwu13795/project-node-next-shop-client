@@ -142,6 +142,12 @@ function ProductReviews({
     setPageNum(1);
   };
 
+  const writeReviewHandler = () => {
+    if (setOpenAddReivewModal) {
+      setOpenAddReivewModal(true);
+    }
+  };
+
   return (
     <Grid
       container
@@ -154,6 +160,9 @@ function ProductReviews({
             <a id="product_reviews">
               <h1>Reviews</h1>
             </a>
+            <Button variant="outlined" onClick={writeReviewHandler}>
+              Write a review
+            </Button>
           </div>
 
           <Grid
@@ -306,7 +315,12 @@ function ProductReviews({
           )}
         </Fragment>
       ) : (
-        <h1>No review yet, be the first one to write a review</h1>
+        <div>
+          <h1>No review yet, be the first one to write a review</h1>
+          <Button variant="outlined" onClick={writeReviewHandler}>
+            Write a review
+          </Button>
+        </div>
       )}
 
       <AddReviewModal

@@ -162,10 +162,20 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
                 productInfo={p.productInfo}
               />
               <div>
-                <button onClick={() => editButtonHandler(p._id)}>Edit</button>
-                <button onClick={() => deleteButtonHandler(p._id)}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => editButtonHandler(p._id)}
+                >
+                  Edit
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={() => deleteButtonHandler(p._id)}
+                >
                   Delete
-                </button>
+                </Button>
               </div>
             </Grid>
           );
