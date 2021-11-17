@@ -46,7 +46,7 @@ function PageLinks({ main_cat, sub_cat, title }: Props): JSX.Element {
       {title && (
         <Fragment>
           <span>/</span>
-          <div className={styles.grey}>{title}</div>
+          <div className={styles.grey}>{title.toUpperCase()}</div>
         </Fragment>
       )}
     </div>

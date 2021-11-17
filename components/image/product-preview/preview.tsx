@@ -6,6 +6,7 @@ import React, {
   useEffect,
 } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 import {
   PageColorProps,
@@ -17,18 +18,24 @@ import PreviewColor from "./color-preview";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 import styles from "./__preview.module.css";
+import { useDispatch } from "react-redux";
+import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 
 interface Props {
   colorPropsList: PageColorProps[];
   productInfo: PageProductInfo;
   productId: string;
+  page?: string;
 }
 
 function ProductPreview({
   colorPropsList,
   productInfo,
   productId,
+  page,
 }: Props): JSX.Element {
+  const dispatch = useDispatch();
+
   const { title, price, main_cat, sub_cat } = productInfo;
   const initialActiveColor = colorPropsList.map(() => {
     return false;
@@ -59,14 +66,31 @@ function ProductPreview({
   }, [activeIndex]);
 
   return (
-    <div style={{ marginTop: "60px" }}>
+    <div className={styles.item_card_box}>
       <div className={styles.image_box}>
-        <Image
-          src={previewImage}
-          alt={previewImage}
-          layout="fill"
-          loading="eager"
-        />
+        {page === "admin" ? (
+          <Image
+            src={previewImage}
+            alt={previewImage}
+            layout="fill"
+            loading="eager"
+          />
+        ) : (
+          <Link href={productLink}>
+            <a
+              onClick={() => {
+                dispatch(setPageLoading(true));
+              }}
+            >
+              <Image
+                src={previewImage}
+                alt={previewImage}
+                layout="fill"
+                loading="eager"
+              />
+            </a>
+          </Link>
+        )}
       </div>
       <div className={styles.color_container}>
         {colorPropsList.map((props, index) => {
@@ -78,8 +102,8 @@ function ProductPreview({
               colorIndex={index}
               setPreviewImage={setPreviewImage}
               activeColor={activeColor}
-              initialActiveColor={initialActiveColor}
               setActiveIndex={setActiveIndex}
+              page={page}
             />
           );
         })}

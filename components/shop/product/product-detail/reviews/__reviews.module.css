@@ -83,6 +83,11 @@
   text-decoration: none;
 }
 
+.no_review {
+  display: flex;
+  justify-content: center;
+}
+
 @media screen and (min-width: 765px) and (max-width: 1080px) {
   .inner_grid_box {
     width: 70vw;

@@ -43,25 +43,34 @@ export default function useGetMoreProducts(
 
   const client = browserClient();
 
-  const fetchMoreData = useCallback(async () => {
-    if (hasMore) {
-      try {
-        const { data } = await client.get(
-          `http://localhost:5000/api/products/${main_cat}/${sub_cat}?page=${pageNum}`
-        );
-        console.log("page", pageNum);
-        setHasMore(data.products.length >= ITEMS_PER_PAGE);
-        setProducts((prev) => [...prev, ...data.products]);
-      } catch (err) {
-        console.log("Error in useGetMoreProducts ", err);
+  const params = {
+    page: pageNum,
+    filter: { colorName: ["black"], size: ["small"], sort: -1 },
+  };
+
+  const fetchMoreData = useCallback(
+    async (params) => {
+      if (hasMore) {
+        try {
+          const { data } = await client.get(
+            `http://localhost:5000/api/products/${main_cat}/${sub_cat}`,
+            { params }
+          );
+          console.log("page", pageNum);
+          setHasMore(data.products.length >= ITEMS_PER_PAGE);
+          setProducts((prev) => [...prev, ...data.products]);
+        } catch (err) {
+          console.log("Error in useGetMoreProducts ", err);
+        }
       }
-    }
-  }, [pageNum, hasMore]);
+    },
+    [pageNum, hasMore]
+  );
 
   useEffect(() => {
     if (pageNum > 1) {
       setIsLoading(true);
-      fetchMoreData();
+      fetchMoreData(params);
       setError(false);
       setIsLoading(false);
     }

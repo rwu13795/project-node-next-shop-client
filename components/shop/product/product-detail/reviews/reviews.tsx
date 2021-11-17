@@ -315,11 +315,13 @@ function ProductReviews({
           )}
         </Fragment>
       ) : (
-        <div>
-          <h1>No review yet, be the first one to write a review</h1>
-          <Button variant="outlined" onClick={writeReviewHandler}>
-            Write a review
-          </Button>
+        <div className={_no_review}>
+          <h1>
+            No review yet, be the first one to
+            <Button variant="outlined" onClick={writeReviewHandler}>
+              Write a review
+            </Button>
+          </h1>
         </div>
       )}
 
@@ -348,6 +350,7 @@ const _nav_button = styles.reviews_nav_button;
 const _filter_button = styles.reviews_filter_button;
 const _clear = styles.reviews_clear_filter_icon;
 const _link = styles.reviews_sub_link;
+const _no_review = styles.no_review;
 
 export const starNum: {
   five: number;

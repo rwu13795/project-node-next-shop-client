@@ -1,6 +1,7 @@
-import React, { useState, Dispatch, SetStateAction } from "react";
+import React, { useState, Dispatch, SetStateAction, useEffect } from "react";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 import {
   PageColorProps,
@@ -24,11 +25,14 @@ import {
   CartItem,
   selectEditItem,
 } from "../../../../utils/redux-store/userSlice";
+import {
+  selectPreviewColorIndex,
+  setPreviewColorIndex,
+} from "../../../../utils/redux-store/shopSlice";
 
 // UI //
 import { Grid, Button, Box } from "@mui/material";
 import styles from "./__product-detail.module.css";
-import { useRouter } from "next/router";
 
 interface Props {
   product: PageProductProps;
@@ -53,6 +57,7 @@ export default function ProductDetail({
   const router = useRouter();
   // get the editItem info from the Cart-detail-page
   const editItem = useSelector(selectEditItem);
+  const colorIndex = useSelector(selectPreviewColorIndex);
 
   const { productInfo, colorPropsList, _id } = product;
 
@@ -68,6 +73,13 @@ export default function ProductDetail({
       return colorPropsList[0];
     }
   });
+
+  useEffect(() => {
+    if (colorIndex !== -1) {
+      setCurrentColor(colorPropsList[colorIndex]);
+      dispatch(setPreviewColorIndex(-1));
+    }
+  }, [colorIndex, colorPropsList, dispatch]);
 
   // if in editMode, initailize the props with the editItem in the redux-store
   const [selectedSize, setSelectedSize] = useState<string>(() => {

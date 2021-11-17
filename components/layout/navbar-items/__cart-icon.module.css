@@ -67,6 +67,6 @@ as a wrapper to wrap the component which is needed to be "collapsed"*/
   /* border-radius: 0; */
   max-height: 80vh;
   position: absolute;
-  box-shadow: 7px 7px 20px 0px;
+  box-shadow: 3px 6px 10px;
   right: 1rem;
 }

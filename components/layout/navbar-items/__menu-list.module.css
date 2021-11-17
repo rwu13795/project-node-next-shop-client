@@ -67,7 +67,7 @@
 .menu_list_collapse_box {
   border-radius: 6px;
   position: absolute;
-  box-shadow: 7px 7px 20px 0px;
+  box-shadow: 3px 6px 10px;
   top: 4rem;
   left: 15vw;
   z-index: 10;

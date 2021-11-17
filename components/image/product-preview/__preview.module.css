@@ -44,6 +44,11 @@
   cursor: pointer;
 }
 
+.item_card_box {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
 .image_box {
   width: min(260px, 20vw);
   height: min(292px, 24vw);

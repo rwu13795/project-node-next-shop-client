@@ -5,21 +5,22 @@ import React, {
   memo,
   useEffect,
 } from "react";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 import { PageColorProps } from "../../../utils/react-hooks/get-more-products";
+import { setPreviewColorIndex } from "../../../utils/redux-store/shopSlice";
 
 // UI //
-
 import styles from "./__preview.module.css";
-import { useRouter } from "next/router";
 
 interface Props {
   colorProps: PageColorProps;
   colorIndex: number;
   productLink: string;
   activeColor: boolean[];
-  initialActiveColor: boolean[];
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
   setPreviewImage: React.Dispatch<React.SetStateAction<string>>;
+  page?: string;
 }
 
 function PreviewColor({
@@ -27,9 +28,9 @@ function PreviewColor({
   colorIndex,
   productLink,
   activeColor,
-  initialActiveColor,
   setActiveIndex,
   setPreviewImage,
+  page,
 }: Props): JSX.Element {
   const _container = styles.color_container;
   const _ring = styles.color_ball_outer_ring;
@@ -37,6 +38,7 @@ function PreviewColor({
   const _ball = styles.color_ball;
   const _ball_container = styles.color_ball_container;
 
+  const dispatch = useDispatch();
   const router = useRouter();
   const { imageFiles, colorCode } = colorProps;
 
@@ -49,10 +51,10 @@ function PreviewColor({
   const onMouseEnterHandler = () => {
     setActiveIndex(colorIndex);
     setPreviewImage(imageFiles[0]);
-    
-    // dispatch colorIndex here !!!!!!!!!!
+    dispatch(setPreviewColorIndex(colorIndex));
   };
   const onClickHandler = () => {
+    if (page === "admin") return;
     router.push(productLink);
   };
 

@@ -144,6 +144,9 @@ const shopSlice = createSlice({
       state.billingAddress = initialBillingAddress;
       state.contactInfo = initialContactInfo;
     },
+    setPreviewColorIndex(state, action: PayloadAction<number>) {
+      state.previewColorIndex = action.payload;
+    },
   },
   // extraReducers: (builder) => {
   //   builder
@@ -167,6 +170,7 @@ export const {
   toggleBillingAddress,
   loadUserInfo,
   clearCheckoutInfo,
+  setPreviewColorIndex,
 } = shopSlice.actions;
 export { createOrderHistory };
 
@@ -185,4 +189,8 @@ export const selectShippingAddress = createSelector(
 export const selectBillingAddress = createSelector(
   [selectCheckout],
   (shopState) => shopState.billingAddress
+);
+export const selectPreviewColorIndex = createSelector(
+  [selectCheckout],
+  (shopState) => shopState.previewColorIndex
 );

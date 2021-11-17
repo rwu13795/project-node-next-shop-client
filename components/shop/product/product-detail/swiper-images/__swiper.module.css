@@ -5,7 +5,7 @@
   min-height: 500px;
   width: 60vw;
   height: min(58vw, 85vh);
-  box-shadow: 3px 6px 5px #008ab4;
+  box-shadow: 3px 6px 5px;
 }
 
 .main_swiper_slide {

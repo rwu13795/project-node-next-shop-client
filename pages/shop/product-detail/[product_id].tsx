@@ -1,6 +1,7 @@
 import { GetServerSidePropsContext, NextPage } from "next";
-import { useState, Dispatch, SetStateAction } from "react";
+import { useState, Dispatch, SetStateAction, useEffect } from "react";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
 
 import { PageProductProps } from "../../../utils/react-hooks/get-more-products";
 
@@ -12,6 +13,7 @@ import { Tooltip, Box, IconButton } from "@mui/material";
 import styles from "./__detail.module.css";
 import PageLinks from "../../../components/layout/page-links/links";
 import browserClient from "../../../utils/axios-client/browser-client";
+import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 
 export interface ReviewProps {
   title: string;
@@ -64,12 +66,18 @@ const ProductDetailPage: NextPage<PageProps> = ({
   editModeItem,
   isSmall,
 }) => {
+  const dispatch = useDispatch();
+
   const { main_cat, sub_cat, title } = product.productInfo;
   const props = { main_cat, sub_cat, title };
   const client = browserClient();
 
   const [initialReviewDoc, setInitialReviewDoc] = useState<Reviews>(reviews);
   const [reviewDoc, setReviewDoc] = useState<Reviews>(reviews);
+
+  useEffect(() => {
+    dispatch(setPageLoading(false));
+  });
 
   const refreshReviewsUser = async (pageNum: number, reviewFilter: string) => {
     const { data } = await client.post(
