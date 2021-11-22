@@ -17,10 +17,17 @@ import {
 } from "@mui/material";
 import styles from "./__sub-cat-list.module.css";
 
+export interface RequestParams {
+  pageNum: number;
+  filter: {
+    sizes: Set<string>;
+    colors: Set<string>;
+    priceSort?: number;
+  };
+  filtering: boolean;
+}
+
 interface Props {
-  // products: PageProductProps[];
-  // isLoading: boolean;
-  // lastElementRef: (node: HTMLDivElement) => void;
   startProducts: PageProductProps[];
   sub_cat: string;
   main_cat: string;
@@ -32,8 +39,17 @@ export default function RenderSubCatImage({
   sub_cat,
 }: Props) {
   const [pageNum, setPageNum] = useState<number>(1);
+  const [params, setParams] = useState<RequestParams>({
+    pageNum: 1,
+    filter: {
+      sizes: new Set<string>(),
+      colors: new Set<string>(),
+    },
+    filtering: false,
+  });
+
   const { isLoading, error, products, hasMore } = useGetMoreProducts(
-    pageNum,
+    params,
     startProducts,
     main_cat,
     sub_cat
@@ -44,10 +60,34 @@ export default function RenderSubCatImage({
     isLoading,
     observer,
     hasMore,
-    setPageNum
+    setParams
   );
 
-  console.log(products);
+  // console.log(products);
+
+  const pinkHandler = () => {
+    setParams((prev) => {
+      let filter = { ...prev.filter };
+      filter.colors.add("Black");
+      return { ...prev, filter, pageNum: 1, filtering: true };
+    });
+  };
+
+  const oliveHandler = () => {
+    setParams((prev) => {
+      let filter = { ...prev.filter };
+      filter.colors.add("Olive");
+      return { ...prev, filter, pageNum: 1, filtering: true };
+    });
+  };
+
+  const clearBlackHandler = () => {
+    setParams((prev) => {
+      let filter = { ...prev.filter };
+      filter.colors.delete("Black");
+      return { ...prev, filter, pageNum: 1, filtering: true };
+    });
+  };
 
   return (
     <Fragment>
@@ -91,6 +131,25 @@ export default function RenderSubCatImage({
             </Grid>
           );
         })}{" "}
+        <div>
+          <button onClick={pinkHandler}>Black</button>
+          <button onClick={clearBlackHandler}>clear Black</button>
+          <button onClick={oliveHandler}>Olive</button>
+          <button
+            onClick={() =>
+              setParams({
+                pageNum: 1,
+                filter: {
+                  sizes: new Set<string>(),
+                  colors: new Set<string>(),
+                },
+                filtering: true,
+              })
+            }
+          >
+            Clear filter
+          </button>
+        </div>
       </Grid>
       {isLoading && (
         <div>

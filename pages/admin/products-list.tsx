@@ -161,7 +161,7 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
                 colorPropsList={p.colorPropsList}
                 productInfo={p.productInfo}
               />
-              <div>
+              <div style={{ marginBottom: "50px" }}>
                 <Button
                   variant="outlined"
                   color="primary"

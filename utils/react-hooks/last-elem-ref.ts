@@ -1,10 +1,11 @@
 import { useCallback, MutableRefObject, Dispatch, SetStateAction } from "react";
+import { RequestParams } from "../../components/shop/product/sub-cat-list";
 
 export default function useLastElementRef(
   isLoading: boolean,
   observer: MutableRefObject<IntersectionObserver | undefined>,
   hasMore: boolean,
-  setPageNum: Dispatch<SetStateAction<number>>
+  setParams: Dispatch<SetStateAction<RequestParams>>
 ) {
   return useCallback(
     // the node is the element that is being "ref" currently
@@ -16,12 +17,15 @@ export default function useLastElementRef(
       }
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
-          setPageNum((prev) => prev + 1);
+          setParams((prev) => {
+            let pageNum = prev.pageNum + 1;
+            return { ...prev, pageNum };
+          });
         }
       });
       // observe the current element
       if (node) observer.current.observe(node);
     },
-    [isLoading, hasMore, observer, setPageNum]
+    [isLoading, hasMore, observer, setParams]
   );
 }

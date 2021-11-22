@@ -1,5 +1,5 @@
 export const colorNames = [
-  { name: "white", code: "#FFFFFF" },
+  { name: "White", code: "#FFFFFF" },
   { name: "Silver", code: "#C0C0C0" },
   { name: "Gray", code: "#808080" },
   { name: "Black", code: "#000000" },

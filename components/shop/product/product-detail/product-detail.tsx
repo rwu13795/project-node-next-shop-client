@@ -121,6 +121,7 @@ export default function ProductDetail({
       imageUrl: currentColor.imageFiles[0],
       title: productInfo.title,
       main_cat: productInfo.main_cat,
+      sub_cat: productInfo.sub_cat,
       productId: _id,
       price: productInfo.price,
       quantity: quantity,
