@@ -1,19 +1,17 @@
 .main_1 {
   font-family: "Oswald", sans-serif;
-  /* letter-spacing: 0.06em; */
   font-size: 20px;
   position: fixed;
   /* while using sticky position, you must specify the Y-axis where the
   element should stick to */
   top: 0;
   left: 0;
-  z-index: 99;
+  z-index: 50;
   /* min-height: 2.8rem; */
-  height: 73px;
-
+  min-height: 73px;
   min-width: 100%;
   background-color: white;
-  transition: 1s;
+  transition: 0.6s;
 }
 /* 
 font-family: 'Black Ops One', cursive;
@@ -21,21 +19,24 @@ font-family: 'Monofett', cursive;
 */
 .main_2 {
   font-family: "Oswald", sans-serif;
-  /* letter-spacing: 0.06em; */
   font-size: 20px;
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 99;
+  z-index: 50;
   /* min-height: 2.8rem; */
   height: 73px;
-
   min-width: 100%;
-
-  transition: 0.3s;
+  transition: 0.6s;
 }
 
 .nav_logo {
   padding-left: 5px;
   cursor: pointer;
+}
+
+@media screen and (max-width: 765px) {
+  .main_2 {
+    overflow: hidden;
+  }
 }

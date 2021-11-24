@@ -1,4 +1,11 @@
-import { Dispatch, Fragment, SetStateAction, useRef, useState } from "react";
+import {
+  Dispatch,
+  Fragment,
+  SetStateAction,
+  useRef,
+  useState,
+  memo,
+} from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -7,6 +14,7 @@ import useGetMoreProducts, {
   PageProductProps,
 } from "../../../utils/react-hooks/get-more-products";
 import useLastElementRef from "../../../utils/react-hooks/last-elem-ref";
+import { FilterStats } from "../../../utils/enums-types/categories-interfaces";
 
 // UI //
 import {
@@ -29,16 +37,17 @@ export interface RequestParams {
 
 interface Props {
   startProducts: PageProductProps[];
+  startFilterStats: FilterStats;
   sub_cat: string;
   main_cat: string;
 }
 
-export default function RenderSubCatImage({
+function SubCatProductsList({
   startProducts,
+  startFilterStats,
   main_cat,
   sub_cat,
-}: Props) {
-  const [pageNum, setPageNum] = useState<number>(1);
+}: Props): JSX.Element {
   const [params, setParams] = useState<RequestParams>({
     pageNum: 1,
     filter: {
@@ -48,12 +57,14 @@ export default function RenderSubCatImage({
     filtering: false,
   });
 
-  const { isLoading, error, products, hasMore } = useGetMoreProducts(
-    params,
-    startProducts,
-    main_cat,
-    sub_cat
-  );
+  const { isLoading, error, products, filterStats, hasMore } =
+    useGetMoreProducts(
+      params,
+      startProducts,
+      startFilterStats,
+      main_cat,
+      sub_cat
+    );
 
   const observer = useRef<IntersectionObserver>();
   const lastElementRef = useLastElementRef(
@@ -62,8 +73,6 @@ export default function RenderSubCatImage({
     hasMore,
     setParams
   );
-
-  // console.log(products);
 
   const pinkHandler = () => {
     setParams((prev) => {
@@ -89,74 +98,86 @@ export default function RenderSubCatImage({
     });
   };
 
+  ////
+  console.log(filterStats);
+
   return (
-    <Fragment>
-      <div>t-shirts</div>
-      <Grid container className={styles.items_grid}>
-        {products.map((p, index) => {
-          let url = p.colorPropsList[0].imageFiles[0];
-          let lastElem = index + 1 === products.length;
-          return lastElem ? (
-            <Grid
-              item
-              container
-              // className={styles.inner_grid}
-              md={4}
-              sm={6}
-              xs={6}
-              ref={lastElementRef}
-              key={index}
-            >
-              <ProductPreview
-                productId={p._id}
-                colorPropsList={p.colorPropsList}
-                productInfo={p.productInfo}
-              />
-            </Grid>
-          ) : (
-            <Grid
-              item
-              container
-              // className={styles.inner_grid}
-              md={4}
-              sm={6}
-              xs={6}
-              key={index}
-            >
-              <ProductPreview
-                productId={p._id}
-                colorPropsList={p.colorPropsList}
-                productInfo={p.productInfo}
-              />
-            </Grid>
-          );
-        })}{" "}
-        <div>
-          <button onClick={pinkHandler}>Black</button>
-          <button onClick={clearBlackHandler}>clear Black</button>
-          <button onClick={oliveHandler}>Olive</button>
-          <button
-            onClick={() =>
-              setParams({
-                pageNum: 1,
-                filter: {
-                  sizes: new Set<string>(),
-                  colors: new Set<string>(),
-                },
-                filtering: true,
-              })
-            }
-          >
-            Clear filter
-          </button>
+    <Grid container>
+      <Grid item container xs={false} md={3}>
+        <div style={{ position: "sticky", top: "100px", left: "50px" }}>
+          side filter here
         </div>
       </Grid>
-      {isLoading && (
-        <div>
-          <h4>Loading shit load of data</h4>
-          <CircularProgress />
-        </div>
-      )}
-    </Fragment>
+      <Grid item container xs={12} md={9}>
+        <div>{sub_cat.toUpperCase()}</div>
+        <Grid item container>
+          {products.map((p, index) => {
+            let url = p.colorPropsList[0].imageFiles[0];
+            let lastElem = index + 1 === products.length;
+            return lastElem ? (
+              <Grid
+                item
+                container
+                className={styles.items_grid}
+                md={4}
+                sm={6}
+                xs={6}
+                ref={lastElementRef}
+                key={index}
+              >
+                <ProductPreview
+                  productId={p._id}
+                  colorPropsList={p.colorPropsList}
+                  productInfo={p.productInfo}
+                />
+              </Grid>
+            ) : (
+              <Grid
+                item
+                container
+                className={styles.items_grid}
+                md={4}
+                sm={6}
+                xs={6}
+                key={index}
+              >
+                <ProductPreview
+                  productId={p._id}
+                  colorPropsList={p.colorPropsList}
+                  productInfo={p.productInfo}
+                />
+              </Grid>
+            );
+          })}
+          <div>
+            <button onClick={pinkHandler}>Black</button>
+            <button onClick={clearBlackHandler}>clear Black</button>
+            <button onClick={oliveHandler}>Olive</button>
+            <button
+              onClick={() =>
+                setParams({
+                  pageNum: 1,
+                  filter: {
+                    sizes: new Set<string>(),
+                    colors: new Set<string>(),
+                  },
+                  filtering: true,
+                })
+              }
+            >
+              Clear filter
+            </button>
+          </div>
+        </Grid>
+        {isLoading && (
+          <div>
+            <h4>Loading shit load of data</h4>
+            <CircularProgress />
+          </div>
+        )}
+      </Grid>
+    </Grid>
   );
 }
+
+export default memo(SubCatProductsList);

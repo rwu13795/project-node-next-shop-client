@@ -74,13 +74,10 @@ export default function ProductForm(props: Props): JSX.Element {
     }
   }, [isSubmitted, propError]);
 
-  const onSubmitHandler = () => {
+  const onSubmitHandler = async () => {
     reduxDispatch(setPageLoading(true));
-    uploadHandler();
-    // have to wait for a bit to let the propError update
-    setTimeout(() => {
-      setIsSubmitted((prev) => !prev);
-    }, 500);
+    await uploadHandler();
+    setIsSubmitted(true);
   };
 
   return (

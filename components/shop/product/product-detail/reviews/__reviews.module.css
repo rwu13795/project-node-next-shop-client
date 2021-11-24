@@ -85,7 +85,13 @@
 
 .no_review {
   display: flex;
+  flex-flow: wrap row;
   justify-content: center;
+  align-items: center;
+  font-size: 32px;
+}
+.write_button {
+  font-size: 18px;
 }
 
 @media screen and (min-width: 765px) and (max-width: 1080px) {
@@ -104,8 +110,13 @@
   .inner_grid_box {
     width: 90vw;
   }
-
   .reviews_desc_box {
     font-size: min(28px, 6vw);
+  }
+  .no_review {
+    font-size: 20px;
+  }
+  .write_button {
+    font-size: 12px;
   }
 }

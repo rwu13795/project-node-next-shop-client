@@ -36,19 +36,19 @@ import { selectPageLoading } from "../../../utils/redux-store/layoutSlice";
 interface Props {
   page?: string;
   page_cat?: string;
+  sub_cat?: string;
 }
 
-export default function MainNavigation({ page, page_cat }: Props) {
+export default function MainNavigation({ page, page_cat, sub_cat }: Props) {
   const dispatch = useDispatch();
   const router = useRouter();
   const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
   const pageLoading = useSelector(selectPageLoading);
 
   const [classname, setClassname] = useState(styles.main_2);
-
   const [adminModal, setAdminModal] = useState<boolean>(false);
 
-  console.log("page_cat", page_cat);
+  console.log("classname in nav", classname);
 
   /*******  Scroll Stop Listener for changing the color of the navbar  ********/
   const changeNavbarClassname = useCallback(() => {
@@ -102,7 +102,6 @@ export default function MainNavigation({ page, page_cat }: Props) {
       });
     };
   }, [scrollStopListener, changeNavbarClassname]);
-
   /******************************************************************************/
 
   const adminSignOutHandler = () => {
@@ -137,6 +136,10 @@ export default function MainNavigation({ page, page_cat }: Props) {
       </div>
     );
   }
+
+  let progressBar = (
+    <Box sx={{ width: "100%" }}>{pageLoading && <LinearProgress />}</Box>
+  );
 
   return (
     <main className={classname}>
@@ -173,7 +176,14 @@ export default function MainNavigation({ page, page_cat }: Props) {
         </Grid>
       </Grid>
 
-      <Box sx={{ width: "100%" }}>{pageLoading && <LinearProgress />}</Box>
+      {sub_cat ? (
+        <Grid item container sx={{ display: { xs: "flex", md: "none" } }}>
+          <div>View and Filter</div>
+          {progressBar}
+        </Grid>
+      ) : (
+        progressBar
+      )}
     </main>
   );
 }

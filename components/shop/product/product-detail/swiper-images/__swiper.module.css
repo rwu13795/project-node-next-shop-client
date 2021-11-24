@@ -54,7 +54,7 @@
 .close_modal {
   position: fixed;
   top: 40px;
-  left: 40px;
+  right: 40px;
   z-index: 9999;
 }
 

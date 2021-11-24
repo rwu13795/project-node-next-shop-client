@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 import { RequestParams } from "../../components/shop/product/sub-cat-list";
 import browserClient from "../../utils/axios-client/browser-client";
+import { FilterStats } from "../enums-types/categories-interfaces";
 
 export interface PageColorProps {
   imageFiles: string[];
@@ -28,21 +29,25 @@ export interface PageProductProps {
 export default function useGetMoreProducts(
   params: RequestParams,
   startProducts: PageProductProps[],
+  startFilterStats: FilterStats,
   main_cat: string,
   sub_cat: string
 ) {
+  const ITEMS_PER_PAGE = 6;
+  const client = browserClient();
+
   const [products, setProducts] = useState<PageProductProps[]>([]);
+  const [filterStats, setFilterStats] = useState<FilterStats>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
 
+  // have to reset the products when the startProducts were changed
+  // (when other sub-cat products are being rendered)
   useEffect(() => {
     setProducts(startProducts);
-  }, []);
-
-  const ITEMS_PER_PAGE = 6;
-
-  const client = browserClient();
+    setFilterStats(startFilterStats);
+  }, [startProducts, startFilterStats]);
 
   const axios_params = {
     page: params.pageNum,
@@ -64,6 +69,7 @@ export default function useGetMoreProducts(
           setHasMore(data.products.length >= ITEMS_PER_PAGE);
 
           setProducts((prev) => [...prev, ...data.products]);
+          setFilterStats(data.filterStats);
         } catch (err) {
           console.log("Error in useGetMoreProducts ", err);
         }
@@ -92,7 +98,7 @@ export default function useGetMoreProducts(
     }
   }, [hasMore, params, fetchMoreData]);
 
-  // normal fetching cycle
+  // normal fetching cycle for getting the next page (with or without filter)
   useEffect(() => {
     if (params.pageNum > 1) {
       setIsLoading(true);
@@ -105,5 +111,5 @@ export default function useGetMoreProducts(
 
   console.log("in get more hasMore", hasMore);
 
-  return { isLoading, error, products, hasMore };
+  return { isLoading, error, products, filterStats, hasMore };
 }

@@ -4,6 +4,7 @@ import React, {
   memo,
   Dispatch,
   SetStateAction,
+  useEffect,
 } from "react";
 
 import ProductReviews from "./reviews";
@@ -44,8 +45,14 @@ function ReviewsCollapseBox({
 }: Props): JSX.Element {
   const [expand, setExpand] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (openAddReivewModal) {
+      setExpand(true);
+    }
+  }, [openAddReivewModal]);
+
   const toggleExpand = () => {
-    setExpand(!expand);
+    setExpand((prev) => !prev);
   };
 
   return (

@@ -74,16 +74,6 @@ export default function UserIcon({ page }: { page?: string }): JSX.Element {
         PaperProps={{
           className: `${styles.user_menu_card}`,
           elevation: 10,
-          sx: {
-            overflow: "visible",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            // these 2 lines above are for the litte triangle pointer
-            borderRadius: 0,
-            borderColor: "black",
-            border: 2,
-            zIndex: 1,
-            mt: 1,
-          },
         }}
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
