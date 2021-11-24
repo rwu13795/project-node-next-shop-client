@@ -1,7 +1,7 @@
 .root_page_layout {
   /* width: 100vw; */
   /* height: auto; */
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   font-family: "Oswald", sans-serif;
   background-image: linear-gradient(
     to right,
@@ -23,7 +23,6 @@
 .main_component_grid {
   display: flex;
   width: 100vw;
-
   justify-content: center;
   align-items: flex-start;
 }

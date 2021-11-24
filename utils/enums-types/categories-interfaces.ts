@@ -35,6 +35,7 @@ export interface FilterStats {
   sub_cat: string;
   sizes: FilterSizes;
   colors: FilterColors;
+  matchingTotal: number;
 }
 
 export interface SubCat_PageProps {

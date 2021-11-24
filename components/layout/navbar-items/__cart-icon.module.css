@@ -46,7 +46,7 @@
 
 .cart_summary_menu {
   min-width: 20rem;
-  /* border-radius: 0; */
+  border-radius: 0;
   border: 2px solid black;
   max-height: 80vh;
   overflow-y: auto;
@@ -56,7 +56,7 @@
     rgba(34, 185, 255, 0.45) 50%,
     rgb(255, 255, 255) 70%
   );
-  z-index: 99;
+  z-index: 10;
   overflow: "visible";
 }
 
@@ -69,7 +69,7 @@ as a wrapper to wrap the component which is needed to be "collapsed"*/
   /* border-radius: 0; */
   max-height: 80vh;
   position: absolute;
-  box-shadow: 3px 6px 10px;
-  z-index: 99;
+  box-shadow: 3px 6px 8px;
+  z-index: 10;
   right: 1rem;
 }

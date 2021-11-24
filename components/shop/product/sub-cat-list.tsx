@@ -5,6 +5,7 @@ import {
   useRef,
   useState,
   memo,
+  useEffect,
 } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,6 +16,7 @@ import useGetMoreProducts, {
 } from "../../../utils/react-hooks/get-more-products";
 import useLastElementRef from "../../../utils/react-hooks/last-elem-ref";
 import { FilterStats } from "../../../utils/enums-types/categories-interfaces";
+import ProductFilter from "./product-filter/filter";
 
 // UI //
 import {
@@ -56,6 +58,19 @@ function SubCatProductsList({
     },
     filtering: false,
   });
+
+  // since all the sub-cat are using this component, when the sub-cat is changed,
+  // the param state has to be reset
+  useEffect(() => {
+    setParams({
+      pageNum: 1,
+      filter: {
+        sizes: new Set<string>(),
+        colors: new Set<string>(),
+      },
+      filtering: false,
+    });
+  }, [sub_cat, startProducts]);
 
   const { isLoading, error, products, filterStats, hasMore } =
     useGetMoreProducts(
@@ -99,17 +114,28 @@ function SubCatProductsList({
   };
 
   ////
-  console.log(filterStats);
+  // console.log(filterStats);
 
   return (
-    <Grid container>
+    <Grid container className={styles.main_grid}>
       <Grid item container xs={false} md={3}>
-        <div style={{ position: "sticky", top: "100px", left: "50px" }}>
-          side filter here
+        <div
+          style={{
+            position: "sticky",
+            top: "15%",
+            height: "600px",
+            overflow: "auto",
+          }}
+        >
+          {filterStats && (
+            <ProductFilter filterStats={filterStats} setParams={setParams} />
+          )}
         </div>
       </Grid>
-      <Grid item container xs={12} md={9}>
-        <div>{sub_cat.toUpperCase()}</div>
+      <Grid item container xs={12} md={9} className={styles.right_grid}>
+        <div className={styles.right_grid_upper_container}>
+          {sub_cat.toUpperCase()}
+        </div>
         <Grid item container>
           {products.map((p, index) => {
             let url = p.colorPropsList[0].imageFiles[0];
@@ -153,20 +179,6 @@ function SubCatProductsList({
             <button onClick={pinkHandler}>Black</button>
             <button onClick={clearBlackHandler}>clear Black</button>
             <button onClick={oliveHandler}>Olive</button>
-            <button
-              onClick={() =>
-                setParams({
-                  pageNum: 1,
-                  filter: {
-                    sizes: new Set<string>(),
-                    colors: new Set<string>(),
-                  },
-                  filtering: true,
-                })
-              }
-            >
-              Clear filter
-            </button>
           </div>
         </Grid>
         {isLoading && (

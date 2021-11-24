@@ -47,7 +47,10 @@ export default function useGetMoreProducts(
   useEffect(() => {
     setProducts(startProducts);
     setFilterStats(startFilterStats);
+    setHasMore(true);
   }, [startProducts, startFilterStats]);
+
+  console.log(params.pageNum);
 
   const axios_params = {
     page: params.pageNum,

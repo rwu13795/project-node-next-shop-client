@@ -1,4 +1,20 @@
+.main_grid {
+  min-height: 100vh;
+}
+
 .items_grid {
   display: flex;
   justify-content: center;
+}
+
+.right_grid {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+}
+
+.right_grid_upper_container {
+  height: 50px;
+}
+.right_lower_grid {
 }
