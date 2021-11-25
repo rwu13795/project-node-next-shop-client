@@ -68,7 +68,7 @@ function PreviewColor({
         <div
           className={_ball}
           style={{
-            backgroundColor: `${colorCode.toUpperCase()}`,
+            backgroundColor: `${colorCode.toLowerCase()}`,
           }}
         ></div>
       </div>

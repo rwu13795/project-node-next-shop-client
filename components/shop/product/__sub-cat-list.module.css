@@ -1,5 +1,7 @@
 .main_grid {
+  margin-top: 20px;
   min-height: 100vh;
+  flex-flow: row nowrap;
 }
 
 .items_grid {
@@ -7,14 +9,40 @@
   justify-content: center;
 }
 
+.left_grid {
+  min-height: 80vh;
+}
+
+.side_bar_container {
+  position: sticky;
+  top: 200px;
+  height: 100vh;
+  width: 100%;
+  overflow: auto;
+}
+
 .right_grid {
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
+  margin-left: 20px;
 }
 
 .right_grid_upper_container {
-  height: 50px;
+  height: auto;
 }
-.right_lower_grid {
+
+.right_grid_lower_container {
+  height: auto;
+}
+
+.sub_cat_title {
+  font-size: 30px;
+  font-weight: bolder;
+}
+
+.main_banner {
+  margin: 15px 0 15px 0;
+  box-shadow: 3px 6px 8px;
+  background-color: rgba(0, 0, 0, 0.8);
 }

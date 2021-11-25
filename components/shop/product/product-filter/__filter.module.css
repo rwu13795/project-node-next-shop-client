@@ -1,0 +1,29 @@
+.main_container {
+  flex-flow: column nowrap;
+  width: 100%;
+}
+
+.header {
+  font-size: 30px;
+  font-weight: bolder;
+  text-align: center;
+  border-bottom: solid 2px #00789e;
+  margin-bottom: 10px;
+}
+
+.item_num {
+  font-size: 22px;
+  text-align: center;
+}
+
+.clear_button {
+  font-size: 14px;
+  width: 160px;
+}
+
+.circular_progress {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

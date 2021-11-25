@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useCallback, memo } from "react";
+import { useDispatch } from "react-redux";
 import { RequestParams } from "../../components/shop/product/sub-cat-list";
 import browserClient from "../../utils/axios-client/browser-client";
 import { FilterStats } from "../enums-types/categories-interfaces";
+import { setProductFiltering } from "../redux-store/shopSlice";
 
 export interface PageColorProps {
   imageFiles: string[];
@@ -35,6 +37,7 @@ export default function useGetMoreProducts(
 ) {
   const ITEMS_PER_PAGE = 6;
   const client = browserClient();
+  const dispatch = useDispatch();
 
   const [products, setProducts] = useState<PageProductProps[]>([]);
   const [filterStats, setFilterStats] = useState<FilterStats>();
@@ -57,7 +60,7 @@ export default function useGetMoreProducts(
     filter: {
       sizes: Array.from(params.filter.sizes),
       colors: Array.from(params.filter.colors),
-      priceSort: -1,
+      priceSort: params.filter.priceSort,
     },
   };
 
@@ -73,6 +76,12 @@ export default function useGetMoreProducts(
 
           setProducts((prev) => [...prev, ...data.products]);
           setFilterStats(data.filterStats);
+
+          // set a buffer timeout to make filter modal open for a little longer
+          // to prevent user from clicking on another filter too quick
+          setTimeout(() => {
+            dispatch(setProductFiltering(false));
+          }, 500);
         } catch (err) {
           console.log("Error in useGetMoreProducts ", err);
         }

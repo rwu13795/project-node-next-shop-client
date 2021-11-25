@@ -26,6 +26,8 @@ interface ShopState {
   billingAddress: InputValues;
   contactInfo: InputValues;
   previewColorIndex: number;
+  productFiltering: boolean;
+  filterTagToClear: string;
 }
 
 interface CreateOrderBody {
@@ -68,6 +70,8 @@ const initialState: ShopState = {
   billingAddress: initialBillingAddress,
   contactInfo: initialContactInfo,
   previewColorIndex: -1,
+  productFiltering: false,
+  filterTagToClear: "",
 };
 
 const createOrderHistory = createAsyncThunk<
@@ -147,6 +151,12 @@ const shopSlice = createSlice({
     setPreviewColorIndex(state, action: PayloadAction<number>) {
       state.previewColorIndex = action.payload;
     },
+    setProductFiltering(state, action: PayloadAction<boolean>) {
+      state.productFiltering = action.payload;
+    },
+    setFilterTagToClear(state, action: PayloadAction<string>) {
+      state.filterTagToClear = action.payload;
+    },
   },
   // extraReducers: (builder) => {
   //   builder
@@ -171,6 +181,8 @@ export const {
   loadUserInfo,
   clearCheckoutInfo,
   setPreviewColorIndex,
+  setProductFiltering,
+  setFilterTagToClear,
 } = shopSlice.actions;
 export { createOrderHistory };
 
@@ -193,4 +205,12 @@ export const selectBillingAddress = createSelector(
 export const selectPreviewColorIndex = createSelector(
   [selectCheckout],
   (shopState) => shopState.previewColorIndex
+);
+export const selectProductFiltering = createSelector(
+  [selectCheckout],
+  (shopState) => shopState.productFiltering
+);
+export const selectFilterTagToClear = createSelector(
+  [selectCheckout],
+  (shopState) => shopState.filterTagToClear
 );

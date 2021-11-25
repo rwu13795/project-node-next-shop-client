@@ -1,0 +1,14 @@
+.checkbox_container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+}
+
+.color_ball {
+  width: 20px;
+  height: 20px;
+  border-radius: 2rem;
+  border: solid black 1px;
+}

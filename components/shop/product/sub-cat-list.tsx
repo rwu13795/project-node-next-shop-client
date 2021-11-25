@@ -9,7 +9,9 @@ import {
 } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
 
+import { setFilterTagToClear } from "../../../utils/redux-store/shopSlice";
 import ProductPreview from "../../image/product-preview/preview";
 import useGetMoreProducts, {
   PageProductProps,
@@ -25,6 +27,7 @@ import {
   Grid,
   SelectChangeEvent,
 } from "@mui/material";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import styles from "./__sub-cat-list.module.css";
 
 export interface RequestParams {
@@ -50,11 +53,16 @@ function SubCatProductsList({
   main_cat,
   sub_cat,
 }: Props): JSX.Element {
+  const dispatch = useDispatch();
+
+  const [filterTags, setFilterTags] = useState<Set<string>>(new Set());
+
   const [params, setParams] = useState<RequestParams>({
     pageNum: 1,
     filter: {
       sizes: new Set<string>(),
       colors: new Set<string>(),
+      priceSort: 0,
     },
     filtering: false,
   });
@@ -67,6 +75,7 @@ function SubCatProductsList({
       filter: {
         sizes: new Set<string>(),
         colors: new Set<string>(),
+        priceSort: 0,
       },
       filtering: false,
     });
@@ -89,53 +98,62 @@ function SubCatProductsList({
     setParams
   );
 
-  const pinkHandler = () => {
-    setParams((prev) => {
-      let filter = { ...prev.filter };
-      filter.colors.add("Black");
-      return { ...prev, filter, pageNum: 1, filtering: true };
-    });
-  };
-
-  const oliveHandler = () => {
-    setParams((prev) => {
-      let filter = { ...prev.filter };
-      filter.colors.add("Olive");
-      return { ...prev, filter, pageNum: 1, filtering: true };
-    });
-  };
-
-  const clearBlackHandler = () => {
-    setParams((prev) => {
-      let filter = { ...prev.filter };
-      filter.colors.delete("Black");
-      return { ...prev, filter, pageNum: 1, filtering: true };
-    });
-  };
-
-  ////
-  // console.log(filterStats);
-
   return (
     <Grid container className={styles.main_grid}>
-      <Grid item container xs={false} md={3}>
-        <div
-          style={{
-            position: "sticky",
-            top: "15%",
-            height: "600px",
-            overflow: "auto",
-          }}
-        >
+      <Grid item container xs={false} md={3} className={styles.left_grid}>
+        <div className={styles.side_bar_container}>
           {filterStats && (
-            <ProductFilter filterStats={filterStats} setParams={setParams} />
+            <ProductFilter
+              filterStats={filterStats}
+              filterTags={filterTags}
+              setParams={setParams}
+              setFilterTags={setFilterTags}
+            />
           )}
+          <div className={styles.side_bar_banner}>
+            <Image
+              src="/home/men-sm-3.jpg"
+              alt="sub-cat"
+              width={200}
+              height={900}
+            />
+          </div>
         </div>
       </Grid>
       <Grid item container xs={12} md={9} className={styles.right_grid}>
         <div className={styles.right_grid_upper_container}>
-          {sub_cat.toUpperCase()}
+          <div className={styles.sub_cat_title}>{sub_cat.toUpperCase()}</div>
+          <div className={styles.main_banner}>
+            <Image
+              src="/home/men.jpg"
+              alt="sub-cat"
+              width={1300}
+              height={900}
+            />
+          </div>
+
+          {filterTags.size > 0 && (
+            <div>
+              {Array.from(filterTags).map((tag) => {
+                return (
+                  <div key={tag}>
+                    <Button
+                      variant="outlined"
+                      color="warning"
+                      onClick={() => {
+                        dispatch(setFilterTagToClear(tag));
+                      }}
+                    >
+                      {tag}
+                      <CancelOutlinedIcon sx={{ ml: "5px" }} />
+                    </Button>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
+
         <Grid item container>
           {products.map((p, index) => {
             let url = p.colorPropsList[0].imageFiles[0];
@@ -175,11 +193,6 @@ function SubCatProductsList({
               </Grid>
             );
           })}
-          <div>
-            <button onClick={pinkHandler}>Black</button>
-            <button onClick={clearBlackHandler}>clear Black</button>
-            <button onClick={oliveHandler}>Olive</button>
-          </div>
         </Grid>
         {isLoading && (
           <div>

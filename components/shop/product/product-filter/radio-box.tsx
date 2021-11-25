@@ -23,18 +23,12 @@ import {
 } from "../../../../utils/redux-store/shopSlice";
 
 interface Props {
-  filterKey: string;
-  value: number;
-  filterType: string;
   clearFilter: boolean;
   setParams: Dispatch<SetStateAction<RequestParams>>;
   setFilterTags: Dispatch<SetStateAction<Set<string>>>;
 }
 
-function FilterCheckBox({
-  filterKey,
-  value,
-  filterType,
+function FilterRadioBox({
   clearFilter,
   setParams,
   setFilterTags,
@@ -42,72 +36,67 @@ function FilterCheckBox({
   const dispatch = useDispatch();
   const filterTagToClear = useSelector(selectFilterTagToClear);
 
-  const [boxCheck, setBoxCheck] = useState<boolean>(false);
+  const [value, setValue] = useState<string>("Featured");
+
+  useEffect(() => {
+    // after the filter tag was clicked, the tag will be added to the
+    // "filterTagToClear" in the redux-store, and it signal all the "checkbox"
+    // to compare its current checked value. If current checked value of the child
+    // matches the "filterTagToClear", then run the "boxCheckHandler" to uncheck
+    // that value and update the filter
+    if (filterTagToClear === value) {
+      boxCheckHandler("Featured");
+      setFilterTags((prev) => {
+        prev.delete(value);
+        return prev;
+      });
+    }
+    dispatch(setFilterTagToClear(""));
+  }, [filterTagToClear, value, setFilterTags]);
 
   useEffect(() => {
     if (clearFilter) {
-      setBoxCheck(false);
+      setValue("Featured");
       setFilterTags(new Set());
     }
   }, [clearFilter, setFilterTags]);
 
-  useEffect(() => {
-    if (filterTagToClear === filterKey) {
-      boxCheckHandler();
-      dispatch(setFilterTagToClear(""));
+  const boxCheckHandler = (sort: string) => {
+    dispatch(setProductFiltering(true));
+
+    if (filterTagToClear !== sort && sort !== "Featured") {
       setFilterTags((prev) => {
-        prev.delete(filterKey);
+        // delete the old value first before adding the new radio checked value
+        prev.delete(value);
+        prev.add(sort);
         return prev;
       });
     }
-  }, [filterTagToClear, filterKey, setFilterTags]);
+    setValue(sort);
 
-  const boxCheckHandler = () => {
-    dispatch(setProductFiltering(true));
-
-    if (filterTagToClear !== filterKey) {
-      if (boxCheck) {
-        setFilterTags((prev) => {
-          prev.delete(filterKey);
-          return prev;
-        });
-      } else {
-        setFilterTags((prev) => {
-          prev.add(filterKey);
-          return prev;
-        });
-      }
-    }
-
-    setBoxCheck((prev) => !prev);
     setParams((prev) => {
       let filter = { ...prev.filter };
-      if (boxCheck) {
-        if (filterType === "color") {
-          filter.colors.delete(filterKey);
-        } else {
-          filter.sizes.delete(filterKey);
-        }
+      if (sort === "Featured") {
+        filter.priceSort = 0;
+      } else if (sort === "Lowest to Highest") {
+        filter.priceSort = 1;
       } else {
-        if (filterType === "color") {
-          filter.colors.add(filterKey);
-        } else {
-          filter.sizes.add(filterKey);
-        }
+        filter.priceSort = -1;
       }
       return { ...prev, filter, pageNum: 1, filtering: true };
     });
     window.scrollTo({ top: 0 });
   };
 
-  return filterType === "price" ? (
+  return (
     <FormControl component="fieldset">
       <RadioGroup
         aria-label="gender"
         defaultValue="Featured"
+        value={value ? value : "Featured"}
         name="radio-buttons-group"
         onChange={(e) => {
-          console.log(e.target.value);
+          boxCheckHandler(e.target.value);
         }}
       >
         <FormControlLabel
@@ -116,31 +105,18 @@ function FilterCheckBox({
           label="Featured"
         />
         <FormControlLabel
-          value="Low"
+          value="Lowest to Highest"
           control={<Radio color="primary" />}
           label="Lowest to Highest"
         />
         <FormControlLabel
-          value="High"
+          value="Highest to Lowest"
           control={<Radio color="primary" />}
           label="Highest to Lowest"
         />
       </RadioGroup>
     </FormControl>
-  ) : (
-    <div className={styles.checkbox_container} onClick={boxCheckHandler}>
-      <Checkbox checked={boxCheck} color="primary" />
-      {filterType === "color" && (
-        <div
-          className={styles.color_ball}
-          style={{ backgroundColor: `${filterKey}` }}
-        ></div>
-      )}
-      <div>{filterKey}</div>
-
-      <div>{`[${value}]`}</div>
-    </div>
   );
 }
 
-export default memo(FilterCheckBox);
+export default memo(FilterRadioBox);

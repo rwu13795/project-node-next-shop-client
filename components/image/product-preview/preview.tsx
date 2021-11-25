@@ -109,7 +109,7 @@ function ProductPreview({
         })}
       </div>
       <div>{title}</div>
-      <div>{price}</div>
+      <div>$ {price}</div>
     </div>
   );
 }
