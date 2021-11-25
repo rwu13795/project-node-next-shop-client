@@ -29,6 +29,7 @@ import {
 } from "@mui/material";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import styles from "./__sub-cat-list.module.css";
+import { menCatArray } from "../../../utils/enums-types/product-category";
 
 export interface RequestParams {
   pageNum: number;
@@ -56,6 +57,8 @@ function SubCatProductsList({
   const dispatch = useDispatch();
 
   const [filterTags, setFilterTags] = useState<Set<string>>(new Set());
+
+  const a = menCatArray;
 
   const [params, setParams] = useState<RequestParams>({
     pageNum: 1,
@@ -100,8 +103,20 @@ function SubCatProductsList({
 
   return (
     <Grid container className={styles.main_grid}>
-      <Grid item container xs={false} md={3} className={styles.left_grid}>
+      <Grid
+        item
+        container
+        xs={false}
+        sm={false}
+        md={3}
+        className={styles.left_grid}
+      >
         <div className={styles.side_bar_container}>
+          <div>
+            {menCatArray.map((cat) => {
+              return <div key={cat}>{cat}</div>;
+            })}
+          </div>
           {filterStats && (
             <ProductFilter
               filterStats={filterStats}
@@ -110,17 +125,9 @@ function SubCatProductsList({
               setFilterTags={setFilterTags}
             />
           )}
-          <div className={styles.side_bar_banner}>
-            <Image
-              src="/home/men-sm-3.jpg"
-              alt="sub-cat"
-              width={200}
-              height={900}
-            />
-          </div>
         </div>
       </Grid>
-      <Grid item container xs={12} md={9} className={styles.right_grid}>
+      <Grid item container xs={12} sm={12} md={9} className={styles.right_grid}>
         <div className={styles.right_grid_upper_container}>
           <div className={styles.sub_cat_title}>{sub_cat.toUpperCase()}</div>
           <div className={styles.main_banner}>
@@ -132,26 +139,31 @@ function SubCatProductsList({
             />
           </div>
 
-          {filterTags.size > 0 && (
-            <div>
-              {Array.from(filterTags).map((tag) => {
+          <div className={styles.filter_tags}>
+            <div className={styles.items_num}>
+              {filterStats?.matchingTotal} item
+              {filterStats?.matchingTotal &&
+                filterStats.matchingTotal > 1 &&
+                "s"}
+            </div>
+            {filterTags.size > 0 &&
+              Array.from(filterTags).map((tag) => {
                 return (
-                  <div key={tag}>
-                    <Button
-                      variant="outlined"
-                      color="warning"
-                      onClick={() => {
-                        dispatch(setFilterTagToClear(tag));
-                      }}
-                    >
-                      {tag}
-                      <CancelOutlinedIcon sx={{ ml: "5px" }} />
-                    </Button>
-                  </div>
+                  <Button
+                    key={tag}
+                    variant="outlined"
+                    color="warning"
+                    onClick={() => {
+                      dispatch(setFilterTagToClear(tag));
+                    }}
+                    className={styles.filter_tag_button}
+                  >
+                    {tag}
+                    <CancelOutlinedIcon className={styles.filter_tag_icon} />
+                  </Button>
                 );
               })}
-            </div>
-          )}
+          </div>
         </div>
 
         <Grid item container>

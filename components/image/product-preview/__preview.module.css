@@ -7,14 +7,14 @@
 }
 
 .color_ball {
-  width: 30px;
-  height: 30px;
+  width: min(30px, 2.2vw);
+  height: min(30px, 2.2vw);
   border-radius: 2rem;
   border: solid black 1px;
 }
 .color_ball_outer_ring {
-  width: 36px;
-  height: 36px;
+  width: min(36px, 2.6vw);
+  height: min(36px, 2.6vw);
   border-radius: 2rem;
   display: flex;
   justify-content: center;
@@ -25,8 +25,8 @@
 }
 .color_ball_outer_ring_active {
   border: #00789e solid 2px;
-  width: 36px;
-  height: 36px;
+  width: min(36px, 2.8vw);
+  height: min(36px, 2.8vw);
   border-radius: 2rem;
   display: flex;
   justify-content: center;
@@ -34,9 +34,10 @@
 }
 .color_ball_container {
   margin: 0 5px 0 5px;
-  height: 40px;
-  width: 40px;
+  height: min(40px, 3.2vw);
+  width: min(40px, 3.2vw);
   display: flex;
+  flex-flow: row wrap;
   justify-content: center;
   align-items: center;
 }
@@ -50,8 +51,8 @@
 }
 
 .image_box {
-  width: min(260px, 20vw);
-  height: min(292px, 24vw);
+  width: min(290px, 20vw);
+  height: min(345px, 24vw);
   margin-bottom: 10px;
   position: relative;
   object-fit: cover;
@@ -63,8 +64,8 @@
 
 @media screen and (max-width: 765px) {
   .image_box {
-    width: min(260px, 38vw);
-    height: min(292px, 44vw);
+    width: min(320px, 46vw);
+    height: min(365px, 52vw);
   }
 
   .color_container {
@@ -72,17 +73,17 @@
   }
 
   .color_ball {
-    width: min(30px, 4vw);
-    height: min(30px, 3.8vw);
+    width: min(30px, 3.8vw);
+    height: min(30px, 3.6vw);
   }
   .color_ball_outer_ring {
-    width: min(36px, 5.2vw);
+    width: min(36px, 5vw);
     height: min(36px, 5vw);
   }
 
   .color_ball_outer_ring_active {
     /* border: #00789e solid 2px; */
-    width: min(36px, 5.2vw);
+    width: min(36px, 5vw);
     height: min(36px, 5vw);
   }
   .color_ball_container {

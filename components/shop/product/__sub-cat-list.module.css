@@ -16,7 +16,7 @@
 .side_bar_container {
   position: sticky;
   top: 200px;
-  height: 100vh;
+  height: 80vh;
   width: 100%;
   overflow: auto;
 }
@@ -45,4 +45,48 @@
   margin: 15px 0 15px 0;
   box-shadow: 3px 6px 8px;
   background-color: rgba(0, 0, 0, 0.8);
+}
+
+.filter_tags {
+  margin-left: 10px;
+  margin-top: 40px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+}
+.filter_tag_button {
+  font-size: 16px;
+}
+.filter_tag_icon {
+  margin-left: 5px;
+  font-size: 22px;
+}
+.items_num {
+  font-size: 28px;
+  margin-right: 10px;
+}
+
+@media screen and (max-width: 765px) {
+  .left_grid {
+    display: none;
+  }
+  .right_grid {
+    margin-left: 0;
+  }
+  .filter_tags {
+    margin-top: 20px;
+  }
+  .filter_tag_button {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    font-size: 10px;
+  }
+  .filter_tag_icon {
+    font-size: 14px;
+  }
+  .items_num {
+    font-size: 18px;
+    margin-right: 6px;
+  }
 }

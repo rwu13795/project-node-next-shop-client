@@ -28,6 +28,7 @@ interface ShopState {
   previewColorIndex: number;
   productFiltering: boolean;
   filterTagToClear: string;
+  openFilterModal: boolean;
 }
 
 interface CreateOrderBody {
@@ -72,6 +73,7 @@ const initialState: ShopState = {
   previewColorIndex: -1,
   productFiltering: false,
   filterTagToClear: "",
+  openFilterModal: false,
 };
 
 const createOrderHistory = createAsyncThunk<
@@ -157,6 +159,9 @@ const shopSlice = createSlice({
     setFilterTagToClear(state, action: PayloadAction<string>) {
       state.filterTagToClear = action.payload;
     },
+    setOpenFilterModal(state, action: PayloadAction<boolean>) {
+      state.openFilterModal = action.payload;
+    },
   },
   // extraReducers: (builder) => {
   //   builder
@@ -183,6 +188,7 @@ export const {
   setPreviewColorIndex,
   setProductFiltering,
   setFilterTagToClear,
+  setOpenFilterModal,
 } = shopSlice.actions;
 export { createOrderHistory };
 
@@ -213,4 +219,8 @@ export const selectProductFiltering = createSelector(
 export const selectFilterTagToClear = createSelector(
   [selectCheckout],
   (shopState) => shopState.filterTagToClear
+);
+export const selectOpenFilterModal = createSelector(
+  [selectCheckout],
+  (shopState) => shopState.openFilterModal
 );

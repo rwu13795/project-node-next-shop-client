@@ -34,6 +34,7 @@ export default function MenuIcon(): JSX.Element {
         onClose={closeMenu}
         anchor="left"
         // set the background color in the main drawer "& .MuiDrawer-paper"
+        // have to use the MUI styles
         sx={{
           width: "100vw",
           "& .MuiDrawer-paper": {

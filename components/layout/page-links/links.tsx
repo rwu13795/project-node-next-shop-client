@@ -15,7 +15,7 @@ interface Props {
 
 function PageLinks({ main_cat, sub_cat, title }: Props): JSX.Element {
   return (
-    <div>
+    <div className={styles.main_container}>
       <Tooltip title="Home Page">
         <Box className={styles.box}>
           <Link href="/">

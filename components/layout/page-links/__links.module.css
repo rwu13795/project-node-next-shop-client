@@ -11,3 +11,9 @@
   display: inline-block;
   color: rgb(128, 128, 128);
 }
+
+@media screen and (min-width: 765px) {
+  .main_container {
+    font-size: 24px;
+  }
+}

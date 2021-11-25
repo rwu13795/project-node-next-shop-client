@@ -1,5 +1,12 @@
 import { Dispatch, SetStateAction, useState, useEffect, memo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
+import {
+  selectFilterTagToClear,
+  selectProductFiltering,
+  setFilterTagToClear,
+  setProductFiltering,
+} from "../../../../utils/redux-store/shopSlice";
 import { RequestParams } from "../sub-cat-list";
 
 // UI //
@@ -14,13 +21,6 @@ import {
   RadioGroup,
 } from "@mui/material";
 import styles from "./__checkbox.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectFilterTagToClear,
-  selectProductFiltering,
-  setFilterTagToClear,
-  setProductFiltering,
-} from "../../../../utils/redux-store/shopSlice";
 
 interface Props {
   clearFilter: boolean;
@@ -103,16 +103,19 @@ function FilterRadioBox({
           value="Featured"
           control={<Radio color="primary" />}
           label="Featured"
+          className={styles.radio_control}
         />
         <FormControlLabel
           value="Lowest to Highest"
           control={<Radio color="primary" />}
           label="Lowest to Highest"
+          className={styles.radio_control}
         />
         <FormControlLabel
           value="Highest to Lowest"
           control={<Radio color="primary" />}
           label="Highest to Lowest"
+          className={styles.radio_control}
         />
       </RadioGroup>
     </FormControl>

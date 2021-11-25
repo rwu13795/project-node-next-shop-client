@@ -1,24 +1,43 @@
+.filter_main_drawer_container {
+  min-width: 100vw;
+  font-family: "Oswald", sans-serif;
+}
+
 .main_container {
   flex-flow: column nowrap;
   width: 100%;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+@media screen and (min-width: 450px) {
+  .filter_main_drawer_container {
+    min-width: 70vw;
+  }
 }
 
 .header {
   font-size: 30px;
   font-weight: bolder;
-  text-align: center;
-  border-bottom: solid 2px #00789e;
   margin-bottom: 10px;
 }
 
 .item_num {
   font-size: 22px;
-  text-align: center;
+  margin-bottom: 10px;
 }
 
-.clear_button {
-  font-size: 14px;
-  width: 160px;
+.buttons_container {
+  margin-top: 10px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.buttons {
+  margin: 20px 20px 0 20px;
+  font-size: min(12px, 3vw);
+  min-width: 100px;
 }
 
 .circular_progress {
@@ -26,4 +45,27 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.close_icon {
+  float: right;
+  margin-top: 0.6rem;
+  margin-right: 0.6rem;
+  transition: ease-in 0.3s;
+}
+.close_icon:hover {
+  color: rgb(0, 138, 180);
+  cursor: pointer;
+  transition: ease-in 0.3s;
+}
+
+@media screen and (max-width: 765px) {
+  .header {
+    text-align: center;
+    border-bottom: solid 2px #00789e;
+  }
+
+  .item_num {
+    text-align: center;
+  }
 }

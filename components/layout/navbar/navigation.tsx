@@ -23,15 +23,18 @@ import {
   adminSignOut,
   selectLoggedInAsAdmin,
 } from "../../../utils/redux-store/adminSlice";
-
+import { selectPageLoading } from "../../../utils/redux-store/layoutSlice";
 import UserNavbar from "./user-navbar";
 import AdminSignOutModal from "./../../admin/admin-sign-out-modal";
 
 // UI //
 import { Divider, Grid, TextField, Box, Tooltip } from "@mui/material";
 import LinearProgress from "@mui/material/LinearProgress";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import CropLandscapeIcon from "@mui/icons-material/CropLandscape";
+import SplitscreenIcon from "@mui/icons-material/Splitscreen";
 import styles from "./__navigation.module.css";
-import { selectPageLoading } from "../../../utils/redux-store/layoutSlice";
+import { setOpenFilterModal } from "../../../utils/redux-store/shopSlice";
 
 interface Props {
   page?: string;
@@ -45,19 +48,23 @@ export default function MainNavigation({ page, page_cat, sub_cat }: Props) {
   const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
   const pageLoading = useSelector(selectPageLoading);
 
-  const [classname, setClassname] = useState(styles.main_2);
+  const [mainNavContainer, setMainNavContainer] = useState<string>(
+    styles.main_1
+  );
+  const [filterContainer, setFilterContainer] = useState<string>(
+    styles.filter_container_1
+  );
   const [adminModal, setAdminModal] = useState<boolean>(false);
-
-  console.log("classname in nav", classname);
 
   /*******  Scroll Stop Listener for changing the color of the navbar  ********/
   const changeNavbarClassname = useCallback(() => {
     // console.log("checking window Y");
-    if (window.scrollY < 100) {
-      setClassname(styles.main_2);
-    } else {
-      setClassname(styles.main_1);
-    }
+    // if (sub_cat) {
+    //   setClassname(styles.main_3);
+    // } else {
+    setMainNavContainer(styles.main_1);
+    setFilterContainer(styles.filter_container_1);
+    // }
   }, []);
 
   const scrollStopListener = useCallback(function scrollStop(
@@ -76,7 +83,8 @@ export default function MainNavigation({ page, page_cat, sub_cat }: Props) {
         window.clearTimeout(isScrolling);
 
         // console.log("setting to transparent");
-        setClassname(styles.main_2);
+        setMainNavContainer(styles.main_2);
+        setFilterContainer(styles.filter_container_2);
 
         // Set a timeout to run after scrolling ends
         isScrolling = setTimeout(callback, refresh);
@@ -120,6 +128,10 @@ export default function MainNavigation({ page, page_cat, sub_cat }: Props) {
     }
   };
 
+  const onFilterClickHandler = () => {
+    dispatch(setOpenFilterModal(true));
+  };
+
   let content;
   if (page !== "admin") {
     content = <UserNavbar page={page} page_cat={page_cat} />;
@@ -137,12 +149,8 @@ export default function MainNavigation({ page, page_cat, sub_cat }: Props) {
     );
   }
 
-  let progressBar = (
-    <Box sx={{ width: "100%" }}>{pageLoading && <LinearProgress />}</Box>
-  );
-
   return (
-    <main className={classname}>
+    <main className={mainNavContainer}>
       <Grid
         container
         justifyContent="space-between"
@@ -176,14 +184,27 @@ export default function MainNavigation({ page, page_cat, sub_cat }: Props) {
         </Grid>
       </Grid>
 
-      {sub_cat ? (
-        <Grid item container sx={{ display: { xs: "flex", md: "none" } }}>
-          <div>View and Filter</div>
-          {progressBar}
+      {sub_cat && (
+        <Grid item container className={filterContainer}>
+          <div className={styles.filter_icon_box}>
+            <div className={styles.filter_text}>View</div>
+            <div className={styles.filter_icon}>
+              <CropLandscapeIcon className={styles.single_icon} />
+              <SplitscreenIcon className={styles.split_icon_active} />
+            </div>
+          </div>
+          <div
+            className={styles.filter_icon_box}
+            onClick={onFilterClickHandler}
+          >
+            <div className={styles.filter_icon}>
+              <FilterListIcon />
+            </div>
+            <div className={styles.filter_text}>Filter</div>
+          </div>
         </Grid>
-      ) : (
-        progressBar
       )}
+      <Box sx={{ width: "100%" }}>{pageLoading && <LinearProgress />}</Box>
     </main>
   );
 }

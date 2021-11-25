@@ -21,6 +21,7 @@ import {
   setFilterTagToClear,
   setProductFiltering,
 } from "../../../../utils/redux-store/shopSlice";
+import { capitalize } from "../../../../utils/helper-functions/capitalize-first-letter";
 
 interface Props {
   filterKey: string;
@@ -60,7 +61,7 @@ function FilterCheckBox({
         return prev;
       });
     }
-  }, [filterTagToClear, filterKey, setFilterTags]);
+  }, [filterTagToClear, filterKey, setFilterTags, dispatch]);
 
   const boxCheckHandler = () => {
     dispatch(setProductFiltering(true));
@@ -136,7 +137,7 @@ function FilterCheckBox({
           style={{ backgroundColor: `${filterKey}` }}
         ></div>
       )}
-      <div>{filterKey}</div>
+      <div className={styles.filter_key}>{capitalize(filterKey)}</div>
 
       <div>{`[${value}]`}</div>
     </div>

@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
+import styles from "./__filter-drawer.module.css";
 
 interface Props {
   filterStats: FilterStats;
@@ -43,15 +44,15 @@ function FilterDrawer({
 
   return (
     <Fragment>
-      <ListItemButton onClick={toggleExpand} sx={{ pl: 2 }}>
+      <Divider />
+      <ListItemButton onClick={toggleExpand} className={styles.drawer_tag}>
         <ListItemText primary={filterType.toUpperCase()} />
         {expand ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Divider />
 
-      <Collapse in={expand} timeout="auto" unmountOnExit>
+      <Collapse in={expand} timeout="auto">
         {filterType === "size" && (
-          <div>
+          <div className={styles.drawer_list_container}>
             {Object.entries(filterStats.sizes).map(([size, value]) => {
               return (
                 <FilterCheckBox
@@ -68,7 +69,7 @@ function FilterDrawer({
           </div>
         )}
         {filterType === "color" && (
-          <div>
+          <div className={styles.drawer_list_container}>
             {Object.entries(filterStats.colors).map(([color, value]) => {
               return (
                 <FilterCheckBox
