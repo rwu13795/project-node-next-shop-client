@@ -1,14 +1,49 @@
 .main {
   margin-top: 50px;
+  width: 90vw;
 }
 
 .main_grid {
+  margin-top: 30px;
   display: flex;
-  justify-content: flex-start;
+  flex-flow: row nowrap;
+  justify-content: center;
   align-items: flex-start;
-  width: 74vw;
-  max-width: 90rem;
+  width: 100%;
+  max-width: 110rem;
+}
+
+.left_grid {
+  position: sticky;
+  top: 200px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
   margin-bottom: 60px;
+  width: 20vw;
+  height: 75vh;
+  max-width: 20%;
+  overflow: auto;
+}
+.left_grid::-webkit-scrollbar {
+  width: 4px !important;
+}
+.left_grid::-webkit-scrollbar-thumb {
+  background-color: #008ab4;
+}
+
+.right_grid {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 60px;
+  width: 80vw;
+  max-width: 80%;
+}
+
+.menu_draw_container {
+  width: 100%;
 }
 
 .inner_grid {
@@ -21,8 +56,26 @@
   margin-bottom: 40px;
 }
 
+.button_group {
+  width: 100%;
+  display: flex;
+  flex-flow: nowrap row;
+  justify-content: space-around;
+  margin-bottom: 40px;
+}
+
 @media screen and (max-width: 765px) {
+  .main {
+    width: 100vw;
+  }
   .main_grid {
     width: 100vw;
+  }
+  .left_grid {
+    display: none;
+  }
+  .right_grid {
+    width: 95vw;
+    max-width: 100%;
   }
 }

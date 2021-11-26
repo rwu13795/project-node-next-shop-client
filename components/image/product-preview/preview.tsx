@@ -21,6 +21,7 @@ import styles from "./__preview.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 import { selectOneItmePerRow } from "../../../utils/redux-store/shopSlice";
+import { useRouter } from "next/router";
 
 interface Props {
   colorPropsList: PageColorProps[];
@@ -36,12 +37,14 @@ function ProductPreview({
   page,
 }: Props): JSX.Element {
   const dispatch = useDispatch();
+  const router = useRouter();
   const oneItemPerRow = useSelector(selectOneItmePerRow);
 
   const { title, price, main_cat, sub_cat } = productInfo;
   const initialActiveColor = colorPropsList.map(() => {
     return false;
   });
+
   const productLink = `/shop/product-detail/${main_cat}-${sub_cat}-${productId}`;
 
   const [previewImage, setPreviewImage] = useState<string>(
@@ -67,32 +70,27 @@ function ProductPreview({
     });
   }, [activeIndex]);
 
+  const onImageClickHandler = () => {
+    dispatch(setPageLoading(true));
+    if (page === "admin") {
+      router.push(`/admin/add-product?productId=${productId}`);
+    } else {
+      router.push(productLink);
+    }
+  };
+
   return (
     <div className={styles.item_card_box}>
-      <div className={oneItemPerRow ? styles.image_box_2 : styles.image_box}>
-        {page === "admin" ? (
-          <Image
-            src={previewImage}
-            alt={previewImage}
-            layout="fill"
-            loading="eager"
-          />
-        ) : (
-          <Link href={productLink}>
-            <a
-              onClick={() => {
-                dispatch(setPageLoading(true));
-              }}
-            >
-              <Image
-                src={previewImage}
-                alt={previewImage}
-                layout="fill"
-                loading="eager"
-              />
-            </a>
-          </Link>
-        )}
+      <div
+        className={oneItemPerRow ? styles.image_box_2 : styles.image_box}
+        onClick={onImageClickHandler}
+      >
+        <Image
+          src={previewImage}
+          alt={previewImage}
+          layout="fill"
+          loading="eager"
+        />
       </div>
       <div className={styles.color_container}>
         {colorPropsList.map((props, index) => {
@@ -102,6 +100,7 @@ function ProductPreview({
               productLink={productLink}
               colorProps={props}
               colorIndex={index}
+              productId={productId}
               setPreviewImage={setPreviewImage}
               activeColor={activeColor}
               setActiveIndex={setActiveIndex}

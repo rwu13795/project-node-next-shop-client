@@ -1,4 +1,4 @@
-import { Fragment, useState, SetStateAction, Dispatch } from "react";
+import { Fragment, useState, SetStateAction, Dispatch, memo } from "react";
 import { useRouter } from "next/router";
 
 import {
@@ -26,12 +26,16 @@ import styles from "./__menu-list.module.css";
 
 interface Props {
   cat: string;
-  setIsDrawerOpen: Dispatch<SetStateAction<boolean>>;
+  page?: string;
+  setIsDrawerOpen?: Dispatch<SetStateAction<boolean>>;
+  selectCatHandler?: (main: string, sub: string) => Promise<void>;
 }
 
-export default function MeunListDrawer({
+function MeunListDrawer({
   cat,
+  page,
   setIsDrawerOpen,
+  selectCatHandler,
 }: Props): JSX.Element {
   const router = useRouter();
 
@@ -42,13 +46,17 @@ export default function MeunListDrawer({
   };
 
   const onProductClickHandler = (product: string) => {
+    if (page === "admin" && selectCatHandler) {
+      selectCatHandler(cat, product);
+      return;
+    }
     router.push(`/shop/${cat.toLowerCase()}/${product.toLowerCase()}`);
-    setIsDrawerOpen(false);
+    if (setIsDrawerOpen) setIsDrawerOpen(false);
   };
 
   const onCatClickHandler = (cat: string) => {
     router.push(`/shop/${cat.toLowerCase()}`);
-    setIsDrawerOpen(false);
+    if (setIsDrawerOpen) setIsDrawerOpen(false);
   };
 
   let list: { [key: string]: string[] } | undefined;
@@ -89,18 +97,20 @@ export default function MeunListDrawer({
 
   return (
     <Fragment>
+      <Divider />
       <ListItemButton onClick={toggleExpand} sx={{ pl: 2 }}>
         <ListItemText primary={cat.toUpperCase()} />
         {expand ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Divider />
 
       <Collapse in={expand} timeout="auto" unmountOnExit>
         <ListItemButton sx={{ pl: 4 }}>
-          <ListItemText
-            primary={`View all ${cat}'s collection`}
-            onClick={() => onCatClickHandler(cat)}
-          />
+          {page !== "admin" && (
+            <ListItemText
+              primary={`View all ${cat}'s collection`}
+              onClick={() => onCatClickHandler(cat)}
+            />
+          )}
         </ListItemButton>
         <List component="div" disablePadding>
           {keys &&
@@ -128,8 +138,10 @@ export default function MeunListDrawer({
               );
             })}
         </List>
-        <Divider />
       </Collapse>
+      <Divider />
     </Fragment>
   );
 }
+
+export default memo(MeunListDrawer);

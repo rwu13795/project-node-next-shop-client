@@ -22,17 +22,23 @@ import useGetMoreProducts, {
 import useLastElementRef from "../../../utils/react-hooks/last-elem-ref";
 import { FilterStats } from "../../../utils/enums-types/categories-interfaces";
 import ProductFilter from "./product-filter/filter";
+import {
+  menMenuList,
+  womenMenuList,
+  kidsMenuList,
+} from "../../../utils/enums-types/product-category";
 
 // UI //
 import {
   Button,
   CircularProgress,
+  Divider,
   Grid,
   SelectChangeEvent,
 } from "@mui/material";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import styles from "./__sub-cat-list.module.css";
-import { menCatArray } from "../../../utils/enums-types/product-category";
 
 export interface RequestParams {
   pageNum: number;
@@ -59,6 +65,15 @@ function SubCatProductsList({
 }: Props): JSX.Element {
   const dispatch = useDispatch();
   const oneItemPerRow = useSelector(selectOneItmePerRow);
+
+  let catListArray: { [key: string]: string[] };
+  if (main_cat === "men") {
+    catListArray = menMenuList;
+  } else if (main_cat === "women") {
+    catListArray = womenMenuList;
+  } else {
+    catListArray = kidsMenuList;
+  }
 
   const [filterTags, setFilterTags] = useState<Set<string>>(new Set());
   const [params, setParams] = useState<RequestParams>({
@@ -102,6 +117,10 @@ function SubCatProductsList({
     setParams
   );
 
+  const backToTopHandler = () => {
+    window.scrollTo({ top: 0 });
+  };
+
   return (
     <Grid container className={styles.main_grid}>
       <Grid
@@ -113,11 +132,35 @@ function SubCatProductsList({
         className={styles.left_grid}
       >
         <div className={styles.side_bar_container}>
-          <div>
-            {menCatArray.map((cat) => {
-              return <div key={cat}>{cat}</div>;
+          <div className={styles.menu_list_container}>
+            <div className={styles.menu_title}>
+              {main_cat.toUpperCase()} COLLECTION
+            </div>
+            {Object.keys(catListArray).map((key) => {
+              return (
+                <div key={key}>
+                  <div className={styles.menu_sub_title}>
+                    {key.toUpperCase()}
+                  </div>
+                  <div className={styles.menu_list}>
+                    {catListArray[key].map((cat) => {
+                      return (
+                        <Link
+                          key={cat}
+                          href={`/shop/${main_cat.toLowerCase()}/${cat.toLowerCase()}`}
+                        >
+                          <a style={{ textDecoration: "none" }}>
+                            <div className={styles.menu_list_item}>{cat}</div>
+                          </a>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
             })}
           </div>
+          <Divider />
           {filterStats && (
             <ProductFilter
               filterStats={filterStats}
@@ -207,12 +250,11 @@ function SubCatProductsList({
             );
           })}
         </Grid>
-        {isLoading && (
-          <div>
-            <h4>Loading shit load of data</h4>
-            <CircularProgress />
-          </div>
-        )}
+        <Button className={styles.to_top_button} onClick={backToTopHandler}>
+          <ArrowBackIosNewIcon className={styles.to_top_icon} />
+          back to top
+          <ArrowBackIosNewIcon className={styles.to_top_icon} />
+        </Button>
       </Grid>
     </Grid>
   );

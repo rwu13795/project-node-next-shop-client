@@ -12,12 +12,14 @@ import { setPreviewColorIndex } from "../../../utils/redux-store/shopSlice";
 
 // UI //
 import styles from "./__preview.module.css";
+import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 
 interface Props {
   colorProps: PageColorProps;
   colorIndex: number;
   productLink: string;
   activeColor: boolean[];
+  productId: string;
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
   setPreviewImage: React.Dispatch<React.SetStateAction<string>>;
   page?: string;
@@ -28,6 +30,7 @@ function PreviewColor({
   colorIndex,
   productLink,
   activeColor,
+  productId,
   setActiveIndex,
   setPreviewImage,
   page,
@@ -54,9 +57,13 @@ function PreviewColor({
     dispatch(setPreviewColorIndex(colorIndex));
   };
   const onClickHandler = () => {
+    dispatch(setPageLoading(true));
     dispatch(setPreviewColorIndex(colorIndex));
-    if (page === "admin") return;
-    router.push(productLink);
+    if (page === "admin") {
+      router.push(`/admin/add-product?productId=${productId}`);
+    } else {
+      router.push(productLink);
+    }
   };
 
   return (

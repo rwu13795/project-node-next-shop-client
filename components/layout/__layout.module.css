@@ -5,10 +5,10 @@
   font-family: "Oswald", sans-serif;
   background-image: linear-gradient(
     to right,
-    rgba(34, 185, 255, 0.4) 0%,
-    rgb(255, 255, 255) 18%,
-    rgb(255, 255, 255) 82%,
-    rgb(34, 185, 255, 0.4) 100%
+    rgba(34, 185, 255, 0.5) 0%,
+    rgb(255, 255, 255) 15%,
+    rgb(255, 255, 255) 85%,
+    rgb(34, 185, 255, 0.5) 100%
   );
 }
 

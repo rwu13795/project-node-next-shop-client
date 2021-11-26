@@ -59,6 +59,7 @@
   position: relative;
   object-fit: cover;
   box-shadow: 2px 4px 6px;
+  cursor: pointer;
 }
 .image_box_2 {
   width: min(320px, 20vw);
@@ -67,6 +68,7 @@
   position: relative;
   object-fit: cover;
   box-shadow: 2px 4px 6px;
+  cursor: pointer;
 }
 
 .item_text {
@@ -89,11 +91,13 @@
     margin-top: 12px;
     margin-bottom: 12px;
   }
+  .item_text {
+    font-size: min(20px, 4.4vw);
+  }
 
   .color_container {
     height: min(44px, 7vw);
   }
-
   .color_ball {
     width: min(31px, 4.8vw);
     height: min(31px, 4.8vw);
@@ -102,7 +106,6 @@
     width: min(36px, 5.8vw);
     height: min(36px, 5.8vw);
   }
-
   .color_ball_outer_ring_active {
     /* border: #00789e solid 2px; */
     width: min(36px, 5.8vw);

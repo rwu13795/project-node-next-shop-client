@@ -17,6 +17,7 @@ import {
 } from "../../utils/redux-store/adminSlice";
 import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 import browserClient from "../../utils/axios-client/browser-client";
+import MeunListDrawer from "../../components/layout/navbar-items/menu-list-drawer";
 
 // UI //
 import {
@@ -28,6 +29,7 @@ import {
   Button,
 } from "@mui/material";
 import styles from "./__product-list.module.css";
+import { mainCatArray } from "../../utils/enums-types/product-category";
 
 interface PageProps {
   productsTotal: number;
@@ -52,6 +54,8 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
   const [productsTotal, setProductsTotal] =
     useState<number>(startProductsTotal);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [main_cat, setMain_cat] = useState<string>("Men");
+  const [sub_cat, setSub_cat] = useState<string>("T-shirts");
 
   useEffect(() => {
     dispatch(getAdminStatus());
@@ -64,10 +68,10 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
   }, []);
 
   const fetchNewList = useCallback(
-    async (pageNum: number) => {
+    async (pageNum: number, main: string, sub: string) => {
       const { data }: { data: PageProps } = await client.get(
-        "http://localhost:5000/api/admin/get-products-list",
-        { params: { pageNum } }
+        `http://localhost:5000/api/admin/get-products-list`,
+        { params: { pageNum, main, sub } }
       );
       setProducts(data.products);
       setProductsTotal(data.productsTotal);
@@ -82,10 +86,10 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
       // if products.length less than 2, that means there was only 1 item on the
       // current page before deleting, so I need to fetch items from the page in front
       if (products.length < 2 && currentPage > 1) {
-        fetchNewList(currentPage - 1);
+        fetchNewList(currentPage - 1, main_cat, sub_cat);
         setCurrentPage((prev) => prev - 1);
       } else {
-        fetchNewList(currentPage);
+        fetchNewList(currentPage, main_cat, sub_cat);
       }
 
       dispatch(setPageLoading(false));
@@ -97,6 +101,8 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
     fetchNewList,
     currentPage,
     products.length,
+    main_cat,
+    sub_cat,
   ]);
 
   const goToAddProduct = () => {
@@ -114,27 +120,30 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
     dispatch(deleteProduct({ productId, admin_username }));
   };
 
-  useEffect(() => {
-    dispatch(setPageLoading(false));
-  }, []);
-
   const changePageHandler = async (event: any, page: number) => {
     console.log(page);
     if (page === currentPage) {
       return;
     }
-    await fetchNewList(page);
+    await fetchNewList(page, main_cat, sub_cat);
     setCurrentPage(page);
   };
 
-  if (!products) {
-    return (
-      <main>
-        <h1>No Product Found</h1>
-        <button onClick={goToAddProduct}>add new product</button>
-      </main>
-    );
-  }
+  const selectCatHandler = async (main: string, sub: string) => {
+    if (main === main_cat && sub === sub_cat) return;
+    setMain_cat(main);
+    setSub_cat(sub);
+    setCurrentPage(1);
+    await fetchNewList(1, main, sub);
+  };
+
+  useEffect(() => {
+    dispatch(setPageLoading(false));
+  }, []);
+
+  //////////////////
+  console.log("main_cat", main_cat);
+  console.log("sub_cat", sub_cat);
 
   return (
     <main className={styles.main}>
@@ -145,43 +154,67 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
       </div>
 
       <Grid container className={styles.main_grid}>
-        {products.map((p) => {
-          return (
-            <Grid
-              item
-              container
-              className={styles.inner_grid}
-              md={4}
-              sm={6}
-              xs={6}
-              key={p._id}
-            >
-              <div>
-                <ProductPreview
-                  productId={p._id}
-                  colorPropsList={p.colorPropsList}
-                  productInfo={p.productInfo}
+        <Grid item container className={styles.left_grid}>
+          <h2>PRODUCTS CATEGORIES</h2>
+          {mainCatArray.map((cat, index) => {
+            return (
+              <div key={index} className={styles.menu_draw_container}>
+                <MeunListDrawer
+                  cat={cat}
+                  page="admin"
+                  selectCatHandler={selectCatHandler}
                 />
               </div>
-              <div style={{ marginBottom: "50px" }}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={() => editButtonHandler(p._id)}
+            );
+          })}
+        </Grid>
+
+        <Grid item container className={styles.right_grid}>
+          {!products || products.length === 0 ? (
+            <h1>No products found in these categories</h1>
+          ) : (
+            products.map((p) => {
+              return (
+                <Grid
+                  item
+                  container
+                  className={styles.inner_grid}
+                  md={4}
+                  sm={6}
+                  xs={6}
+                  key={p._id}
                 >
-                  Edit
-                </Button>
-                <Button
-                  variant="outlined"
-                  color="error"
-                  onClick={() => deleteButtonHandler(p._id)}
-                >
-                  Delete
-                </Button>
-              </div>
-            </Grid>
-          );
-        })}
+                  <div>
+                    <ProductPreview
+                      productId={p._id}
+                      colorPropsList={p.colorPropsList}
+                      productInfo={p.productInfo}
+                      page="admin"
+                    />
+                  </div>
+                  <div className={styles.button_group}>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => editButtonHandler(p._id)}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      color="error"
+                      onClick={() => deleteButtonHandler(p._id)}
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </Grid>
+              );
+            })
+          )}
+        </Grid>
       </Grid>
       <div className={`${styles.inner_grid} ${styles.margin_bottom}`}>
         <Pagination
@@ -208,7 +241,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   try {
     const { data }: { data: PageProps } = await client.get(
-      "http://localhost:5000/api/admin/get-products-list"
+      "http://localhost:5000/api/admin/get-products-list",
+      { params: { pageNum: 1, main: "Men", sub: "T-shirts" } }
     );
 
     return {

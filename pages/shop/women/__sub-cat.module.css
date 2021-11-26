@@ -1,0 +1,10 @@
+.main_container {
+  margin: 35px 15px 20px 15px;
+  width: 100%;
+}
+
+@media screen and (max-width: 765px) {
+  .main_container {
+    margin: 35px 5px 20px 5px;
+  }
+}

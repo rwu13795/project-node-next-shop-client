@@ -87,7 +87,7 @@ export default function useGetMoreProducts(
         }
       }
     },
-    [hasMore]
+    [hasMore, main_cat, sub_cat]
   );
 
   // when the filter is on, set the "hasMore" to true again, to generate the

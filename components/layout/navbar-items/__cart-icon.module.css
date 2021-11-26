@@ -51,10 +51,9 @@
   max-height: 80vh;
   overflow-y: auto;
   background-image: linear-gradient(
-    to bottom left,
-    rgb(255, 255, 255) 30%,
-    rgba(34, 185, 255, 0.45) 50%,
-    rgb(255, 255, 255) 70%
+    to left,
+    rgba(34, 185, 255, 0.5) 0%,
+    rgb(255, 255, 255) 25%
   );
   z-index: 10;
   overflow: "visible";

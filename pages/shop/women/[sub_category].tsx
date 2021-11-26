@@ -17,20 +17,12 @@ import { SubCat_PageProps } from "../../../utils/enums-types/categories-interfac
 
 import styles from "./__sub-cat.module.css";
 
-const MenSubCatPage: NextPage<SubCat_PageProps> = ({
+const WomenSubCatPage: NextPage<SubCat_PageProps> = ({
   products: startProducts,
   filterStats: startFilterStats,
   sub_cat,
   main_cat,
 }) => {
-  // if (process.browser) {
-  //   // set the scroll back to top manaully, otherwise, the 1st and 2nd pages will
-  //   // be fetched when user refresh the page
-  //   history.scrollRestoration = "manual";
-  //   window.onbeforeunload = function () {
-  //     window.scrollTo(0, 0);
-  //   };
-  // }
   const dispatch = useDispatch();
 
   const props = { main_cat, sub_cat };
@@ -39,9 +31,6 @@ const MenSubCatPage: NextPage<SubCat_PageProps> = ({
     dispatch(setPageLoading(false));
   });
 
-  // I have to move the "useGetMoreProducts" to the render-sub-cat, because the react
-  // hook cannot be called conditionally. when the startProducts changes with the sub_cat,
-  // the "useGetMoreProducts" will not update the products correctly
   if (!startProducts || startProducts.length < 1) {
     return <h1>No Products</h1>;
   }
@@ -59,11 +48,11 @@ const MenSubCatPage: NextPage<SubCat_PageProps> = ({
   );
 };
 
-export default MenSubCatPage;
+export default WomenSubCatPage;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const sub_cat = context.query.sub_category;
-  const main_cat = MainCategory.men.toLowerCase();
+  const main_cat = MainCategory.women.toLowerCase();
 
   const { data }: { data: SubCat_PageProps } = await axios.get(
     `http://localhost:5000/api/products/${main_cat}/${sub_cat}`
