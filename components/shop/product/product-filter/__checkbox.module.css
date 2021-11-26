@@ -48,3 +48,9 @@
     justify-content: flex-start;
   }
 }
+
+@media screen and (max-width: 355px) {
+  .checkbox_container {
+    width: 80vw;
+  }
+}

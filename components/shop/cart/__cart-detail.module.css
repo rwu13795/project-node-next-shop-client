@@ -1,0 +1,300 @@
+.main_grid {
+  display: flex;
+  width: 100%;
+}
+
+.left_grid {
+  width: 75%;
+}
+.right_grid {
+  width: 25%;
+  display: flex;
+}
+
+.item_container {
+  margin: 0 60px 30px 0;
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  border: solid 2px rgb(0, 138, 180);
+  padding: 15px;
+}
+
+.image_text_container {
+  font-size: 22px;
+  display: flex;
+}
+.item_title {
+  font-size: 28px;
+  font-weight: bolder;
+}
+
+.imgae_container {
+  width: 300px;
+  height: calc(width * 1.1);
+  min-width: 200px;
+  min-height: 220px;
+  border: 2px solid black;
+  margin-right: 20px;
+}
+.text_container {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  /* align-items: center; */
+}
+
+.qty_subtotal_grid {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.qty_remove_grid {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-end;
+  align-items: baseline;
+}
+.qty_box {
+  display: flex;
+  margin-bottom: 14px;
+}
+.remove_box {
+  margin-left: 16px;
+  display: flex;
+}
+.remove_button {
+  padding: 2px;
+  font-size: 10px;
+}
+
+.subtotal {
+  text-align: right;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.summary_container {
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  position: sticky;
+  top: 200px;
+  height: 300px;
+  border-bottom: solid 2px rgb(0, 138, 180);
+}
+.summary_title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  width: 100%;
+  border-bottom: solid 2px rgb(0, 138, 180);
+}
+.summary_body {
+  width: 100%;
+  margin-top: 40px;
+  height: 180px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.items_total {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  font-size: 26px;
+}
+.order_total {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  font-size: 26px;
+  font-weight: bold;
+}
+.checkout_button {
+  width: 100%;
+  font-size: 20px;
+}
+
+@media screen and (max-width: 930px) {
+  .main_grid {
+    display: flex;
+    width: 100%;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+  .left_grid {
+    width: 100%;
+    display: flex;
+  }
+  .right_grid {
+    width: 70%;
+    display: flex;
+  }
+  .item_container {
+    margin: 0 0 30px 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .item_container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .image_text_container {
+    width: 100%;
+    font-size: min(18px, 4vw);
+    display: flex;
+  }
+  .item_title {
+    font-size: min(24px, 5vw);
+    font-weight: bolder;
+  }
+
+  .imgae_container {
+    width: 180px;
+    height: calc(width * 1.1);
+    min-width: 100px;
+    min-height: 110px;
+    border: 2px solid black;
+    margin-right: 16px;
+  }
+  .text_container {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    /* align-items: center; */
+    margin-right: 16px;
+  }
+
+  .qty_subtotal_grid {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .qty_remove_grid {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-end;
+    align-items: baseline;
+  }
+  .qty_box {
+    display: flex;
+    margin-bottom: 14px;
+  }
+  .remove_box {
+    margin-left: 16px;
+    display: flex;
+  }
+  .remove_button {
+    padding: 2px;
+    font-size: 10px;
+  }
+
+  .subtotal {
+    text-align: right;
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  .items_total {
+    font-size: min(26px, 8vw);
+  }
+  .order_total {
+    font-size: min(26px, 8vw);
+  }
+  .checkout_button {
+    font-size: min(20px, 6vw);
+  }
+}
+
+/****************************************/
+/****************************************/
+
+/* styles for the dropDown cart summary */
+
+/****************************************/
+/****************************************/
+.left_grid_drop_down {
+  width: 100%;
+}
+.item_container_drop_down {
+  margin: 0 0 30px 0;
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  border-bottom: solid 2px rgb(0, 138, 180);
+  padding-bottom: 20px;
+}
+.image_text_container_drop_down {
+  font-size: 16px;
+  display: flex;
+}
+.item_title_drop_down {
+  font-size: 16px;
+  font-weight: bolder;
+}
+.imgae_container_drop_down {
+  width: 120px;
+  height: 140px;
+  min-width: 120px;
+  min-height: 140px;
+  border: 2px solid black;
+  margin-right: 20px;
+}
+.text_container_drop_down {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+}
+.subtotal_drop_down {
+  text-align: right;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.summary_drop_down {
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+.buttons_group_drop_down {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding-bottom: 20px;
+  border-bottom: solid 2px rgb(0, 138, 180);
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+}
+.button_drop_down {
+  width: 45%;
+  font-size: 16px;
+}
+.close_bag {
+  font-size: 16px;
+  font-weight: lighter;
+  text-decoration: underline;
+  cursor: pointer;
+}

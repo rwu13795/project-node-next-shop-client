@@ -16,19 +16,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "90vw",
-  innerHeight: "auto",
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import styles from "./__edit-modal.module.css";
 
 interface ProductProps {
   product: PageProductProps;
@@ -78,7 +66,13 @@ function CartEditModal({ category, productId, index, editItem }: Props) {
 
   return (
     <div>
-      <Button onClick={editItemHandler}>Edit Details</Button>
+      <Button
+        variant="outlined"
+        onClick={editItemHandler}
+        className={styles.edit_button}
+      >
+        Edit Details
+      </Button>
       {!isSmall && (
         <Modal
           aria-labelledby="transition-modal-title"
@@ -92,7 +86,7 @@ function CartEditModal({ category, productId, index, editItem }: Props) {
           }}
         >
           <Fade in={open}>
-            <Box sx={style}>
+            <Box className={styles.edit_modal_box}>
               {!product ? (
                 <h1>No product found</h1>
               ) : (

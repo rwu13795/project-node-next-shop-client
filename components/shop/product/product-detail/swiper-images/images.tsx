@@ -36,7 +36,7 @@ function ProductDetailImages({
 
   const isLarge = useMediaQuery({ query: "(min-width: 1080px)" });
   const isMedium = useMediaQuery({
-    query: "(max-width: 1080px) and (min-width: 765px)",
+    query: "(max-width: 1079px) and (min-width: 765px)",
   });
   const isSmall = useMediaQuery({ query: "(max-width: 765px)" });
 

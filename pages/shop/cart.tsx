@@ -12,13 +12,12 @@ import {
 } from "../../utils/redux-store/userSlice";
 import CartDetail from "../../components/shop/cart/cart-detail";
 
+// UI //
+import styles from "./__cart.module.css";
+
 const CartPage: NextPage = ({}) => {
   const dispatch = useDispatch();
-  const router = useRouter();
-
   const cart = useSelector(selectCart);
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-  const currentUser = useSelector(selectCurrentUser);
 
   useEffect(() => {
     if (cart && cart.length > 0) {
@@ -26,28 +25,10 @@ const CartPage: NextPage = ({}) => {
     }
   }, []);
 
-  const preCheckoutHandler = () => {
-    for (let i = 0; i < cart.length; i++) {
-      if (cart[i].quantity === 0) {
-        dispatch(removeFromCartSession(i));
-      }
-    }
-    router.push(
-      isLoggedIn && currentUser.userId
-        ? "/shop/checkout"
-        : "/shop/login-checkout"
-    );
-  };
-
   return (
-    <main>
-      <h2>Shopping Cart</h2>
+    <main className={styles.main_container}>
+      <div className={styles.main_title}>Shopping Cart</div>
       <CartDetail cart={cart} />
-      {cart.length > 0 && (
-        <div>
-          <button onClick={preCheckoutHandler}>Check Out</button>
-        </div>
-      )}
     </main>
   );
 };

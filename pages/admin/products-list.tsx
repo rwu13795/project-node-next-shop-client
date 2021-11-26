@@ -156,11 +156,13 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
               xs={6}
               key={p._id}
             >
-              <ProductPreview
-                productId={p._id}
-                colorPropsList={p.colorPropsList}
-                productInfo={p.productInfo}
-              />
+              <div>
+                <ProductPreview
+                  productId={p._id}
+                  colorPropsList={p.colorPropsList}
+                  productInfo={p.productInfo}
+                />
+              </div>
               <div style={{ marginBottom: "50px" }}>
                 <Button
                   variant="outlined"

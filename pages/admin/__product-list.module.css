@@ -4,9 +4,9 @@
 
 .main_grid {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 70vw;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 74vw;
   max-width: 90rem;
   margin-bottom: 60px;
 }
@@ -15,7 +15,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-flow: column nowrap;
 }
 
 .margin_bottom {
@@ -24,6 +23,6 @@
 
 @media screen and (max-width: 765px) {
   .main_grid {
-    width: 90vw;
+    width: 100vw;
   }
 }

@@ -18,15 +18,15 @@
 
 @media screen and (max-width: 765px) {
   .toggle_button {
-    width: 90px;
-    height: 50px;
-    font-size: 16px;
+    width: 80px;
+    height: 45px;
+    font-size: min(15px, 4vw);
   }
 }
 @media screen and (min-width: 765px) and (max-width: 1100px) {
   .toggle_button {
-    width: 7vw;
-    height: 45px;
-    font-size: 1.3vw;
+    width: 6vw;
+    height: 40px;
+    font-size: 1.2vw;
   }
 }

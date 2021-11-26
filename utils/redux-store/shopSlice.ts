@@ -29,6 +29,7 @@ interface ShopState {
   productFiltering: boolean;
   filterTagToClear: string;
   openFilterModal: boolean;
+  oneItmePerRow: boolean;
 }
 
 interface CreateOrderBody {
@@ -74,6 +75,7 @@ const initialState: ShopState = {
   productFiltering: false,
   filterTagToClear: "",
   openFilterModal: false,
+  oneItmePerRow: false,
 };
 
 const createOrderHistory = createAsyncThunk<
@@ -162,6 +164,9 @@ const shopSlice = createSlice({
     setOpenFilterModal(state, action: PayloadAction<boolean>) {
       state.openFilterModal = action.payload;
     },
+    setOneItmePerRow(state) {
+      state.oneItmePerRow = !state.oneItmePerRow;
+    },
   },
   // extraReducers: (builder) => {
   //   builder
@@ -189,6 +194,7 @@ export const {
   setProductFiltering,
   setFilterTagToClear,
   setOpenFilterModal,
+  setOneItmePerRow,
 } = shopSlice.actions;
 export { createOrderHistory };
 
@@ -223,4 +229,8 @@ export const selectFilterTagToClear = createSelector(
 export const selectOpenFilterModal = createSelector(
   [selectCheckout],
   (shopState) => shopState.openFilterModal
+);
+export const selectOneItmePerRow = createSelector(
+  [selectCheckout],
+  (shopState) => shopState.oneItmePerRow
 );

@@ -34,6 +34,7 @@ interface Props {
   setErrors?: Dispatch<SetStateAction<Errors>>;
   directChange?: boolean;
   index?: number;
+  inCartDetail?: boolean;
 }
 
 function SelectQuantity({
@@ -44,6 +45,7 @@ function SelectQuantity({
   setErrors,
   directChange,
   index,
+  inCartDetail,
 }: Props): JSX.Element {
   const dispatch = useDispatch();
 
@@ -85,9 +87,16 @@ function SelectQuantity({
     }
   };
 
+  const container = inCartDetail
+    ? styles.form_container_in_cart
+    : styles.form_container;
+  const label = inCartDetail ? styles.form_label_in_cart : styles.form_label;
+  const select = inCartDetail ? styles.form_select_in_cart : styles.form_select;
+  const items = inCartDetail ? styles.form_items_in_cart : styles.form_items;
+
   return (
-    <FormControl variant="standard" className={styles.form_container}>
-      <InputLabel className={styles.form_label}>Quantity</InputLabel>
+    <FormControl variant="standard" className={container}>
+      <InputLabel className={label}>Quantity</InputLabel>
       <Select
         value={quantity}
         type="number"
@@ -97,11 +106,11 @@ function SelectQuantity({
         // fixed the scrollbar lock when the select-menu is opened by adding
         // "disableScrollLock: true"
         MenuProps={{ disableScrollLock: true }}
-        className={styles.form_select}
+        className={select}
       >
         {qtyArray.map((q) => {
           return (
-            <MenuItem key={q} value={q} className={styles.form_items}>
+            <MenuItem key={q} value={q} className={items}>
               {q}
             </MenuItem>
           );

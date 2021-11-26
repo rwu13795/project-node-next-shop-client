@@ -45,7 +45,7 @@
 }
 
 .cart_summary_menu {
-  min-width: 20rem;
+  width: 25rem;
   border-radius: 0;
   border: 2px solid black;
   max-height: 80vh;
@@ -58,6 +58,7 @@
   );
   z-index: 10;
   overflow: "visible";
+  padding: 20px;
 }
 
 /* the "position: absolute" has to be inside the Collapse tab in order to 

@@ -54,6 +54,7 @@ function PreviewColor({
     dispatch(setPreviewColorIndex(colorIndex));
   };
   const onClickHandler = () => {
+    dispatch(setPreviewColorIndex(colorIndex));
     if (page === "admin") return;
     router.push(productLink);
   };

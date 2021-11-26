@@ -2,19 +2,21 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  height: 40px;
+  height: 44px;
   flex-flow: row;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .color_ball {
-  width: min(30px, 2.2vw);
-  height: min(30px, 2.2vw);
+  width: min(31px, 2.2vw);
+  height: min(31px, 2.2vw);
   border-radius: 2rem;
   border: solid black 1px;
 }
 .color_ball_outer_ring {
-  width: min(36px, 2.6vw);
-  height: min(36px, 2.6vw);
+  width: min(36px, 2.8vw);
+  height: min(36px, 2.8vw);
   border-radius: 2rem;
   display: flex;
   justify-content: center;
@@ -34,8 +36,8 @@
 }
 .color_ball_container {
   margin: 0 5px 0 5px;
-  height: min(40px, 3.2vw);
-  width: min(40px, 3.2vw);
+  height: min(42px, 3.2vw);
+  width: min(42px, 3.2vw);
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
@@ -51,12 +53,24 @@
 }
 
 .image_box {
-  width: min(290px, 20vw);
-  height: min(345px, 24vw);
+  width: min(320px, 20vw);
+  height: min(380px, 24vw);
   margin-bottom: 10px;
   position: relative;
   object-fit: cover;
   box-shadow: 2px 4px 6px;
+}
+.image_box_2 {
+  width: min(320px, 20vw);
+  height: min(380px, 24vw);
+  margin-bottom: 10px;
+  position: relative;
+  object-fit: cover;
+  box-shadow: 2px 4px 6px;
+}
+
+.item_text {
+  font-size: 20px;
 }
 
 @media screen and (min-width: 765px) and (max-width: 1250px) {
@@ -65,30 +79,38 @@
 @media screen and (max-width: 765px) {
   .image_box {
     width: min(320px, 46vw);
-    height: min(365px, 52vw);
+    height: min(380px, 54vw);
+  }
+  .image_box_2 {
+    width: 90vw;
+    height: 105vw;
+  }
+  .item_card_box {
+    margin-top: 12px;
+    margin-bottom: 12px;
   }
 
   .color_container {
-    height: min(40px, 5.2vw);
+    height: min(44px, 7vw);
   }
 
   .color_ball {
-    width: min(30px, 3.8vw);
-    height: min(30px, 3.6vw);
+    width: min(31px, 4.8vw);
+    height: min(31px, 4.8vw);
   }
   .color_ball_outer_ring {
-    width: min(36px, 5vw);
-    height: min(36px, 5vw);
+    width: min(36px, 5.8vw);
+    height: min(36px, 5.8vw);
   }
 
   .color_ball_outer_ring_active {
     /* border: #00789e solid 2px; */
-    width: min(36px, 5vw);
-    height: min(36px, 5vw);
+    width: min(36px, 5.8vw);
+    height: min(36px, 5.8vw);
   }
   .color_ball_container {
-    margin: 0 5px 0 5px;
-    height: min(40px, 5.4vw);
-    width: min(40px, 5.4vw);
+    margin: 0 2px 0 2px;
+    height: min(42px, 6.8vw);
+    width: min(42px, 6.8vw);
   }
 }

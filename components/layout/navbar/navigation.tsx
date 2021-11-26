@@ -26,15 +26,16 @@ import {
 import { selectPageLoading } from "../../../utils/redux-store/layoutSlice";
 import UserNavbar from "./user-navbar";
 import AdminSignOutModal from "./../../admin/admin-sign-out-modal";
+import FilterViewIcon from "../navbar-items/filter-view-icon";
 
 // UI //
 import { Divider, Grid, TextField, Box, Tooltip } from "@mui/material";
 import LinearProgress from "@mui/material/LinearProgress";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import CropLandscapeIcon from "@mui/icons-material/CropLandscape";
-import SplitscreenIcon from "@mui/icons-material/Splitscreen";
 import styles from "./__navigation.module.css";
-import { setOpenFilterModal } from "../../../utils/redux-store/shopSlice";
+import {
+  setOneItmePerRow,
+  setOpenFilterModal,
+} from "../../../utils/redux-store/shopSlice";
 
 interface Props {
   page?: string;
@@ -128,10 +129,6 @@ export default function MainNavigation({ page, page_cat, sub_cat }: Props) {
     }
   };
 
-  const onFilterClickHandler = () => {
-    dispatch(setOpenFilterModal(true));
-  };
-
   let content;
   if (page !== "admin") {
     content = <UserNavbar page={page} page_cat={page_cat} />;
@@ -186,22 +183,7 @@ export default function MainNavigation({ page, page_cat, sub_cat }: Props) {
 
       {sub_cat && (
         <Grid item container className={filterContainer}>
-          <div className={styles.filter_icon_box}>
-            <div className={styles.filter_text}>View</div>
-            <div className={styles.filter_icon}>
-              <CropLandscapeIcon className={styles.single_icon} />
-              <SplitscreenIcon className={styles.split_icon_active} />
-            </div>
-          </div>
-          <div
-            className={styles.filter_icon_box}
-            onClick={onFilterClickHandler}
-          >
-            <div className={styles.filter_icon}>
-              <FilterListIcon />
-            </div>
-            <div className={styles.filter_text}>Filter</div>
-          </div>
+          <FilterViewIcon />
         </Grid>
       )}
       <Box sx={{ width: "100%" }}>{pageLoading && <LinearProgress />}</Box>

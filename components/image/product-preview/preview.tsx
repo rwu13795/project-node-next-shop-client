@@ -18,8 +18,9 @@ import PreviewColor from "./color-preview";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 import styles from "./__preview.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
+import { selectOneItmePerRow } from "../../../utils/redux-store/shopSlice";
 
 interface Props {
   colorPropsList: PageColorProps[];
@@ -35,6 +36,7 @@ function ProductPreview({
   page,
 }: Props): JSX.Element {
   const dispatch = useDispatch();
+  const oneItemPerRow = useSelector(selectOneItmePerRow);
 
   const { title, price, main_cat, sub_cat } = productInfo;
   const initialActiveColor = colorPropsList.map(() => {
@@ -67,7 +69,7 @@ function ProductPreview({
 
   return (
     <div className={styles.item_card_box}>
-      <div className={styles.image_box}>
+      <div className={oneItemPerRow ? styles.image_box_2 : styles.image_box}>
         {page === "admin" ? (
           <Image
             src={previewImage}
@@ -108,8 +110,8 @@ function ProductPreview({
           );
         })}
       </div>
-      <div>{title}</div>
-      <div>$ {price}</div>
+      <div className={styles.item_text}>{title.toUpperCase()}</div>
+      <div className={styles.item_text}>$ {price}</div>
     </div>
   );
 }

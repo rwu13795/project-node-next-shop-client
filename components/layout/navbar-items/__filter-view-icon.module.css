@@ -1,0 +1,32 @@
+.filter_icon_box {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  margin: 0 26px 0 26px;
+}
+.filter_icon {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  margin: 0 4px 0 4px;
+}
+.filter_text {
+  font-size: 13px;
+}
+
+.single_icon_active {
+  color: black;
+}
+.single_icon {
+  color: rgb(168, 168, 168);
+}
+.split_icon_active {
+  transform: rotate(90deg);
+  color: black;
+}
+.split_icon {
+  transform: rotate(90deg);
+  color: rgb(168, 168, 168);
+}

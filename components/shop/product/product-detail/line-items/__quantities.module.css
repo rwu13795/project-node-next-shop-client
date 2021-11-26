@@ -29,3 +29,18 @@
     font-size: 20px;
   }
 }
+
+.form_container_in_cart {
+  margin: 0;
+  min-width: 70px;
+}
+.form_label_in_cart {
+  font-size: 20px;
+}
+.form_select_in_cart {
+  padding-left: 1rem;
+  font-size: 22px;
+}
+.form_items_in_cart {
+  font-size: 20px;
+}

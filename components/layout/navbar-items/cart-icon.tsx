@@ -46,7 +46,7 @@ export default function CartIcon(): JSX.Element {
     };
   }, [changeInCart, dispatch]);
 
-  const handleClick = (event: MouseEvent<HTMLElement>) => {
+  const handleClick = () => {
     setShowCart(false);
     router.push("/shop/cart");
   };
@@ -64,7 +64,13 @@ export default function CartIcon(): JSX.Element {
           <LocalMallIcon className={styles.cart_icon} />
         </Tooltip>
       </Box>
-      <div className={styles.cart_icon_number}>{cart.length}</div>
+      <div className={styles.cart_icon_number}>
+        {cart.length > 0
+          ? cart
+              .map((item) => item.quantity)
+              .reduce((prev, accum) => prev + accum)
+          : 0}
+      </div>
 
       <Collapse
         in={showCart}
@@ -78,11 +84,12 @@ export default function CartIcon(): JSX.Element {
           className={styles.cart_summary_menu}
         >
           <div>
-            <CartDetail cart={cart} summaryMode={true} cartDropDown={true} />
-          </div>
-          <div>
-            <button onClick={handleClick}>Go To Cart</button>
-            <button onClick={closeMenu}>Close</button>
+            <CartDetail
+              cart={cart}
+              cartDropDown={true}
+              closeCartDropDown={closeMenu}
+              viewCart={handleClick}
+            />
           </div>
         </Paper>
       </Collapse>

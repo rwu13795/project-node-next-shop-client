@@ -9,9 +9,12 @@ import {
 } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { setFilterTagToClear } from "../../../utils/redux-store/shopSlice";
+import {
+  selectOneItmePerRow,
+  setFilterTagToClear,
+} from "../../../utils/redux-store/shopSlice";
 import ProductPreview from "../../image/product-preview/preview";
 import useGetMoreProducts, {
   PageProductProps,
@@ -55,11 +58,9 @@ function SubCatProductsList({
   sub_cat,
 }: Props): JSX.Element {
   const dispatch = useDispatch();
+  const oneItemPerRow = useSelector(selectOneItmePerRow);
 
   const [filterTags, setFilterTags] = useState<Set<string>>(new Set());
-
-  const a = menCatArray;
-
   const [params, setParams] = useState<RequestParams>({
     pageNum: 1,
     filter: {
@@ -176,8 +177,8 @@ function SubCatProductsList({
                 container
                 className={styles.items_grid}
                 md={4}
-                sm={6}
-                xs={6}
+                sm={oneItemPerRow ? 12 : 6}
+                xs={oneItemPerRow ? 12 : 6}
                 ref={lastElementRef}
                 key={index}
               >
@@ -193,8 +194,8 @@ function SubCatProductsList({
                 container
                 className={styles.items_grid}
                 md={4}
-                sm={6}
-                xs={6}
+                sm={oneItemPerRow ? 12 : 6}
+                xs={oneItemPerRow ? 12 : 6}
                 key={index}
               >
                 <ProductPreview

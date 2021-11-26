@@ -1,20 +1,21 @@
 .main_swpier {
-  max-width: 950px;
-  max-height: 900px;
+  max-width: 1000px;
+  max-height: 1050px;
   min-width: 400px;
-  min-height: 500px;
-  width: 60vw;
-  height: min(58vw, 85vh);
+  min-height: 470px;
+  width: 100vw;
+  height: 70vw;
+  /* height: min(58vw, 85vh); */
   box-shadow: 3px 6px 5px;
 }
 
 .main_swiper_slide {
-  max-width: 950px;
-  max-height: 900px;
+  max-width: 1000px;
+  max-height: 1050px;
   min-width: 400px;
-  min-height: 500px;
-  width: 60vw;
-  height: min(58vw, 85vh);
+  min-height: 470px;
+  width: 70vw;
+  /* height: min(58vw, 85vh); */
 }
 
 .main_swpier_image {
@@ -81,4 +82,14 @@
   transform: scale(1.5) !important;
   background: #fff;
   transition: all ease-in-out 0.2s;
+}
+
+@media screen and (min-width: 1080px) {
+  .main_swpier {
+    height: 58vw;
+  }
+
+  .main_swiper_slide {
+    height: 58vw;
+  }
 }

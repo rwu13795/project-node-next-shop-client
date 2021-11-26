@@ -1,0 +1,24 @@
+.edit_modal_box {
+  font-family: "Oswald", sans-serif;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  background-color: rgb(255, 255, 255);
+  border: 3px solid #000;
+  box-shadow: 3px 6px 8px;
+  padding: 20px;
+}
+
+.edit_button {
+  padding: 4px;
+  font-size: 15px;
+}
+
+@media screen and (max-width: 600px) {
+  .edit_button {
+    padding: 4px;
+    font-size: min(12px, 3vw);
+  }
+}
