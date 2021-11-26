@@ -23,10 +23,12 @@ import {
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import styles from "./__menu-list.module.css";
+import { ProductCatNumAdmin } from "../../../pages/admin/products-list";
 
 interface Props {
   cat: string;
   page?: string;
+  productCatNum?: ProductCatNumAdmin;
   setIsDrawerOpen?: Dispatch<SetStateAction<boolean>>;
   selectCatHandler?: (main: string, sub: string) => Promise<void>;
 }
@@ -34,6 +36,7 @@ interface Props {
 function MeunListDrawer({
   cat,
   page,
+  productCatNum,
   setIsDrawerOpen,
   selectCatHandler,
 }: Props): JSX.Element {
@@ -122,15 +125,34 @@ function MeunListDrawer({
                   </Box>
                   {list &&
                     list[key].map((product) => {
+                      let num = 0;
+                      let main = cat.toLowerCase();
+                      let sub = product.toLowerCase();
+                      if (productCatNum && page === "admin") {
+                        if (productCatNum[main]) {
+                          if (productCatNum[main][sub]) {
+                            num = productCatNum[main][sub];
+                          }
+                        }
+                      }
                       return (
                         <ListItemButton
                           key={product}
                           className={styles.menu_drawer_items}
                         >
-                          <ListItemText
-                            primary={product}
-                            onClick={() => onProductClickHandler(product)}
-                          />
+                          {productCatNum && page === "admin" ? (
+                            <ListItemText
+                              primary={`${product} [${num} item${
+                                num > 0 ? "s" : ""
+                              }] `}
+                              onClick={() => onProductClickHandler(product)}
+                            />
+                          ) : (
+                            <ListItemText
+                              primary={product}
+                              onClick={() => onProductClickHandler(product)}
+                            />
+                          )}
                         </ListItemButton>
                       );
                     })}

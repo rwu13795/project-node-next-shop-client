@@ -124,7 +124,9 @@ const AddProductPage: NextPage<PageProps> = ({
     csrfToken,
     onSuccess: () => {
       console.log("OK");
-      router.push(`/admin/products-list?${adminUser.admin_username}&page=1`);
+      router.push(
+        `/admin/products-list?main=${state.productInfo.main_cat}&sub=${state.productInfo.sub_cat}`
+      );
     },
   });
 

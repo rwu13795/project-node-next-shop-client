@@ -2,7 +2,7 @@ import { GetServerSidePropsContext, NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, Fragment } from "react";
 
 import serverClient from "../../utils/axios-client/server-client";
 import ProductPreview from "../../components/image/product-preview/preview";
@@ -31,14 +31,24 @@ import {
 import styles from "./__product-list.module.css";
 import { mainCatArray } from "../../utils/enums-types/product-category";
 
+export interface ProductCatNumAdmin {
+  [main_cat: string]: { [sub_cat: string]: number };
+}
+
 interface PageProps {
   productsTotal: number;
+  product_category: ProductCatNumAdmin;
   products: PageProductProps[];
+  main_cat: string;
+  sub_cat: string;
 }
 
 const AdmimProductsListPage: NextPage<PageProps> = ({
   products: startProducts,
+  product_category,
   productsTotal: startProductsTotal,
+  main_cat: startMain,
+  sub_cat: startSub,
 }) => {
   const ITEMS_PER_PAGE = 6;
 
@@ -50,13 +60,6 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
   const loadingStatus = useSelector(selectLoadingStatus_admin);
   const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
 
-  const [products, setProducts] = useState<PageProductProps[]>(startProducts);
-  const [productsTotal, setProductsTotal] =
-    useState<number>(startProductsTotal);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [main_cat, setMain_cat] = useState<string>("Men");
-  const [sub_cat, setSub_cat] = useState<string>("T-shirts");
-
   useEffect(() => {
     dispatch(getAdminStatus());
   }, []);
@@ -67,6 +70,15 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
     }
   }, []);
 
+  const [products, setProducts] = useState<PageProductProps[]>(startProducts);
+  const [productsTotal, setProductsTotal] =
+    useState<number>(startProductsTotal);
+  const [productCatNum, setProductCatNum] =
+    useState<ProductCatNumAdmin>(product_category);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [main_cat, setMain_cat] = useState<string>(startMain);
+  const [sub_cat, setSub_cat] = useState<string>(startSub);
+
   const fetchNewList = useCallback(
     async (pageNum: number, main: string, sub: string) => {
       const { data }: { data: PageProps } = await client.get(
@@ -74,6 +86,7 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
         { params: { pageNum, main, sub } }
       );
       setProducts(data.products);
+      setProductCatNum(data.product_category);
       setProductsTotal(data.productsTotal);
     },
     [client]
@@ -141,20 +154,13 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
     dispatch(setPageLoading(false));
   }, []);
 
-  //////////////////
-  console.log("main_cat", main_cat);
-  console.log("sub_cat", sub_cat);
-
   return (
     <main className={styles.main}>
-      <div className={styles.inner_grid}>
-        <Button variant="outlined" onClick={goToAddProduct}>
-          add new product
-        </Button>
-      </div>
-
       <Grid container className={styles.main_grid}>
         <Grid item container className={styles.left_grid}>
+          <Button variant="outlined" onClick={goToAddProduct}>
+            add new product
+          </Button>
           <h2>PRODUCTS CATEGORIES</h2>
           {mainCatArray.map((cat, index) => {
             return (
@@ -163,6 +169,7 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
                   cat={cat}
                   page="admin"
                   selectCatHandler={selectCatHandler}
+                  productCatNum={productCatNum}
                 />
               </div>
             );
@@ -171,48 +178,62 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
 
         <Grid item container className={styles.right_grid}>
           {!products || products.length === 0 ? (
-            <h1>No products found in these categories</h1>
+            <div className={styles.right_grid_upper}>
+              <div>
+                No products found in the {main_cat.toUpperCase()}{" "}
+                {sub_cat.toUpperCase()} category
+              </div>
+            </div>
           ) : (
-            products.map((p) => {
-              return (
-                <Grid
-                  item
-                  container
-                  className={styles.inner_grid}
-                  md={4}
-                  sm={6}
-                  xs={6}
-                  key={p._id}
-                >
-                  <div>
-                    <ProductPreview
-                      productId={p._id}
-                      colorPropsList={p.colorPropsList}
-                      productInfo={p.productInfo}
-                      page="admin"
-                    />
-                  </div>
-                  <div className={styles.button_group}>
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      color="primary"
-                      onClick={() => editButtonHandler(p._id)}
+            <Fragment>
+              <div className={styles.right_grid_upper}>
+                <div>
+                  {main_cat.toUpperCase()} {sub_cat.toUpperCase()}
+                </div>
+              </div>
+              <Grid item container className={styles.right_grid_lower}>
+                {products.map((p) => {
+                  return (
+                    <Grid
+                      item
+                      container
+                      className={styles.inner_grid}
+                      md={4}
+                      sm={6}
+                      xs={6}
+                      key={p._id}
                     >
-                      Edit
-                    </Button>
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      color="error"
-                      onClick={() => deleteButtonHandler(p._id)}
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                </Grid>
-              );
-            })
+                      <div>
+                        <ProductPreview
+                          productId={p._id}
+                          colorPropsList={p.colorPropsList}
+                          productInfo={p.productInfo}
+                          page="admin"
+                        />
+                      </div>
+                      <div className={styles.button_group}>
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          color="primary"
+                          onClick={() => editButtonHandler(p._id)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          color="error"
+                          onClick={() => deleteButtonHandler(p._id)}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Fragment>
           )}
         </Grid>
       </Grid>
@@ -238,18 +259,29 @@ export default AdmimProductsListPage;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const client = serverClient(context);
+  const { main, sub } = context.query;
+
+  let main_cat = "men";
+  let sub_cat = "t-shirts";
+  if (main && sub) {
+    main_cat = main.toString().toLowerCase();
+    sub_cat = sub.toString().toLowerCase();
+  }
 
   try {
     const { data }: { data: PageProps } = await client.get(
       "http://localhost:5000/api/admin/get-products-list",
-      { params: { pageNum: 1, main: "Men", sub: "T-shirts" } }
+      { params: { pageNum: 1, main: main_cat, sub: sub_cat } }
     );
 
     return {
       props: {
         page: "admin",
         products: data.products,
+        product_category: data.product_category,
         productsTotal: data.productsTotal,
+        main_cat,
+        sub_cat,
       },
     };
   } catch (err) {
