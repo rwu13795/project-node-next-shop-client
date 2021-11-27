@@ -1,0 +1,46 @@
+.form_container {
+  width: 100%;
+}
+
+.form_control {
+  width: 100%;
+  max-width: 40rem;
+  margin: 10px 10px 20px 10px;
+}
+.form_control_half {
+  width: 100%;
+  max-width: 17.5rem;
+  margin: 10px 10px 20px 10px;
+}
+
+.input_box {
+  box-shadow: 2px 2px 5px black;
+}
+.input_error {
+  color: red;
+  font-size: min(4vw, 1rem);
+}
+
+@media screen and (max-width: 765px) {
+  .form_container {
+    width: 100%;
+  }
+  .form_control {
+    max-width: 50rem;
+    margin: 6px 10px 6px 10px;
+  }
+  .form_control_half {
+    max-width: 22rem;
+    margin: 6px 10px 6px 10px;
+  }
+  .form_label {
+    font-size: 14px;
+  }
+  .input_box {
+    height: 50px;
+    font-size: 18px;
+  }
+  .input_error {
+    font-size: min(4vw, 12px);
+  }
+}

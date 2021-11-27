@@ -1,0 +1,91 @@
+.main_container {
+  width: 80vw;
+  max-width: 90rem;
+  margin-top: 30px;
+  margin-bottom: 40px;
+}
+
+.main_grid {
+  width: 100%;
+}
+
+.input_fields_grid {
+  width: 100%;
+  margin-top: 30px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+}
+
+.title_grid {
+  width: 100%;
+  padding-bottom: 30px;
+  border-bottom: black 4px solid;
+}
+.main_title {
+  font-size: 50px;
+  font-weight: bold;
+}
+.sub_title {
+  width: min(30rem, 80vw);
+  font-size: 22px;
+  margin-top: 16px;
+}
+
+.sign_in_box {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  font-size: 20px;
+}
+.sign_in_button {
+  margin-top: 10px;
+  width: 120px;
+}
+.create_button {
+  margin-top: 20px;
+  width: 260px;
+  margin-left: 10px;
+}
+
+.input_title {
+  font-size: 20px;
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+
+@media screen and (max-width: 765px) {
+  .main_container {
+    width: 100vw;
+  }
+  .main_grid {
+    width: 100vw;
+  }
+  .input_fields_grid {
+    width: 100vw;
+  }
+  .title_grid {
+    padding-bottom: 20px;
+  }
+  .main_title {
+    font-size: 35px;
+  }
+  .sub_title {
+    font-size: 16px;
+    margin-top: 14px;
+  }
+  .sign_in_box {
+    margin-left: 10px;
+  }
+  .create_button_container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .create_button {
+    width: 70vw;
+  }
+  .input_title {
+    width: 100%;
+    text-align: center;
+  }
+}

@@ -1,11 +1,69 @@
+import { ChangeEvent, FocusEvent, memo } from "react";
+
+// UI //
 import {
   FormControl,
   InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
+  FormHelperText,
+  Grid,
 } from "@mui/material";
-import { ChangeEvent, FocusEvent } from "react";
+import styles from "./__form-input-field.module.css";
+
+interface Props {
+  value: string;
+  inputName: string;
+  inputError: string;
+  onFocusHandler: (e: FocusEvent<HTMLInputElement>) => void;
+  onBlurHandler: (e: FocusEvent<HTMLInputElement>) => void;
+  onChangeHandler: (
+    e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>
+  ) => void;
+}
+
+function SelectState({
+  value,
+  inputName,
+  inputError,
+  onFocusHandler,
+  onBlurHandler,
+  onChangeHandler,
+}: Props): JSX.Element {
+  const showError = !(inputError === undefined || inputError === "");
+
+  return (
+    <Grid item container xs={6} sm={6} md={3}>
+      <FormControl error={showError} className={styles.form_control_half}>
+        <InputLabel className={styles.form_label}>STATE</InputLabel>
+        <Select
+          value={value}
+          name={inputName}
+          label="STATE"
+          onFocus={onFocusHandler}
+          onBlur={onBlurHandler}
+          onChange={onChangeHandler}
+          error={showError}
+          className={styles.input_box}
+        >
+          {stateArray.map((state) => {
+            return (
+              <MenuItem key={state} value={state}>
+                {state}
+              </MenuItem>
+            );
+          })}
+        </Select>
+        <FormHelperText className={styles.input_error}>
+          {inputError}
+        </FormHelperText>
+      </FormControl>
+    </Grid>
+  );
+}
+
+export default memo(SelectState);
 
 const stateArray = [
   "Alabama",
@@ -59,39 +117,29 @@ const stateArray = [
   "Wyoming",
 ];
 
-interface Props {
-  value: string;
-  inputName: string;
-  onFocusHandler: (e: FocusEvent<HTMLInputElement>) => void;
-  onBlurHandler: (e: FocusEvent<HTMLInputElement>) => void;
-  onChangeHandler: (
-    e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>
-  ) => void;
-}
+/*
+    <FormControl error={error_main} className={styles.form_control}>
+          <InputLabel id="main-cat-select">Main-Category</InputLabel>
+          <Select
+            labelId="main-cat-select"
+            value={capitalize(productInfo.main_cat)}
+            name={inputNames.main}
+            label="Main Category" // the length oflabel string will determine the length of line break in the box
+            onChange={onChangeHandler}
+            error={error_main}
+            className={styles.input_box_shadow}
+          >
+            {mainCatArray.map((cat) => {
+              return (
+                <MenuItem key={cat} value={cat}>
+                  {cat}
+                </MenuItem>
+              );
+            })}
+          </Select>
+          <FormHelperText className={styles.input_error}>
+            {propError[inputNames.main]}
+          </FormHelperText>
+      </FormControl>
 
-export default function SelectState(props: Props): JSX.Element {
-  const { value, inputName, onFocusHandler, onBlurHandler, onChangeHandler } =
-    props;
-  return (
-    <FormControl variant="standard" sx={{ m: 0, minWidth: 120, boxShadow: 0 }}>
-      <InputLabel style={{ fontSize: "1rem" }}>STATE</InputLabel>
-      <Select
-        value={value}
-        name={inputName}
-        label="STATE"
-        sx={{ m: 0, minWidth: 130 }}
-        onFocus={onFocusHandler}
-        onBlur={onBlurHandler}
-        onChange={onChangeHandler}
-      >
-        {stateArray.map((state) => {
-          return (
-            <MenuItem key={state} value={state}>
-              {state}
-            </MenuItem>
-          );
-        })}
-      </Select>
-    </FormControl>
-  );
-}
+ */

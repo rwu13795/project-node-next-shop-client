@@ -4,6 +4,7 @@ import { useRouter } from "next/dist/client/router";
 import { useDispatch } from "react-redux";
 
 import { getUserStatus } from "../../utils/redux-store/userSlice";
+import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 
 export default function Redirect_signedUp_to_homePage(): JSX.Element {
   const router = useRouter();
@@ -12,7 +13,7 @@ export default function Redirect_signedUp_to_homePage(): JSX.Element {
 
   useEffect(() => {
     dispatch(getUserStatus());
-
+    dispatch(setPageLoading(false));
     // count down
     const timer = () => {
       SetCountDown((prev) => {

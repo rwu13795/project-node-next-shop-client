@@ -17,6 +17,7 @@ import {
   getUserStatus,
   selectCurrentUser,
   selectIsLoggedIn,
+  selectPageLoading_user,
   signOut,
 } from "../../../utils/redux-store/userSlice";
 import {
@@ -48,6 +49,7 @@ export default function MainNavigation({ page, page_cat, sub_cat }: Props) {
   const router = useRouter();
   const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
   const pageLoading = useSelector(selectPageLoading);
+  const pageLoading_user = useSelector(selectPageLoading_user);
 
   const [mainNavContainer, setMainNavContainer] = useState<string>(
     styles.main_1
@@ -186,7 +188,9 @@ export default function MainNavigation({ page, page_cat, sub_cat }: Props) {
           <FilterViewIcon />
         </Grid>
       )}
-      <Box sx={{ width: "100%" }}>{pageLoading && <LinearProgress />}</Box>
+      <Box sx={{ width: "100%" }}>
+        {(pageLoading || pageLoading_user) && <LinearProgress />}
+      </Box>
     </main>
   );
 }

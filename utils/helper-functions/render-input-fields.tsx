@@ -1,4 +1,4 @@
-import { FocusEvent, ChangeEvent } from "react";
+import { FocusEvent, ChangeEvent, memo } from "react";
 import { SelectChangeEvent } from "@mui/material";
 
 import { inputNames } from "../enums-types/input-names";
@@ -26,16 +26,15 @@ export default function renderInputFields(
     switch (inputName) {
       case inputNames.state: {
         content = (
-          <div key={inputName}>
-            <SelectState
-              value={inputValues[inputName]}
-              inputName={inputName}
-              onFocusHandler={onFocusHandler}
-              onBlurHandler={onBlurHandler}
-              onChangeHandler={onChangeHandler}
-            />
-            {inputErrors[inputName]}
-          </div>
+          <SelectState
+            key={inputName}
+            value={inputValues[inputName]}
+            inputName={inputName}
+            onFocusHandler={onFocusHandler}
+            onBlurHandler={onBlurHandler}
+            onChangeHandler={onChangeHandler}
+            inputError={inputErrors[inputName]}
+          />
         );
         break;
       }

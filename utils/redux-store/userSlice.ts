@@ -78,6 +78,7 @@ interface UserState {
   authErrors: AuthErrors;
   csrfToken: string;
   editItem?: EditItem;
+  pageLoading_user: boolean;
 }
 
 const initialState: UserState = {
@@ -86,6 +87,7 @@ const initialState: UserState = {
   loadingStatus: "idle",
   authErrors: {},
   csrfToken: "",
+  pageLoading_user: false,
 };
 
 const client = browserClient();
@@ -339,6 +341,9 @@ const userSlice = createSlice({
     setEditItem(state, action: PayloadAction<EditItem>) {
       state.editItem = action.payload;
     },
+    setPageLoading_user(state, action: PayloadAction<boolean>) {
+      state.pageLoading_user = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -391,10 +396,12 @@ const userSlice = createSlice({
         (state, action: PayloadAction<UserState>): void => {
           state.currentUser = action.payload.currentUser;
           state.loadingStatus = "succeeded";
+          state.pageLoading_user = false;
         }
       )
       .addCase(signUp.pending, (state, action): void => {
         state.loadingStatus = "loading";
+        state.pageLoading_user = true;
       })
       .addCase(signUp.rejected, (state, action: PayloadAction<any>): void => {
         ////////
@@ -404,6 +411,7 @@ const userSlice = createSlice({
           state.authErrors[err.field] = err.message;
         }
         state.loadingStatus = "idle";
+        state.pageLoading_user = false;
       })
       /////////////////
       // ADD TO CART //
@@ -543,6 +551,7 @@ export const {
   setLoadingStatus,
   clearStockErrors,
   setEditItem,
+  setPageLoading_user,
 } = userSlice.actions;
 export {
   signIn,
@@ -601,4 +610,8 @@ export const selectCsrfToken = createSelector(
 export const selectEditItem = createSelector(
   [selectUser],
   (userState) => userState.editItem
+);
+export const selectPageLoading_user = createSelector(
+  [selectUser],
+  (userState) => userState.pageLoading_user
 );
