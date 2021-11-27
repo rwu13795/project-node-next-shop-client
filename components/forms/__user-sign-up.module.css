@@ -1,7 +1,7 @@
 .main_container {
-  width: 80vw;
+  width: 70vw;
   max-width: 90rem;
-  margin-top: 30px;
+  margin-top: 50px;
   margin-bottom: 40px;
 }
 
@@ -19,8 +19,8 @@
 
 .title_grid {
   width: 100%;
-  padding-bottom: 30px;
-  border-bottom: black 4px solid;
+  padding-bottom: 40px;
+  border-bottom: rgb(0, 138, 180) 4px solid;
 }
 .main_title {
   font-size: 50px;
@@ -56,6 +56,7 @@
 @media screen and (max-width: 765px) {
   .main_container {
     width: 100vw;
+    margin-top: 30px;
   }
   .main_grid {
     width: 100vw;

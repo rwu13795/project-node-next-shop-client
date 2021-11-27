@@ -87,6 +87,7 @@ export default function UserGuestIcon({
             <AuthForm
               inputType={inputTypes.signIn}
               inputFieldsArray={inputFieldsArray}
+              signInModal={true}
               modalHandleClose={handleClose}
             />
           </Box>

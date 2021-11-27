@@ -6,12 +6,14 @@ import { useEffect } from "react";
 import Swiper_homePage from "../components/image/home-page/swiper";
 import { useDispatch } from "react-redux";
 import { setPageLoading } from "../utils/redux-store/layoutSlice";
+import { setLoadingStatus } from "../utils/redux-store/userSlice";
 
 const Home: NextPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(setPageLoading(false));
+    dispatch(setLoadingStatus("idle"));
   }, [dispatch]);
 
   return (

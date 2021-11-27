@@ -22,6 +22,7 @@ interface Props {
   inputError: string;
   authError?: string;
   isDisabled?: boolean;
+  page?: string;
 }
 
 function FormInputField(props: Props): JSX.Element {
@@ -34,6 +35,7 @@ function FormInputField(props: Props): JSX.Element {
     authError,
     inputError,
     isDisabled,
+    page,
   } = props;
 
   let type: string;
@@ -55,6 +57,8 @@ function FormInputField(props: Props): JSX.Element {
       break;
     }
   }
+
+  console.log("page", page);
 
   const regex = /[_]/g;
   const inputLabel = inputName.replace(regex, " ").toUpperCase();
@@ -78,6 +82,10 @@ function FormInputField(props: Props): JSX.Element {
       break;
     default:
       break;
+  }
+
+  if (page === "user-sign-in") {
+    md = 12;
   }
 
   return (

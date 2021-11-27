@@ -30,6 +30,7 @@ const SignInPage: NextPage = ({}) => {
     <AuthForm
       inputType={inputTypes.signIn}
       inputFieldsArray={inputFieldsArray}
+      page="user-sign-in"
     />
   );
 };

@@ -25,6 +25,7 @@ const SignUpPage: NextPage = ({}) => {
     <AuthForm
       inputType={inputTypes.signUp}
       inputFieldsArray={inputFieldsArray}
+      page="user-sign-up"
     />
   );
 };

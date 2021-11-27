@@ -1,0 +1,92 @@
+.main_container {
+  width: 70vw;
+  max-width: 90rem;
+  margin-top: 50px;
+  padding-bottom: 30px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  border-bottom: rgb(129, 129, 129) solid 2px;
+}
+
+.main_grid {
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-content: center;
+  justify-content: center;
+}
+.title_grid {
+  display: flex;
+  width: 100%;
+  padding-bottom: 40px;
+  border-bottom: rgb(0, 138, 180) 4px solid;
+  flex-flow: column nowrap;
+  align-content: center;
+  justify-content: center;
+}
+.main_title {
+  display: flex;
+  font-size: 50px;
+  font-weight: bold;
+}
+.sub_title {
+  display: flex;
+  width: min(40rem, 80vw);
+  font-size: 22px;
+  margin-top: 16px;
+}
+
+.body_grid {
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.body_grid_left {
+  margin: 10px 5px 10px 5px;
+  border-right: solid rgb(129, 129, 129) 2px;
+  display: flex;
+  flex-flow: column nowrap;
+  /* justify-content: center; */
+  /* align-content: center; */
+}
+.body_grid_right {
+  margin: 10px 5px 10px 5px;
+  display: flex;
+  flex-flow: column nowrap;
+  /* justify-content: center;
+  align-content: center; */
+}
+
+.button_group {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+.sign_in_button {
+  width: 180px;
+  font-size: 16px;
+}
+.forget_pw {
+  text-decoration: underline;
+  font-size: 20px;
+  transition: 0.2s;
+  cursor: pointer;
+}
+.forget_pw:hover {
+  color: rgb(0, 138, 180);
+  transition: 0.2s;
+}
+
+@media screen and (max-width: 765px) {
+  .main_container {
+    width: 100vw;
+    margin-top: 30px;
+  }
+  .main_grid {
+    width: 100vw;
+  }
+}

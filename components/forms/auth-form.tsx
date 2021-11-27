@@ -1,4 +1,10 @@
-import React, { useState, ChangeEvent, FocusEvent } from "react";
+import React, {
+  useState,
+  ChangeEvent,
+  FocusEvent,
+  memo,
+  useCallback,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { CircularProgress, SelectChangeEvent } from "@mui/material";
@@ -30,12 +36,16 @@ import { initializeValues } from "../../utils/helper-functions/initialize-values
 interface Props {
   inputType: string; // "signIn" | "signUp"
   inputFieldsArray: string[]; // contains inputNames
+  page?: string;
+  signInModal?: boolean;
   modalHandleClose?: () => void; // MUI modal function to close the modal
 }
 
-export default function AuthForm({
+function AuthForm({
   inputType,
   inputFieldsArray,
+  page,
+  signInModal,
   modalHandleClose,
 }: Props): JSX.Element {
   const dispatch = useDispatch();
@@ -52,44 +62,73 @@ export default function AuthForm({
     return initializeValues(inputFieldsArray);
   });
 
-  const onFocusHandler = (e: FocusEvent<HTMLInputElement>) => {
+  const onFocusHandler = useCallback((e: FocusEvent<HTMLInputElement>) => {
     const { name } = e.currentTarget;
     onFocusErrorCheck(name, setTouched);
-  };
+  }, []);
 
-  const onBlurHandler = (e: FocusEvent<HTMLInputElement>) => {
-    const { name, value } = e.currentTarget;
-    onBlurErrorCheck(name, value, touched, setInputErrors);
-  };
+  const onBlurHandler = useCallback(
+    (e: FocusEvent<HTMLInputElement>) => {
+      const { name, value } = e.currentTarget;
+      onBlurErrorCheck(name, value, touched, setInputErrors);
+    },
+    [touched]
+  );
 
-  const onChangeHandler = (
-    e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>
-  ) => {
-    const { name, value } = e.target;
+  const onChangeHandler = useCallback(
+    (e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>) => {
+      const { name, value } = e.target;
 
-    dispatch(clearAuthErrors(name));
-    dispatch(clearAdminErrors(name));
-    setInputValue((prev) => {
-      return { ...prev, [name]: value };
-    });
-    onChangeErrorCheck(name, value, setInputErrors);
-  };
+      dispatch(clearAuthErrors(name));
+      dispatch(clearAdminErrors(name));
+      setInputValue((prev) => {
+        return { ...prev, [name]: value };
+      });
+      onChangeErrorCheck(name, value, setInputErrors);
+    },
+    [dispatch]
+  );
 
-  const inputFields = (
-    fields: string[],
-    inputValues: InputValues,
-    requestErrors: AuthErrors | AdminErrors
-  ) => {
-    return renderInputFields(
-      fields,
-      inputValues,
-      onFocusHandler,
-      onBlurHandler,
-      onChangeHandler,
-      inputErrors,
-      requestErrors
-    );
-  };
+  const inputFields = useCallback(
+    (
+      fields: string[],
+      inputValues: InputValues,
+      requestErrors: AuthErrors | AdminErrors,
+      page?: string
+    ) => {
+      return renderInputFields(
+        fields,
+        inputValues,
+        onFocusHandler,
+        onBlurHandler,
+        onChangeHandler,
+        inputErrors,
+        requestErrors,
+        false,
+        page
+      );
+    },
+    [inputErrors, onBlurHandler, onChangeHandler, onFocusHandler]
+  );
+
+  // const inputFields = (
+  //   fields: string[],
+  //   inputValues: InputValues,
+  //   requestErrors: AuthErrors | AdminErrors,
+  //   page?: string,
+  // ) => {
+  //   return renderInputFields(
+  //     fields,
+  //     inputValues,
+  //     onFocusHandler,
+  //     onBlurHandler,
+  //     onChangeHandler,
+  //     inputErrors,
+  //     requestErrors,
+  //     false,
+  //     page,
+  //   );
+  // };
 
   const propsForChild = {
     inputFieldsArray,
@@ -98,6 +137,8 @@ export default function AuthForm({
     setInputErrors,
     inputFields,
     modalHandleClose,
+    page,
+    signInModal,
   };
 
   let content;
@@ -125,3 +166,5 @@ export default function AuthForm({
 
   return <main>{content}</main>;
 }
+
+export default memo(AuthForm);

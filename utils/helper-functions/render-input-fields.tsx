@@ -19,7 +19,8 @@ export default function renderInputFields(
   ) => void,
   inputErrors: Errors,
   requestErrors?: AuthErrors | AdminErrors,
-  isDisabled?: boolean
+  isDisabled?: boolean,
+  page?: string
 ): JSX.Element[] {
   return fieldsArray.map((inputName) => {
     let content;
@@ -65,6 +66,7 @@ export default function renderInputFields(
             authError={requestErrors ? requestErrors[inputName] : ""}
             inputError={inputErrors[inputName]}
             isDisabled={isDisabled}
+            page={page}
           />
         );
         break;
