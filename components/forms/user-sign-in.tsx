@@ -36,6 +36,7 @@ import {
 // UI //
 import { Button, CircularProgress, Grid } from "@mui/material";
 import styles from "./__user-sign-in.module.css";
+import { useRouter } from "next/router";
 
 interface Props {
   inputFieldsArray: string[];
@@ -64,15 +65,15 @@ function UserSignIn({
   modalHandleClose,
 }: Props): JSX.Element {
   const dispatch = useDispatch();
+  const router = useRouter();
   const authErrors = useSelector(selectAuthErrors);
   const loadingStatus_user = useSelector(selectLoadingStatus_user);
   const pageLoading = useSelector(selectPageLoading);
 
-  const [forgotPassword, setForgetPassword] = useState<boolean>(false);
-
   useEffect(() => {
     dispatch(clearAuthErrors("all"));
-  }, [dispatch]);
+    dispatch(setLoadingStatus("idle"));
+  }, []);
 
   useEffect(() => {
     if (loadingStatus_user === "failed") {
@@ -91,7 +92,9 @@ function UserSignIn({
       setInputErrors
     );
     if (hasError) return;
-    dispatch(setPageLoading(true));
+    if (!signInModal) {
+      dispatch(setPageLoading(true));
+    }
     dispatch(
       signIn({
         email: inputValues[inputNames.email],
@@ -103,37 +106,97 @@ function UserSignIn({
   const forgetPasswordHandler = () => {
     dispatch(setLoadingStatus("idle"));
     setInputErrors({});
-    setForgetPassword(true);
+    if (modalHandleClose) {
+      modalHandleClose();
+    }
+    router.push("/auth/forgot-password");
   };
 
-  const requestSubmitHandler = () => {
-    dispatch(forgotPassword_Request(inputValues[inputNames.email]));
+  const toSignUpHandler = () => {
+    if (modalHandleClose) modalHandleClose();
+    router.push("/auth/sign-up");
   };
 
   if (signInModal) {
-    return <main>123</main>;
+    return (
+      <main className={styles.modal_main_container}>
+        <div className={styles.modal_grid}>
+          <div className={styles.modal_grid_upper}>
+            <form onSubmit={singInHandler}>
+              {inputFields(
+                inputFieldsArray,
+                inputValues,
+                authErrors,
+                "user-sign-in"
+              )}
+              <div className={styles.button_group}>
+                <div
+                  onClick={forgetPasswordHandler}
+                  className={styles.forget_pw}
+                >
+                  FORGOT PASSWORD?
+                </div>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  onClick={singInHandler}
+                  disabled={pageLoading}
+                  className={styles.sign_in_button}
+                >
+                  Sign In
+                </Button>
+              </div>
+            </form>
+          </div>
+
+          <div className={styles.modal_grid_lower}>
+            <Button
+              variant="contained"
+              onClick={toSignUpHandler}
+              className={styles.to_sign_up}
+            >
+              Create a new account
+            </Button>
+          </div>
+        </div>
+
+        {loadingStatus_user === "loading" && (
+          <CircularProgress
+            size={45}
+            sx={{
+              position: "absolute",
+              top: "40%",
+              left: "50%",
+              zIndex: 999,
+              marginTop: "-12px",
+              marginLeft: "-12px",
+            }}
+          />
+        )}
+      </main>
+    );
   }
 
   return (
     <main className={styles.main_container}>
-      {!forgotPassword ? (
-        <div className={styles.main_grid}>
-          <div className={styles.title_grid}>
-            <div className={styles.main_title}>USER SIGN IN</div>
-            <div className={styles.sub_title}>
-              SIGN IN FOR ACCESS TO YOUR ACCOUNT AND ORDER HISTORY
-            </div>
+      <div className={styles.main_grid}>
+        <div className={styles.title_grid}>
+          <div className={styles.main_title}>USER SIGN IN</div>
+          <div className={styles.sub_title}>
+            SIGN IN FOR ACCESS TO YOUR ACCOUNT AND ORDER HISTORY
           </div>
+        </div>
 
-          <Grid container className={styles.body_grid}>
-            <Grid
-              item
-              container
-              xs={12}
-              sm={12}
-              md={6}
-              className={styles.body_grid_left}
-            >
+        <Grid container className={styles.body_grid}>
+          <Grid
+            item
+            container
+            xs={12}
+            sm={12}
+            md={6}
+            className={styles.body_grid_left}
+          >
+            <div className={styles.body_grid_left_inner}>
               <form onSubmit={singInHandler}>
                 {inputFields(inputFieldsArray, inputValues, authErrors, page)}
                 <div className={styles.button_group}>
@@ -154,68 +217,37 @@ function UserSignIn({
                   </Button>
                 </div>
               </form>
-            </Grid>
-
-            <Grid
-              item
-              container
-              xs={12}
-              sm={12}
-              md={6}
-              className={styles.body_grid_right}
-            >
-              <Link href="/auth/sign-up">
-                <a onClick={modalHandleClose}>Create a new account</a>
-              </Link>
-            </Grid>
-          </Grid>
-        </div>
-      ) : (
-        <div>
-          <h3>RESET PASSWORD</h3>
-          <div>1. ENTER THE EMAIL ADDRESS CONNECTED TO YOUR ACCOUNT</div>
-          <div>2. CHECK YOUR INBOX FOR A MESSAGE FROM US.</div>
-          <div>3. FOLLOW THE LINK TO RESET YOUR PASSWORD.</div>
-          <hr />
-          {loadingStatus_user === loadingStatus.succeeded && (
-            <div>
-              A link for resetting the password has been sent to your email
             </div>
-          )}
-          <div>{inputFields([inputNames.email], inputValues, authErrors)}</div>
-          <div>
-            <button
-              onClick={requestSubmitHandler}
-              disabled={loadingStatus_user === loadingStatus.succeeded}
-            >
-              SUBMIT
-            </button>
-            <button onClick={() => setForgetPassword(false)}>
-              Back to Sign In
-            </button>
-          </div>
-        </div>
-      )}
+          </Grid>
+
+          <Grid
+            item
+            container
+            xs={12}
+            sm={12}
+            md={6}
+            className={styles.body_grid_right}
+          >
+            <div className={styles.body_grid_right_inner}>
+              <div className={styles.to_sign_up_text}>
+                Creating an account allows you to checkout quickly, keep track
+                of your orders and{" "}
+                <span style={{ color: "red" }}>FREE SHIPPING</span> for the 1st
+                order
+              </div>
+              <Button
+                variant="contained"
+                onClick={toSignUpHandler}
+                className={styles.to_sign_up}
+              >
+                Create a new account
+              </Button>
+            </div>
+          </Grid>
+        </Grid>
+      </div>
     </main>
   );
 }
 
 export default memo(UserSignIn);
-
-/*
-{loadingStatus_user === "loading" && (
-            <CircularProgress
-              size={45}
-              sx={{
-                position: "absolute",
-                top: "40%",
-                left: "46%",
-                zIndex: 999,
-                marginTop: "-12px",
-                marginLeft: "-12px",
-              }}
-            />
-          )}
-
-
-*/

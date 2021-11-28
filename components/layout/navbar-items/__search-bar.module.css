@@ -30,8 +30,22 @@
   border-radius: 2rem;
   transition: ease-in 0.3s;
 }
-
 .search_icon:hover {
+  color: rgb(0, 138, 180);
+  cursor: pointer;
+  transition: ease-in 0.3s;
+}
+
+.search_icon_small {
+  width: 24px;
+  height: 24px;
+  color: black;
+  /* max-width: 53px;
+  max-height: 53px; */
+  border-radius: 2rem;
+  transition: ease-in 0.3s;
+}
+.search_icon_small:hover {
   color: rgb(0, 138, 180);
   cursor: pointer;
   transition: ease-in 0.3s;

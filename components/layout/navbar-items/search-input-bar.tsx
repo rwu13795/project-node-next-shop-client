@@ -1,4 +1,4 @@
-import { Fragment, useState, FormEvent } from "react";
+import { Fragment, useState, FormEvent, memo } from "react";
 
 // UI //
 import { Divider, Grid, TextField, Box, Drawer, Button } from "@mui/material";
@@ -19,11 +19,7 @@ const mediumProps = {
   InputLabelProps: `${styles.input_label_props}`,
 };
 
-export default function SearchInputBar({
-  size,
-}: {
-  size: string;
-}): JSX.Element {
+function SearchInputBar({ size }: { size: string }): JSX.Element {
   const [value, setValue] = useState<string>("");
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
@@ -77,9 +73,11 @@ export default function SearchInputBar({
             Find
           </LoadingButton>
         ) : (
-          <SearchSharpIcon />
+          <SearchSharpIcon className={styles.search_icon_small} />
         )}
       </Grid>
     </Grid>
   );
 }
+
+export default memo(SearchInputBar);

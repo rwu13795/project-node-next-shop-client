@@ -11,24 +11,15 @@ import { Modal, Box, Backdrop, Fade, Tooltip } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import styles from "./__user-icon.module.css";
 
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  outerHeight: 800,
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+interface Props {
+  closeCartDropDown: () => void;
+  page?: string;
+}
 
 export default function UserGuestIcon({
+  closeCartDropDown,
   page,
-}: {
-  page?: string;
-}): JSX.Element {
+}: Props): JSX.Element {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -39,6 +30,7 @@ export default function UserGuestIcon({
       <Fragment>
         <Tooltip title="Log In">
           <Box
+            onMouseEnter={closeCartDropDown}
             onClick={
               page === "auth" ? () => router.push("/auth/sign-in") : handleOpen
             }
@@ -83,7 +75,7 @@ export default function UserGuestIcon({
         }}
       >
         <Fade in={open}>
-          <Box sx={style}>
+          <Box className={styles.sign_in_modal}>
             <AuthForm
               inputType={inputTypes.signIn}
               inputFieldsArray={inputFieldsArray}
@@ -96,3 +88,16 @@ export default function UserGuestIcon({
     </Fragment>
   );
 }
+
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  outerHeight: 800,
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};

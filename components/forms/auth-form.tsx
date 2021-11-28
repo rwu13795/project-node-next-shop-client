@@ -4,6 +4,7 @@ import React, {
   FocusEvent,
   memo,
   useCallback,
+  Fragment,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -31,6 +32,7 @@ import UserSignIn from "./user-sign-in";
 import UserSignUp from "./user-sign-up";
 import AdminSignIn from "../admin/admin-sign-in";
 import AdminRegister from "../admin/admin-register";
+import UserForgotPassword from "./forgot-password";
 import { initializeValues } from "../../utils/helper-functions/initialize-values";
 
 interface Props {
@@ -160,11 +162,14 @@ function AuthForm({
       content = <AdminRegister {...propsForChild} />;
       break;
     }
+    case inputTypes.forgotPassword: {
+      content = <UserForgotPassword {...propsForChild} />;
+    }
     default:
       break;
   }
 
-  return <main>{content}</main>;
+  return <Fragment>{content}</Fragment>;
 }
 
 export default memo(AuthForm);

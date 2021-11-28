@@ -68,6 +68,7 @@ as a wrapper to wrap the component which is needed to be "collapsed"*/
 .cart_collapse_box {
   /* border-radius: 0; */
   max-height: 80vh;
+  top: 4rem;
   position: absolute;
   box-shadow: 3px 6px 8px;
   z-index: 10;

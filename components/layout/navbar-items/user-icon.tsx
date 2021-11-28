@@ -26,7 +26,15 @@ import {
 import { Logout, Settings } from "@mui/icons-material";
 import styles from "./__user-icon.module.css";
 
-export default function UserIcon({ page }: { page?: string }): JSX.Element {
+interface Props {
+  closeCartDropDown: () => void;
+  page?: string;
+}
+
+export default function UserIcon({
+  closeCartDropDown,
+  page,
+}: Props): JSX.Element {
   const router = useRouter();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -55,11 +63,11 @@ export default function UserIcon({ page }: { page?: string }): JSX.Element {
 
   return !isLoggedIn ? (
     <Fragment>
-      <UserGuestIcon page={page} />
+      <UserGuestIcon page={page} closeCartDropDown={closeCartDropDown} />
     </Fragment>
   ) : (
     <Fragment>
-      <Box onClick={userIconHandler}>
+      <Box onClick={userIconHandler} onMouseEnter={closeCartDropDown}>
         <Tooltip title="Account settings">
           <Avatar className={styles.user_icon}>R</Avatar>
         </Tooltip>

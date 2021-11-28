@@ -1,5 +1,13 @@
-import { useState, FocusEvent, ChangeEvent, useEffect } from "react";
+import React, {
+  useState,
+  FocusEvent,
+  ChangeEvent,
+  useEffect,
+  memo,
+  Fragment,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Link from "next/link";
 
 import { SelectChangeEvent } from "@mui/material";
 
@@ -25,6 +33,10 @@ import { initializeValues } from "../../utils/helper-functions/initialize-values
 import { loadingStatus } from "../../utils/enums-types/loading-status";
 import Redirect_to_signIn from "../auth/redirect-to-sign-In";
 
+// UI //
+import { Button } from "@mui/material";
+import styles from "./__forgot-pw-reset.module.css";
+
 interface Props {
   userId: string;
   token: string;
@@ -38,7 +50,7 @@ const inputFieldsArray = [
 
 const initialValues = initializeValues(inputFieldsArray);
 
-export default function ForgotPasswordReset({
+function ForgotPasswordReset({
   userId,
   token,
   expiration,
@@ -58,8 +70,6 @@ export default function ForgotPasswordReset({
   const [inputErrors, setInputErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Touched>({});
   const [inputValues, setInputValues] = useState<InputValues>(initialValues);
-
-  console.log(second);
 
   useEffect(() => {
     if (isExpired || loadingStatus_user === loadingStatus.succeeded) {
@@ -140,36 +150,54 @@ export default function ForgotPasswordReset({
       onChangeHandler,
       inputErrors,
       authErrors,
-      isExpired
+      isExpired,
+      "user-sign-in"
     );
   };
 
   return (
-    <div>
-      <div>
-        <h4>Create a new password</h4>
-      </div>
-      <div>{inputFields()}</div>
-      <div>
-        <button
-          onClick={resetPasswordHandler}
-          disabled={loadingStatus_user === loadingStatus.succeeded || isExpired}
-        >
-          SUBMIT
-        </button>
-      </div>
+    <main className={styles.main_container}>
+      <div className={styles.main_grid}>
+        <div className={styles.main_title}>CREATE A NEW PASSWORD</div>
+        <div className={styles.reset_pw_container}>
+          <form>
+            <div className={styles.input_fields}>{inputFields()}</div>
 
-      {loadingStatus_user === loadingStatus.succeeded && (
-        <Redirect_to_signIn resetSuccess={true} />
-      )}
-
-      {isExpired ? (
-        <h3>Session time out</h3>
-      ) : (
-        <div>
-          {`0${minute}`}:{second > 9 ? second : `0${second}`}
+            <Button
+              variant="contained"
+              onClick={resetPasswordHandler}
+              disabled={
+                loadingStatus_user === loadingStatus.succeeded || isExpired
+              }
+              className={styles.submit_button}
+            >
+              SUBMIT
+            </Button>
+          </form>
         </div>
-      )}
-    </div>
+
+        <div className={styles.text_indicator}>
+          {loadingStatus_user === loadingStatus.succeeded ? (
+            <Redirect_to_signIn resetSuccess={true} />
+          ) : (
+            <div className={styles.sub_title}>
+              {isExpired ? (
+                <Fragment>
+                  Session time out, please make a{" "}
+                  <Link href={"/auth/forgot-password"}>NEW REQUEST</Link> again
+                </Fragment>
+              ) : (
+                <Fragment>
+                  Session expires in
+                  {` 0${minute}`}:{second > 9 ? second : `0${second}`}
+                </Fragment>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    </main>
   );
 }
+
+export default memo(ForgotPasswordReset);

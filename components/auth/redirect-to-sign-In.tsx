@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import Router from "next/router";
-
 import { useDispatch } from "react-redux";
+
+import styles from "./__redirect.module.css";
 
 interface Props {
   resetSuccess?: boolean;
@@ -19,6 +20,7 @@ export default function Redirect_to_signIn({
     // count down
     const timer = () => {
       SetCountDown((prev) => {
+        if (prev === 0) return 0;
         return prev - 1;
       });
     };
@@ -36,21 +38,30 @@ export default function Redirect_to_signIn({
   }, []);
 
   let content;
+  let main = styles.main_title;
 
   if (timeOut) {
-    content = <h2>Session time out, you need to make a request again!</h2>;
+    content = (
+      <div className={main}>
+        Session time out, you need to make a request again!
+      </div>
+    );
   } else if (resetSuccess) {
-    content = <h2>Your passwords has been reset successfully!</h2>;
+    content = (
+      <div className={main}>Your passwords has been reset successfully!</div>
+    );
   } else {
-    content = <h2>You need to sign in to access this page!</h2>;
+    content = (
+      <div className={main}>You need to sign in to access this page!</div>
+    );
   }
 
   return (
     <div>
       {content}
-      <h4>
+      <div className={styles.sub_title}>
         You will be redirected to the sign in page ... in {countDown} seconds
-      </h4>
+      </div>
     </div>
   );
 }

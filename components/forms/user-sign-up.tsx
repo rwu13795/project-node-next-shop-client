@@ -24,6 +24,7 @@ import {
   AuthErrors,
   selectAuthErrors,
   selectLoadingStatus_user,
+  setLoadingStatus,
   signUp,
 } from "../../utils/redux-store/userSlice";
 import { useRouter } from "next/router";
@@ -52,6 +53,10 @@ export default function UserSignUp({
   const router = useRouter();
   const authErrors = useSelector(selectAuthErrors);
   const loadingStatus_user = useSelector(selectLoadingStatus_user);
+
+  useEffect(() => {
+    dispatch(setLoadingStatus("idle"));
+  }, []);
 
   const singUpHandler = (
     e: FormEvent<HTMLFormElement> | MouseEvent<HTMLButtonElement>
@@ -111,23 +116,24 @@ export default function UserSignUp({
 
           <hr />
           <form onSubmit={singUpHandler}>
-            <div className={styles.input_fields_grid}>
-              <div className={styles.input_title}>
-                ENTER YOUR INFORMATION BELOW
+            <div className={styles.input_fields_container}>
+              <div className={styles.input_fields_grid}>
+                <div className={styles.input_title}>
+                  ENTER YOUR INFORMATION BELOW
+                </div>
+                {inputFields(inputFieldsArray, inputValues, authErrors)}
               </div>
-              {inputFields(inputFieldsArray, inputValues, authErrors)}
-            </div>
-
-            <div className={styles.create_button_container}>
-              <Button
-                type="submit"
-                variant="contained"
-                onClick={singUpHandler}
-                disabled={loadingStatus_user !== "idle"}
-                className={styles.create_button}
-              >
-                CREATE ACCOUNT
-              </Button>
+              <div className={styles.create_button_container}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  onClick={singUpHandler}
+                  disabled={loadingStatus_user !== "idle"}
+                  className={styles.create_button}
+                >
+                  CREATE ACCOUNT
+                </Button>
+              </div>
             </div>
           </form>
           {/* {loadingStatus_user === "loading" && <CircularProgress />} */}

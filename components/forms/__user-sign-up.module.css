@@ -53,16 +53,32 @@
   padding-bottom: 10px;
 }
 
-@media screen and (max-width: 765px) {
+@media screen and (min-width: 765px) and (max-width: 1000px) {
   .main_container {
-    width: 100vw;
+    width: 85vw;
     margin-top: 30px;
   }
   .main_grid {
-    width: 100vw;
+    width: 85vw;
+  }
+}
+
+@media screen and (max-width: 765px) {
+  .main_container {
+    width: 95vw;
+    margin-top: 30px;
+  }
+  .main_grid {
+    width: 100%;
+  }
+  .input_fields_container {
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
   }
   .input_fields_grid {
-    width: 100vw;
+    width: 90vw;
   }
   .title_grid {
     padding-bottom: 20px;
@@ -77,11 +93,7 @@
   .sign_in_box {
     margin-left: 10px;
   }
-  .create_button_container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
+
   .create_button {
     width: 70vw;
   }

@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext, NextPage } from "next";
+import Link from "next/link";
 
 import serverClient from "../../../utils/axios-client/server-client";
 import ForgotPasswordReset from "../../../components/forms/forgot-pw-reset";
@@ -17,7 +18,12 @@ const ForgotPasswordResetPage: NextPage<PageProps> = ({
   timeOut,
 }) => {
   if (timeOut) {
-    return <h1>Link expired</h1>;
+    return (
+      <h1>
+        The link for resetting your password has expired, please make a{" "}
+        <Link href={"/auth/forgot-password"}>NEW REQUEST</Link> again
+      </h1>
+    );
   }
 
   // if (resetSuccess) {

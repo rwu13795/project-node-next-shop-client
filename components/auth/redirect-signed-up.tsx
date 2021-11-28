@@ -6,6 +6,8 @@ import { useDispatch } from "react-redux";
 import { getUserStatus } from "../../utils/redux-store/userSlice";
 import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 
+import styles from "./__redirect.module.css";
+
 export default function Redirect_signedUp_to_homePage(): JSX.Element {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -17,6 +19,9 @@ export default function Redirect_signedUp_to_homePage(): JSX.Element {
     // count down
     const timer = () => {
       SetCountDown((prev) => {
+        if (prev === 0) {
+          return 0;
+        }
         return prev - 1;
       });
     };
@@ -35,10 +40,10 @@ export default function Redirect_signedUp_to_homePage(): JSX.Element {
 
   return (
     <Fragment>
-      <h1>Thank you for joining us!</h1>
-      <h4>
+      <div className={styles.main_title}>Thank you for joining us!</div>
+      <div className={styles.sub_title}>
         You will be redirected to the home page ... in {countDown} seconds
-      </h4>
+      </div>
     </Fragment>
   );
 }

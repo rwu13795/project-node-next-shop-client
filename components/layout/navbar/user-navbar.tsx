@@ -25,6 +25,7 @@ interface Props {
 function UserNavbar({ page, page_cat }: Props): JSX.Element {
   const [showMenu_nav, setShowMenu_nav] = useState<boolean>(false);
   const [currentCat, setCurrentCat] = useState<string>("");
+  const [showCart, setShowCart] = useState<boolean>(false);
 
   const isSmall = useMediaQuery({ query: "(max-width: 765px)" });
 
@@ -33,6 +34,14 @@ function UserNavbar({ page, page_cat }: Props): JSX.Element {
     // the currentCat is maintained in the parent, so that the border-bottom
     // is set individually according to the currentCat
     setCurrentCat("");
+  };
+
+  const openCartDropDown = () => {
+    setShowCart(true);
+  };
+
+  const closeCartDropDown = () => {
+    setShowCart(false);
   };
 
   return (
@@ -81,10 +90,14 @@ function UserNavbar({ page, page_cat }: Props): JSX.Element {
             <SearchIcon />
           </Grid>
           <Grid item sx={{ pl: "1vw" }}>
-            <UserIcon page={page} />
+            <UserIcon page={page} closeCartDropDown={closeCartDropDown} />
           </Grid>
           <Grid item sx={{ pl: "1vw", mr: "1rem" }}>
-            <CartIcon />
+            <CartIcon
+              showCart={showCart}
+              openCartDropDown={openCartDropDown}
+              closeCartDropDown={closeCartDropDown}
+            />
           </Grid>
         </Grid>
       ) : (
@@ -104,10 +117,14 @@ function UserNavbar({ page, page_cat }: Props): JSX.Element {
             <SearchIcon />
           </Grid>
           <Grid item sx={{ ml: "2vw" }}>
-            <UserIcon page={page} />
+            <UserIcon page={page} closeCartDropDown={closeCartDropDown} />
           </Grid>
           <Grid item sx={{ ml: "2vw", mr: "1rem" }}>
-            <CartIcon />
+            <CartIcon
+              showCart={showCart}
+              openCartDropDown={openCartDropDown}
+              closeCartDropDown={closeCartDropDown}
+            />
           </Grid>
         </Grid>
       )}
