@@ -41,17 +41,10 @@ function CartIcon({
   const router = useRouter();
 
   useEffect(() => {
-    let timerId: any;
     if (changeInCart) {
       openCartDropDown();
-      timerId = setTimeout(() => {
-        dispatch(setChangeInCart(false));
-        closeCartDropDown();
-      }, 5000);
+      dispatch(setChangeInCart(false));
     }
-    return () => {
-      clearTimeout(timerId);
-    };
   }, [changeInCart, dispatch, closeCartDropDown, openCartDropDown]);
 
   const handleClick = () => {
@@ -76,6 +69,7 @@ function CartIcon({
         in={showCart}
         className={styles.cart_collapse_box}
         sx={{ display: { xs: "none", sm: "none", md: "block" } }}
+        timeout={{ enter: 800, exit: 800 }}
       >
         <Paper
           onMouseLeave={closeCartDropDown}

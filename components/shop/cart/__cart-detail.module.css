@@ -124,6 +124,10 @@
   font-size: 20px;
 }
 
+.no_item_text {
+  font-size: 30px;
+}
+
 @media screen and (max-width: 930px) {
   .main_grid {
     display: flex;
@@ -221,6 +225,9 @@
   }
   .checkout_button {
     font-size: min(20px, 6vw);
+  }
+  .no_item_text {
+    font-size: 22px;
   }
 }
 

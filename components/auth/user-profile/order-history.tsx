@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState, memo } from "react";
 import Image from "next/image";
 
 import { Pagination } from "@mui/material";
@@ -11,7 +11,7 @@ interface Props {
   ordersTotal: number;
 }
 
-export default function OrderHistory({
+function OrderHistory({
   orders: startOrders,
   ordersTotal,
 }: Props): JSX.Element {
@@ -51,42 +51,38 @@ export default function OrderHistory({
 
   return (
     <main>
-      {pageLoading ? (
-        <h1>Loading shit load of load</h1>
-      ) : (
-        orders.map((order) => {
-          return (
-            <div key={order._id}>
-              <div>Order placed on: {new Date(order.date).toDateString()}</div>
-              <div>Total: ${order.total}</div>
-              <div>
-                {order.items.map((item) => {
-                  return (
-                    <div key={item.title + item.colorName}>
-                      <div>{item.title}</div>
-                      <Image
-                        src={item.imageUrl}
-                        alt={item.title}
-                        width={100}
-                        height={100}
-                      />
-                      <div>Price: ${item.price}</div>
-                      <div>Quantity: {item.quantity}</div>
-                      <div>
-                        Size: {item.size} Color: {item.colorName} ColorCode:{" "}
-                        {item.colorCode}
-                      </div>
+      {orders.map((order) => {
+        return (
+          <div key={order._id}>
+            <div>Order placed on: {new Date(order.date).toDateString()}</div>
+            <div>Total: ${order.total}</div>
+            <div>
+              {order.items.map((item) => {
+                return (
+                  <div key={item.title + item.colorName}>
+                    <div>{item.title}</div>
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.title}
+                      width={100}
+                      height={100}
+                    />
+                    <div>Price: ${item.price}</div>
+                    <div>Quantity: {item.quantity}</div>
+                    <div>
+                      Size: {item.size} Color: {item.colorName} ColorCode:{" "}
+                      {item.colorCode}
                     </div>
-                  );
-                })}
-              </div>
-              <hr />
-              <br />
-              <br />
+                  </div>
+                );
+              })}
             </div>
-          );
-        })
-      )}
+            <hr />
+            <br />
+            <br />
+          </div>
+        );
+      })}
 
       <Pagination
         count={Math.ceil(ordersTotal / PRODUCT_PER_PAGE)}
@@ -98,3 +94,5 @@ export default function OrderHistory({
     </main>
   );
 }
+
+export default memo(OrderHistory);

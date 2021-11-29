@@ -14,7 +14,9 @@ import { useRouter } from "next/router";
 import {
   Errors,
   InputValues,
+  onFormEnterSubmitCheck,
   onSubmitErrorCheck,
+  Touched,
 } from "../../utils/helper-functions/input-error-check";
 import { AdminErrors } from "../../utils/redux-store/adminSlice";
 import {
@@ -49,12 +51,16 @@ interface Props {
     requestError: AuthErrors | AdminErrors,
     page?: string
   ) => JSX.Element[];
-  signInModal?: boolean;
-  page?: string;
-  modalHandleClose?: () => void; // MUI modal function to close the modal
+  touched: Touched;
 }
 
-function UserForgotPassword({ inputValues, inputFields }: Props): JSX.Element {
+function UserForgotPassword({
+  inputValues,
+  inputErrors,
+  setInputErrors,
+  inputFields,
+  touched,
+}: Props): JSX.Element {
   const dispatch = useDispatch();
   const router = useRouter();
   const authErrors = useSelector(selectAuthErrors);
@@ -74,6 +80,11 @@ function UserForgotPassword({ inputValues, inputFields }: Props): JSX.Element {
     e: FormEvent<HTMLFormElement> | MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
+
+    let hasError = onSubmitErrorCheck(inputValues, inputErrors, setInputErrors);
+    hasError = onFormEnterSubmitCheck(inputValues, touched, setInputErrors);
+    if (hasError) return;
+
     dispatch(forgotPassword_Request(inputValues[inputNames.email]));
   };
 

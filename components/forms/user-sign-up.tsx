@@ -4,18 +4,17 @@ import {
   FormEvent,
   MouseEvent,
   useEffect,
+  memo,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 
-// UI //
-import { Button, CircularProgress } from "@mui/material";
-import styles from "./__user-sign-up.module.css";
-
 import {
   Errors,
   InputValues,
+  onFormEnterSubmitCheck,
   onSubmitErrorCheck,
+  Touched,
 } from "../../utils/helper-functions/input-error-check";
 import { AdminErrors } from "../../utils/redux-store/adminSlice";
 import { inputNames } from "../../utils/enums-types/input-names";
@@ -28,7 +27,11 @@ import {
   signUp,
 } from "../../utils/redux-store/userSlice";
 import { useRouter } from "next/router";
-import { setPageLoading } from "../../utils/redux-store/layoutSlice";
+
+// UI //
+import { Button, CircularProgress } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import styles from "./__user-sign-up.module.css";
 
 interface Props {
   inputFieldsArray: string[];
@@ -40,14 +43,16 @@ interface Props {
     inputValues: InputValues,
     requestError: AuthErrors | AdminErrors
   ) => JSX.Element[];
+  touched: Touched;
 }
 
-export default function UserSignUp({
+function UserSignUp({
   inputFieldsArray,
   inputValues,
   inputErrors,
   setInputErrors,
   inputFields,
+  touched,
 }: Props): JSX.Element {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -63,12 +68,10 @@ export default function UserSignUp({
   ) => {
     e.preventDefault();
 
-    const hasError = onSubmitErrorCheck(
-      inputValues,
-      inputErrors,
-      setInputErrors
-    );
+    let hasError = onSubmitErrorCheck(inputValues, inputErrors, setInputErrors);
+    hasError = onFormEnterSubmitCheck(inputValues, touched, setInputErrors);
     if (hasError) return;
+
     dispatch(
       signUp({
         email: inputValues[inputNames.email],
@@ -124,15 +127,16 @@ export default function UserSignUp({
                 {inputFields(inputFieldsArray, inputValues, authErrors)}
               </div>
               <div className={styles.create_button_container}>
-                <Button
+                <LoadingButton
                   type="submit"
                   variant="contained"
                   onClick={singUpHandler}
                   disabled={loadingStatus_user !== "idle"}
+                  loading={loadingStatus_user === "loading"}
                   className={styles.create_button}
                 >
                   CREATE ACCOUNT
-                </Button>
+                </LoadingButton>
               </div>
             </div>
           </form>
@@ -144,3 +148,5 @@ export default function UserSignUp({
     </main>
   );
 }
+
+export default memo(UserSignUp);

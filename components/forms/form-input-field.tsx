@@ -71,20 +71,24 @@ function FormInputField(props: Props): JSX.Element {
   let sm: GridSize = 12;
   let md: GridSize = 6;
   switch (inputName) {
-    case inputNames.email:
+    case inputNames.email: {
       md = 12;
       break;
-    case inputNames.zip_code:
+    }
+
+    case inputNames.zip_code: {
       form_control = styles.form_control_half;
-      xs = 6;
+      xs = 12;
       sm = 6;
       md = 3;
       break;
+    }
+
     default:
       break;
   }
 
-  if (page === "user-sign-in") {
+  if (page === "user-sign-in" || page === "update-info") {
     md = 12;
   }
 

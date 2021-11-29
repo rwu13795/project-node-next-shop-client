@@ -13,7 +13,10 @@ import Link from "next/link";
 import {
   Errors,
   InputValues,
+  onBlurErrorCheck,
+  onFormEnterSubmitCheck,
   onSubmitErrorCheck,
+  Touched,
 } from "../../utils/helper-functions/input-error-check";
 import { AdminErrors } from "../../utils/redux-store/adminSlice";
 import {
@@ -35,6 +38,7 @@ import {
 
 // UI //
 import { Button, CircularProgress, Grid } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import styles from "./__user-sign-in.module.css";
 import { useRouter } from "next/router";
 
@@ -49,6 +53,7 @@ interface Props {
     requestError: AuthErrors | AdminErrors,
     page?: string
   ) => JSX.Element[];
+  touched: Touched;
   signInModal?: boolean;
   page?: string;
   modalHandleClose?: () => void; // MUI modal function to close the modal
@@ -60,6 +65,7 @@ function UserSignIn({
   inputErrors,
   setInputErrors,
   inputFields,
+  touched,
   signInModal,
   page,
   modalHandleClose,
@@ -86,12 +92,10 @@ function UserSignIn({
   ) => {
     e.preventDefault();
 
-    const hasError = onSubmitErrorCheck(
-      inputValues,
-      inputErrors,
-      setInputErrors
-    );
+    let hasError = onSubmitErrorCheck(inputValues, inputErrors, setInputErrors);
+    hasError = onFormEnterSubmitCheck(inputValues, touched, setInputErrors);
     if (hasError) return;
+
     if (!signInModal) {
       dispatch(setPageLoading(true));
     }
@@ -140,7 +144,7 @@ function UserSignIn({
                   type="submit"
                   variant="contained"
                   onClick={singInHandler}
-                  disabled={pageLoading}
+                  disabled={loadingStatus_user === "loading"}
                   className={styles.sign_in_button}
                 >
                   Sign In
@@ -166,7 +170,7 @@ function UserSignIn({
             sx={{
               position: "absolute",
               top: "40%",
-              left: "50%",
+              left: "49%",
               zIndex: 999,
               marginTop: "-12px",
               marginLeft: "-12px",
@@ -206,15 +210,16 @@ function UserSignIn({
                   >
                     FORGOT PASSWORD?
                   </div>
-                  <Button
+                  <LoadingButton
                     type="submit"
                     variant="contained"
                     onClick={singInHandler}
                     disabled={pageLoading}
+                    loading={pageLoading}
                     className={styles.sign_in_button}
                   >
                     Sign In
-                  </Button>
+                  </LoadingButton>
                 </div>
               </form>
             </div>

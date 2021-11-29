@@ -84,7 +84,9 @@ function CartDetail({
 
   return cart.length <= 0 ? (
     <Fragment>
-      <div>There Is No Item In Your Shopping Cart.</div>
+      <div className={styles.no_item_text}>
+        There Is No Item In Your Shopping Cart.
+      </div>
     </Fragment>
   ) : (
     <Grid container className={main}>

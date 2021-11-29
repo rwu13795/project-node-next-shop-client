@@ -1,13 +1,22 @@
-import React, { useState, ChangeEvent, FocusEvent, useEffect } from "react";
+import React, {
+  useState,
+  ChangeEvent,
+  FocusEvent,
+  useEffect,
+  memo,
+  FormEvent,
+  MouseEvent,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { SelectChangeEvent } from "@mui/material";
+import { Button, SelectChangeEvent } from "@mui/material";
 
 import {
   InputValues,
   onBlurErrorCheck,
   onChangeErrorCheck,
   onFocusErrorCheck,
+  onFormEnterSubmitCheck,
   onSubmitErrorCheck,
 } from "../../../utils/helper-functions/input-error-check";
 import { inputNames } from "../../../utils/enums-types/input-names";
@@ -21,9 +30,17 @@ import {
   selectAuthErrors,
   selectCurrentUser,
   selectLoadingStatus_user,
+  setLoadingStatus,
   updateUserInfo,
 } from "../../../utils/redux-store/userSlice";
 import { initializeValues } from "../../../utils/helper-functions/initialize-values";
+import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
+
+// UI //
+import { Box, styled, Tab, Grid } from "@mui/material";
+import SaveIcon from "@mui/icons-material/Save";
+import { LoadingButton, TabContext, TabList, TabPanel } from "@mui/lab";
+import styles from "./__profile.module.css";
 
 const inputFieldsArray = [
   inputNames.first_name,
@@ -38,19 +55,24 @@ const inputFieldsArray = [
 
 let initialValues = initializeValues(inputFieldsArray);
 
-export default function UpdateProfile({}): JSX.Element {
+function UpdateProfile({}): JSX.Element {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
   const loadingStatus = useSelector(selectLoadingStatus_user);
   const authErrors = useSelector(selectAuthErrors);
 
-  const [inputValue, setInputValue] = useState<InputValues>(initialValues);
+  const [inputValues, setInputValues] = useState<InputValues>(initialValues);
   const [inputErrors, setInputErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Touched>({});
 
   useEffect(() => {
+    dispatch(setPageLoading(false));
+    dispatch(setLoadingStatus("idle"));
+  }, []);
+
+  useEffect(() => {
     if (currentUser && currentUser.userInfo) {
-      setInputValue({
+      setInputValues({
         [inputNames.first_name]: currentUser.userInfo.first_name,
         [inputNames.last_name]: currentUser.userInfo.last_name,
         [inputNames.address_1]: currentUser.userInfo.address_1,
@@ -62,6 +84,12 @@ export default function UpdateProfile({}): JSX.Element {
       });
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    if (loadingStatus === "idle" || loadingStatus === "succeeded") {
+      dispatch(setPageLoading(false));
+    }
+  }, [loadingStatus, dispatch]);
 
   const onFocusHandler = (e: FocusEvent<HTMLInputElement>) => {
     const { name } = e.currentTarget;
@@ -78,44 +106,71 @@ export default function UpdateProfile({}): JSX.Element {
   ) => {
     const { name, value } = e.target;
     dispatch(clearAuthErrors("no_change"));
-    setInputValue((prev) => {
+    setInputValues((prev) => {
       return { ...prev, [name]: value };
     });
     onChangeErrorCheck(name, value, setInputErrors);
   };
 
-  const updateHandler = () => {
-    const hasError = onSubmitErrorCheck(
-      inputValue,
-      inputErrors,
-      setInputErrors
-    );
+  const updateHandler = (
+    e: FormEvent<HTMLFormElement> | MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+
+    let hasError = onSubmitErrorCheck(inputValues, inputErrors, setInputErrors);
+    hasError = onFormEnterSubmitCheck(inputValues, touched, setInputErrors);
     if (hasError) return;
-    dispatch(updateUserInfo({ inputValue }));
+
+    dispatch(setPageLoading(true));
+    dispatch(updateUserInfo({ inputValues }));
   };
 
   const inputFields = (fields: string[], inputValues: InputValues) => {
     return renderInputFields(
       fields,
-      inputValue,
+      inputValues,
       onFocusHandler,
       onBlurHandler,
       onChangeHandler,
-      inputErrors
+      inputErrors,
+      undefined,
+      undefined,
+      "update-info"
     );
   };
 
   return (
-    <main>
-      <div>
-        <h3>UPDATE PERSONAL INFO</h3>
-        {inputFields(inputFieldsArray, inputValue)}
+    <main className={styles.main_container}>
+      <div className={styles.main_grid}>
+        <div className={styles.main_title}>UPDATE PERSONAL INFO</div>
+
+        <form
+          onSubmit={updateHandler}
+          className={styles.input_fields_container}
+        >
+          <div className={styles.input_fields}>
+            {inputFields(inputFieldsArray, inputValues)}
+          </div>
+          <LoadingButton
+            type="submit"
+            variant="outlined"
+            loading={loadingStatus === "loading"}
+            loadingPosition="start"
+            startIcon={<SaveIcon />}
+            disabled={loadingStatus === "loading"}
+            onClick={updateHandler}
+            className={styles.update_button}
+          >
+            UPDATE
+          </LoadingButton>
+        </form>
+
+        <div className={styles.update_error}>
+          {authErrors["no_change"] && authErrors["no_change"]}
+        </div>
       </div>
-      <div>
-        <button onClick={updateHandler}>UPDATE</button>
-      </div>
-      {loadingStatus === "loading" && <div>Updating </div>}
-      {authErrors["no_change"] && authErrors["no_change"]}
     </main>
   );
 }
+
+export default memo(UpdateProfile);

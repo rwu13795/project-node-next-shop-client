@@ -3,10 +3,18 @@
   width: 80vw;
   max-width: 110rem;
 }
+.main_container_no_item {
+  margin: 35px 15px 20px 15px;
+  width: 80vw;
+  max-width: 110rem;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
 
 .main_title {
-  font-size: 30px;
-  font-weight: bolder;
+  font-size: 50px;
+  font-weight: bold;
   margin-bottom: 30px;
 }
 
@@ -14,10 +22,19 @@
   .main_container {
     width: 95vw;
   }
+  .main_container_no_item {
+    width: 95vw;
+  }
+  .main_title {
+    font-size: 35px;
+  }
 }
 
 @media screen and (min-width: 765px) and (max-width: 1400px) {
   .main_container {
+    width: 90vw;
+  }
+  .main_container_no_item {
     width: 90vw;
   }
 }

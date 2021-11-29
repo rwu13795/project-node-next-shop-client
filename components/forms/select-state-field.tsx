@@ -9,6 +9,7 @@ import {
   SelectChangeEvent,
   FormHelperText,
   Grid,
+  GridSize,
 } from "@mui/material";
 import styles from "./__form-input-field.module.css";
 
@@ -21,6 +22,7 @@ interface Props {
   onChangeHandler: (
     e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>
   ) => void;
+  page?: string;
 }
 
 function SelectState({
@@ -30,11 +32,17 @@ function SelectState({
   onFocusHandler,
   onBlurHandler,
   onChangeHandler,
+  page,
 }: Props): JSX.Element {
   const showError = !(inputError === undefined || inputError === "");
 
+  let md: GridSize = 3;
+  if (page === "user-sign-in" || page === "update-info") {
+    md = 12;
+  }
+
   return (
-    <Grid item container xs={6} sm={6} md={3}>
+    <Grid item container xs={12} sm={6} md={md}>
       <FormControl error={showError} className={styles.form_control_half}>
         <InputLabel className={styles.form_label}>STATE</InputLabel>
         <Select
@@ -46,6 +54,7 @@ function SelectState({
           onChange={onChangeHandler}
           error={showError}
           className={styles.input_box}
+          MenuProps={MenuProps}
         >
           {stateArray.map((state) => {
             return (
@@ -64,6 +73,14 @@ function SelectState({
 }
 
 export default memo(SelectState);
+
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: "40vh",
+    },
+  },
+};
 
 const stateArray = [
   "Alabama",

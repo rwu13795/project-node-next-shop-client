@@ -26,11 +26,13 @@ export const onBlurErrorCheck = (
   value: string,
   touched: Touched,
   setErrors: Dispatch<SetStateAction<Errors>>
-) => {
+): boolean => {
+  let hasError = false;
   if (touched[inputName] && value === "") {
     setErrors((prev) => {
       return { ...prev, [inputName]: "Required field" };
     });
+    hasError = true;
   }
 
   if (touched[inputName] && value !== "") {
@@ -50,6 +52,8 @@ export const onBlurErrorCheck = (
               [inputNames.email]: "Please enter a valid email address",
             };
           });
+          hasError = true;
+          console.log("hasError in bad email", hasError);
         }
         break;
       }
@@ -61,6 +65,7 @@ export const onBlurErrorCheck = (
               [inputNames.first_name]: "Please enter a valid name",
             };
           });
+          hasError = true;
         }
         break;
       }
@@ -72,6 +77,7 @@ export const onBlurErrorCheck = (
               [inputNames.last_name]: "Please enter a valid name",
             };
           });
+          hasError = true;
         }
         break;
       }
@@ -83,6 +89,7 @@ export const onBlurErrorCheck = (
               [inputNames.address_1]: "Please enter a valid address",
             };
           });
+          hasError = true;
         }
         break;
       }
@@ -94,6 +101,7 @@ export const onBlurErrorCheck = (
               [inputNames.address_2]: "Please enter a valid address",
             };
           });
+          hasError = true;
         }
         break;
       }
@@ -105,6 +113,7 @@ export const onBlurErrorCheck = (
               [inputNames.city]: "Please enter a valid address",
             };
           });
+          hasError = true;
         }
         break;
       }
@@ -116,6 +125,7 @@ export const onBlurErrorCheck = (
               [inputNames.zip_code]: "Zipcode should be 5-digit numbers",
             };
           });
+          hasError = true;
         }
         break;
       }
@@ -127,6 +137,7 @@ export const onBlurErrorCheck = (
               [inputNames.phone]: "Please enter valid phone numbers",
             };
           });
+          hasError = true;
         }
         break;
       }
@@ -134,6 +145,8 @@ export const onBlurErrorCheck = (
         break;
     }
   }
+
+  return hasError;
 };
 
 export const onChangeErrorCheck = (
@@ -168,4 +181,22 @@ export const onSubmitErrorCheck = (
     if (error !== "") return true;
   }
   return false;
+};
+
+export const onFormEnterSubmitCheck = (
+  inputValues: InputValues,
+  touched: Touched,
+  setInputErrors: Dispatch<SetStateAction<Errors>>
+): boolean => {
+  let hasError = false;
+  for (let [inputName, value] of Object.entries(inputValues)) {
+    // onBlurCheck cannot detect the error on the input fields if user
+    // hit "enter" to sumbit the form, so I have to check the error here again
+    if (touched[inputName] === undefined) {
+      touched[inputName] = true;
+    }
+    hasError = onBlurErrorCheck(inputName, value, touched, setInputErrors);
+    if (hasError) return hasError;
+  }
+  return hasError;
 };

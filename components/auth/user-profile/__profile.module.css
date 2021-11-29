@@ -1,0 +1,67 @@
+.main_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.main_grid {
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 30px;
+  border-bottom: rgb(129, 129, 129) solid 2px;
+}
+
+.main_title {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.input_fields_container {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.input_fields {
+  width: 100%;
+  max-width: 40rem;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+}
+
+.update_button {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  width: 200px;
+  font-size: 16px;
+}
+.update_error {
+  color: red;
+  font-size: 20px;
+}
+.text_indicator {
+  font-size: 20px;
+}
+
+@media screen and (max-width: 765px) {
+  .main_title {
+    font-size: 22px;
+  }
+
+  .update_button {
+    width: min(200px, 70vw);
+    font-size: min(16px, 4vw);
+  }
+  .update_error {
+    font-size: min(16px, 5vw);
+  }
+  .text_indicator {
+    font-size: min(16px, 5vw);
+  }
+}

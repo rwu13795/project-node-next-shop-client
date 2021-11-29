@@ -35,6 +35,7 @@ export default function renderInputFields(
             onBlurHandler={onBlurHandler}
             onChangeHandler={onChangeHandler}
             inputError={inputErrors[inputName]}
+            page={page}
           />
         );
         break;

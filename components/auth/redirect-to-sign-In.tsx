@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import Router from "next/router";
 import { useDispatch } from "react-redux";
 
@@ -9,10 +9,7 @@ interface Props {
   timeOut?: boolean;
 }
 
-export default function Redirect_to_signIn({
-  resetSuccess,
-  timeOut,
-}: Props): JSX.Element {
+function Redirect_to_signIn({ resetSuccess, timeOut }: Props): JSX.Element {
   const dispatch = useDispatch();
   const [countDown, SetCountDown] = useState<number>(6);
 
@@ -57,11 +54,13 @@ export default function Redirect_to_signIn({
   }
 
   return (
-    <div>
+    <main className={styles.main_container}>
       {content}
       <div className={styles.sub_title}>
         You will be redirected to the sign in page ... in {countDown} seconds
       </div>
-    </div>
+    </main>
   );
 }
+
+export default memo(Redirect_to_signIn);

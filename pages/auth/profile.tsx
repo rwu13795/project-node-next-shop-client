@@ -2,9 +2,6 @@ import { GetServerSidePropsContext, NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Box, styled, Tab, Grid } from "@mui/material";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
-
 import {
   CartItem,
   clearAuthErrors,
@@ -16,22 +13,11 @@ import UpdateProfile from "../../components/auth/user-profile/update-info";
 import ResetPassword from "../../components/auth/user-profile/reset-password";
 import { inputNames } from "../../utils/enums-types/input-names";
 
-// export const Tab_styled = styled(Tab)(({ theme }) => ({
-//   "&.Mui-selected": {
-//     // backgroundColor: "black",
-//     // color: "#ffffff",
-//     // "&:hover": { backgroundColor: "black" },
-//     // "&:active": { backgroundColor: "grey" },
-//     // border: "solid",
-//   },
-//   //   "&:hover": {
-//   //     backgroundColor: theme.palette.info.light,
-//   //     color: "white",
-//   //   },
-//   //   "&:active": {
-//   //     backgroundColor: "grey",
-//   //   },
-// }));
+// UI //
+import { Box, styled, Tab, Grid } from "@mui/material";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import styles from "./__profile.module.css";
+
 export interface Order {
   _id: string;
   date: string;
@@ -63,21 +49,30 @@ const ProfilePage: NextPage<PageProps> = ({
   };
 
   if (notAuth === true || orders === null) {
-    return <h1>Sign in to see your profile</h1>;
+    return <h1>SIGN IN TO ACCESS YOUR PROFILE</h1>;
   }
 
   return (
-    <Box sx={{ width: "100%", typography: "body1" }}>
+    <Box className={styles.main_container}>
       <TabContext value={value}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Grid container justifyContent="space-evenly" wrap="nowrap">
-            <TabList onChange={tagChangeHandler}>
-              <Tab label="PERSONAL INFO" value={"1"} />
-              <Tab label="ORDER HISTORY" value={"2"} />
-              <Tab label="RESET PASSWORD" value={"3"} />
-            </TabList>
-          </Grid>
-        </Box>
+        <Grid
+          container
+          justifyContent="space-evenly"
+          wrap="nowrap"
+          className={styles.tags_title_container}
+        >
+          <TabList
+            onChange={tagChangeHandler}
+            variant="scrollable"
+            // scrollButtons="auto"
+            allowScrollButtonsMobile
+          >
+            <Tab label="PERSONAL INFO" value={"1"} className={styles.tag} />
+            <Tab label="ORDER HISTORY" value={"2"} className={styles.tag} />
+            <Tab label="RESET PASSWORD" value={"3"} className={styles.tag} />
+          </TabList>
+        </Grid>
+
         <TabPanel value={"1"}>
           <UpdateProfile />
         </TabPanel>
@@ -117,3 +112,20 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     return { props: { orders: null, notAuth: true, page: "auth" } };
   }
 }
+
+// export const Tab_styled = styled(Tab)(({ theme }) => ({
+//   "&.Mui-selected": {
+//     // backgroundColor: "black",
+//     // color: "#ffffff",
+//     // "&:hover": { backgroundColor: "black" },
+//     // "&:active": { backgroundColor: "grey" },
+//     // border: "solid",
+//   },
+//   //   "&:hover": {
+//   //     backgroundColor: theme.palette.info.light,
+//   //     color: "white",
+//   //   },
+//   //   "&:active": {
+//   //     backgroundColor: "grey",
+//   //   },
+// }));

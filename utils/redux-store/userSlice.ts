@@ -228,16 +228,16 @@ const updateStock = createAsyncThunk("user/updateStock", async () => {
 /////////////////
 const updateUserInfo = createAsyncThunk<
   UserState,
-  { inputValue: InputValues },
+  { inputValues: InputValues },
   { state: RootState }
->("user/updateUserInfo", async ({ inputValue }, thunkAPI) => {
+>("user/updateUserInfo", async ({ inputValues }, thunkAPI) => {
   // compare the values before sending them to server, if nothing changes
   // return an "no_change" authErrors to the "fullfilled"
   let userInfo = thunkAPI.getState().user.currentUser.userInfo;
   if (userInfo !== undefined) {
     let noChange = true;
     for (let [key, value] of Object.entries(userInfo)) {
-      if (value !== inputValue[key]) {
+      if (value !== inputValues[key]) {
         noChange = false;
         break;
       }
@@ -248,7 +248,7 @@ const updateUserInfo = createAsyncThunk<
   }
 
   const response = await client.post(serverUrl + "/auth/update-info", {
-    update: inputValue,
+    update: inputValues,
     csrfToken: thunkAPI.getState().user.csrfToken,
     userId: thunkAPI.getState().user.currentUser.userId,
   });
@@ -502,7 +502,7 @@ const userSlice = createSlice({
           for (let err of action.payload.errors) {
             state.authErrors[err.field] = err.message;
           }
-          state.loadingStatus = "idle";
+          state.loadingStatus = loadingStatus.failed;
         }
       )
       ////////////////////
@@ -517,6 +517,7 @@ const userSlice = createSlice({
       .addCase(
         forgotPassword_Request.rejected,
         (state, action: PayloadAction<any>): void => {
+          state.loadingStatus = loadingStatus.failed;
           for (let err of action.payload.errors) {
             state.authErrors[err.field] = err.message;
           }

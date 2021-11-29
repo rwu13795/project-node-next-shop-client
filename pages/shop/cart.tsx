@@ -25,8 +25,11 @@ const CartPage: NextPage = ({}) => {
     }
   }, []);
 
+  const main_container =
+    cart.length > 0 ? styles.main_container : styles.main_container_no_item;
+
   return (
-    <main className={styles.main_container}>
+    <main className={main_container}>
       <div className={styles.main_title}>Shopping Cart</div>
       <CartDetail cart={cart} />
     </main>

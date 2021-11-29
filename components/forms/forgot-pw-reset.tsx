@@ -17,6 +17,7 @@ import {
   onBlurErrorCheck,
   onChangeErrorCheck,
   onFocusErrorCheck,
+  onFormEnterSubmitCheck,
   onSubmitErrorCheck,
   Touched,
 } from "../../utils/helper-functions/input-error-check";
@@ -125,12 +126,10 @@ function ForgotPasswordReset({
   };
 
   const resetPasswordHandler = () => {
-    const hasError = onSubmitErrorCheck(
-      inputValues,
-      inputErrors,
-      setInputErrors
-    );
+    let hasError = onSubmitErrorCheck(inputValues, inputErrors, setInputErrors);
+    hasError = onFormEnterSubmitCheck(inputValues, touched, setInputErrors);
     if (hasError) return;
+
     dispatch(
       forgotPassword_Reset({
         userId,

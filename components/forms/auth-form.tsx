@@ -141,6 +141,7 @@ function AuthForm({
     modalHandleClose,
     page,
     signInModal,
+    touched,
   };
 
   let content;

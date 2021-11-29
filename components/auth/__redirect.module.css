@@ -1,11 +1,22 @@
+.main_container {
+  width: 100%;
+  max-width: 90rem;
+  display: flex;
+  flex-flow: nowrap column;
+  align-items: center;
+  justify-content: center;
+}
+
 .main_title {
   font-size: 45px;
   font-weight: bold;
+  text-align: center;
 }
 .sub_title {
   width: min(40rem, 80vw);
   font-size: 26px;
   margin-top: 16px;
+  text-align: center;
 }
 
 @media screen and (max-width: 765px) {
@@ -14,5 +25,8 @@
   }
   .sub_title {
     font-size: 18px;
+  }
+  .main_container {
+    width: 100vw;
   }
 }

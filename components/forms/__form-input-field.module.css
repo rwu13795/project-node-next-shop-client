@@ -20,6 +20,9 @@
   color: red;
   font-size: min(4vw, 1rem);
 }
+.select_box {
+  height: 45vh;
+}
 
 @media screen and (max-width: 765px) {
   .form_container {
@@ -29,10 +32,7 @@
     max-width: 50rem;
     margin: 6px 10px 6px 10px;
   }
-  .form_control_half {
-    max-width: 22rem;
-    margin: 6px 10px 6px 10px;
-  }
+
   .form_label {
     font-size: 14px;
   }
@@ -42,5 +42,18 @@
   }
   .input_error {
     font-size: min(4vw, 12px);
+  }
+}
+
+@media screen and (min-width: 560px) and (max-width: 765px) {
+  .form_control_half {
+    max-width: 22rem;
+    margin: 10px;
+  }
+}
+@media screen and (max-width: 560px) {
+  .form_control_half {
+    max-width: 40rem;
+    margin: 10px;
   }
 }
