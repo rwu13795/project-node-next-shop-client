@@ -117,10 +117,6 @@ function SubCatProductsList({
     setParams
   );
 
-  const backToTopHandler = () => {
-    window.scrollTo({ top: 0 });
-  };
-
   return (
     <Grid container className={styles.main_grid}>
       <Grid
@@ -250,11 +246,6 @@ function SubCatProductsList({
             );
           })}
         </Grid>
-        <Button className={styles.to_top_button} onClick={backToTopHandler}>
-          <ArrowBackIosNewIcon className={styles.to_top_icon} />
-          back to top
-          <ArrowBackIosNewIcon className={styles.to_top_icon} />
-        </Button>
       </Grid>
     </Grid>
   );

@@ -15,6 +15,16 @@ import SubCatProductsList from "../../../components/shop/product/sub-cat-list";
 import PageLinks from "../../../components/layout/page-links/links";
 import { SubCat_PageProps } from "../../../utils/enums-types/categories-interfaces";
 
+// UI //
+import {
+  Button,
+  CircularProgress,
+  Divider,
+  Grid,
+  SelectChangeEvent,
+} from "@mui/material";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import styles from "./__sub-cat.module.css";
 
 const MenSubCatPage: NextPage<SubCat_PageProps> = ({
@@ -39,6 +49,10 @@ const MenSubCatPage: NextPage<SubCat_PageProps> = ({
     dispatch(setPageLoading(false));
   });
 
+  const backToTopHandler = () => {
+    window.scrollTo({ top: 0 });
+  };
+
   // I have to move the "useGetMoreProducts" to the render-sub-cat, because the react
   // hook cannot be called conditionally. when the startProducts changes with the sub_cat,
   // the "useGetMoreProducts" will not update the products correctly
@@ -49,12 +63,18 @@ const MenSubCatPage: NextPage<SubCat_PageProps> = ({
   return (
     <main className={styles.main_container}>
       <PageLinks {...props} />
+
       <SubCatProductsList
         startProducts={startProducts}
         startFilterStats={startFilterStats}
         sub_cat={sub_cat}
         main_cat={main_cat}
       />
+      <Button className={styles.to_top_button} onClick={backToTopHandler}>
+        <ArrowBackIosNewIcon className={styles.to_top_icon} />
+        back to top
+        <ArrowBackIosNewIcon className={styles.to_top_icon} />
+      </Button>
     </main>
   );
 };

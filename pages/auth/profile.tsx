@@ -48,7 +48,7 @@ const ProfilePage: NextPage<PageProps> = ({
     setValue(newValue);
   };
 
-  if (notAuth === true || orders === null) {
+  if (notAuth === true) {
     return <h1>SIGN IN TO ACCESS YOUR PROFILE</h1>;
   }
 
@@ -94,7 +94,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const tabNum = context.query.tab;
 
   try {
-    const { data }: { data: PageProps } = await client.post(
+    const { data }: { data: PageProps } = await client.get(
       "http://localhost:5000/api/shop/get-order-history"
     );
 
