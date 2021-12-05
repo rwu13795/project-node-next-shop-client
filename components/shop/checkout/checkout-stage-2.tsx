@@ -4,6 +4,7 @@ import React, {
   FocusEvent,
   SetStateAction,
   Dispatch,
+  memo,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TokenResult } from "@stripe/stripe-js";
@@ -19,6 +20,7 @@ import {
 import { Checkbox, SelectChangeEvent } from "@mui/material";
 
 import {
+  finalCheck,
   InputValues,
   onBlurErrorCheck,
   onChangeErrorCheck,
@@ -52,7 +54,7 @@ interface StripeCardError {
   message: string;
 }
 
-export default function CheckoutStage_2({
+function CheckoutStage_2({
   setStage,
   setAllowedStages,
   setStripeCardToken,
@@ -88,11 +90,13 @@ export default function CheckoutStage_2({
   };
 
   const stageChangeHandler = async () => {
-    let hasError = onSubmitErrorCheck(
-      billingAddress,
-      inputErrors,
-      setInputErrors
-    );
+    let errorInput = finalCheck(billingAddress, touched, setInputErrors);
+    if (errorInput !== "") {
+      let elem = document.getElementById(errorInput);
+      if (elem) elem.scrollIntoView({ block: "center" });
+      return;
+    }
+
     // if (hasError || cardErorr) return;
     // if (!cardComplete) {
     //   setCardError({
@@ -134,7 +138,10 @@ export default function CheckoutStage_2({
       onFocusHandler,
       onBlurHandler,
       onChangeHandler,
-      inputErrors
+      inputErrors,
+      undefined,
+      undefined,
+      "checkout"
     );
   };
 
@@ -149,12 +156,28 @@ export default function CheckoutStage_2({
         {inputFields(addressFields, billingAddress)}
         <div style={{ border: "red 2px solid" }}>
           Card Number
-          <CardNumberElement />
+          <CardNumberElement
+            onChange={(e) => {
+              setCardError(e.error);
+              setCardComplete(e.complete);
+            }}
+          />
           exp
-          <CardExpiryElement />
+          <CardExpiryElement
+            onChange={(e) => {
+              setCardError(e.error);
+              setCardComplete(e.complete);
+            }}
+          />
           ccv
-          <CardCvcElement />
+          <CardCvcElement
+            onChange={(e) => {
+              setCardError(e.error);
+              setCardComplete(e.complete);
+            }}
+          />
         </div>
+        {cardErorr?.message}
       </div>
       <div>
         <button onClick={stageChangeHandler}>CONTINUE</button>
@@ -162,6 +185,8 @@ export default function CheckoutStage_2({
     </main>
   );
 }
+
+export default memo(CheckoutStage_2);
 
 // NOTE //
 /* In case you are using the CardNumberElement, CardExpiryElement, CardCvcElement, 
@@ -185,6 +210,7 @@ export default function CheckoutStage_2({
                 setCardComplete(e.complete);
               }}
             /> */
+
 /* Card Number
             <CardNumberElement />
             exp

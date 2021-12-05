@@ -236,12 +236,11 @@ function ProductReviews({
             direction="column"
             className={_outer_grid}
           >
-            <a id="reviews_sub">
-              <div className={_sub_title}>
-                {num1}-{num2} of{" "}
-                {reviewFilter !== "" ? allRatings[reviewFilter] : total} Reviews
-              </div>
-            </a>
+            <div className={_sub_title} id="reviews_sub">
+              {num1}-{num2} of{" "}
+              {reviewFilter !== "" ? allRatings[reviewFilter] : total} Reviews
+            </div>
+
             {reviewFilter !== "" && (
               <Tooltip title="Clear filter">
                 <Button

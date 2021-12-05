@@ -1,14 +1,10 @@
 import { NextPage } from "next";
 import { useDispatch, useSelector } from "react-redux";
 import { SyntheticEvent, useEffect, useState } from "react";
-
 import { TokenResult } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
+
 import { stripePromise } from "../../utils/helper-functions/load-stripe";
-
-import { Box, Tab, Grid } from "@mui/material";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
-
 import { inputNames } from "../../utils/enums-types/input-names";
 import {
   checkStock,
@@ -16,12 +12,16 @@ import {
   selectCurrentUser,
   selectIsLoggedIn,
 } from "../../utils/redux-store/userSlice";
-
 import CartDetail from "../../components/shop/cart/cart-detail";
 import { loadUserInfo } from "../../utils/redux-store/shopSlice";
 import CheckoutStage_1 from "../../components/shop/checkout/checkout-stage-1";
 import CheckoutStage_2 from "../../components/shop/checkout/checkout-stage-2";
 import CheckoutStage_3 from "../../components/shop/checkout/checkout-stage-3";
+
+// UI //
+import { Box, Tab, Grid } from "@mui/material";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import styles from "./__checkout.module.css";
 
 export interface AllowedStages {
   two: boolean;
@@ -89,8 +89,8 @@ const CheckoutPage: NextPage = ({}) => {
 
   return (
     <Elements stripe={stripePromise}>
-      <main>
-        <h1>Check Out Page</h1>
+      <main className={styles.main_container}>
+        <div className={styles.main_title}>CHECKOUT</div>
         {cart.length > 0 && (
           <Box sx={{ width: "100%", typography: "body1" }}>
             <TabContext value={stage}>
@@ -114,34 +114,49 @@ const CheckoutPage: NextPage = ({}) => {
                       disabled={!allowedStages.three}
                       sx={{ typography: "h3" }}
                     />
-                    {/*  */}
                   </TabList>
                 </Grid>
               </Box>
               <TabPanel value={"1"}>
-                <CheckoutStage_1
-                  setStage={setStage}
-                  setAllowedStages={setAllowedStages}
-                />
+                <div className={styles.tab_container}>
+                  <div className={styles.left_grid}>
+                    <CheckoutStage_1
+                      setStage={setStage}
+                      setAllowedStages={setAllowedStages}
+                    />
+                  </div>
+                  <div className={styles.summary_grid}>
+                    <CartDetail cart={cart} summaryMode={true} />
+                  </div>
+                </div>
               </TabPanel>
               <TabPanel value={"2"}>
-                <CheckoutStage_2
-                  setStage={setStage}
-                  setAllowedStages={setAllowedStages}
-                  setStripeCardToken={setStripeCardToken}
-                />
+                <div className={styles.tab_container}>
+                  <div className={styles.left_grid}>
+                    <CheckoutStage_2
+                      setStage={setStage}
+                      setAllowedStages={setAllowedStages}
+                      setStripeCardToken={setStripeCardToken}
+                    />
+                  </div>
+                  <div className={styles.summary_grid}>
+                    <CartDetail cart={cart} summaryMode={true} />
+                  </div>
+                </div>
               </TabPanel>
               <TabPanel value={"3"}>
-                <CheckoutStage_3 stripeCardToken={stripeCardToken} />
+                <div className={styles.tab_container}>
+                  <div className={styles.left_grid}>
+                    <CheckoutStage_3 stripeCardToken={stripeCardToken} />
+                  </div>
+                  <div className={styles.summary_grid}>
+                    <CartDetail cart={cart} summaryMode={true} />
+                  </div>
+                </div>
               </TabPanel>
             </TabContext>
           </Box>
         )}
-
-        <hr></hr>
-        <div>Order Summary</div>
-        <CartDetail cart={cart} summaryMode={true} />
-        <hr />
       </main>
     </Elements>
   );

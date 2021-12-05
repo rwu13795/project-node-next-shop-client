@@ -37,7 +37,11 @@ function SelectState({
   const showError = !(inputError === undefined || inputError === "");
 
   let md: GridSize = 3;
-  if (page === "user-sign-in" || page === "update-info") {
+  if (
+    page === "user-sign-in" ||
+    page === "update-info" ||
+    page === "checkout"
+  ) {
     md = 12;
   }
 

@@ -2,6 +2,7 @@ import { useStripe } from "@stripe/react-stripe-js";
 import { TokenResult } from "@stripe/stripe-js";
 import { useRouter } from "next/dist/client/router";
 import { useDispatch, useSelector } from "react-redux";
+import { memo } from "react";
 
 import { Button } from "@mui/material";
 
@@ -21,9 +22,7 @@ interface Props {
   stripeCardToken: TokenResult | undefined;
 }
 
-export default function CheckoutStage_3({
-  stripeCardToken,
-}: Props): JSX.Element {
+function CheckoutStage_3({ stripeCardToken }: Props): JSX.Element {
   const client = browserClient();
   const stripe = useStripe();
   const router = useRouter();
@@ -104,3 +103,5 @@ export default function CheckoutStage_3({
     </main>
   );
 }
+
+export default memo(CheckoutStage_3);

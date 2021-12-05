@@ -30,7 +30,7 @@ const CartPage: NextPage = ({}) => {
 
   return (
     <main className={main_container}>
-      <div className={styles.main_title}>Shopping Cart</div>
+      <div className={styles.main_title}>SHOPPING CART</div>
       <CartDetail cart={cart} />
     </main>
   );

@@ -11,6 +11,7 @@ import Link from "next/link";
 
 import {
   Errors,
+  finalCheck,
   InputValues,
   onFormEnterSubmitCheck,
   onSubmitErrorCheck,
@@ -68,9 +69,24 @@ function UserSignUp({
   ) => {
     e.preventDefault();
 
-    let hasError = onSubmitErrorCheck(inputValues, inputErrors, setInputErrors);
-    hasError = onFormEnterSubmitCheck(inputValues, touched, setInputErrors);
-    if (hasError) return;
+    let errorInput = finalCheck(inputValues, touched, setInputErrors);
+    if (errorInput !== "") {
+      let elem = document.getElementById(errorInput);
+      if (elem) elem.scrollIntoView({ block: "center" });
+      return;
+    }
+
+    // let errorInput = onSubmitErrorCheck(
+    //   inputValues,
+    //   inputErrors,
+    //   setInputErrors
+    // );
+    // errorInput = onFormEnterSubmitCheck(inputValues, touched, setInputErrors);
+    // if (errorInput !== "") {
+    //   let elem = document.getElementById(errorInput);
+    //   if (elem) elem.scrollIntoView({ block: "center" });
+    //   return;
+    // }
 
     dispatch(
       signUp({

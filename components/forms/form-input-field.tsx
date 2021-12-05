@@ -88,7 +88,11 @@ function FormInputField(props: Props): JSX.Element {
       break;
   }
 
-  if (page === "user-sign-in" || page === "update-info") {
+  if (
+    page === "user-sign-in" ||
+    page === "update-info" ||
+    page === "checkout"
+  ) {
     md = 12;
   }
 
@@ -100,6 +104,7 @@ function FormInputField(props: Props): JSX.Element {
       sm={sm}
       md={md}
       className={styles.form_container}
+      id={inputName}
     >
       <FormControl error={showError} className={form_control}>
         <InputLabel htmlFor={inputLabel} className={styles.form_label}>

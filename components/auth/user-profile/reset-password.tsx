@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { inputNames } from "../../../utils/enums-types/input-names";
 import {
   Errors,
+  finalCheck,
   InputValues,
   onBlurErrorCheck,
   onChangeErrorCheck,
@@ -93,9 +94,12 @@ function ResetPassword({}): JSX.Element {
   };
 
   const resetHandler = () => {
-    let hasError = onSubmitErrorCheck(inputValues, inputErrors, setInputErrors);
-    hasError = onFormEnterSubmitCheck(inputValues, touched, setInputErrors);
-    if (hasError) return;
+    let errorInput = finalCheck(inputValues, touched, setInputErrors);
+    if (errorInput !== "") {
+      let elem = document.getElementById(errorInput);
+      if (elem) elem.scrollIntoView({ block: "center" });
+      return;
+    }
 
     dispatch(setPageLoading(true));
     dispatch(

@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, SelectChangeEvent } from "@mui/material";
 
 import {
+  finalCheck,
   InputValues,
   onBlurErrorCheck,
   onChangeErrorCheck,
@@ -117,9 +118,12 @@ function UpdateProfile({}): JSX.Element {
   ) => {
     e.preventDefault();
 
-    let hasError = onSubmitErrorCheck(inputValues, inputErrors, setInputErrors);
-    hasError = onFormEnterSubmitCheck(inputValues, touched, setInputErrors);
-    if (hasError) return;
+    let errorInput = finalCheck(inputValues, touched, setInputErrors);
+    if (errorInput !== "") {
+      let elem = document.getElementById(errorInput);
+      if (elem) elem.scrollIntoView({ block: "center" });
+      return;
+    }
 
     dispatch(setPageLoading(true));
     dispatch(updateUserInfo({ inputValues }));

@@ -27,6 +27,13 @@ interface Props {
   viewCart?: () => void;
 }
 
+interface SummaryBoxProps {
+  cart: CartItem[];
+  totalAmount: number;
+  preCheckoutHandler: () => void;
+  summaryMode?: boolean;
+}
+
 function CartDetail({
   cart,
   summaryMode,
@@ -72,6 +79,7 @@ function CartDetail({
   let qty_box = styles.qty_box;
   let remove_box = styles.remove_box;
   let subtotal = styles.subtotal;
+
   if (cartDropDown) {
     left_grid = styles.left_grid_drop_down;
     item_container = styles.item_container_drop_down;
@@ -80,6 +88,16 @@ function CartDetail({
     text_container = styles.text_container_drop_down;
     item_title = styles.item_title_drop_down;
     subtotal = styles.subtotal_drop_down;
+  }
+  if (summaryMode) {
+    item_container = styles.item_container_checkout;
+    // image_text_container = styles.image_text_container_drop_down;
+    imgae_container = styles.imgae_container_drop_down;
+    text_container = styles.text_container_drop_down;
+    item_title = styles.item_title_drop_down;
+    subtotal = styles.subtotal_drop_down;
+    left_grid = styles.left_grid_checkout;
+    qty_subtotal_grid = styles.qty_subtotal_grid_checkout;
   }
 
   return cart.length <= 0 ? (
@@ -91,6 +109,14 @@ function CartDetail({
   ) : (
     <Grid container className={main}>
       <Grid item container className={left_grid}>
+        {summaryMode && (
+          <SummaryBoxMemo
+            cart={cart}
+            totalAmount={totalAmount}
+            preCheckoutHandler={preCheckoutHandler}
+            summaryMode={summaryMode}
+          />
+        )}
         {cart.map((item, index) => {
           return (
             <div key={item.productId} className={item_container}>
@@ -99,8 +125,8 @@ function CartDetail({
                   <Image
                     src={item.imageUrl}
                     alt={item.title}
-                    width={cartDropDown ? 120 : 300}
-                    height={cartDropDown ? 141 : 332}
+                    width={cartDropDown || summaryMode ? 120 : 300}
+                    height={cartDropDown || summaryMode ? 141 : 332}
                   />
                 </div>
 
@@ -169,38 +195,14 @@ function CartDetail({
       </Grid>
 
       {!cartDropDown ? (
-        <Grid className={styles.right_grid}>
-          <div className={styles.summary_container}>
-            <div className={styles.summary_title}>Order Summary</div>
-            <div className={styles.summary_body}>
-              <div className={styles.items_total}>
-                <div>Total Items</div>
-                <div>
-                  {cart.length > 0
-                    ? cart
-                        .map((item) => item.quantity)
-                        .reduce((prev, accum) => prev + accum)
-                    : 0}
-                  {` item(s)`}
-                </div>
-              </div>
-              <div className={styles.order_total}>
-                <div>Order Total</div>
-                <div>$ {totalAmount}</div>
-              </div>
-              {cart.length > 0 && !summaryMode && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={styles.checkout_button}
-                  onClick={preCheckoutHandler}
-                >
-                  Check Out
-                </Button>
-              )}
-            </div>
-          </div>
-        </Grid>
+        !summaryMode && (
+          <SummaryBoxMemo
+            cart={cart}
+            totalAmount={totalAmount}
+            preCheckoutHandler={preCheckoutHandler}
+            summaryMode={summaryMode}
+          />
+        )
       ) : (
         <div className={styles.summary_drop_down}>
           <div className={styles.items_total}>
@@ -243,3 +245,55 @@ function CartDetail({
 }
 
 export default memo(CartDetail);
+
+function SummaryBox({
+  cart,
+  totalAmount,
+  summaryMode,
+  preCheckoutHandler,
+}: SummaryBoxProps): JSX.Element {
+  let summary_container = styles.summary_container_cart;
+  let summary_body = styles.summary_body_cart;
+  let right_grid = styles.right_grid;
+  if (summaryMode) {
+    summary_container = styles.summary_container_checkout;
+    summary_body = styles.summary_body_checkout;
+    right_grid = styles.right_grid_checkout;
+  }
+
+  return (
+    <Grid className={right_grid}>
+      <div className={summary_container}>
+        <div className={styles.summary_title}>ORDER SUMMARY</div>
+        <div className={summary_body}>
+          <div className={styles.items_total}>
+            <div>Total Items</div>
+            <div>
+              {cart.length > 0
+                ? cart
+                    .map((item) => item.quantity)
+                    .reduce((prev, accum) => prev + accum)
+                : 0}
+              {` item(s)`}
+            </div>
+          </div>
+          <div className={styles.order_total}>
+            <div>Order Total</div>
+            <div>$ {totalAmount}</div>
+          </div>
+          {cart.length > 0 && !summaryMode && (
+            <Button
+              variant="contained"
+              color="primary"
+              className={styles.checkout_button}
+              onClick={preCheckoutHandler}
+            >
+              Check Out
+            </Button>
+          )}
+        </div>
+      </div>
+    </Grid>
+  );
+}
+const SummaryBoxMemo = memo(SummaryBox);

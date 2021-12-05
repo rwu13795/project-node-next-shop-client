@@ -161,33 +161,40 @@ export const onChangeErrorCheck = (
   }
 };
 
+// the inputName is used as the "id" of the inputField, so if there is error on
+// that field, onSubmitCheck will scroll the "view" to that field
 export const onSubmitErrorCheck = (
-  input: InputValues,
-  errors: Errors,
-  setError: Dispatch<SetStateAction<Errors>>
-): boolean => {
+  inputValues: InputValues,
+  // errors: Errors,
+  setInputErrors: Dispatch<SetStateAction<Errors>>
+): string => {
+  let errorInputField = "";
   let hasError = false;
-  for (let [inputName, value] of Object.entries(input)) {
+  // set errors on all the empty fields
+  for (let [inputName, value] of Object.entries(inputValues)) {
     if (value === "") {
-      setError((prev) => {
+      setInputErrors((prev) => {
         return { ...prev, [inputName]: "Required field" };
       });
       hasError = true;
+      errorInputField = inputName;
     }
   }
-  if (hasError) return hasError;
 
-  for (let error of Object.values(errors)) {
-    if (error !== "") return true;
-  }
-  return false;
+  return errorInputField;
+
+  // for (let [inputName, error] of Object.entries(errors)) {
+  //   if (error !== "") return inputName;
+  // }
+
+  // return errorInputField;
 };
 
 export const onFormEnterSubmitCheck = (
   inputValues: InputValues,
   touched: Touched,
   setInputErrors: Dispatch<SetStateAction<Errors>>
-): boolean => {
+): string => {
   let hasError = false;
   for (let [inputName, value] of Object.entries(inputValues)) {
     // onBlurCheck cannot detect the error on the input fields if user
@@ -196,7 +203,20 @@ export const onFormEnterSubmitCheck = (
       touched[inputName] = true;
     }
     hasError = onBlurErrorCheck(inputName, value, touched, setInputErrors);
-    if (hasError) return hasError;
+    if (hasError) return inputName;
   }
-  return hasError;
+  return "";
+};
+
+export const finalCheck = (
+  inputValues: InputValues,
+  touched: Touched,
+  setInputErrors: Dispatch<SetStateAction<Errors>>
+): string => {
+  let errorInput = "";
+  errorInput = onSubmitErrorCheck(inputValues, setInputErrors);
+  if (errorInput !== "") return errorInput;
+
+  errorInput = onFormEnterSubmitCheck(inputValues, touched, setInputErrors);
+  return errorInput;
 };

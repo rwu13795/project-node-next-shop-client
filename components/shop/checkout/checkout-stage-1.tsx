@@ -4,16 +4,19 @@ import React, {
   FocusEvent,
   SetStateAction,
   Dispatch,
+  memo,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { SelectChangeEvent } from "@mui/material";
 
 import {
+  finalCheck,
   InputValues,
   onBlurErrorCheck,
   onChangeErrorCheck,
   onFocusErrorCheck,
+  onFormEnterSubmitCheck,
   onSubmitErrorCheck,
 } from "../../../utils/helper-functions/input-error-check";
 import { inputNames } from "../../../utils/enums-types/input-names";
@@ -43,10 +46,7 @@ interface Props {
   setAllowedStages: Dispatch<SetStateAction<AllowedStages>>;
 }
 
-export default function CheckoutStage_1({
-  setStage,
-  setAllowedStages,
-}: Props): JSX.Element {
+function CheckoutStage_1({ setStage, setAllowedStages }: Props): JSX.Element {
   const dispatch = useDispatch();
   const shippingAddress = useSelector(selectShippingAddress);
   const contactInfo = useSelector(selectContactInfo);
@@ -78,11 +78,24 @@ export default function CheckoutStage_1({
   };
 
   const stageChangeHandler = async () => {
-    let hasError = false;
-    hasError = onSubmitErrorCheck(shippingAddress, inputErrors, setInputErrors);
-    if (hasError) return;
-    hasError = onSubmitErrorCheck(contactInfo, inputErrors, setInputErrors);
-    if (hasError) return;
+    // let hasError = "";
+    // hasError = onSubmitErrorCheck(shippingAddress, inputErrors, setInputErrors);
+    // if (hasError) return;
+    // hasError = onSubmitErrorCheck(contactInfo, inputErrors, setInputErrors);
+    // if (hasError) return;
+
+    let errorInput = finalCheck(shippingAddress, touched, setInputErrors);
+    if (errorInput !== "") {
+      let elem = document.getElementById(errorInput);
+      if (elem) elem.scrollIntoView({ block: "center" });
+      return;
+    }
+    errorInput = finalCheck(contactInfo, touched, setInputErrors);
+    if (errorInput !== "") {
+      let elem = document.getElementById(errorInput);
+      if (elem) elem.scrollIntoView({ block: "center" });
+      return;
+    }
 
     for (let i = 0; i < cart.length; i++) {
       if (cart[i].quantity === 0) {
@@ -100,7 +113,10 @@ export default function CheckoutStage_1({
       onFocusHandler,
       onBlurHandler,
       onChangeHandler,
-      inputErrors
+      inputErrors,
+      undefined,
+      undefined,
+      "checkout"
     );
   };
 
@@ -118,3 +134,12 @@ export default function CheckoutStage_1({
     </main>
   );
 }
+
+export default memo(CheckoutStage_1);
+
+/*
+scroll to the specific element on button click
+
+<input type="button" onClick="document.getElementById('middle').scrollIntoView();" />
+
+*/
