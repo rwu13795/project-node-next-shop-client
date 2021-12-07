@@ -16,6 +16,10 @@
   margin-top: 16px;
 }
 
+.body {
+  width: 100%;
+}
+
 .tags_title_container {
   width: 100%;
   border-bottom: 1px solid rgb(129, 129, 129);
@@ -24,6 +28,12 @@
   font-size: 30px;
   font-weight: bold;
   font-family: "Oswald", sans-serif;
+}
+
+.tab_container {
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .tab_content {
@@ -60,7 +70,7 @@
 
 @media screen and (min-width: 765px) and (max-width: 1000px) {
   .main_container {
-    width: 100vw;
+    width: 95vw;
     margin-top: 30px;
   }
 }
@@ -69,13 +79,9 @@
   .main_container {
     width: 100vw;
     margin-top: 30px;
+    margin-bottom: 0px;
   }
-  .tab_container {
-    width: 100%;
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: center;
-  }
+
   .tag {
     font-size: min(24px, 5vw);
     height: 30px;
@@ -86,13 +92,22 @@
     margin-right: 0px;
     margin-bottom: 40px;
   }
-  .summary_grid {
-    width: 100%;
+  .right_grid {
+    width: 98%;
     margin-left: 0px;
+  }
+  .summary_grid {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin-left: 0px;
+    padding: 0;
+    top: 10px;
   }
 
   .main_title {
     font-size: 35px;
+    margin-left: 10px;
   }
   .sub_title {
     font-size: 16px;

@@ -97,7 +97,7 @@ const CheckoutPage: NextPage = ({}) => {
       <main className={styles.main_container}>
         <div className={styles.main_title}>CHECKOUT</div>
         {cart.length > 0 ? (
-          <Box sx={{ width: "100%" }}>
+          <Box className={styles.body}>
             <TabContext value={stage}>
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                 <Grid
@@ -131,48 +131,21 @@ const CheckoutPage: NextPage = ({}) => {
                   </TabList>
                 </Grid>
               </Box>
-              <TabPanel value={"1"}>
-                <div className={styles.tab_content}>
-                  <div className={styles.left_grid}>
-                    <CheckoutStage_1
-                      setStage={setStage}
-                      setAllowedStages={setAllowedStages}
-                    />
-                  </div>
-                  <div className={styles.right_grid}>
-                    <div className={styles.summary_grid}>
-                      <CartDetail cart={cart} summaryMode={true} />
-                    </div>
-                  </div>
-                </div>
+              <TabPanel value={"1"} className={styles.tab_container}>
+                <CheckoutStage_1
+                  setStage={setStage}
+                  setAllowedStages={setAllowedStages}
+                />
               </TabPanel>
-              <TabPanel value={"2"}>
-                <div className={styles.tab_content}>
-                  <div className={styles.left_grid}>
-                    <CheckoutStage_2
-                      setStage={setStage}
-                      setAllowedStages={setAllowedStages}
-                      setStripeCardToken={setStripeCardToken}
-                    />
-                  </div>
-                  <div className={styles.right_grid}>
-                    <div className={styles.summary_grid}>
-                      <CartDetail cart={cart} summaryMode={true} />
-                    </div>
-                  </div>
-                </div>
+              <TabPanel value={"2"} className={styles.tab_container}>
+                <CheckoutStage_2
+                  setStage={setStage}
+                  setAllowedStages={setAllowedStages}
+                  setStripeCardToken={setStripeCardToken}
+                />
               </TabPanel>
-              <TabPanel value={"3"}>
-                <div className={styles.tab_content}>
-                  <div className={styles.left_grid}>
-                    <CheckoutStage_3 stripeCardToken={stripeCardToken} />
-                  </div>
-                  <div className={styles.right_grid}>
-                    <div className={styles.summary_grid}>
-                      <CartDetail cart={cart} summaryMode={true} />
-                    </div>
-                  </div>
-                </div>
+              <TabPanel value={"3"} className={styles.tab_container}>
+                <CheckoutStage_3 stripeCardToken={stripeCardToken} />
               </TabPanel>
             </TabContext>
           </Box>
@@ -185,3 +158,8 @@ const CheckoutPage: NextPage = ({}) => {
 };
 
 export default CheckoutPage;
+
+export function getStaticProps() {
+  // (2) //
+  return { props: { page: "checkout" } };
+}

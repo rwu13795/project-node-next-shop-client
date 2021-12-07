@@ -23,6 +23,7 @@ import {
   CardExpiryElement,
   CardCvcElement,
 } from "@stripe/react-stripe-js";
+import Image from "next/image";
 
 import {
   cardCompleteCheck,
@@ -48,6 +49,8 @@ import {
 import { AllowedStages } from "../../../pages/shop/checkout";
 import { TextFieldStyled } from "../../../styles/mui-custom-components";
 import renderInputFields from "../../../utils/helper-functions/render-input-fields";
+import { selectCart } from "../../../utils/redux-store/userSlice";
+import CartDetail from "../cart/cart-detail";
 
 // UI //
 import {
@@ -99,6 +102,7 @@ function CheckoutStage_2({
   const billingAddress = useSelector(selectBillingAddress);
   const elements = useElements();
   const stripe = useStripe();
+  const cart = useSelector(selectCart);
 
   const [inputErrors, setInputErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Touched>({});
@@ -142,25 +146,30 @@ function CheckoutStage_2({
   ) => {
     e.preventDefault();
 
-    let errorInput = finalCheck(billingAddress, touched, setInputErrors);
+    const errorInput = finalCheck(billingAddress, touched, setInputErrors);
     if (errorInput !== "") {
-      let elem = document.getElementById(errorInput);
+      const elem = document.getElementById(errorInput);
       if (elem) elem.scrollIntoView({ block: "center" });
       return;
     }
 
-    if (cardErorrsCheck(cardErorrs)) return;
+    const cardErrorField = cardErorrsCheck(cardErorrs);
+    if (cardErrorField !== "") {
+      const elem = document.getElementById(cardErrorField);
+      if (elem) elem.scrollIntoView({ block: "center" });
+      return;
+    }
 
     // if user hit "Enter" to submit after filling out the last element
     // the stripeCard error check won't be triggered since it is triggered onBlur
     // so I have to use the stripe cardComplete status to check the input in such
     // circumstance and display an incomplete error
-    let incompleteCardField = cardCompleteCheck(cardComplete, cardErorrs);
+    const incompleteCardField = cardCompleteCheck(cardComplete, cardErorrs);
     if (incompleteCardField !== "") {
       setIncompleteError((prev) => {
         return { ...prev, [incompleteCardField]: "Incomplete field" };
       });
-      let elem = document.getElementById(incompleteCardField);
+      const elem = document.getElementById(incompleteCardField);
       if (elem) elem.scrollIntoView({ block: "center" });
       return;
     }
@@ -222,11 +231,9 @@ function CheckoutStage_2({
     );
   };
 
-  console.log(cardErorrs);
-
   return (
-    <main>
-      <div>
+    <main className={styles.main_container}>
+      <div className={styles.left_grid}>
         <div className={styles.sub_title}>BILLING ADDRESS</div>
         <div className={styles.billing_input}>
           <Checkbox
@@ -240,6 +247,16 @@ function CheckoutStage_2({
           {!boxChecked && inputFields(addressFields, billingAddress)}
           <div className={styles.payment_method}>
             <div className={styles.sub_title}>PAYMENT METHOD</div>
+            <div className={styles.card_icons}>
+              CREDIT CARD
+              {card_icons.map((src) => {
+                return (
+                  <div key={src} className={styles.card_image}>
+                    <Image src={src} alt={src} width={45} height={30} />
+                  </div>
+                );
+              })}
+            </div>
 
             <div className={styles.card_elements}>
               <StripeCardElement
@@ -266,9 +283,11 @@ function CheckoutStage_2({
             </div>
           </div>
           <div className={styles.hint_box}>
-            HINT: For payment testing, please use the 4242 4242 4242 4242 as the
-            card number, a future date as the expiration date and any 3-digits
-            number as the CVC
+            <div className={styles.hint_text}>
+              HINT: For payment testing, please use 4242 4242 4242 4242 as the
+              card number, a future date as the expiration date and any 3-digits
+              number as the CVC
+            </div>
           </div>
 
           <div className={styles.button_box}>
@@ -283,11 +302,34 @@ function CheckoutStage_2({
           </div>
         </form>
       </div>
+
+      <div className={styles.right_grid}>
+        <div className={styles.summary_grid}>
+          <CartDetail cart={cart} summaryMode={true} />
+        </div>
+      </div>
+
+      <div className={styles.button_box_sticky}>
+        <Button
+          variant="contained"
+          onClick={stageChangeHandler}
+          className={styles.button}
+        >
+          CONTINUE
+        </Button>
+      </div>
     </main>
   );
 }
 
 export default memo(CheckoutStage_2);
+
+const card_icons = [
+  "/card-icons/card-icon-1.jpg",
+  "/card-icons/card-icon-2.jpg",
+  "/card-icons/card-icon-3.jpg",
+  "/card-icons/card-icon-4.jpg",
+];
 
 // NOTE //
 /* In case you are using the CardNumberElement, CardExpiryElement, CardCvcElement, 

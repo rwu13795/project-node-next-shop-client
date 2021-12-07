@@ -77,13 +77,13 @@ const ProfilePage: NextPage<PageProps> = ({
           </TabList>
         </Grid>
 
-        <TabPanel value={"1"}>
+        <TabPanel value={"1"} className={styles.tab_container}>
           <UpdateProfile />
         </TabPanel>
-        <TabPanel value={"2"}>
+        <TabPanel value={"2"} className={styles.tab_container}>
           <OrderHistory orders={orders!} ordersTotal={ordersTotal} />
         </TabPanel>
-        <TabPanel value={"3"}>
+        <TabPanel value={"3"} className={styles.tab_container}>
           <ResetPassword />
         </TabPanel>
       </TabContext>

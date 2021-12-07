@@ -32,7 +32,7 @@ import {
   setShippingAddress,
   setContactInfo,
 } from "../../../utils/redux-store/shopSlice";
-
+import CartDetail from "../cart/cart-detail";
 import renderInputFields from "../../../utils/helper-functions/render-input-fields";
 import { AllowedStages } from "../../../pages/shop/checkout";
 import { inputTypes } from "../../../utils/enums-types/input-types";
@@ -124,25 +124,43 @@ function CheckoutStage_1({ setStage, setAllowedStages }: Props): JSX.Element {
   };
 
   return (
-    <main>
-      <form onSubmit={stageChangeHandler}>
-        <div>
-          <div className={styles.sub_title}>SHIPPING ADDRESS</div>
-          {inputFields(addressFields, shippingAddress)}
-          <div className={styles.sub_title}>CONTACT INFO</div>
-          {inputFields(contactFields, contactInfo)}
+    <main className={styles.main_container}>
+      <div className={styles.left_grid}>
+        <form onSubmit={stageChangeHandler}>
+          <div>
+            <div className={styles.sub_title}>SHIPPING ADDRESS</div>
+            {inputFields(addressFields, shippingAddress)}
+            <div className={styles.sub_title}>CONTACT INFO</div>
+            {inputFields(contactFields, contactInfo)}
+          </div>
+          <div className={styles.button_box}>
+            <Button
+              type="submit"
+              variant="contained"
+              onClick={stageChangeHandler}
+              className={styles.button}
+            >
+              CONTINUE
+            </Button>
+          </div>
+        </form>
+      </div>
+
+      <div className={styles.right_grid}>
+        <div className={styles.summary_grid}>
+          <CartDetail cart={cart} summaryMode={true} />
         </div>
-        <div className={styles.button_box}>
-          <Button
-            type="submit"
-            variant="contained"
-            onClick={stageChangeHandler}
-            className={styles.button}
-          >
-            CONTINUE
-          </Button>
-        </div>
-      </form>
+      </div>
+
+      <div className={styles.button_box_sticky}>
+        <Button
+          variant="contained"
+          onClick={stageChangeHandler}
+          className={styles.button}
+        >
+          CONTINUE
+        </Button>
+      </div>
     </main>
   );
 }

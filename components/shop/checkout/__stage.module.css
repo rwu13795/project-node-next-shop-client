@@ -1,16 +1,52 @@
+.main_container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  overflow-x: visible;
+}
 .sub_title {
   margin: 20px 0 10px 0;
   font-size: 26px;
   font-weight: bold;
 }
+
+.left_grid {
+  width: 50%;
+  margin-right: 10px;
+}
+.right_grid {
+  width: 50%;
+  margin-left: 10px;
+  min-height: 75vh;
+}
+.summary_grid {
+  position: sticky;
+  top: 200px;
+  height: 70vh;
+  width: 100%;
+  overflow: auto;
+}
+.summary_grid::-webkit-scrollbar {
+  width: 4px !important;
+}
+.summary_grid::-webkit-scrollbar-thumb {
+  background-color: #008ab4;
+}
+
 .button_box {
   margin-top: 40px;
   display: flex;
   justify-content: center;
 }
+.button_box_sticky {
+  display: none;
+}
 .button {
-  width: 50%;
-  font-size: 24px;
+  width: 60%;
+  min-width: 280px;
+  font-size: 22px;
 }
 
 .billing_input {
@@ -27,121 +63,6 @@
 .card_elements {
   width: 100%;
 }
-
-.card_input_outer_box {
-  width: auto;
-  height: 92px;
-}
-.card_input_outer_box_2 {
-  width: 50%;
-  min-height: 92px;
-}
-.card_input_box {
-  width: auto;
-  max-width: 40rem;
-  box-shadow: 2px 2px 5px black;
-  height: 62px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 10px;
-  margin-right: 10px;
-  border-radius: 4px;
-}
-.card_input_box_error {
-  width: auto;
-  max-width: 40rem;
-  box-shadow: 2px 2px 5px black;
-  height: 62px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 10px;
-  margin-right: 10px;
-  border-radius: 4px;
-  border-left: red solid 2px;
-  border-right: red solid 2px;
-  border-bottom: red solid 2px;
-}
-.card_input_field {
-  width: 100%;
-  margin: 10px 16px 0px 16px;
-}
-
-.card_label {
-  color: gray;
-  width: auto;
-  text-align: center;
-  padding: 0 4px;
-}
-
-/* 
-    to create a border line at the left and right of the label, and make them looks like
-    the top border of the card input fields. By doing so, I can prevent the top border line
-    of the input field from crossing over the label, and also I don't have to use the label
-    to cover the border line (if the background color is "white", I could just use the
-    label element to cover part of the border line) 
-*/
-.card_label_border_container {
-  width: 100%;
-  display: flex;
-  position: relative;
-  top: 13px;
-  left: 12px;
-}
-.card_label_border_left {
-  text-align: center;
-  width: 10px;
-  display: flex;
-}
-.card_label_border_left::before {
-  content: "";
-  flex: 1;
-  align-self: center;
-  border: 2px solid rgb(255, 0, 0);
-  border-width: 2px 0px 0px;
-  height: 0;
-}
-.card_label_border_right {
-  text-align: center;
-  width: min(calc(100% - 134px), calc(41.5rem - 134px));
-  display: flex;
-}
-.card_label_border_right::before {
-  content: "";
-  flex: 1;
-  align-self: center;
-  border: 2px solid rgb(255, 0, 0);
-  border-width: 2px 0px 0px;
-  height: 0;
-}
-.card_label_border_right_2 {
-  text-align: center;
-  width: min(calc(100% - 115px), calc(41.5rem - 115px));
-  display: flex;
-}
-.card_label_border_right_2::before {
-  content: "";
-  flex: 1;
-  align-self: center;
-  border: 2px solid rgb(255, 0, 0);
-  border-width: 2px 0px 0px;
-  height: 0;
-}
-.card_label_border_right_3 {
-  text-align: center;
-  width: min(calc(100% - 67px), calc(41.5rem - 67px));
-  display: flex;
-}
-.card_label_border_right_3::before {
-  content: "";
-  flex: 1;
-  align-self: center;
-  border: 2px solid rgb(255, 0, 0);
-  border-width: 2px 0px 0px;
-  height: 0;
-}
-
 .exp_ccv_grid {
   width: 100%;
   max-width: 41.5rem;
@@ -149,16 +70,107 @@
   flex-flow: row nowrap;
   justify-content: space-between;
 }
-.card_input_error {
-  color: red;
-  font-size: min(4vw, 1rem);
-  margin-top: 5px;
-  margin-left: 25px;
-}
 
 .hint_box {
+  width: 100%;
+  max-width: 41.5rem;
   margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hint_text {
+  width: 90%;
   border: 3px solid black;
-  padding: 8px;
+  padding: 10px;
   font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.card_icons {
+  margin-top: 20px;
+  margin-left: 10px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 18px;
+}
+.card_image {
+  margin-left: 10px;
+  position: relative;
+}
+
+@media screen and (max-width: 765px) {
+  .main_container {
+    flex-flow: column nowrap;
+    align-items: center;
+  }
+
+  .billing_input {
+    font-size: 15px;
+    display: flex;
+    margin-top: 5px;
+  }
+  .sub_title {
+    font-size: 18px;
+  }
+
+  .left_grid {
+    width: 95%;
+    margin-right: 0px;
+    margin-bottom: 40px;
+  }
+  .right_grid {
+    width: 95%;
+    margin-left: 0px;
+    height: auto;
+  }
+  .summary_grid {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin-left: 0px;
+    padding: 0;
+    top: 10px;
+  }
+
+  .button_box {
+    display: none;
+  }
+
+  .button_box_sticky {
+    position: sticky;
+    width: 100%;
+    margin: 0;
+    bottom: 0;
+    height: 60px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    background-image: linear-gradient(
+      to top,
+      rgba(34, 185, 255, 0.5) 0%,
+      rgb(255, 255, 255) 45%
+    );
+  }
+  .button {
+    height: 40px;
+    width: 80%;
+    font-size: 18px;
+  }
+
+  .hint_text {
+    font-size: 16px;
+  }
+
+  .card_icons {
+    font-size: 14px;
+  }
+  .card_image {
+    width: 37.5px;
+    height: 25px;
+  }
 }

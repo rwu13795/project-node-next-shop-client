@@ -22,7 +22,7 @@ import {
   SelectChangeEvent,
   FormHelperText,
 } from "@mui/material";
-import styles from "./__stage.module.css";
+import styles from "./__card-elements.module.css";
 
 interface Props {
   type: string;
@@ -82,7 +82,7 @@ export default function StripeCardElement({
     );
   }
 
-  let label_left = "";
+  let label_left = styles.card_label_border_left_none;
   let card_input_box = styles.card_input_box;
   let label_color: CSSProperties = {};
   if (cardErorrs[id] || incompleteError[id]) {
@@ -95,7 +95,7 @@ export default function StripeCardElement({
 
   return (
     <Fragment>
-      <div id="cardNumber" className={outer_box}>
+      <div id={id} className={outer_box}>
         <div className={styles.card_label_border_container}>
           <div className={label_left}></div>
           <span className={styles.card_label} style={label_color}>

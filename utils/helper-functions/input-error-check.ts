@@ -235,9 +235,9 @@ export const cardCompleteCheck = (
   return "";
 };
 
-export const cardErorrsCheck = (cardErorrs: CardErrors): boolean => {
-  for (let v of Object.values(cardErorrs)) {
-    if (v !== undefined) return true;
+export const cardErorrsCheck = (cardErorrs: CardErrors): string => {
+  for (let [k, v] of Object.entries(cardErorrs)) {
+    if (v !== undefined) return k;
   }
-  return false;
+  return "";
 };

@@ -1,0 +1,176 @@
+.card_input_outer_box {
+  width: auto;
+  height: 92px;
+}
+.card_input_outer_box_2 {
+  width: 50%;
+  min-height: 92px;
+}
+.card_input_box {
+  width: auto;
+  max-width: 40rem;
+  box-shadow: 2px 2px 5px black;
+  height: 62px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 4px;
+}
+.card_input_box_error {
+  width: auto;
+  max-width: 40rem;
+  box-shadow: 2px 2px 5px black;
+  height: 62px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 4px;
+  border-left: red solid 1px;
+  border-right: red solid 1px;
+  border-bottom: red solid 1px;
+}
+.card_input_field {
+  width: 100%;
+  margin: 10px 16px 0px 16px;
+}
+
+.card_label {
+  color: gray;
+  width: auto;
+  text-align: center;
+  font-size: 14px;
+  padding: 0 4px;
+}
+
+/* 
+      to create a border line at the left and right of the label, and make them looks like
+      the top border of the card input fields. By doing so, I can prevent the top border line
+      of the input field from crossing over the label, and also I don't have to use the label
+      to cover the border line (if the background color is "white", I could just use the
+      label element to cover part of the border line) 
+  */
+.card_label_border_container {
+  width: 98%;
+  display: flex;
+  position: relative;
+  top: 11px;
+  left: 12px;
+}
+.card_label_border_left_none {
+  text-align: center;
+  width: 10px;
+  display: flex;
+  content: "";
+}
+.card_label_border_left {
+  text-align: center;
+  width: 10px;
+  display: flex;
+}
+.card_label_border_left::before {
+  content: "";
+  flex: 1;
+  align-self: center;
+  border: 1px solid rgb(255, 0, 0);
+  border-width: 1px 0px 0px;
+  height: 0;
+}
+.card_label_border_right {
+  text-align: center;
+  width: min(calc(102% - 123px), calc(41.5rem - 123px));
+  display: flex;
+}
+.card_label_border_right::before {
+  content: "";
+  flex: 1;
+  align-self: center;
+  border: 1px solid rgb(255, 0, 0);
+  border-width: 1px 0px 0px;
+  height: 0;
+}
+.card_label_border_right_2 {
+  text-align: center;
+  width: min(calc(102% - 106px), calc(41.5rem - 106px));
+  display: flex;
+}
+.card_label_border_right_2::before {
+  content: "";
+  flex: 1;
+  align-self: center;
+  border: 1px solid rgb(255, 0, 0);
+  border-width: 1px 0px 0px;
+  height: 0;
+}
+.card_label_border_right_3 {
+  text-align: center;
+  width: min(calc(102% - 64px), calc(41.5rem - 64px));
+  display: flex;
+}
+.card_label_border_right_3::before {
+  content: "";
+  flex: 1;
+  align-self: center;
+  border: 1px solid rgb(255, 0, 0);
+  border-width: 1px 0px 0px;
+  height: 0;
+}
+
+.card_input_error {
+  color: red;
+  font-size: min(4vw, 1rem);
+  margin-top: 5px;
+  margin-left: 25px;
+}
+
+@media screen and (max-width: 765px) {
+  .card_input_outer_box {
+    height: 70px;
+  }
+  .card_input_outer_box_2 {
+    min-height: 82px;
+  }
+  .card_input_box {
+    height: 50px;
+  }
+  .card_input_box_error {
+    height: 50px;
+  }
+  .card_input_field {
+    width: 100%;
+    margin: 10px 16px 0px 16px;
+  }
+
+  .card_label {
+    font-size: 10px;
+  }
+
+  .card_input_error {
+    font-size: min(4vw, 12px);
+  }
+
+  .card_label_border_container {
+    top: 8px;
+    left: 12px;
+  }
+  .card_label_border_right {
+    text-align: center;
+    width: min(calc(102% - 100px), calc(41.5rem - 100px));
+    display: flex;
+  }
+
+  .card_label_border_right_2 {
+    text-align: center;
+    width: min(calc(102% - 88px), calc(41.5rem - 88px));
+    display: flex;
+  }
+
+  .card_label_border_right_3 {
+    text-align: center;
+    width: min(calc(102% - 58px), calc(41.5rem - 58px));
+    display: flex;
+  }
+}

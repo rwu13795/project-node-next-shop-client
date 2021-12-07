@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@mui/material/styles";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, CSSProperties } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { theme } from "../../styles/mui-theme";
@@ -74,7 +74,7 @@ export default function Layout({
           <div className={styles.main_component_grid}>{children}</div>
         </main>
 
-        <Footer />
+        {page !== "checkout" && <Footer />}
       </ThemeProvider>
     </main>
   );
