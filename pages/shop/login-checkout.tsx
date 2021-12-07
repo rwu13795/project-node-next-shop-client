@@ -11,6 +11,7 @@ import {
   selectIsLoggedIn,
 } from "../../utils/redux-store/userSlice";
 import { inputFieldsArray } from "../auth/sign-in";
+import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
 
 const LoginCheckoutPage: NextPage = ({}) => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -23,6 +24,10 @@ const LoginCheckoutPage: NextPage = ({}) => {
       router.push("/shop/checkout");
     }
   }, [isLoggedIn, router, currentUser.userId]);
+
+  useEffect(() => {
+    return instantlyToTop();
+  });
 
   return (
     <main>

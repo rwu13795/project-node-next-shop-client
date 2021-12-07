@@ -42,6 +42,7 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 import styles from "./__add-product.module.css";
 import { Reviews } from "../shop/product-detail/[product_id]";
 import browserClient from "../../utils/axios-client/browser-client";
+import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
 
 const initialProductState: ProductState = {
   colorPropsList: [initialColorProps],
@@ -103,6 +104,10 @@ const AddProductPage: NextPage<PageProps> = ({
   useEffect(() => {
     reduxDispatch(setPageLoading(false));
   }, []);
+
+  useEffect(() => {
+    return instantlyToTop();
+  });
 
   const dispatchAddInfo = (e: AddInfoEvents) => {
     const inputValue = e.target.value;

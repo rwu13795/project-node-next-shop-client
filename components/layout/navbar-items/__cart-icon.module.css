@@ -48,7 +48,7 @@
   width: 25rem;
   border-radius: 0;
   border: 2px solid black;
-  max-height: 80vh;
+  max-height: 65vh;
   overflow-y: auto;
   background-image: linear-gradient(
     to left,
@@ -58,6 +58,13 @@
   z-index: 10;
   overflow: "visible";
   padding: 20px;
+}
+.cart_summary_menu::-webkit-scrollbar {
+  width: 8px !important;
+}
+.cart_summary_menu::-webkit-scrollbar-thumb {
+  background-color: #00789c;
+  border: black 1px solid;
 }
 
 /* the "position: absolute" has to be inside the Collapse tab in order to 

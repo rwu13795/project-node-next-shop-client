@@ -5,10 +5,10 @@ import React, {
   SetStateAction,
   Dispatch,
   memo,
+  FormEvent,
+  MouseEvent,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { SelectChangeEvent } from "@mui/material";
 
 import {
   finalCheck,
@@ -40,6 +40,10 @@ import {
   removeFromCartSession,
   selectCart,
 } from "../../../utils/redux-store/userSlice";
+
+// UI //
+import { Button, SelectChangeEvent } from "@mui/material";
+import styles from "./__stage.module.css";
 
 interface Props {
   setStage: Dispatch<SetStateAction<string>>;
@@ -77,12 +81,10 @@ function CheckoutStage_1({ setStage, setAllowedStages }: Props): JSX.Element {
     onChangeErrorCheck(name, value, setInputErrors);
   };
 
-  const stageChangeHandler = async () => {
-    // let hasError = "";
-    // hasError = onSubmitErrorCheck(shippingAddress, inputErrors, setInputErrors);
-    // if (hasError) return;
-    // hasError = onSubmitErrorCheck(contactInfo, inputErrors, setInputErrors);
-    // if (hasError) return;
+  const stageChangeHandler = (
+    e: FormEvent<HTMLFormElement> | MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
 
     let errorInput = finalCheck(shippingAddress, touched, setInputErrors);
     if (errorInput !== "") {
@@ -103,6 +105,7 @@ function CheckoutStage_1({ setStage, setAllowedStages }: Props): JSX.Element {
       }
     }
     setStage("2");
+    window.scrollTo({ top: 0 });
     setAllowedStages({ two: true, three: false });
   };
 
@@ -122,15 +125,24 @@ function CheckoutStage_1({ setStage, setAllowedStages }: Props): JSX.Element {
 
   return (
     <main>
-      <div>
-        <h3>SHIPPING ADDRESS</h3>
-        {inputFields(addressFields, shippingAddress)}
-        <h3>CONTACT INFO</h3>
-        {inputFields(contactFields, contactInfo)}
-      </div>
-      <div>
-        <button onClick={stageChangeHandler}>CONTINUE</button>
-      </div>
+      <form onSubmit={stageChangeHandler}>
+        <div>
+          <div className={styles.sub_title}>SHIPPING ADDRESS</div>
+          {inputFields(addressFields, shippingAddress)}
+          <div className={styles.sub_title}>CONTACT INFO</div>
+          {inputFields(contactFields, contactInfo)}
+        </div>
+        <div className={styles.button_box}>
+          <Button
+            type="submit"
+            variant="contained"
+            onClick={stageChangeHandler}
+            className={styles.button}
+          >
+            CONTINUE
+          </Button>
+        </div>
+      </form>
     </main>
   );
 }

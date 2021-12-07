@@ -24,7 +24,7 @@ const ForgotPasswordPage: NextPage = ({}) => {
     if (isLoggedIn) {
       router.push("/");
     }
-  });
+  }, [isLoggedIn, router]);
 
   return (
     <AuthForm

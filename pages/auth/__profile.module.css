@@ -7,7 +7,6 @@
 .tags_title_container {
   width: 100%;
   border-bottom: 1px solid rgb(129, 129, 129);
-  overflow-x: visible;
 }
 .tag {
   font-size: 30px;

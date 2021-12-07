@@ -26,6 +26,7 @@ import {
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import styles from "./__sub-cat.module.css";
+import { instantlyToTop } from "../../../utils/helper-functions/scrollToTopInstantly";
 
 const MenSubCatPage: NextPage<SubCat_PageProps> = ({
   products: startProducts,
@@ -47,6 +48,13 @@ const MenSubCatPage: NextPage<SubCat_PageProps> = ({
 
   useEffect(() => {
     dispatch(setPageLoading(false));
+  });
+
+  // I have use the window.scrollTo() "instant" behavior when the page
+  // is unmounted, otherwise, the "smooth" behavior will make the new page looks
+  // start at the position of the old page and then "scroll smoothly" back to top
+  useEffect(() => {
+    return instantlyToTop();
   });
 
   const backToTopHandler = () => {

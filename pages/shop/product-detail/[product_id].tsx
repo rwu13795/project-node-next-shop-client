@@ -14,6 +14,7 @@ import styles from "./__detail.module.css";
 import PageLinks from "../../../components/layout/page-links/links";
 import browserClient from "../../../utils/axios-client/browser-client";
 import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
+import { instantlyToTop } from "../../../utils/helper-functions/scrollToTopInstantly";
 
 export interface ReviewProps {
   title: string;
@@ -77,6 +78,10 @@ const ProductDetailPage: NextPage<PageProps> = ({
 
   useEffect(() => {
     dispatch(setPageLoading(false));
+  });
+
+  useEffect(() => {
+    return instantlyToTop();
   });
 
   const refreshReviewsUser = async (pageNum: number, reviewFilter: string) => {

@@ -5,9 +5,16 @@ import React, {
   SetStateAction,
   Dispatch,
   memo,
+  FormEvent,
+  MouseEvent,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { TokenResult } from "@stripe/stripe-js";
+import {
+  StripeCardCvcElementChangeEvent,
+  StripeCardExpiryElementChangeEvent,
+  StripeCardNumberElementChangeEvent,
+  TokenResult,
+} from "@stripe/stripe-js";
 import {
   CardElement,
   useElements,
@@ -17,9 +24,9 @@ import {
   CardCvcElement,
 } from "@stripe/react-stripe-js";
 
-import { Checkbox, SelectChangeEvent } from "@mui/material";
-
 import {
+  cardCompleteCheck,
+  cardErorrsCheck,
   finalCheck,
   InputValues,
   onBlurErrorCheck,
@@ -42,16 +49,44 @@ import { AllowedStages } from "../../../pages/shop/checkout";
 import { TextFieldStyled } from "../../../styles/mui-custom-components";
 import renderInputFields from "../../../utils/helper-functions/render-input-fields";
 
+// UI //
+import {
+  Button,
+  Checkbox,
+  SelectChangeEvent,
+  FormHelperText,
+} from "@mui/material";
+import styles from "./__stage.module.css";
+import StripeCardElement from "./stripe-card-elements";
+
 interface Props {
   setStage: Dispatch<SetStateAction<string>>;
   setAllowedStages: Dispatch<SetStateAction<AllowedStages>>;
   setStripeCardToken?: Dispatch<SetStateAction<TokenResult | undefined>>;
 }
 
-interface StripeCardError {
-  type: string;
+interface StripeElementError {
+  type: "validation_error";
   code: string;
   message: string;
+}
+export interface CardErrors {
+  cardNumber: StripeElementError | undefined;
+  cardExpiry: StripeElementError | undefined;
+  cardCvc: StripeElementError | undefined;
+  [elem: string]: StripeElementError | undefined;
+}
+export interface CardComplete {
+  cardNumber: boolean;
+  cardExpiry: boolean;
+  cardCvc: boolean;
+  [elem: string]: boolean;
+}
+export interface IncompleteError {
+  cardNumber: string;
+  cardExpiry: string;
+  cardCvc: string;
+  [elem: string]: string;
 }
 
 function CheckoutStage_2({
@@ -68,8 +103,21 @@ function CheckoutStage_2({
   const [inputErrors, setInputErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Touched>({});
   const [boxChecked, setBoxChecked] = useState<boolean>(true);
-  const [cardErorr, setCardError] = useState<StripeCardError>();
-  const [cardComplete, setCardComplete] = useState<boolean>(false);
+  const [cardErorrs, setCardErrors] = useState<CardErrors>({
+    cardNumber: undefined,
+    cardExpiry: undefined,
+    cardCvc: undefined,
+  });
+  const [cardComplete, setCardComplete] = useState<CardComplete>({
+    cardNumber: false,
+    cardExpiry: false,
+    cardCvc: false,
+  });
+  const [incompleteError, setIncompleteError] = useState<IncompleteError>({
+    cardNumber: "",
+    cardExpiry: "",
+    cardCvc: "",
+  });
 
   const onFocusHandler = (e: FocusEvent<HTMLInputElement>) => {
     const { name } = e.currentTarget;
@@ -89,7 +137,11 @@ function CheckoutStage_2({
     onChangeErrorCheck(name, value, setInputErrors);
   };
 
-  const stageChangeHandler = async () => {
+  const stageChangeHandler = async (
+    e: FormEvent<HTMLFormElement> | MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+
     let errorInput = finalCheck(billingAddress, touched, setInputErrors);
     if (errorInput !== "") {
       let elem = document.getElementById(errorInput);
@@ -97,17 +149,22 @@ function CheckoutStage_2({
       return;
     }
 
-    // if (hasError || cardErorr) return;
-    // if (!cardComplete) {
-    //   setCardError({
-    //     type: "card_incomplete",
-    //     code: "0000",
-    //     message: "Required field",
-    //   });
-    //   return;
-    // }
-    //////////
-    // NOTE //
+    if (cardErorrsCheck(cardErorrs)) return;
+
+    // if user hit "Enter" to submit after filling out the last element
+    // the stripeCard error check won't be triggered since it is triggered onBlur
+    // so I have to use the stripe cardComplete status to check the input in such
+    // circumstance and display an incomplete error
+    let incompleteCardField = cardCompleteCheck(cardComplete, cardErorrs);
+    if (incompleteCardField !== "") {
+      setIncompleteError((prev) => {
+        return { ...prev, [incompleteCardField]: "Incomplete field" };
+      });
+      let elem = document.getElementById(incompleteCardField);
+      if (elem) elem.scrollIntoView({ block: "center" });
+      return;
+    }
+
     // the value inside the cardElement will be destoyed whenever this component is
     // unmounted. I need to create a onc-time-use token using the cardElement,
     // and pass the "token" back the checkout page, where the "confirmCardPayment" takes place
@@ -122,6 +179,7 @@ function CheckoutStage_2({
     }
 
     setStage("3");
+    window.scrollTo({ top: 0 });
     setAllowedStages({ two: true, three: true });
   };
 
@@ -129,6 +187,25 @@ function CheckoutStage_2({
     dispatch(toggleBillingAddress(!boxChecked));
     setBoxChecked((prev) => !prev);
     setInputErrors({});
+  };
+
+  const cardElementEventHandler = (
+    e:
+      | StripeCardNumberElementChangeEvent
+      | StripeCardExpiryElementChangeEvent
+      | StripeCardCvcElementChangeEvent
+  ) => {
+    setIncompleteError({
+      cardNumber: "",
+      cardExpiry: "",
+      cardCvc: "",
+    });
+    setCardErrors((prev) => {
+      return { ...prev, [e.elementType]: e.error };
+    });
+    setCardComplete((prev) => {
+      return { ...prev, [e.elementType]: e.complete };
+    });
   };
 
   const inputFields = (fields: string[], inputValues: InputValues) => {
@@ -145,42 +222,66 @@ function CheckoutStage_2({
     );
   };
 
+  console.log(cardErorrs);
+
   return (
     <main>
       <div>
-        <h3>BILLING ADDRESS</h3>
-        <div>
-          <Checkbox onChange={checkboxHandler} checked={boxChecked} />
+        <div className={styles.sub_title}>BILLING ADDRESS</div>
+        <div className={styles.billing_input}>
+          <Checkbox
+            onChange={checkboxHandler}
+            checked={boxChecked}
+            sx={{ "& .MuiSvgIcon-root": { fontSize: 40 } }}
+          />
           USE MY SHIPPING ADDRESS FOR BILLING
         </div>
-        {inputFields(addressFields, billingAddress)}
-        <div style={{ border: "red 2px solid" }}>
-          Card Number
-          <CardNumberElement
-            onChange={(e) => {
-              setCardError(e.error);
-              setCardComplete(e.complete);
-            }}
-          />
-          exp
-          <CardExpiryElement
-            onChange={(e) => {
-              setCardError(e.error);
-              setCardComplete(e.complete);
-            }}
-          />
-          ccv
-          <CardCvcElement
-            onChange={(e) => {
-              setCardError(e.error);
-              setCardComplete(e.complete);
-            }}
-          />
-        </div>
-        {cardErorr?.message}
-      </div>
-      <div>
-        <button onClick={stageChangeHandler}>CONTINUE</button>
+        <form onSubmit={stageChangeHandler}>
+          {!boxChecked && inputFields(addressFields, billingAddress)}
+          <div className={styles.payment_method}>
+            <div className={styles.sub_title}>PAYMENT METHOD</div>
+
+            <div className={styles.card_elements}>
+              <StripeCardElement
+                type="cardNumber"
+                cardErorrs={cardErorrs}
+                incompleteError={incompleteError}
+                cardElementEventHandler={cardElementEventHandler}
+              />
+
+              <div className={styles.exp_ccv_grid}>
+                <StripeCardElement
+                  type="cardExpiry"
+                  cardErorrs={cardErorrs}
+                  incompleteError={incompleteError}
+                  cardElementEventHandler={cardElementEventHandler}
+                />
+                <StripeCardElement
+                  type="cardCvc"
+                  cardErorrs={cardErorrs}
+                  incompleteError={incompleteError}
+                  cardElementEventHandler={cardElementEventHandler}
+                />
+              </div>
+            </div>
+          </div>
+          <div className={styles.hint_box}>
+            HINT: For payment testing, please use the 4242 4242 4242 4242 as the
+            card number, a future date as the expiration date and any 3-digits
+            number as the CVC
+          </div>
+
+          <div className={styles.button_box}>
+            <Button
+              type="submit"
+              variant="contained"
+              onClick={stageChangeHandler}
+              className={styles.button}
+            >
+              CONTINUE
+            </Button>
+          </div>
+        </form>
       </div>
     </main>
   );
@@ -195,26 +296,14 @@ export default memo(CheckoutStage_2);
    the rest is the same as using <CardElement />
 */
 
-/*{/* <TextFieldStyled
-            label="CARD"
-            variant="outlined"
-            disabled={true}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          <div style={{ position: "relative", bottom: "2rem" }}>
-            {/* <CardElement
-              onChange={(e) => {
-                setCardError(e.error);
-                setCardComplete(e.complete);
-              }}
-            /> */
+/*
+Stripe element change event object
 
-/* Card Number
-            <CardNumberElement />
-            exp
-            <CardExpiryElement />
-            ccv
-            <CardCvcElement />
-            {cardErorr?.message}  */
+brand: "visa"
+complete: false
+elementType: "cardNumber"
+empty: false
+error: {code: 'incomplete_number', type: 'validation_error', message: 'Your card number is incomplete.'}
+value: undefined
+
+ */

@@ -11,6 +11,7 @@ import {
   selectIsLoggedIn,
 } from "../../utils/redux-store/userSlice";
 import CartDetail from "../../components/shop/cart/cart-detail";
+import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
 
 // UI //
 import styles from "./__cart.module.css";
@@ -24,6 +25,10 @@ const CartPage: NextPage = ({}) => {
       dispatch(checkStock());
     }
   }, []);
+
+  useEffect(() => {
+    return instantlyToTop();
+  });
 
   const main_container =
     cart.length > 0 ? styles.main_container : styles.main_container_no_item;

@@ -22,6 +22,7 @@ import CheckoutStage_3 from "../../components/shop/checkout/checkout-stage-3";
 import { Box, Tab, Grid } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import styles from "./__checkout.module.css";
+import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
 
 export interface AllowedStages {
   two: boolean;
@@ -73,6 +74,10 @@ const CheckoutPage: NextPage = ({}) => {
     }
   }, []);
 
+  // useEffect(() => {
+  //   return instantlyToTop();
+  // });
+
   const tagChangeHandler = (event: SyntheticEvent, newValue: string) => {
     setStage(newValue);
 
@@ -91,47 +96,58 @@ const CheckoutPage: NextPage = ({}) => {
     <Elements stripe={stripePromise}>
       <main className={styles.main_container}>
         <div className={styles.main_title}>CHECKOUT</div>
-        {cart.length > 0 && (
-          <Box sx={{ width: "100%", typography: "body1" }}>
+        {cart.length > 0 ? (
+          <Box sx={{ width: "100%" }}>
             <TabContext value={stage}>
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                <Grid container justifyContent="space-evenly" wrap="nowrap">
-                  <TabList onChange={tagChangeHandler}>
+                <Grid
+                  container
+                  justifyContent="space-evenly"
+                  wrap="nowrap"
+                  className={styles.tags_title_container}
+                >
+                  <TabList
+                    onChange={tagChangeHandler}
+                    variant="scrollable"
+                    allowScrollButtonsMobile
+                  >
                     <Tab
                       label="SHIPPING INFO"
                       value={"1"}
-                      sx={{ typography: "h3" }}
+                      className={styles.tag}
                     />
                     <Tab
                       label="PAYMENT INFO"
                       value={"2"}
                       disabled={!allowedStages.two}
-                      sx={{ typography: "h3" }}
+                      className={styles.tag}
                     />
                     <Tab
                       label="PLACE ORDER"
                       value={"3"}
                       disabled={!allowedStages.three}
-                      sx={{ typography: "h3" }}
+                      className={styles.tag}
                     />
                   </TabList>
                 </Grid>
               </Box>
               <TabPanel value={"1"}>
-                <div className={styles.tab_container}>
+                <div className={styles.tab_content}>
                   <div className={styles.left_grid}>
                     <CheckoutStage_1
                       setStage={setStage}
                       setAllowedStages={setAllowedStages}
                     />
                   </div>
-                  <div className={styles.summary_grid}>
-                    <CartDetail cart={cart} summaryMode={true} />
+                  <div className={styles.right_grid}>
+                    <div className={styles.summary_grid}>
+                      <CartDetail cart={cart} summaryMode={true} />
+                    </div>
                   </div>
                 </div>
               </TabPanel>
               <TabPanel value={"2"}>
-                <div className={styles.tab_container}>
+                <div className={styles.tab_content}>
                   <div className={styles.left_grid}>
                     <CheckoutStage_2
                       setStage={setStage}
@@ -139,23 +155,29 @@ const CheckoutPage: NextPage = ({}) => {
                       setStripeCardToken={setStripeCardToken}
                     />
                   </div>
-                  <div className={styles.summary_grid}>
-                    <CartDetail cart={cart} summaryMode={true} />
+                  <div className={styles.right_grid}>
+                    <div className={styles.summary_grid}>
+                      <CartDetail cart={cart} summaryMode={true} />
+                    </div>
                   </div>
                 </div>
               </TabPanel>
               <TabPanel value={"3"}>
-                <div className={styles.tab_container}>
+                <div className={styles.tab_content}>
                   <div className={styles.left_grid}>
                     <CheckoutStage_3 stripeCardToken={stripeCardToken} />
                   </div>
-                  <div className={styles.summary_grid}>
-                    <CartDetail cart={cart} summaryMode={true} />
+                  <div className={styles.right_grid}>
+                    <div className={styles.summary_grid}>
+                      <CartDetail cart={cart} summaryMode={true} />
+                    </div>
                   </div>
                 </div>
               </TabPanel>
             </TabContext>
           </Box>
+        ) : (
+          <h1>You {"don't"} have any item in the cart</h1>
         )}
       </main>
     </Elements>

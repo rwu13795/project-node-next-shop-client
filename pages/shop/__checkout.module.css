@@ -8,6 +8,7 @@
 .main_title {
   font-size: 50px;
   font-weight: bold;
+  margin-bottom: 40px;
 }
 .sub_title {
   width: min(30rem, 80vw);
@@ -15,8 +16,19 @@
   margin-top: 16px;
 }
 
-.tab_container {
+.tags_title_container {
   width: 100%;
+  border-bottom: 1px solid rgb(129, 129, 129);
+}
+.tag {
+  font-size: 30px;
+  font-weight: bold;
+  font-family: "Oswald", sans-serif;
+}
+
+.tab_content {
+  width: 100%;
+  min-height: 80vh;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
@@ -26,9 +38,24 @@
   width: 50%;
   margin-right: 10px;
 }
-.summary_grid {
+.right_grid {
   width: 50%;
   margin-left: 10px;
+  min-height: 75vh;
+}
+.summary_grid {
+  position: sticky;
+  top: 200px;
+  height: 70vh;
+  width: 100%;
+  padding: 0 10px;
+  overflow: auto;
+}
+.summary_grid::-webkit-scrollbar {
+  width: 4px !important;
+}
+.summary_grid::-webkit-scrollbar-thumb {
+  background-color: #008ab4;
 }
 
 @media screen and (min-width: 765px) and (max-width: 1000px) {
@@ -49,6 +76,11 @@
     flex-flow: column nowrap;
     align-items: center;
   }
+  .tag {
+    font-size: min(24px, 5vw);
+    height: 30px;
+  }
+
   .left_grid {
     width: 100%;
     margin-right: 0px;
@@ -59,23 +91,16 @@
     margin-left: 0px;
   }
 
-  .input_fields_container {
-    width: 100%;
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: center;
-  }
-  .input_fields_grid {
-    width: 90vw;
-  }
-  .title_grid {
-    padding-bottom: 20px;
-  }
   .main_title {
     font-size: 35px;
   }
   .sub_title {
     font-size: 16px;
     margin-top: 14px;
+  }
+
+  .tab_content {
+    flex-flow: column nowrap;
+    align-items: center;
   }
 }

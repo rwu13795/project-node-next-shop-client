@@ -30,6 +30,7 @@ import {
 } from "@mui/material";
 import styles from "./__product-list.module.css";
 import { mainCatArray } from "../../utils/enums-types/product-category";
+import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
 
 export interface ProductCatNumAdmin {
   [main_cat: string]: { [sub_cat: string]: number };
@@ -62,6 +63,7 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
 
   useEffect(() => {
     dispatch(getAdminStatus());
+    return instantlyToTop();
   }, []);
 
   useEffect(() => {

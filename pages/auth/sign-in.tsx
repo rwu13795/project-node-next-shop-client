@@ -12,6 +12,7 @@ import serverClient from "../../utils/axios-client/server-client";
 import AuthForm from "../../components/forms/auth-form";
 import { inputTypes } from "../../utils/enums-types/input-types";
 import { inputNames } from "../../utils/enums-types/input-names";
+import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
 
 export const inputFieldsArray = [inputNames.email, inputNames.password];
 
@@ -24,6 +25,10 @@ const SignInPage: NextPage = ({}) => {
     if (isLoggedIn) {
       router.push("/");
     }
+  }, [isLoggedIn, router]);
+
+  useEffect(() => {
+    return instantlyToTop();
   });
 
   return (

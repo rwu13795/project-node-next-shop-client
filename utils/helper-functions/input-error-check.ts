@@ -1,4 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
+import {
+  CardComplete,
+  CardErrors,
+} from "../../components/shop/checkout/checkout-stage-2";
 import { inputNames } from "../enums-types/input-names";
 
 export interface InputValues {
@@ -219,4 +223,21 @@ export const finalCheck = (
 
   errorInput = onFormEnterSubmitCheck(inputValues, touched, setInputErrors);
   return errorInput;
+};
+
+export const cardCompleteCheck = (
+  cardComplete: CardComplete,
+  cardErorrs: CardErrors
+): string => {
+  for (let [k, v] of Object.entries(cardComplete)) {
+    if (v === false && cardErorrs[k] === undefined) return k;
+  }
+  return "";
+};
+
+export const cardErorrsCheck = (cardErorrs: CardErrors): boolean => {
+  for (let v of Object.values(cardErorrs)) {
+    if (v !== undefined) return true;
+  }
+  return false;
 };

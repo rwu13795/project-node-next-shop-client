@@ -17,6 +17,7 @@ import { inputNames } from "../../utils/enums-types/input-names";
 import { Box, styled, Tab, Grid } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import styles from "./__profile.module.css";
+import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
 
 export interface Order {
   _id: string;
@@ -42,6 +43,10 @@ const ProfilePage: NextPage<PageProps> = ({
 
   const [value, setValue] = useState(tabNum ? tabNum : "2");
 
+  useEffect(() => {
+    return instantlyToTop();
+  });
+
   const tagChangeHandler = (event: React.SyntheticEvent, newValue: string) => {
     dispatch(clearAuthErrors("all"));
     dispatch(setLoadingStatus("idle"));
@@ -64,7 +69,6 @@ const ProfilePage: NextPage<PageProps> = ({
           <TabList
             onChange={tagChangeHandler}
             variant="scrollable"
-            // scrollButtons="auto"
             allowScrollButtonsMobile
           >
             <Tab label="PERSONAL INFO" value={"1"} className={styles.tag} />
