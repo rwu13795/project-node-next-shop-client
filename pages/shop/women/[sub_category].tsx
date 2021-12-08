@@ -14,7 +14,9 @@ import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 import SubCatProductsList from "../../../components/shop/product/sub-cat-list";
 import PageLinks from "../../../components/layout/page-links/links";
 import { SubCat_PageProps } from "../../../utils/enums-types/categories-interfaces";
+import { instantlyToTop } from "../../../utils/helper-functions/scrollToTopInstantly";
 
+// UI //
 import styles from "./__sub-cat.module.css";
 
 const WomenSubCatPage: NextPage<SubCat_PageProps> = ({
@@ -29,6 +31,7 @@ const WomenSubCatPage: NextPage<SubCat_PageProps> = ({
 
   useEffect(() => {
     dispatch(setPageLoading(false));
+    return instantlyToTop();
   });
 
   if (!startProducts || startProducts.length < 1) {

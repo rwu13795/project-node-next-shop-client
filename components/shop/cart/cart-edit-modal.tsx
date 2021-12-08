@@ -17,6 +17,7 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import styles from "./__edit-modal.module.css";
+import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 
 interface ProductProps {
   product: PageProductProps;
@@ -55,6 +56,7 @@ function CartEditModal({ category, productId, index, editItem }: Props) {
   const editItemHandler = () => {
     dispatch(setEditItem({ index, item: editItem }));
     if (isSmall) {
+      dispatch(setPageLoading(true));
       // if the screen is small, don't use the modal, render a new product detail
       // page with the editItem info
       router.push(`/shop/product-detail/${category}-edit-${productId}`);

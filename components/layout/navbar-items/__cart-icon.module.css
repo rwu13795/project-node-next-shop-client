@@ -81,3 +81,61 @@ as a wrapper to wrap the component which is needed to be "collapsed"*/
   z-index: 10;
   right: 1rem;
 }
+
+.cart_slide_modal {
+  width: 96vw;
+  height: 140px;
+  position: fixed;
+  top: calc(100vh - 140px);
+  z-index: 10;
+  left: 2vw;
+}
+.cart_slide {
+  width: 96vw;
+  height: 140px;
+  background-image: linear-gradient(
+    to top,
+    rgba(34, 185, 255, 0.5) 0%,
+    rgb(255, 255, 255) 35%
+  );
+  display: flex;
+  justify-content: center;
+  border: solid 1px black;
+  box-shadow: 3px 3px 8px;
+  border-radius: 0;
+}
+.item_container {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.item_image_box {
+  width: 80px;
+  height: 110px;
+  position: relative;
+  border: solid 2px black;
+}
+.item_text {
+  max-width: 33%;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "Oswald", sans-serif;
+  text-align: center;
+}
+.close_icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+@media screen and (min-width: 500px) {
+  .cart_slide_modal {
+    width: 80vw;
+    left: 10vw;
+  }
+  .cart_slide {
+    width: 80vw;
+  }
+}

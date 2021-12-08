@@ -15,6 +15,7 @@ import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantl
 
 // UI //
 import styles from "./__cart.module.css";
+import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 
 const CartPage: NextPage = ({}) => {
   const dispatch = useDispatch();
@@ -25,6 +26,10 @@ const CartPage: NextPage = ({}) => {
       dispatch(checkStock());
     }
   }, []);
+
+  useEffect(() => {
+    dispatch(setPageLoading(false));
+  });
 
   useEffect(() => {
     return instantlyToTop();

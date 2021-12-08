@@ -18,6 +18,7 @@ import CartEditModal from "./cart-edit-modal";
 import { Button, Grid } from "@mui/material";
 import SelectQuantity from "../product/product-detail/line-items/quantities";
 import styles from "./__cart-detail.module.css";
+import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 
 interface Props {
   cart: CartItem[];
@@ -52,6 +53,7 @@ function CartDetail({
   };
 
   const preCheckoutHandler = () => {
+    dispatch(setPageLoading(true));
     if (closeCartDropDown) closeCartDropDown();
 
     for (let i = 0; i < cart.length; i++) {
@@ -103,7 +105,7 @@ function CartDetail({
   return cart.length <= 0 ? (
     <Fragment>
       <div className={styles.no_item_text}>
-        There Is No Item In Your Shopping Cart.
+        You {"don't"} have any item in the cart
       </div>
     </Fragment>
   ) : (

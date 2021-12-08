@@ -30,6 +30,7 @@ function Redirect_signedUp_to_homePage(): JSX.Element {
 
     // redirect time out
     const id = setTimeout(() => {
+      dispatch(setPageLoading(true));
       router.push("/");
     }, 5000);
     return () => {

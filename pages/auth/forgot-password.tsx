@@ -1,13 +1,17 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   CurrentUser,
   selectIsLoggedIn,
+  setPageLoading_user,
 } from "../../utils/redux-store/userSlice";
-import { selectPageLoading } from "../../utils/redux-store/layoutSlice";
+import {
+  selectPageLoading,
+  setPageLoading,
+} from "../../utils/redux-store/layoutSlice";
 import serverClient from "../../utils/axios-client/server-client";
 import AuthForm from "../../components/forms/auth-form";
 import { inputTypes } from "../../utils/enums-types/input-types";
@@ -18,6 +22,12 @@ export const inputFieldsArray = [inputNames.email];
 const ForgotPasswordPage: NextPage = ({}) => {
   const router = useRouter();
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setPageLoading(false));
+    dispatch(setPageLoading_user(false));
+  });
 
   // redirect the user to home page after resetting the password
   useEffect(() => {

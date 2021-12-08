@@ -20,6 +20,9 @@ import {
 import { Divider, Grid, TextField, Box, Collapse, Paper } from "@mui/material";
 import { SxProps, Theme } from "@mui/system";
 import styles from "./__menu-list.module.css";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 
 interface Props {
   setShowMenu_nav: Dispatch<SetStateAction<boolean>>;
@@ -46,6 +49,8 @@ export default function MenuList({
   page_cat,
 }: Props): JSX.Element {
   const [showMenu, setShowMenu] = useState<boolean>(false);
+  const router = useRouter();
+  const dispatch = useDispatch();
 
   const openMenu = (cat: string) => {
     if (cat === MainCategory.accessories) {
@@ -58,7 +63,13 @@ export default function MenuList({
     }
   };
 
-  const onClickHandler = () => {
+  const onSubCatClickHandler = () => {
+    dispatch(setPageLoading(true));
+    setShowMenu_nav(false);
+  };
+
+  const onMainCatClickHandler = () => {
+    dispatch(setPageLoading(true));
     setShowMenu_nav(false);
   };
 
@@ -116,7 +127,7 @@ export default function MenuList({
                   list[key].map((product) => {
                     return (
                       <Fragment key={product}>
-                        <Grid onClick={onClickHandler}>
+                        <Grid onClick={onSubCatClickHandler}>
                           <Link
                             href={`/shop/${currentCat.toLowerCase()}/${product.toLowerCase()}`}
                           >
@@ -140,7 +151,7 @@ export default function MenuList({
     <Fragment>
       {mainCatArray.map((cat, index) => {
         return (
-          <Grid item sx={mui_sx} key={index}>
+          <Grid item sx={mui_sx} key={index} onClick={onMainCatClickHandler}>
             <Link href={`/shop/${cat.toLowerCase()}`}>
               <a
                 className={styles.menu_list}
@@ -151,7 +162,6 @@ export default function MenuList({
                     : {}
                 }
                 onMouseEnter={() => openMenu(cat)}
-                onClick={onClickHandler}
               >
                 {cat.toUpperCase()}
               </a>

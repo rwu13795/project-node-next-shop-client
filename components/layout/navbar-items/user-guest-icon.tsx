@@ -1,7 +1,9 @@
 import { useState, Fragment } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 
+import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 import AuthForm from "../../forms/auth-form";
 import { inputFieldsArray } from "../../../pages/auth/sign-in";
 import { inputTypes } from "../../../utils/enums-types/input-types";
@@ -21,9 +23,16 @@ export default function UserGuestIcon({
   page,
 }: Props): JSX.Element {
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const toSignInHandler = () => {
+    dispatch(setPageLoading(true));
+    router.push("/auth/sign-in");
+  };
 
   const UserButton = (): JSX.Element => {
     return (
@@ -31,9 +40,7 @@ export default function UserGuestIcon({
         <Tooltip title="Log In">
           <Box
             onMouseEnter={closeCartDropDown}
-            onClick={
-              page === "auth" ? () => router.push("/auth/sign-in") : handleOpen
-            }
+            onClick={page === "auth" ? toSignInHandler : handleOpen}
             sx={{ display: { xs: "none", md: "block" } }}
           >
             <AccountCircleIcon className={styles.user_icon_guest} />
@@ -42,7 +49,7 @@ export default function UserGuestIcon({
 
         <Tooltip title="Log In">
           <Box
-            onClick={() => router.push("/auth/sign-in")}
+            onClick={toSignInHandler}
             sx={{ display: { xs: "block", md: "none" } }}
           >
             <AccountCircleIcon className={styles.user_icon_guest} />

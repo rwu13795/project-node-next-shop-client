@@ -8,6 +8,9 @@ import {
   menMenuList,
   kidsMenuList,
 } from "../../../utils/enums-types/product-category";
+import { ProductCatNumAdmin } from "../../../pages/admin/products-list";
+import { useDispatch } from "react-redux";
+import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 
 // UI //
 import {
@@ -23,7 +26,6 @@ import {
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import styles from "./__menu-list.module.css";
-import { ProductCatNumAdmin } from "../../../pages/admin/products-list";
 
 interface Props {
   cat: string;
@@ -41,6 +43,7 @@ function MeunListDrawer({
   selectCatHandler,
 }: Props): JSX.Element {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [expand, setExpand] = useState<boolean>(false);
 
@@ -49,6 +52,7 @@ function MeunListDrawer({
   };
 
   const onProductClickHandler = (product: string) => {
+    dispatch(setPageLoading(true));
     if (page === "admin" && selectCatHandler) {
       selectCatHandler(cat, product);
       return;
@@ -58,6 +62,7 @@ function MeunListDrawer({
   };
 
   const onCatClickHandler = (cat: string) => {
+    dispatch(setPageLoading(true));
     router.push(`/shop/${cat.toLowerCase()}`);
     if (setIsDrawerOpen) setIsDrawerOpen(false);
   };

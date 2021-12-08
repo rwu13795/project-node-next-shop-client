@@ -1,5 +1,6 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 import serverClient from "../../utils/axios-client/server-client";
 
@@ -7,6 +8,7 @@ import AuthForm from "../../components/forms/auth-form";
 import { inputTypes } from "../../utils/enums-types/input-types";
 import { inputNames } from "../../utils/enums-types/input-names";
 import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
+import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 
 const inputFieldsArray = [
   inputNames.email,
@@ -23,7 +25,10 @@ const inputFieldsArray = [
 ];
 
 const SignUpPage: NextPage = ({}) => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
+    dispatch(setPageLoading(false));
     return instantlyToTop();
   });
 

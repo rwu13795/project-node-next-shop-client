@@ -3,9 +3,15 @@ import Link from "next/link";
 
 import styles from "./__footer.module.css";
 
-export default function Footer({}): JSX.Element {
+interface Props {
+  page?: string;
+}
+
+export default function Footer({ page }: Props): JSX.Element {
+  const footer = page === "home" ? styles.footer_home : styles.footer;
+
   return (
-    <footer className={styles.footer}>
+    <footer className={footer}>
       <a
         href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
         target="_blank"

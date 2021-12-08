@@ -19,10 +19,12 @@ const ForgotPasswordResetPage: NextPage<PageProps> = ({
 }) => {
   if (timeOut) {
     return (
-      <h1>
-        The link for resetting your password has expired, please make a{" "}
-        <Link href={"/auth/forgot-password"}>NEW REQUEST</Link> again
-      </h1>
+      <main style={{ marginTop: "50px" }}>
+        <h1>
+          The link for resetting your password has expired, please make a{" "}
+          <Link href={"/auth/forgot-password"}>NEW REQUEST</Link> again
+        </h1>
+      </main>
     );
   }
 
@@ -31,7 +33,7 @@ const ForgotPasswordResetPage: NextPage<PageProps> = ({
   // }
 
   return (
-    <main>
+    <main style={{ marginTop: "50px" }}>
       <ForgotPasswordReset
         token={token}
         userId={userId}

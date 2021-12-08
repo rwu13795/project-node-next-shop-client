@@ -22,6 +22,7 @@ import CheckoutStage_3 from "../../components/shop/checkout/checkout-stage-3";
 import { Box, Tab, Grid } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import styles from "./__checkout.module.css";
+import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 
 export interface AllowedStages {
   two: boolean;
@@ -73,6 +74,10 @@ const CheckoutPage: NextPage = ({}) => {
     }
   }, []);
 
+  useEffect(() => {
+    dispatch(setPageLoading(false));
+  });
+
   // useEffect(() => {
   //   return instantlyToTop();
   // });
@@ -91,72 +96,76 @@ const CheckoutPage: NextPage = ({}) => {
     }
   };
 
-  return (
+  return cart.length > 0 ? (
     <Elements stripe={stripePromise}>
       <main className={styles.main_container}>
         <div className={styles.main_title}>CHECKOUT</div>
-        {cart.length > 0 ? (
-          <Box className={styles.body}>
-            <TabContext value={stage}>
-              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                <Grid
-                  container
-                  justifyContent="space-evenly"
-                  wrap="nowrap"
-                  className={styles.tags_title_container}
+
+        <Box className={styles.body}>
+          <TabContext value={stage}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Grid
+                container
+                justifyContent="space-evenly"
+                wrap="nowrap"
+                className={styles.tags_title_container}
+              >
+                <TabList
+                  onChange={tagChangeHandler}
+                  variant="scrollable"
+                  allowScrollButtonsMobile
                 >
-                  <TabList
-                    onChange={tagChangeHandler}
-                    variant="scrollable"
-                    allowScrollButtonsMobile
-                  >
-                    <Tab
-                      label="SHIPPING INFO"
-                      value={"1"}
-                      className={styles.tag}
-                    />
-                    <Tab
-                      label="PAYMENT INFO"
-                      value={"2"}
-                      disabled={!allowedStages.two}
-                      className={styles.tag}
-                    />
-                    <Tab
-                      label="PLACE ORDER"
-                      value={"3"}
-                      disabled={!allowedStages.three}
-                      className={styles.tag}
-                    />
-                  </TabList>
-                </Grid>
-              </Box>
-              <TabPanel value={"1"} className={styles.tab_container}>
-                <CheckoutStage_1
-                  setStage={setStage}
-                  setAllowedStages={setAllowedStages}
-                />
-              </TabPanel>
-              <TabPanel value={"2"} className={styles.tab_container}>
-                <CheckoutStage_2
-                  setStage={setStage}
-                  setAllowedStages={setAllowedStages}
-                  setStripeCardToken={setStripeCardToken}
-                />
-              </TabPanel>
-              <TabPanel value={"3"} className={styles.tab_container}>
-                <CheckoutStage_3
-                  setStage={setStage}
-                  setAllowedStages={setAllowedStages}
-                  stripeCardToken={stripeCardToken}
-                />
-              </TabPanel>
-            </TabContext>
-          </Box>
-        ) : (
-          <h1>You {"don't"} have any item in the cart</h1>
-        )}
+                  <Tab
+                    label="SHIPPING INFO"
+                    value={"1"}
+                    className={styles.tag}
+                  />
+                  <Tab
+                    label="PAYMENT INFO"
+                    value={"2"}
+                    disabled={!allowedStages.two}
+                    className={styles.tag}
+                  />
+                  <Tab
+                    label="PLACE ORDER"
+                    value={"3"}
+                    disabled={!allowedStages.three}
+                    className={styles.tag}
+                  />
+                </TabList>
+              </Grid>
+            </Box>
+            <TabPanel value={"1"} className={styles.tab_container}>
+              <CheckoutStage_1
+                setStage={setStage}
+                setAllowedStages={setAllowedStages}
+              />
+            </TabPanel>
+            <TabPanel value={"2"} className={styles.tab_container}>
+              <CheckoutStage_2
+                setStage={setStage}
+                setAllowedStages={setAllowedStages}
+                setStripeCardToken={setStripeCardToken}
+              />
+            </TabPanel>
+            <TabPanel value={"3"} className={styles.tab_container}>
+              <CheckoutStage_3
+                setStage={setStage}
+                setAllowedStages={setAllowedStages}
+                stripeCardToken={stripeCardToken}
+              />
+            </TabPanel>
+          </TabContext>
+        </Box>
       </main>
     </Elements>
+  ) : (
+    <main className={styles.main_container_no_item}>
+      <div className={styles.main_title}>CHECKOUT</div>
+      <div className={styles.no_item_text}>
+        You {"don't"} have any item in the cart
+      </div>
+    </main>
   );
 };
 

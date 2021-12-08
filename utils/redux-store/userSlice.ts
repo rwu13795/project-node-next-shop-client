@@ -79,6 +79,7 @@ interface UserState {
   csrfToken: string;
   editItem?: EditItem;
   pageLoading_user: boolean;
+  profileTagNum: string;
 }
 
 const initialState: UserState = {
@@ -88,6 +89,7 @@ const initialState: UserState = {
   authErrors: {},
   csrfToken: "",
   pageLoading_user: false,
+  profileTagNum: "2",
 };
 
 const client = browserClient();
@@ -344,6 +346,9 @@ const userSlice = createSlice({
     setPageLoading_user(state, action: PayloadAction<boolean>) {
       state.pageLoading_user = action.payload;
     },
+    setProfileTagNum(state, action: PayloadAction<string>) {
+      state.profileTagNum = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -553,7 +558,9 @@ export const {
   clearStockErrors,
   setEditItem,
   setPageLoading_user,
+  setProfileTagNum,
 } = userSlice.actions;
+
 export {
   signIn,
   signOut,
@@ -615,4 +622,8 @@ export const selectEditItem = createSelector(
 export const selectPageLoading_user = createSelector(
   [selectUser],
   (userState) => userState.pageLoading_user
+);
+export const selectProfileTagNum = createSelector(
+  [selectUser],
+  (userState) => userState.profileTagNum
 );

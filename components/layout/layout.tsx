@@ -74,7 +74,7 @@ export default function Layout({
           <div className={styles.main_component_grid}>{children}</div>
         </main>
 
-        {page !== "checkout" && <Footer />}
+        {page !== "checkout" && <Footer page={page} />}
       </ThemeProvider>
     </main>
   );

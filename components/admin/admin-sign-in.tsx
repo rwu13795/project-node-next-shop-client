@@ -5,8 +5,10 @@ import { CircularProgress } from "@mui/material";
 
 import {
   Errors,
+  finalCheck,
   InputValues,
   onSubmitErrorCheck,
+  Touched,
 } from "../../utils/helper-functions/input-error-check";
 import {
   AdminErrors,
@@ -30,6 +32,7 @@ interface Props {
     inputValues: InputValues,
     requestError: AuthErrors | AdminErrors
   ) => JSX.Element[];
+  touched: Touched;
 }
 
 export default function AdminSignIn({
@@ -38,6 +41,7 @@ export default function AdminSignIn({
   inputErrors,
   setInputErrors,
   inputFields,
+  touched,
 }: Props): JSX.Element {
   const dispatch = useDispatch();
   const adminErrors = useSelector(selectAdminErrors);
@@ -52,12 +56,12 @@ export default function AdminSignIn({
   });
 
   const adminSignInHandler = () => {
-    const hasError = onSubmitErrorCheck(
-      inputValues,
-      inputErrors,
-      setInputErrors
-    );
-    if (hasError) return;
+    let errorInput = finalCheck(inputValues, touched, setInputErrors);
+    if (errorInput !== "") {
+      let elem = document.getElementById(errorInput);
+      if (elem) elem.scrollIntoView({ block: "center" });
+      return;
+    }
 
     dispatch(
       adminSignIn({

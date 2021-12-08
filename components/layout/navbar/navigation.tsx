@@ -24,7 +24,10 @@ import {
   adminSignOut,
   selectLoggedInAsAdmin,
 } from "../../../utils/redux-store/adminSlice";
-import { selectPageLoading } from "../../../utils/redux-store/layoutSlice";
+import {
+  selectPageLoading,
+  setPageLoading,
+} from "../../../utils/redux-store/layoutSlice";
 import UserNavbar from "./user-navbar";
 import AdminSignOutModal from "./../../admin/admin-sign-out-modal";
 import FilterViewIcon from "../navbar-items/filter-view-icon";
@@ -120,6 +123,7 @@ export default function MainNavigation({ page, page_cat, sub_cat }: Props) {
     setTimeout(() => {
       dispatch(getUserStatus());
     }, 2000);
+    dispatch(setPageLoading(true));
     router.push("/admin");
   };
 
@@ -127,6 +131,7 @@ export default function MainNavigation({ page, page_cat, sub_cat }: Props) {
     if (loggedInAsAdmin) {
       setAdminModal(true);
     } else {
+      dispatch(setPageLoading(true));
       router.push("/");
     }
   };

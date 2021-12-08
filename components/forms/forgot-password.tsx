@@ -95,13 +95,14 @@ function UserForgotPassword({
   };
 
   const backToSignInHandler = () => {
+    dispatch(setPageLoading(true));
     dispatch(setLoadingStatus("idle"));
     router.push("/auth/sign-in");
   };
 
   return (
     <main className={styles.main_container}>
-      <div>
+      <div className={styles.forgot_pw_main_grid}>
         <div className={styles.title_grid}>
           <div className={styles.main_title}>RESET PASSWORD</div>
           <div className={styles.sub_title}>

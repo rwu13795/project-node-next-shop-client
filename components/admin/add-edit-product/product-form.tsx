@@ -80,6 +80,11 @@ export default function ProductForm(props: Props): JSX.Element {
     setIsSubmitted(true);
   };
 
+  const cancelButtonHandler = () => {
+    reduxDispatch(setPageLoading(true));
+    router.push("/admin/products-list");
+  };
+
   return (
     <Grid
       container
@@ -184,9 +189,7 @@ export default function ProductForm(props: Props): JSX.Element {
             color="error"
             variant="outlined"
             className={styles.form_button}
-            onClick={() => {
-              router.push("/admin/products-list");
-            }}
+            onClick={cancelButtonHandler}
           >
             Cancel
           </Button>

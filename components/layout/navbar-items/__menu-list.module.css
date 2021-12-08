@@ -2,6 +2,7 @@
   text-decoration: none;
   color: inherit;
   transition: ease-in 0.1s;
+  cursor: pointer;
 }
 
 .menu_list:hover {

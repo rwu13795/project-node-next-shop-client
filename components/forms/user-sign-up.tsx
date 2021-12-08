@@ -33,6 +33,7 @@ import { useRouter } from "next/router";
 import { Button, CircularProgress } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import styles from "./__user-sign-up.module.css";
+import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 
 interface Props {
   inputFieldsArray: string[];
@@ -108,6 +109,7 @@ function UserSignUp({
   };
 
   const onSignInClickHandler = () => {
+    dispatch(setPageLoading(true));
     router.push("/auth/sign-in");
   };
 

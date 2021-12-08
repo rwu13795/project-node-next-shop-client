@@ -23,6 +23,7 @@ import {
   onBlurErrorCheck,
   onFocusErrorCheck,
   onSubmitErrorCheck,
+  finalCheck,
 } from "../../../../../utils/helper-functions/input-error-check";
 
 // UI //
@@ -111,13 +112,25 @@ function AddReviewModal({
   };
 
   const reviewSubmitHandler = async () => {
-    let hasError = false;
-    hasError = onSubmitErrorCheck(inputValues, inputErrors, setInputErrors);
+    // let hasError = false;
+    let errorInputfield = "";
+    errorInputfield = onSubmitErrorCheck(inputValues, setInputErrors);
     if (rating === "") {
       setRatingError("Rating required");
-      hasError = true;
+      errorInputfield = "error";
     }
-    if (hasError) return;
+    if (errorInputfield !== "") return;
+
+    // let errorInput = finalCheck(inputValues, touched, setInputErrors);
+    // if (rating === "") {
+    //   setRatingError("Rating required");
+    //   return;
+    // }
+    // if (errorInput !== "") {
+    //   let elem = document.getElementById(errorInput);
+    //   if (elem) elem.scrollIntoView({ block: "center" });
+    //   return;
+    // }
 
     await client.post("http://localhost:5000/api/products/add-review", {
       productId,

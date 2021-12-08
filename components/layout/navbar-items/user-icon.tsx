@@ -9,6 +9,7 @@ import {
   clearAuthErrors,
   getUserStatus,
   selectIsLoggedIn,
+  setProfileTagNum,
   signOut,
 } from "../../../utils/redux-store/userSlice";
 import UserGuestIcon from "./user-guest-icon";
@@ -25,6 +26,7 @@ import {
 } from "@mui/material";
 import { Logout, Settings } from "@mui/icons-material";
 import styles from "./__user-icon.module.css";
+import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 
 interface Props {
   closeCartDropDown: () => void;
@@ -61,6 +63,16 @@ export default function UserIcon({
     router.push("/");
   };
 
+  const optionsClickHandler = (tagNum: string) => {
+    if (page === "auth") {
+      dispatch(setProfileTagNum(tagNum));
+    } else {
+      dispatch(setPageLoading(true));
+      dispatch(setProfileTagNum(tagNum));
+      router.push("/auth/profile");
+    }
+  };
+
   return !isLoggedIn ? (
     <Fragment>
       <UserGuestIcon page={page} closeCartDropDown={closeCartDropDown} />
@@ -86,21 +98,21 @@ export default function UserIcon({
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={() => router.push("/auth/profile?tab=1")}>
+        <MenuItem onClick={() => optionsClickHandler("1")}>
           <ListItemIcon>
             <PersonOutlineOutlinedIcon className={styles.user_icon_sub} />
           </ListItemIcon>
           <Box className={styles.user_icon_sub_text}>User Profile</Box>
         </MenuItem>
 
-        <MenuItem onClick={() => router.push("/auth/profile?tab=2")}>
+        <MenuItem onClick={() => optionsClickHandler("2")}>
           <ListItemIcon>
             <ListAltOutlinedIcon className={styles.user_icon_sub} />
           </ListItemIcon>
           <Box className={styles.user_icon_sub_text}>Order History</Box>
         </MenuItem>
 
-        <MenuItem onClick={() => router.push("/auth/profile?tab=3")}>
+        <MenuItem onClick={() => optionsClickHandler("3")}>
           <ListItemIcon>
             <Settings className={styles.user_icon_sub} />
           </ListItemIcon>

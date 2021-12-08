@@ -73,6 +73,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 40vw;
+  min-width: 500px;
   max-width: 40rem;
   background-color: white;
   background-image: linear-gradient(

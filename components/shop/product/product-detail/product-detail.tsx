@@ -1,4 +1,10 @@
-import React, { useState, Dispatch, SetStateAction, useEffect } from "react";
+import React, {
+  useState,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  Fragment,
+} from "react";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
@@ -31,7 +37,7 @@ import {
 } from "../../../../utils/redux-store/shopSlice";
 
 // UI //
-import { Grid, Button, Box } from "@mui/material";
+import { Grid, Button, Box, Collapse, Paper } from "@mui/material";
 import styles from "./__product-detail.module.css";
 
 interface Props {

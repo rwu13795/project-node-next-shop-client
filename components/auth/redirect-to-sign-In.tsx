@@ -2,6 +2,8 @@ import { useState, useEffect, memo } from "react";
 import Router from "next/router";
 import { useDispatch } from "react-redux";
 
+import { setPageLoading } from "../../utils/redux-store/layoutSlice";
+
 import styles from "./__redirect.module.css";
 
 interface Props {
@@ -26,6 +28,7 @@ function Redirect_to_signIn({ resetSuccess, timeOut }: Props): JSX.Element {
 
     // redirect time out
     const id = setTimeout(() => {
+      dispatch(setPageLoading(true));
       Router.push("/auth/sign-in");
     }, 5000);
     return () => {

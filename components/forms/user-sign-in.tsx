@@ -28,6 +28,7 @@ import {
   selectLoadingStatus_user,
   selectPageLoading_user,
   setLoadingStatus,
+  setPageLoading_user,
   signIn,
 } from "../../utils/redux-store/userSlice";
 import { inputNames } from "../../utils/enums-types/input-names";
@@ -117,11 +118,15 @@ function UserSignIn({
     if (modalHandleClose) {
       modalHandleClose();
     }
+    // since the signIn button loading animation is depending on "pageLoading"
+    // I have to use the other "pageLoading_user" to trigger the loading bar
+    dispatch(setPageLoading_user(true));
     router.push("/auth/forgot-password");
   };
 
   const toSignUpHandler = () => {
     if (modalHandleClose) modalHandleClose();
+    dispatch(setPageLoading(true));
     router.push("/auth/sign-up");
   };
 

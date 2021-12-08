@@ -27,6 +27,7 @@ import {
   womenMenuList,
   kidsMenuList,
 } from "../../../utils/enums-types/product-category";
+import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 
 // UI //
 import {
@@ -117,6 +118,10 @@ function SubCatProductsList({
     setParams
   );
 
+  const menuClickHandler = () => {
+    dispatch(setPageLoading(true));
+  };
+
   return (
     <Grid container className={styles.main_grid}>
       <Grid
@@ -141,14 +146,15 @@ function SubCatProductsList({
                   <div className={styles.menu_list}>
                     {catListArray[key].map((cat) => {
                       return (
-                        <Link
-                          key={cat}
-                          href={`/shop/${main_cat.toLowerCase()}/${cat.toLowerCase()}`}
-                        >
-                          <a style={{ textDecoration: "none" }}>
-                            <div className={styles.menu_list_item}>{cat}</div>
-                          </a>
-                        </Link>
+                        <div key={cat} onClick={menuClickHandler}>
+                          <Link
+                            href={`/shop/${main_cat.toLowerCase()}/${cat.toLowerCase()}`}
+                          >
+                            <a style={{ textDecoration: "none" }}>
+                              <div className={styles.menu_list_item}>{cat}</div>
+                            </a>
+                          </Link>
+                        </div>
                       );
                     })}
                   </div>

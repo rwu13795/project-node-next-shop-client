@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   CartItem,
   clearAuthErrors,
+  selectProfileTagNum,
   setLoadingStatus,
+  setProfileTagNum,
 } from "../../utils/redux-store/userSlice";
 import serverClient from "../../utils/axios-client/server-client";
 import OrderHistory from "../../components/auth/user-profile/order-history";
@@ -18,6 +20,7 @@ import { PaymentDetail } from "../../utils/redux-store/shopSlice";
 import { Box, styled, Tab, Grid } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import styles from "./__profile.module.css";
+import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 
 export interface OrderAddressFields {
   first_name: string;
@@ -42,27 +45,21 @@ interface PageProps {
   orders: Order[] | null;
   ordersTotal: number;
   notAuth?: boolean;
-  tabNum?: string;
 }
 
-const ProfilePage: NextPage<PageProps> = ({
-  orders,
-  ordersTotal,
-  notAuth,
-  tabNum,
-}) => {
+const ProfilePage: NextPage<PageProps> = ({ orders, ordersTotal, notAuth }) => {
   const dispatch = useDispatch();
-
-  const [value, setValue] = useState(tabNum ? tabNum : "2");
+  const tagNum = useSelector(selectProfileTagNum);
 
   useEffect(() => {
+    dispatch(setPageLoading(false));
     return instantlyToTop();
   });
 
   const tagChangeHandler = (event: React.SyntheticEvent, newValue: string) => {
     dispatch(clearAuthErrors("all"));
     dispatch(setLoadingStatus("idle"));
-    setValue(newValue);
+    dispatch(setProfileTagNum(newValue));
   };
 
   if (notAuth === true) {
@@ -71,7 +68,7 @@ const ProfilePage: NextPage<PageProps> = ({
 
   return (
     <Box className={styles.main_container}>
-      <TabContext value={value}>
+      <TabContext value={tagNum}>
         <Grid
           container
           justifyContent="space-evenly"
@@ -107,7 +104,6 @@ export default ProfilePage;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const client = serverClient(context);
-  const tabNum = context.query.tab;
 
   try {
     const { data }: { data: PageProps } = await client.get(
@@ -120,7 +116,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       props: {
         orders: data.orders,
         ordersTotal: data.ordersTotal,
-        tabNum,
+
         page: "auth",
       },
     };

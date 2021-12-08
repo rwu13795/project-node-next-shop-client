@@ -68,6 +68,17 @@
   background-color: #008ab4;
 }
 
+.main_container_no_item {
+  margin-top: 50px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.no_item_text {
+  font-size: 30px;
+}
+
 @media screen and (min-width: 765px) and (max-width: 1000px) {
   .main_container {
     width: 95vw;
