@@ -4,6 +4,7 @@ import Image from "next/image";
 import browserClient from "../../../utils/axios-client/browser-client";
 import { Order } from "../../../pages/auth/profile";
 import { CartItem } from "../../../utils/redux-store/userSlice";
+import OrderDetail from "./order-detail";
 
 // UI //
 import { Pagination, Grid } from "@mui/material";
@@ -50,25 +51,8 @@ function OrderHistory({
           <h1>You {"don't"} have any order</h1>
         ) : (
           <Fragment>
-            {orders.map((order) => {
-              return (
-                <div key={order._id} className={styles.order_container}>
-                  <div className={styles.order_header}>
-                    <div>
-                      <span className={styles.order_date}>
-                        Order placed on:
-                      </span>
-                      {" " + new Date(order.date).toDateString()}
-                    </div>
-                    <div className={styles.order_total}>
-                      Total: ${order.total}
-                    </div>
-                  </div>
-                  <div className={styles.order_body}>
-                    <ItemSummaryMemo items={order.items} />
-                  </div>
-                </div>
-              );
+            {orders.map((order, index) => {
+              return <OrderDetail key={index} order={order} index={index} />;
             })}
 
             <Pagination
@@ -87,35 +71,3 @@ function OrderHistory({
 }
 
 export default memo(OrderHistory);
-
-function ItemSummary({ items }: Props_sub): JSX.Element {
-  return (
-    <Fragment>
-      {items.map((item, index) => {
-        return (
-          <div key={index} className={styles.item_container}>
-            <div className={styles.image_container}>
-              <Image
-                src={item.imageUrl}
-                alt={item.imageUrl}
-                width={200}
-                height={230}
-              />
-            </div>
-            <div className={styles.desc_container}>
-              <div className={styles.desc_title}>
-                {item.title.toUpperCase()}
-              </div>
-              <div>Color: {item.colorName.toUpperCase()}</div>
-              <div>Price: ${item.price}</div>
-              <div>Size: {item.size.toUpperCase()}</div>
-              <div>Qty: {item.quantity}</div>
-            </div>
-          </div>
-        );
-      })}
-    </Fragment>
-  );
-}
-
-const ItemSummaryMemo = memo(ItemSummary);

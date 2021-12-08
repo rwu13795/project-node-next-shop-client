@@ -13,7 +13,7 @@ import AuthForm from "../../components/forms/auth-form";
 import { inputTypes } from "../../utils/enums-types/input-types";
 import { inputNames } from "../../utils/enums-types/input-names";
 
-export const inputFieldsArray = [inputNames.email, inputNames.password];
+export const inputFieldsArray = [inputNames.email];
 
 const ForgotPasswordPage: NextPage = ({}) => {
   const router = useRouter();

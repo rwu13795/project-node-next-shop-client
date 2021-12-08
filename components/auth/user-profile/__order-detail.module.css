@@ -1,0 +1,164 @@
+.order_container {
+  width: 100%;
+  box-shadow: 2px 4px 8px;
+  border-radius: 1rem;
+  margin: 10px;
+}
+.order_header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  font-size: 32px;
+  padding: 10px 20px;
+  background-color: rgb(100, 189, 248);
+  border-radius: 1rem 1rem 0 0;
+}
+.order_date {
+  display: inline-block;
+}
+.order_total {
+  margin-left: 14px;
+}
+
+.order_body_container {
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+.order_body {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.item_container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  margin: 20px;
+}
+.image_container {
+  width: 200px;
+  height: 230px;
+  position: relative;
+  border: 2px solid rgb(0, 138, 180);
+}
+.desc_container {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  font-size: 24px;
+  margin-left: 10px;
+}
+.desc_title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.order_detail_container {
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  height: auto;
+}
+.order_detail_box {
+  width: 90%;
+  padding: 0 15px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+.order_detail_box_show {
+  width: 90%;
+  padding: 15px 15px;
+  height: auto;
+}
+
+.order_detail_box_inner {
+  border: solid 2px rgb(0, 107, 139);
+  border-radius: 3px;
+  padding: 5px;
+  margin: 20px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+.order_detail_text {
+  min-width: 25%;
+  font-size: 20px;
+  margin: 0 10px;
+}
+.order_detail_sub_title {
+  font-weight: bold;
+}
+
+.view_order_detail {
+  width: 100%;
+  font-size: 18px;
+}
+.expand_buttons {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 765px) and (max-width: 1000px) {
+  .order_detail_box {
+    width: 100%;
+  }
+  .order_detail_box_show {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 765px) {
+  .order_header {
+    font-size: min(24px, 6vw);
+    flex-flow: row wrap;
+  }
+  .order_date {
+    display: none;
+  }
+  .item_container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    margin: 10px;
+  }
+  .image_container {
+    width: 100px;
+    height: 115px;
+  }
+  .desc_container {
+    font-size: min(18px, 5vw);
+  }
+
+  .view_order_detail {
+    width: 100%;
+    font-size: 14px;
+  }
+  .order_detail_box_inner {
+    flex-flow: row wrap;
+    justify-content: space-between;
+  }
+  .order_detail_box {
+    width: 100%;
+  }
+  .order_detail_box_show {
+    width: 100%;
+    padding: 0;
+  }
+
+  .order_detail_text {
+    max-width: 90%;
+    font-size: 15px;
+    margin: 10px 10px;
+  }
+}

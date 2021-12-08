@@ -2,23 +2,34 @@ import { useStripe } from "@stripe/react-stripe-js";
 import { TokenResult } from "@stripe/stripe-js";
 import { useRouter } from "next/dist/client/router";
 import { useDispatch, useSelector } from "react-redux";
-import { memo } from "react";
-
-import { Button } from "@mui/material";
+import { memo, Dispatch, SetStateAction, useState } from "react";
 
 import browserClient from "../../../utils/axios-client/browser-client";
-import { createOrderHistory } from "../../../utils/redux-store/shopSlice";
+import {
+  createOrderHistory,
+  selectBillingAddress,
+  selectShippingAddress,
+} from "../../../utils/redux-store/shopSlice";
 import {
   clearCartSession,
+  selectCart,
   selectCsrfToken,
   selectCurrentUser,
   selectTotalAmount,
   updateStock,
 } from "../../../utils/redux-store/userSlice";
-import { useState } from "react";
+import { AllowedStages } from "../../../pages/shop/checkout";
 import PaymentProcessingModal from "./payment-processing-modal";
+import CartDetail from "../cart/cart-detail";
+
+// UI //
+import { Button, SelectChangeEvent } from "@mui/material";
+import styles from "./__stage.module.css";
+import { capitalizeAddress } from "../../../utils/helper-functions/capitalize-first-letter";
 
 interface Props {
+  setStage: Dispatch<SetStateAction<string>>;
+  setAllowedStages: Dispatch<SetStateAction<AllowedStages>>;
   stripeCardToken: TokenResult | undefined;
 }
 
@@ -31,10 +42,14 @@ function CheckoutStage_3({ stripeCardToken }: Props): JSX.Element {
   const currentUser = useSelector(selectCurrentUser);
   const totalAmount = useSelector(selectTotalAmount);
   const csrfToken = useSelector(selectCsrfToken);
-
-  console.log("token in checkout", csrfToken);
+  const cart = useSelector(selectCart);
+  const shippingAddress = useSelector(selectShippingAddress);
+  const billingAddress = useSelector(selectBillingAddress);
 
   const [processing, setProcessing] = useState<boolean>(false);
+
+  const capShippingAddress = capitalizeAddress(shippingAddress);
+  const capBillingAddress = capitalizeAddress(billingAddress);
 
   const placeOrderHandler = async () => {
     if (!stripe || !stripeCardToken) return;
@@ -43,7 +58,7 @@ function CheckoutStage_3({ stripeCardToken }: Props): JSX.Element {
 
     let paymentIntent;
     try {
-      // the paymentIntent response will be used immediately, so I do no use the
+      // the paymentIntent response will be used immediately, so I do not use the
       // createAsyncThunk to make this request, and the csrfToken is selected from
       // the userSlice
       const { data } = await client.post(
@@ -58,9 +73,7 @@ function CheckoutStage_3({ stripeCardToken }: Props): JSX.Element {
       console.log(err);
       return;
     }
-    //////////
-    // NOTE //
-    //////////
+
     // the value inside the cardElement will be destoyed whenever this component is
     // dismounted. I need to create a onc-time-use token using the cardElement,
     // and pass the "token" back the checkout page, where the "confirmCardPayment" takes place,
@@ -92,13 +105,62 @@ function CheckoutStage_3({ stripeCardToken }: Props): JSX.Element {
   };
 
   return (
-    <main>
-      <h3>REVIEW ORDER</h3>
-      <div>
-        <Button variant="contained" onClick={placeOrderHandler}>
+    <main className={styles.main_container}>
+      <div className={styles.left_grid}>
+        <div className={styles.sub_title}>REVIEW ORDER</div>
+
+        <div className={styles.addresses_box}>
+          <div className={styles.address_inner_box}>
+            <div className={styles.address_sub_title}>SHIPPING ADDRESS </div>
+            <div>
+              {capShippingAddress.first_name +
+                " " +
+                capShippingAddress.last_name}
+            </div>
+            <div>{capShippingAddress.address_1}</div>
+            <div>{capShippingAddress.address_2}</div>
+            <div>{`${capShippingAddress.city}, ${capShippingAddress.state} ${capShippingAddress.zip_code}`}</div>
+            <div>Edit</div>
+          </div>
+          <div className={styles.address_inner_box}>
+            <div className={styles.address_sub_title}>BILLING ADDRESS</div>
+            <div>
+              {capBillingAddress.first_name + " " + capBillingAddress.last_name}
+            </div>
+            <div>{capBillingAddress.address_1}</div>
+            <div>{capBillingAddress.address_2}</div>
+            <div>{`${capBillingAddress.city}, ${capBillingAddress.state} ${capBillingAddress.zip_code}`}</div>
+            <div>Edit</div>
+          </div>
+        </div>
+
+        <div className={styles.button_box}>
+          <Button
+            variant="contained"
+            onClick={placeOrderHandler}
+            className={styles.button}
+          >
+            PLACE ORDER
+          </Button>
+        </div>
+      </div>
+
+      <div className={styles.right_grid}>
+        <div className={styles.summary_grid}>
+          <CartDetail cart={cart} summaryMode={true} />
+        </div>
+      </div>
+
+      <div className={styles.button_box_sticky}>
+        <Button
+          variant="contained"
+          onClick={placeOrderHandler}
+          className={styles.button_sticky}
+        >
           PLACE ORDER
         </Button>
       </div>
+
       {processing && <PaymentProcessingModal />}
     </main>
   );

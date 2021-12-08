@@ -313,7 +313,7 @@ function CheckoutStage_2({
         <Button
           variant="contained"
           onClick={stageChangeHandler}
-          className={styles.button}
+          className={styles.button_sticky}
         >
           CONTINUE
         </Button>

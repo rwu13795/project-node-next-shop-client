@@ -34,6 +34,8 @@ import AdminSignIn from "../admin/admin-sign-in";
 import AdminRegister from "../admin/admin-register";
 import UserForgotPassword from "./forgot-password";
 import { initializeValues } from "../../utils/helper-functions/initialize-values";
+import { inputNames } from "../../utils/enums-types/input-names";
+import { capitalize } from "../../utils/helper-functions/capitalize-first-letter";
 
 interface Props {
   inputType: string; // "signIn" | "signUp"

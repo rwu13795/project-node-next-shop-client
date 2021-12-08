@@ -11,19 +11,31 @@ import serverClient from "../../utils/axios-client/server-client";
 import OrderHistory from "../../components/auth/user-profile/order-history";
 import UpdateProfile from "../../components/auth/user-profile/update-info";
 import ResetPassword from "../../components/auth/user-profile/reset-password";
-import { inputNames } from "../../utils/enums-types/input-names";
+import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
+import { PaymentDetail } from "../../utils/redux-store/shopSlice";
 
 // UI //
 import { Box, styled, Tab, Grid } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import styles from "./__profile.module.css";
-import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
+
+export interface OrderAddressFields {
+  first_name: string;
+  last_name: string;
+  address_1: string;
+  address_2: string;
+  state: string;
+  city: string;
+  zip_code: string;
+}
 
 export interface Order {
   _id: string;
   date: string;
   total: number;
   items: CartItem[];
+  shippingAddress: OrderAddressFields;
+  paymentDetail: PaymentDetail;
 }
 
 interface PageProps {

@@ -22,7 +22,6 @@ import CheckoutStage_3 from "../../components/shop/checkout/checkout-stage-3";
 import { Box, Tab, Grid } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import styles from "./__checkout.module.css";
-import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
 
 export interface AllowedStages {
   two: boolean;
@@ -145,7 +144,11 @@ const CheckoutPage: NextPage = ({}) => {
                 />
               </TabPanel>
               <TabPanel value={"3"} className={styles.tab_container}>
-                <CheckoutStage_3 stripeCardToken={stripeCardToken} />
+                <CheckoutStage_3
+                  setStage={setStage}
+                  setAllowedStages={setAllowedStages}
+                  stripeCardToken={stripeCardToken}
+                />
               </TabPanel>
             </TabContext>
           </Box>

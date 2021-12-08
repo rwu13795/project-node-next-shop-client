@@ -16,12 +16,7 @@ import {
 import { CardErrors, IncompleteError } from "./checkout-stage-2";
 
 // UI //
-import {
-  Button,
-  Checkbox,
-  SelectChangeEvent,
-  FormHelperText,
-} from "@mui/material";
+import { FormHelperText } from "@mui/material";
 import styles from "./__card-elements.module.css";
 
 interface Props {

@@ -5,13 +5,14 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import { RootState } from ".";
+import { Order, OrderAddressFields } from "../../pages/auth/profile";
 import browserClient from "../axios-client/browser-client";
 
 import { inputNames } from "../enums-types/input-names";
 import { InputValues } from "../helper-functions/input-error-check";
-import { CurrentUser } from "./userSlice";
+import { CartItem, CurrentUser } from "./userSlice";
 
-interface PaymentDetail {
+export interface PaymentDetail {
   payment_processer: string;
   payment_method: string | null | undefined;
   payment_id: string | null | undefined;
@@ -30,6 +31,7 @@ interface ShopState {
   filterTagToClear: string;
   openFilterModal: boolean;
   oneItmePerRow: boolean;
+  currentOrder: Order | undefined;
 }
 
 interface CreateOrderBody {
@@ -76,10 +78,11 @@ const initialState: ShopState = {
   filterTagToClear: "",
   openFilterModal: false,
   oneItmePerRow: false,
+  currentOrder: undefined,
 };
 
 const createOrderHistory = createAsyncThunk<
-  void,
+  Order,
   CreateOrderBody,
   { state: RootState }
 >(
@@ -87,7 +90,7 @@ const createOrderHistory = createAsyncThunk<
   async ({ currentUser, totalAmount, paymentDetail }, thunkAPI) => {
     const state = thunkAPI.getState();
 
-    const response = await client.post(
+    const { data } = await client.post(
       serverUrl + "/shop/create-order-history",
       {
         currentUser,
@@ -99,7 +102,7 @@ const createOrderHistory = createAsyncThunk<
       }
     );
 
-    console.log(response.data);
+    return data.currentOrder;
   }
 );
 
@@ -168,18 +171,18 @@ const shopSlice = createSlice({
       state.oneItmePerRow = !state.oneItmePerRow;
     },
   },
-  // extraReducers: (builder) => {
-  //   builder
-  //     //////////////
-  //     // GET AUTH //
-  //     //////////////
-  //     .addCase(
-  //       createOrderHistory.fulfilled,
-  //       (state): void => {
-
-  //       }
-  //     );
-  // },
+  extraReducers: (builder) => {
+    builder
+      //////////////////
+      // CREATE ORDER //
+      //////////////////
+      .addCase(
+        createOrderHistory.fulfilled,
+        (state, action: PayloadAction<Order>): void => {
+          state.currentOrder = action.payload;
+        }
+      );
+  },
 });
 
 export const {
@@ -233,4 +236,8 @@ export const selectOpenFilterModal = createSelector(
 export const selectOneItmePerRow = createSelector(
   [selectCheckout],
   (shopState) => shopState.oneItmePerRow
+);
+export const selectCurrentOrder = createSelector(
+  [selectCheckout],
+  (shopState) => shopState.currentOrder
 );

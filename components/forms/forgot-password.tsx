@@ -82,6 +82,8 @@ function UserForgotPassword({
   ) => {
     e.preventDefault();
 
+    console.log(inputValues);
+
     let errorInput = finalCheck(inputValues, touched, setInputErrors);
     if (errorInput !== "") {
       let elem = document.getElementById(errorInput);

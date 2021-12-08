@@ -35,7 +35,6 @@ import {
 import CartDetail from "../cart/cart-detail";
 import renderInputFields from "../../../utils/helper-functions/render-input-fields";
 import { AllowedStages } from "../../../pages/shop/checkout";
-import { inputTypes } from "../../../utils/enums-types/input-types";
 import {
   removeFromCartSession,
   selectCart,
@@ -156,7 +155,7 @@ function CheckoutStage_1({ setStage, setAllowedStages }: Props): JSX.Element {
         <Button
           variant="contained"
           onClick={stageChangeHandler}
-          className={styles.button}
+          className={styles.button_sticky}
         >
           CONTINUE
         </Button>

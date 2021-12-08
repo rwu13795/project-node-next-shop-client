@@ -1,14 +1,43 @@
 import { NextPage } from "next";
-import { useDispatch } from "react-redux";
-import { clearCheckoutInfo } from "../../utils/redux-store/shopSlice";
+import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+
+import {
+  clearCheckoutInfo,
+  selectCurrentOrder,
+} from "../../utils/redux-store/shopSlice";
 import { clearCartSession } from "../../utils/redux-store/userSlice";
+import OrderDetail from "../../components/auth/user-profile/order-detail";
+
+// UI //
+import styles from "./__payment-successful.module.css";
 
 const PaymentSuccessful: NextPage = ({}) => {
   const dispatch = useDispatch();
-  dispatch(clearCartSession());
-  dispatch(clearCheckoutInfo());
+  const currentOrder = useSelector(selectCurrentOrder);
 
-  return <h1>Thank you for the purchase!</h1>;
+  useEffect(() => {
+    dispatch(clearCartSession());
+    dispatch(clearCheckoutInfo());
+  }, []);
+
+  return (
+    <main className={styles.main_container}>
+      <div className={styles.main_title}>Thank you for your purchase!</div>
+      <div className={styles.sub_text}>
+        An email which contains the Order ID has been sent to the email address
+        you provided. You can use this Order ID to{" "}
+        <Link href="/shop/order-status">Track Your Order</Link>
+      </div>
+
+      {/* index=999 is to signal that the order detail is to be displayed in the
+      successful checkout page */}
+      <div className={styles.main_grid}>
+        {currentOrder && <OrderDetail order={currentOrder} index={999} />}
+      </div>
+    </main>
+  );
 };
 
 export default PaymentSuccessful;

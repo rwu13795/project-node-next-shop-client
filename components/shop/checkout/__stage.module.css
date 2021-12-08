@@ -48,7 +48,11 @@
   min-width: 280px;
   font-size: 22px;
 }
+.button_sticky {
+  display: none;
+}
 
+/* statge 2 */
 .billing_input {
   margin-top: 20px;
   font-size: 22px;
@@ -101,6 +105,25 @@
   position: relative;
 }
 
+/* statge 3 */
+.addresses_box {
+  width: 98%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  font-size: 22px;
+  margin: 30px 0;
+}
+.address_sub_title {
+  font-weight: bold;
+}
+.address_inner_box {
+  width: 50%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+}
+
 @media screen and (max-width: 765px) {
   .main_container {
     flex-flow: column nowrap;
@@ -113,7 +136,7 @@
     margin-top: 5px;
   }
   .sub_title {
-    font-size: 18px;
+    font-size: 20px;
   }
 
   .left_grid {
@@ -138,7 +161,6 @@
   .button_box {
     display: none;
   }
-
   .button_box_sticky {
     position: sticky;
     width: 100%;
@@ -161,6 +183,15 @@
     width: 80%;
     font-size: 18px;
   }
+  .button {
+    display: none;
+  }
+  .button_sticky {
+    display: block;
+    height: 40px;
+    width: 80%;
+    font-size: 18px;
+  }
 
   .hint_text {
     font-size: 16px;
@@ -172,5 +203,9 @@
   .card_image {
     width: 37.5px;
     height: 25px;
+  }
+
+  .addresses_box {
+    font-size: 18px;
   }
 }

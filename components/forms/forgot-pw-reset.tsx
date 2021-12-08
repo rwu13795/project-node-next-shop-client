@@ -5,6 +5,8 @@ import React, {
   useEffect,
   memo,
   Fragment,
+  FormEvent,
+  MouseEvent,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
@@ -126,7 +128,11 @@ function ForgotPasswordReset({
     onChangeErrorCheck(name, value, setInputErrors);
   };
 
-  const resetPasswordHandler = () => {
+  const resetPasswordHandler = (
+    e: FormEvent<HTMLFormElement> | MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+
     let errorInput = finalCheck(inputValues, touched, setInputErrors);
     if (errorInput !== "") {
       let elem = document.getElementById(errorInput);
@@ -163,10 +169,11 @@ function ForgotPasswordReset({
       <div className={styles.main_grid}>
         <div className={styles.main_title}>CREATE A NEW PASSWORD</div>
         <div className={styles.reset_pw_container}>
-          <form>
+          <form onSubmit={resetPasswordHandler}>
             <div className={styles.input_fields}>{inputFields()}</div>
 
             <Button
+              type="submit"
               variant="contained"
               onClick={resetPasswordHandler}
               disabled={

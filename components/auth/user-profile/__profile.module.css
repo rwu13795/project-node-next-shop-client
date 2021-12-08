@@ -50,57 +50,6 @@
   font-size: 20px;
 }
 
-/* order history */
-.order_container {
-  width: 100%;
-  box-shadow: 2px 4px 8px;
-  border-radius: 1rem;
-  margin: 10px;
-}
-.order_header {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  font-size: 32px;
-  padding: 10px 20px;
-  background-color: rgb(100, 189, 248);
-  border-radius: 1rem 1rem 0 0;
-}
-.order_date {
-  display: inline-block;
-}
-.order_total {
-  margin-left: 14px;
-}
-.order_body {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-}
-.item_container {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-around;
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
-.image_container {
-  width: 200px;
-  height: 230px;
-  position: relative;
-  border: 2px solid rgb(0, 138, 180);
-}
-.desc_container {
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: flex-start;
-  font-size: 24px;
-  margin-left: 10px;
-}
-.desc_title {
-  font-weight: bold;
-  margin-bottom: 10px;
-}
 .pagination_box {
   margin-top: 30px;
 }
@@ -122,25 +71,5 @@
   }
   .text_indicator {
     font-size: min(16px, 5vw);
-  }
-
-  .order_header {
-    font-size: min(24px, 6vw);
-    flex-flow: row wrap;
-  }
-  .order_date {
-    display: none;
-  }
-  .item_container {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-  }
-  .image_container {
-    width: 100px;
-    height: 115px;
-  }
-  .desc_container {
-    font-size: min(18px, 5vw);
   }
 }

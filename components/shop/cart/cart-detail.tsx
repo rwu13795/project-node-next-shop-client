@@ -119,7 +119,7 @@ function CartDetail({
         )}
         {cart.map((item, index) => {
           return (
-            <div key={item.productId} className={item_container}>
+            <div key={index} className={item_container}>
               <div className={image_text_container}>
                 <div className={imgae_container}>
                   <Image
