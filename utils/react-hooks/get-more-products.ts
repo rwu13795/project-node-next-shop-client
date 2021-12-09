@@ -48,6 +48,7 @@ export default function useGetMoreProducts(
   // have to reset the products when the startProducts were changed
   // (when other sub-cat products are being rendered)
   useEffect(() => {
+    console.log("startProducts --->", startProducts);
     setProducts(startProducts);
     setFilterStats(startFilterStats);
     setHasMore(true);

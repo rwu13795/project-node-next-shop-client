@@ -57,6 +57,19 @@ function ProductPreview({
   });
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
+  // I have to reset these states whenever the "colorPropsList, productInfo" were changed
+  // otherwise, the info from the previous category will stay unchange until user hovers
+  // to the image
+  useEffect(() => {
+    setPreviewImage(colorPropsList[0].imageFiles[0]);
+    setActiveColor(() => {
+      let temp = initialActiveColor;
+      temp[0] = true;
+      return temp;
+    });
+    setActiveIndex(0);
+  }, [colorPropsList]);
+
   // change the activeColor inside the child "PreviewColor" won't change the initial
   // activeColor in the parent untill the second change, which causes a bug that
   // two colors are being set to active. Instead I should setActiveIndex in the child

@@ -45,7 +45,7 @@ export default function useGetMoreSearchResult(
   // (when other sub-cat products are being rendered)
   useEffect(() => {
     setProducts(startProducts);
-    setHasMore(true);
+    setHasMore(startProducts.length >= ITEMS_PER_PAGE);
   }, [startProducts]);
 
   ////////
