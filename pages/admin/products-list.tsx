@@ -18,6 +18,7 @@ import {
 import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 import browserClient from "../../utils/axios-client/browser-client";
 import MeunListDrawer from "../../components/layout/navbar-items/menu-list-drawer";
+import DeleteProdcutModal from "../../components/admin/delete-product-modal";
 
 // UI //
 import {
@@ -44,6 +45,12 @@ interface PageProps {
   sub_cat: string;
 }
 
+export interface DeleteProduct {
+  id: string;
+  image: string;
+  title: string;
+}
+
 const AdmimProductsListPage: NextPage<PageProps> = ({
   products: startProducts,
   product_category,
@@ -63,7 +70,7 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
 
   useEffect(() => {
     dispatch(getAdminStatus());
-  });
+  }, []);
   useEffect(() => {
     return instantlyToTop;
   }, []);
@@ -74,6 +81,10 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
     }
   }, []);
 
+  useEffect(() => {
+    dispatch(setPageLoading(false));
+  });
+
   const [products, setProducts] = useState<PageProductProps[]>(startProducts);
   const [productsTotal, setProductsTotal] =
     useState<number>(startProductsTotal);
@@ -82,6 +93,12 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [main_cat, setMain_cat] = useState<string>(startMain);
   const [sub_cat, setSub_cat] = useState<string>(startSub);
+  const [delete_product, setDelete_product] = useState<DeleteProduct>({
+    id: "",
+    image: "",
+    title: "",
+  });
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
 
   const fetchNewList = useCallback(
     async (pageNum: number, main: string, sub: string) => {
@@ -108,7 +125,6 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
       } else {
         fetchNewList(currentPage, main_cat, sub_cat);
       }
-
       dispatch(setPageLoading(false));
     }
   }, [
@@ -132,11 +148,6 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
     router.push(`/admin/add-product?productId=${productId}`);
   };
 
-  const deleteButtonHandler = async (productId: string) => {
-    dispatch(setPageLoading(true));
-    dispatch(deleteProduct({ productId, admin_username }));
-  };
-
   const changePageHandler = async (event: any, page: number) => {
     console.log(page);
     if (page === currentPage) {
@@ -154,9 +165,18 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
     await fetchNewList(1, main, sub);
   };
 
-  useEffect(() => {
-    dispatch(setPageLoading(false));
-  }, []);
+  const deleteProductHandler = () => {
+    dispatch(setPageLoading(true));
+    console.log(delete_product);
+    // dispatch(deleteProduct({ productId: delete_product.id, admin_username }));
+    setOpenDeleteModal(false);
+    // setDelete_product({ id: "", image: "", title: "" });
+  };
+
+  const deleteModalHandler = (id: string, image: string, title: string) => {
+    setDelete_product({ id, image, title });
+    setOpenDeleteModal(true);
+  };
 
   return (
     <main className={styles.main}>
@@ -197,6 +217,10 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
               </div>
               <Grid item container className={styles.right_grid_lower}>
                 {products.map((p) => {
+                  const id = p._id;
+                  const image = p.colorPropsList[0].imageFiles[0];
+                  const title = p.productInfo.title;
+
                   return (
                     <Grid
                       item
@@ -228,7 +252,7 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
                           size="small"
                           variant="outlined"
                           color="error"
-                          onClick={() => deleteButtonHandler(p._id)}
+                          onClick={() => deleteModalHandler(id, image, title)}
                         >
                           Delete
                         </Button>
@@ -255,6 +279,13 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
           add new product
         </Button>
       </div>
+
+      <DeleteProdcutModal
+        openDeleteModal={openDeleteModal}
+        delete_product={delete_product}
+        setOpenDeleteModal={setOpenDeleteModal}
+        deleteProductHandler={deleteProductHandler}
+      />
     </main>
   );
 };

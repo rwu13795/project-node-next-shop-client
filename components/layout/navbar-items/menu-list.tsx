@@ -48,9 +48,9 @@ export default function MenuList({
   currentCat,
   page_cat,
 }: Props): JSX.Element {
-  const [showMenu, setShowMenu] = useState<boolean>(false);
-  const router = useRouter();
   const dispatch = useDispatch();
+
+  const [showMenu, setShowMenu] = useState<boolean>(false);
 
   const openMenu = (cat: string) => {
     if (cat === MainCategory.accessories) {
@@ -66,11 +66,13 @@ export default function MenuList({
   const onSubCatClickHandler = () => {
     dispatch(setPageLoading(true));
     setShowMenu_nav(false);
+    setShowMenu(false);
   };
 
   const onMainCatClickHandler = () => {
     dispatch(setPageLoading(true));
     setShowMenu_nav(false);
+    setShowMenu(false);
   };
 
   const ProductMenu = ({ currentCat }: { currentCat: string }): JSX.Element => {
@@ -108,6 +110,7 @@ export default function MenuList({
           justifyContent="center"
           alignItems="flex-start"
           className={styles.menu_list_items}
+          onMouseLeave={() => setShowMenu(false)}
         >
           {keys.map((key) => {
             return (
@@ -173,6 +176,7 @@ export default function MenuList({
         <Collapse
           in={showMenu && showMenu_nav}
           className={styles.menu_list_collapse_box}
+          timeout={{ enter: 300, exit: 300 }}
         >
           <ProductMenu currentCat={currentCat} />
         </Collapse>

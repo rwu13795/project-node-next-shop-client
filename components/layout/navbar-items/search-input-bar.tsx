@@ -1,4 +1,12 @@
-import { Fragment, useState, FormEvent, memo, MouseEvent } from "react";
+import {
+  Fragment,
+  useState,
+  FormEvent,
+  memo,
+  MouseEvent,
+  SetStateAction,
+  Dispatch,
+} from "react";
 
 // UI //
 import { Divider, Grid, TextField, Box, Drawer, Button } from "@mui/material";
@@ -6,6 +14,8 @@ import { LoadingButton } from "@mui/lab";
 import SearchSharpIcon from "@mui/icons-material/SearchSharp";
 import styles from "./__search-bar.module.css";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 
 const smallProps = {
   display: { xs: "flex", md: "flex" },
@@ -20,21 +30,26 @@ const mediumProps = {
   InputLabelProps: `${styles.input_label_props}`,
 };
 
-function SearchInputBar({ size }: { size: string }): JSX.Element {
+interface Props {
+  size: string;
+  setIsDrawerOpen?: Dispatch<SetStateAction<boolean>>;
+}
+
+function SearchInputBar({ size, setIsDrawerOpen }: Props): JSX.Element {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [value, setValue] = useState<string>("");
 
   const submitHandler = (e: FormEvent<HTMLFormElement> | MouseEvent) => {
     e.preventDefault();
-    console.log(value);
-    setValue("");
+
+    dispatch(setPageLoading(true));
+    if (setIsDrawerOpen) setIsDrawerOpen(false);
+
     const keywords = value.replaceAll(" ", "+");
-    router.push(`/shop/search-result?search=${keywords}`);
-  };
-  const onButtonClickHandler = () => {
-    console.log(value);
     setValue("");
+    router.push(`/shop/search-result?search=${keywords}`);
   };
 
   let props;

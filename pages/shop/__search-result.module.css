@@ -12,11 +12,22 @@
 }
 
 .main_title {
+  border: solid 6px rgb(0, 102, 161);
+  text-align: center;
   font-size: 50px;
   font-weight: bold;
+  margin-bottom: 20px;
 }
-.sub_text {
-  font-size: 22px;
+
+.items_body {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+.items_grid {
+  display: flex;
+  justify-content: center;
 }
 
 @media screen and (max-width: 765px) {
@@ -26,9 +37,8 @@
   }
 
   .main_title {
-    font-size: 35px;
-  }
-  .sub_text {
-    font-size: 16px;
+    font-size: 26px;
+    border-width: 4px;
+    margin-bottom: 10px;
   }
 }

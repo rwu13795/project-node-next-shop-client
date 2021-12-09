@@ -69,7 +69,9 @@
   box-shadow: 3px 6px 8px;
   border-radius: 0;
   top: 4rem;
-  left: 15vw;
+  left: 17.5%;
+  /* top: 6ch;
+  left: 20ch; */
   z-index: 10;
 }
 

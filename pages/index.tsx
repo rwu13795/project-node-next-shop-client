@@ -15,7 +15,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     dispatch(setPageLoading(false));
     dispatch(setLoadingStatus("idle"));
-  }, [dispatch]);
+  });
   useEffect(() => {
     return instantlyToTop;
   }, []);

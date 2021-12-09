@@ -47,9 +47,6 @@ const SearchResult: NextPage<PageProps> = ({
     search
   );
 
-  console.log("pageNum", pageNum);
-  console.log("hasMore", hasMore);
-
   const observer = useRef<IntersectionObserver>();
   const lastElementRef = useLastElementRef(
     isLoading,
@@ -64,7 +61,7 @@ const SearchResult: NextPage<PageProps> = ({
       <div className={styles.main_title}>
         SEARCH RESULT FOR: {`"${search}"`}
       </div>
-      <div>
+      <div className={styles.items_body}>
         {products.map((p, index) => {
           let lastElem = index + 1 === products.length;
           return lastElem ? (
@@ -123,6 +120,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       search,
       products: data.products,
       filter_view: true,
+      page: "search",
     },
   };
 }

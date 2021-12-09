@@ -36,7 +36,7 @@ export default function SearchIcon(): JSX.Element {
             className={styles.close_icon}
             onClick={closeMenu}
           />
-          <SearchInputBar size="small" />
+          <SearchInputBar size="small" setIsDrawerOpen={setIsDrawerOpen} />
         </Box>
       </Drawer>
     </Fragment>

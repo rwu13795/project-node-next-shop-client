@@ -12,9 +12,11 @@ import CropLandscapeIcon from "@mui/icons-material/CropLandscape";
 import SplitscreenIcon from "@mui/icons-material/Splitscreen";
 import styles from "./__filter-view-icon.module.css";
 
-interface Props {}
+interface Props {
+  page?: string;
+}
 
-function FilterViewIcon({}: Props): JSX.Element {
+function FilterViewIcon({ page }: Props): JSX.Element {
   const dispatch = useDispatch();
   const oneItemPerRow = useSelector(selectOneItmePerRow);
 
@@ -42,12 +44,14 @@ function FilterViewIcon({}: Props): JSX.Element {
           />
         </div>
       </div>
-      <div className={styles.filter_icon_box} onClick={onFilterClickHandler}>
-        <div className={styles.filter_icon}>
-          <FilterListIcon />
+      {page !== "search" && (
+        <div className={styles.filter_icon_box} onClick={onFilterClickHandler}>
+          <div className={styles.filter_icon}>
+            <FilterListIcon />
+          </div>
+          <div className={styles.filter_text}>Filter</div>
         </div>
-        <div className={styles.filter_text}>Filter</div>
-      </div>
+      )}
     </Fragment>
   );
 }

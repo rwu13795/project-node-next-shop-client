@@ -131,7 +131,7 @@ export default function MainNavigation({ page, page_cat, filter_view }: Props) {
     if (loggedInAsAdmin) {
       setAdminModal(true);
     } else {
-      dispatch(setPageLoading(true));
+      if (page !== "home") dispatch(setPageLoading(true));
       router.push("/");
     }
   };
@@ -190,7 +190,7 @@ export default function MainNavigation({ page, page_cat, filter_view }: Props) {
 
       {filter_view && (
         <Grid item container className={filterContainer}>
-          <FilterViewIcon />
+          <FilterViewIcon page={page} />
         </Grid>
       )}
       <Box sx={{ width: "100%" }}>

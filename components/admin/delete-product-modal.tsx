@@ -1,12 +1,17 @@
-import { useState, Fragment, SetStateAction, Dispatch } from "react";
+import { useState, Fragment, SetStateAction, Dispatch, memo } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
+import Image from "next/image";
 
-import { adminSignOut } from "../../utils/redux-store/adminSlice";
+import {
+  adminSignOut,
+  deleteProduct,
+} from "../../utils/redux-store/adminSlice";
 import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 
 // UI //
 import { Menu, Modal, Box, Backdrop, Fade } from "@mui/material";
+import { DeleteProduct } from "../../pages/admin/products-list";
 
 const style = {
   position: "absolute" as "absolute",
@@ -22,30 +27,28 @@ const style = {
 };
 
 interface Props {
-  deleteModal: boolean;
-  setDeleteModal: Dispatch<SetStateAction<boolean>>;
+  openDeleteModal: boolean;
+  delete_product: DeleteProduct;
+  setOpenDeleteModal: Dispatch<SetStateAction<boolean>>;
+  deleteProductHandler: () => void;
 }
 
-export default function DeleteProdcutModal({
-  deleteModal,
-  setDeleteModal,
+function DeleteProdcutModal({
+  openDeleteModal,
+  delete_product,
+  setOpenDeleteModal,
+  deleteProductHandler,
 }: Props): JSX.Element {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const closeModal = () => setDeleteModal(false);
-  const deleteHandler = () => {
-    dispatch(setPageLoading(true));
-    closeModal();
-    dispatch(adminSignOut());
-    router.push("/");
-  };
+  const closeModal = () => setOpenDeleteModal(false);
 
   return (
     <Fragment>
       <Modal
         disableScrollLock={true}
-        open={deleteModal}
+        open={openDeleteModal}
         onClose={closeModal}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -53,12 +56,23 @@ export default function DeleteProdcutModal({
           timeout: 500,
         }}
       >
-        <Fade in={deleteModal}>
+        <Fade in={openDeleteModal}>
           <Box sx={style}>
+            <div>
+              <div>{delete_product.title}</div>
+              <div>
+                <Image
+                  src={delete_product.image}
+                  alt="delete"
+                  width={100}
+                  height={130}
+                />
+              </div>
+            </div>
             <div>
               This product and its related images will be deleted permanently.
             </div>
-            <button onClick={deleteHandler}>Delete</button>
+            <button onClick={deleteProductHandler}>Delete</button>
             <button onClick={closeModal}>Cancel</button>
           </Box>
         </Fade>
@@ -66,3 +80,5 @@ export default function DeleteProdcutModal({
     </Fragment>
   );
 }
+
+export default memo(DeleteProdcutModal);
