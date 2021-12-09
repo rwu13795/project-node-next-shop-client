@@ -214,7 +214,6 @@ function SubCatProductsList({
 
         <Grid item container>
           {products.map((p, index) => {
-            let url = p.colorPropsList[0].imageFiles[0];
             let lastElem = index + 1 === products.length;
             return lastElem ? (
               <Grid

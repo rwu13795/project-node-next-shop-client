@@ -79,10 +79,9 @@ const ProductDetailPage: NextPage<PageProps> = ({
   useEffect(() => {
     dispatch(setPageLoading(false));
   });
-
   useEffect(() => {
-    return instantlyToTop();
-  });
+    return instantlyToTop;
+  }, []);
 
   const refreshReviewsUser = async (pageNum: number, reviewFilter: string) => {
     const { data } = await client.post(

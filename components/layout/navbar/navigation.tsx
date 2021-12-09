@@ -44,10 +44,10 @@ import {
 interface Props {
   page?: string;
   page_cat?: string;
-  sub_cat?: string;
+  filter_view?: boolean;
 }
 
-export default function MainNavigation({ page, page_cat, sub_cat }: Props) {
+export default function MainNavigation({ page, page_cat, filter_view }: Props) {
   const dispatch = useDispatch();
   const router = useRouter();
   const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
@@ -188,7 +188,7 @@ export default function MainNavigation({ page, page_cat, sub_cat }: Props) {
         </Grid>
       </Grid>
 
-      {sub_cat && (
+      {filter_view && (
         <Grid item container className={filterContainer}>
           <FilterViewIcon />
         </Grid>

@@ -4,10 +4,8 @@
 // is unmounted, otherwise, the "smooth" behavior will make the new page looks
 // start at the position of the old page and then "scroll smoothly" back to top
 export function instantlyToTop() {
-  return () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "instant",
-    });
-  };
+  window.scrollTo({
+    top: 0,
+    behavior: "instant",
+  });
 }

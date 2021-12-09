@@ -9,8 +9,10 @@ export default function Kids({}) {
 
   useEffect(() => {
     dispatch(setPageLoading(false));
-    return instantlyToTop();
   });
+  useEffect(() => {
+    return instantlyToTop;
+  }, []);
 
   return <main>Kids Home Page</main>;
 }

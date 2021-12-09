@@ -63,7 +63,9 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
 
   useEffect(() => {
     dispatch(getAdminStatus());
-    return instantlyToTop();
+  });
+  useEffect(() => {
+    return instantlyToTop;
   }, []);
 
   useEffect(() => {

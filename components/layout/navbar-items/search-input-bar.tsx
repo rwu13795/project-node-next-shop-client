@@ -1,10 +1,11 @@
-import { Fragment, useState, FormEvent, memo } from "react";
+import { Fragment, useState, FormEvent, memo, MouseEvent } from "react";
 
 // UI //
 import { Divider, Grid, TextField, Box, Drawer, Button } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import SearchSharpIcon from "@mui/icons-material/SearchSharp";
 import styles from "./__search-bar.module.css";
+import { useRouter } from "next/router";
 
 const smallProps = {
   display: { xs: "flex", md: "flex" },
@@ -20,12 +21,16 @@ const mediumProps = {
 };
 
 function SearchInputBar({ size }: { size: string }): JSX.Element {
+  const router = useRouter();
+
   const [value, setValue] = useState<string>("");
 
-  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
+  const submitHandler = (e: FormEvent<HTMLFormElement> | MouseEvent) => {
     e.preventDefault();
     console.log(value);
     setValue("");
+    const keywords = value.replaceAll(" ", "+");
+    router.push(`/shop/search-result?search=${keywords}`);
   };
   const onButtonClickHandler = () => {
     console.log(value);
@@ -61,7 +66,7 @@ function SearchInputBar({ size }: { size: string }): JSX.Element {
           />
         </form>
       </Grid>
-      <Grid item onClick={onButtonClickHandler}>
+      <Grid item onClick={submitHandler}>
         {size === "small" ? (
           <LoadingButton
             loading={false}

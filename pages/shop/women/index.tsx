@@ -9,8 +9,10 @@ export default function Women({}) {
 
   useEffect(() => {
     dispatch(setPageLoading(false));
-    return instantlyToTop();
   });
+  useEffect(() => {
+    return instantlyToTop;
+  }, []);
 
   return <main>Women Home Page</main>;
 }

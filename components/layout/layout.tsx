@@ -17,14 +17,14 @@ interface Prop {
   children: React.ReactNode;
   page?: string;
   page_cat?: string;
-  sub_cat?: string;
+  filter_view?: boolean;
 }
 
 export default function Layout({
   children,
   page,
   page_cat,
-  sub_cat,
+  filter_view,
 }: Prop): JSX.Element {
   // since the Layout component will be rendered on every page,
   // the user auth will be checked no matter which page is loaded up first
@@ -68,7 +68,11 @@ export default function Layout({
 
     <main className={styles.root_page_layout} style={scrollBarStyle}>
       <ThemeProvider theme={theme}>
-        <MainNavigation page={page} page_cat={page_cat} sub_cat={sub_cat} />
+        <MainNavigation
+          page={page}
+          page_cat={page_cat}
+          filter_view={filter_view}
+        />
 
         <main className={styles.main_component}>
           <div className={styles.main_component_grid}>{children}</div>

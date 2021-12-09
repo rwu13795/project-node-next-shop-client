@@ -1,0 +1,95 @@
+.main_container {
+  width: 80vw;
+  max-width: 90rem;
+  margin-top: 50px;
+}
+.main_grid {
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.form_grid {
+  width: 100%;
+  max-width: 42rem;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+}
+
+.title_box {
+  width: 100%;
+  max-width: 42rem;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  margin-bottom: 30px;
+}
+.main_title {
+  font-size: 50px;
+  font-weight: bold;
+}
+.sub_text {
+  font-size: 22px;
+}
+.button {
+  width: 50%;
+  min-width: 200px;
+
+  margin-top: 20px;
+}
+
+.form_control {
+  width: 100%;
+  max-width: 40rem;
+  margin: 10px 0px 20px 0px;
+}
+
+.input_box {
+  box-shadow: 2px 2px 5px black;
+}
+.input_error {
+  color: red;
+  font-size: 20px;
+}
+
+.order_box {
+  margin-top: 30px;
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (max-width: 765px) {
+  .main_container {
+    width: 95vw;
+    margin-top: 30px;
+  }
+  .form_control {
+    max-width: 50rem;
+    margin: 6px 0 6px 0;
+  }
+
+  .title_box {
+    margin-bottom: 20px;
+  }
+  .main_title {
+    font-size: 35px;
+  }
+  .sub_text {
+    font-size: 16px;
+  }
+
+  .form_label {
+    font-size: 16px;
+  }
+  .input_box {
+    height: 50px;
+    font-size: 18px;
+  }
+  .input_error {
+    font-size: min(5vw, 16px);
+  }
+}

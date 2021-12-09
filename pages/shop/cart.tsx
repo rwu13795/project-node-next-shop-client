@@ -30,10 +30,9 @@ const CartPage: NextPage = ({}) => {
   useEffect(() => {
     dispatch(setPageLoading(false));
   });
-
   useEffect(() => {
-    return instantlyToTop();
-  });
+    return instantlyToTop;
+  }, []);
 
   const main_container =
     cart.length > 0 ? styles.main_container : styles.main_container_no_item;

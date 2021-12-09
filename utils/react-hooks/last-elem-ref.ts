@@ -5,7 +5,8 @@ export default function useLastElementRef(
   isLoading: boolean,
   observer: MutableRefObject<IntersectionObserver | undefined>,
   hasMore: boolean,
-  setParams: Dispatch<SetStateAction<RequestParams>>
+  setParams?: Dispatch<SetStateAction<RequestParams>>,
+  setPageNum?: Dispatch<SetStateAction<number>>
 ) {
   return useCallback(
     // the node is the element that is being "ref" currently
@@ -17,15 +18,22 @@ export default function useLastElementRef(
       }
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
-          setParams((prev) => {
-            let pageNum = prev.pageNum + 1;
-            return { ...prev, pageNum };
-          });
+          if (setParams) {
+            setParams((prev) => {
+              let pageNum = prev.pageNum + 1;
+              return { ...prev, pageNum };
+            });
+          }
+          if (setPageNum) {
+            setPageNum((prev) => {
+              return prev + 1;
+            });
+          }
         }
       });
       // observe the current element
       if (node) observer.current.observe(node);
     },
-    [isLoading, hasMore, observer, setParams]
+    [isLoading, hasMore, observer, setParams, setPageNum]
   );
 }

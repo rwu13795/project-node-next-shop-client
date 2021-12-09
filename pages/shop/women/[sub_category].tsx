@@ -18,6 +18,7 @@ import { instantlyToTop } from "../../../utils/helper-functions/scrollToTopInsta
 
 // UI //
 import styles from "./__sub-cat.module.css";
+import serverClient from "../../../utils/axios-client/server-client";
 
 const WomenSubCatPage: NextPage<SubCat_PageProps> = ({
   products: startProducts,
@@ -31,8 +32,10 @@ const WomenSubCatPage: NextPage<SubCat_PageProps> = ({
 
   useEffect(() => {
     dispatch(setPageLoading(false));
-    return instantlyToTop();
   });
+  useEffect(() => {
+    return instantlyToTop;
+  }, []);
 
   if (!startProducts || startProducts.length < 1) {
     return <h1>No Products</h1>;
@@ -57,7 +60,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const sub_cat = context.query.sub_category;
   const main_cat = MainCategory.women.toLowerCase();
 
-  const { data }: { data: SubCat_PageProps } = await axios.get(
+  const client = serverClient(context);
+
+  const { data }: { data: SubCat_PageProps } = await client.get(
     `http://localhost:5000/api/products/${main_cat}/${sub_cat}`
   );
 
@@ -70,6 +75,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       sub_cat,
       main_cat,
       page_cat: main_cat,
+      filter_view: true,
     },
   };
 }

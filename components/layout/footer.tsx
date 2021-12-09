@@ -28,6 +28,11 @@ export default function Footer({ page }: Props): JSX.Element {
         </Link>
       </div>
       <div>foot testing block</div>
+      <div>
+        <Link href="/shop/order-status">
+          <a>Track Order</a>
+        </Link>
+      </div>
     </footer>
   );
 }

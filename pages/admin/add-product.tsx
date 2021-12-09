@@ -103,11 +103,10 @@ const AddProductPage: NextPage<PageProps> = ({
 
   useEffect(() => {
     reduxDispatch(setPageLoading(false));
-  }, []);
-
-  useEffect(() => {
-    return instantlyToTop();
   });
+  useEffect(() => {
+    return instantlyToTop;
+  }, []);
 
   const dispatchAddInfo = (e: AddInfoEvents) => {
     const inputValue = e.target.value;

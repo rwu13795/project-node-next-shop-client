@@ -124,7 +124,7 @@ const signIn = createAsyncThunk<UserState, SignInBody, { state: RootState }>(
       });
       return response.data;
     } catch (err: any) {
-      // catch the error sent from the server manually, and put in inside the action.payload
+      // catch the error sent from the server manually, and put it in inside the action.payload
       return thunkAPI.rejectWithValue(err.response.data);
     }
   }
@@ -154,7 +154,7 @@ const signUp = createAsyncThunk<UserState, SignUpBody, { state: RootState }>(
       });
       return response.data;
     } catch (err: any) {
-      // catch the error sent from the server manually, and put in inside the action.payload
+      // catch the error sent from the server manually, and put it in inside the action.payload
       return thunkAPI.rejectWithValue(err.response.data);
     }
   }
@@ -457,10 +457,10 @@ const userSlice = createSlice({
         (state, action: PayloadAction<UserState>): void => {
           if (action.payload.authErrors !== undefined) {
             state.authErrors["no_change"] = "You did not change anything";
-            state.loadingStatus = "idle";
+            state.loadingStatus = loadingStatus.idle;
           } else {
             state.currentUser = action.payload.currentUser;
-            state.loadingStatus = "succeeded";
+            state.loadingStatus = loadingStatus.succeeded;
           }
         }
       )

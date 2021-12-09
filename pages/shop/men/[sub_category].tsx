@@ -27,6 +27,7 @@ import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import styles from "./__sub-cat.module.css";
 import { instantlyToTop } from "../../../utils/helper-functions/scrollToTopInstantly";
+import serverClient from "../../../utils/axios-client/server-client";
 
 const MenSubCatPage: NextPage<SubCat_PageProps> = ({
   products: startProducts,
@@ -54,8 +55,8 @@ const MenSubCatPage: NextPage<SubCat_PageProps> = ({
   // is unmounted, otherwise, the "smooth" behavior will make the new page looks
   // start at the position of the old page and then "scroll smoothly" back to top
   useEffect(() => {
-    return instantlyToTop();
-  });
+    return instantlyToTop;
+  }, []);
 
   const backToTopHandler = () => {
     window.scrollTo({ top: 0 });
@@ -93,7 +94,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const sub_cat = context.query.sub_category;
   const main_cat = MainCategory.men.toLowerCase();
 
-  const { data }: { data: SubCat_PageProps } = await axios.get(
+  const client = serverClient(context);
+
+  const { data }: { data: SubCat_PageProps } = await client.get(
     `http://localhost:5000/api/products/${main_cat}/${sub_cat}`
   );
 
@@ -106,6 +109,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       sub_cat,
       main_cat,
       page_cat: main_cat,
+      filter_view: true,
     },
   };
 }

@@ -7,6 +7,7 @@ import Swiper_homePage from "../components/image/home-page/swiper";
 import { useDispatch } from "react-redux";
 import { setPageLoading } from "../utils/redux-store/layoutSlice";
 import { setLoadingStatus } from "../utils/redux-store/userSlice";
+import { instantlyToTop } from "../utils/helper-functions/scrollToTopInstantly";
 
 const Home: NextPage = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,9 @@ const Home: NextPage = () => {
     dispatch(setPageLoading(false));
     dispatch(setLoadingStatus("idle"));
   }, [dispatch]);
+  useEffect(() => {
+    return instantlyToTop;
+  }, []);
 
   return (
     <main style={{ height: "calc(100vh - 73px)" }}>

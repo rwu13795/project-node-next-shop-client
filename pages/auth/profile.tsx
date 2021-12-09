@@ -53,8 +53,10 @@ const ProfilePage: NextPage<PageProps> = ({ orders, ordersTotal, notAuth }) => {
 
   useEffect(() => {
     dispatch(setPageLoading(false));
-    return instantlyToTop();
   });
+  useEffect(() => {
+    return instantlyToTop;
+  }, []);
 
   const tagChangeHandler = (event: React.SyntheticEvent, newValue: string) => {
     dispatch(clearAuthErrors("all"));

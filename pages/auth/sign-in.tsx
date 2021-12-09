@@ -33,8 +33,10 @@ const SignInPage: NextPage = ({}) => {
 
   useEffect(() => {
     dispatch(setPageLoading(false));
-    return instantlyToTop();
   });
+  useEffect(() => {
+    return instantlyToTop;
+  }, []);
 
   return (
     <AuthForm

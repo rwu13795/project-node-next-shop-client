@@ -32,8 +32,8 @@ const LoginCheckoutPage: NextPage = ({}) => {
   });
 
   useEffect(() => {
-    return instantlyToTop();
-  });
+    return instantlyToTop;
+  }, []);
 
   return (
     <main>
