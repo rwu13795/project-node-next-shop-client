@@ -65,7 +65,7 @@ export default function SelectCategory(props: Props): JSX.Element {
           setSubCatArray(kidsCatArray);
           break;
         default:
-          setSubCatArray(["Accessories"]);
+          break;
       }
     }
   }, [productInfo.main_cat]);

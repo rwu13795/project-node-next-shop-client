@@ -28,6 +28,13 @@ import {
   Box,
   Pagination,
   Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  FormHelperText,
+  GridSize,
 } from "@mui/material";
 import styles from "./__product-list.module.css";
 import { mainCatArray } from "../../utils/enums-types/product-category";
@@ -43,12 +50,14 @@ interface PageProps {
   products: PageProductProps[];
   main_cat: string;
   sub_cat: string;
+  admin_username_array: string[];
 }
 
 export interface DeleteProduct {
   id: string;
   image: string;
   title: string;
+  admin_username?: string;
 }
 
 const AdmimProductsListPage: NextPage<PageProps> = ({
@@ -57,6 +66,7 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
   productsTotal: startProductsTotal,
   main_cat: startMain,
   sub_cat: startSub,
+  admin_username_array,
 }) => {
   const ITEMS_PER_PAGE = 6;
 
@@ -69,16 +79,16 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
   const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
 
   useEffect(() => {
-    dispatch(getAdminStatus());
-  }, []);
-  useEffect(() => {
     return instantlyToTop;
   }, []);
 
+  // useEffect(() => {
+  //   if (!loggedInAsAdmin) {
+  //     router.push("/admin");
+  //   }
+  // }, []);
   useEffect(() => {
-    if (!loggedInAsAdmin) {
-      router.push("/admin");
-    }
+    dispatch(getAdminStatus());
   }, []);
 
   useEffect(() => {
@@ -97,14 +107,23 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
     id: "",
     image: "",
     title: "",
+    admin_username: "",
   });
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
+  const [selectedAdmin, setSelectedAdmin] = useState<string>(admin_username);
 
   const fetchNewList = useCallback(
-    async (pageNum: number, main: string, sub: string) => {
+    async (
+      pageNum: number,
+      main: string,
+      sub: string,
+      admin_username: string
+    ) => {
       const { data }: { data: PageProps } = await client.get(
         `http://localhost:5000/api/admin/get-products-list`,
-        { params: { pageNum, main, sub } }
+        // when the master admin selects another admin, use that admin_username
+        // to fetch the product list
+        { params: { pageNum, main, sub, admin_username } }
       );
       setProducts(data.products);
       setProductCatNum(data.product_category);
@@ -120,10 +139,10 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
       // if products.length less than 2, that means there was only 1 item on the
       // current page before deleting, so I need to fetch items from the page in front
       if (products.length < 2 && currentPage > 1) {
-        fetchNewList(currentPage - 1, main_cat, sub_cat);
+        fetchNewList(currentPage - 1, main_cat, sub_cat, selectedAdmin);
         setCurrentPage((prev) => prev - 1);
       } else {
-        fetchNewList(currentPage, main_cat, sub_cat);
+        fetchNewList(currentPage, main_cat, sub_cat, selectedAdmin);
       }
       dispatch(setPageLoading(false));
     }
@@ -136,6 +155,7 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
     products.length,
     main_cat,
     sub_cat,
+    selectedAdmin,
   ]);
 
   const goToAddProduct = () => {
@@ -153,7 +173,10 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
     if (page === currentPage) {
       return;
     }
-    await fetchNewList(page, main_cat, sub_cat);
+    await fetchNewList(page, main_cat, sub_cat, selectedAdmin);
+
+    let elem = document.getElementById("admin_cat_title");
+    if (elem) elem.scrollIntoView({ block: "center" });
     setCurrentPage(page);
   };
 
@@ -162,21 +185,47 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
     setMain_cat(main);
     setSub_cat(sub);
     setCurrentPage(1);
-    await fetchNewList(1, main, sub);
+    await fetchNewList(1, main, sub, selectedAdmin);
   };
 
   const deleteProductHandler = () => {
     dispatch(setPageLoading(true));
     console.log(delete_product);
-    // dispatch(deleteProduct({ productId: delete_product.id, admin_username }));
+    dispatch(
+      deleteProduct({
+        productId: delete_product.id,
+        admin_username: selectedAdmin,
+      })
+    );
     setOpenDeleteModal(false);
-    // setDelete_product({ id: "", image: "", title: "" });
   };
 
   const deleteModalHandler = (id: string, image: string, title: string) => {
     setDelete_product({ id, image, title });
     setOpenDeleteModal(true);
   };
+
+  const selectAdminHandler = async (e: SelectChangeEvent<string>) => {
+    console.log("select admin", e.target.value);
+    const newSelect = e.target.value;
+    if (newSelect === selectedAdmin) return;
+
+    await fetchNewList(1, main_cat, sub_cat, newSelect);
+    setSelectedAdmin(newSelect);
+  };
+
+  if (Object.keys(product_category).length === 0) {
+    return (
+      <main>
+        <h1>You have not added any product, yet</h1>
+        <div className={`${styles.inner_grid} ${styles.margin_bottom}`}>
+          <Button variant="outlined" onClick={goToAddProduct}>
+            add new product
+          </Button>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className={styles.main}>
@@ -185,7 +234,31 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
           <Button variant="outlined" onClick={goToAddProduct}>
             add new product
           </Button>
-          <h2>PRODUCTS CATEGORIES</h2>
+
+          {admin_username_array.length > 0 && (
+            <div className={styles.select_admin_box}>
+              <div className={styles.title_2}>SELECT ADMINISTRATOR</div>
+              <FormControl className={styles.select_control}>
+                <InputLabel className={styles.select_label}>ADMIN</InputLabel>
+                <Select
+                  value={selectedAdmin}
+                  label="ADMIN"
+                  onChange={selectAdminHandler}
+                  // className={styles.select_menu}
+                >
+                  {admin_username_array.map((admin) => {
+                    return (
+                      <MenuItem key={admin} value={admin}>
+                        {admin}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </div>
+          )}
+
+          <div className={styles.title_2}>PRODUCTS CATEGORIES</div>
           {mainCatArray.map((cat, index) => {
             return (
               <div key={index} className={styles.menu_draw_container}>
@@ -201,17 +274,24 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
         </Grid>
 
         <Grid item container className={styles.right_grid}>
+          {admin_username_array.length > 0 && (
+            <div className={styles.title_1} style={{ marginBottom: "10px" }}>
+              Managing the products of Admin: &ldquo;
+              <span style={{ color: "red" }}>{selectedAdmin}</span>&rdquo;
+            </div>
+          )}
+
           {!products || products.length === 0 ? (
             <div className={styles.right_grid_upper}>
-              <div>
-                No products found in the {main_cat.toUpperCase()}{" "}
+              <div className={styles.title_1} id="admin_cat_title">
+                No product found in the {main_cat.toUpperCase()}{" "}
                 {sub_cat.toUpperCase()} category
               </div>
             </div>
           ) : (
             <Fragment>
               <div className={styles.right_grid_upper}>
-                <div>
+                <div className={styles.title_1} id="admin_cat_title">
                   {main_cat.toUpperCase()} {sub_cat.toUpperCase()}
                 </div>
               </div>
@@ -309,12 +389,15 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       { params: { pageNum: 1, main: main_cat, sub: sub_cat } }
     );
 
+    console.log(data);
+
     return {
       props: {
         page: "admin",
         products: data.products,
-        product_category: data.product_category,
+        product_category: data.product_category || {},
         productsTotal: data.productsTotal,
+        admin_username_array: data.admin_username_array,
         main_cat,
         sub_cat,
       },

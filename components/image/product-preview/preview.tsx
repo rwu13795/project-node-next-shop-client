@@ -73,7 +73,7 @@ function ProductPreview({
   // change the activeColor inside the child "PreviewColor" won't change the initial
   // activeColor in the parent untill the second change, which causes a bug that
   // two colors are being set to active. Instead I should setActiveIndex in the child
-  // when the parent catch the change in activeIndex, the useEffect below will fire
+  // when the parent catch the change in activeIndex, the useEffect below will trigger
   // and change the activeColor in the parent level which will be reflected in all children
   useEffect(() => {
     setActiveColor(() => {

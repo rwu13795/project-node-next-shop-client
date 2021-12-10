@@ -13,6 +13,18 @@
   max-width: 110rem;
 }
 
+.title_1 {
+  width: 100%;
+  text-align: center;
+  font-size: 34px;
+  font-weight: bold;
+}
+.title_2 {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
 .left_grid {
   position: sticky;
   top: 200px;
@@ -85,18 +97,55 @@
   margin-bottom: 40px;
 }
 
+.select_admin_box {
+  width: 100%;
+  display: flex;
+  flex-flow: nowrap column;
+  align-items: center;
+  margin: 20px 0;
+}
+.select_control {
+  width: 100%;
+}
+
 @media screen and (max-width: 765px) {
   .main {
+    margin-top: 20px;
     width: 100vw;
   }
   .main_grid {
+    margin-top: 10px;
     width: 100vw;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
   }
   .left_grid {
-    display: none;
+    width: 95vw;
+    max-width: 100%;
+    position: static;
+    margin-bottom: 20px;
+    height: auto;
   }
   .right_grid {
     width: 95vw;
     max-width: 100%;
+    margin-bottom: 10px;
+  }
+  .right_grid_upper {
+    width: 100%;
+  }
+  .right_grid_lower {
+    width: 100%;
+  }
+
+  .title_1 {
+    width: 100%;
+    font-size: 20px;
+  }
+  .title_2 {
+    font-size: 16px;
+    margin: 10px 0;
   }
 }
