@@ -77,6 +77,7 @@ function UserSignIn({
   const authErrors = useSelector(selectAuthErrors);
   const loadingStatus_user = useSelector(selectLoadingStatus_user);
   const pageLoading = useSelector(selectPageLoading);
+  const pageLoading_user = useSelector(selectPageLoading_user);
 
   useEffect(() => {
     dispatch(clearAuthErrors("all"));
@@ -102,7 +103,7 @@ function UserSignIn({
     }
 
     if (!signInModal) {
-      dispatch(setPageLoading(true));
+      dispatch(setPageLoading_user(true));
     }
     dispatch(
       signIn({
@@ -129,6 +130,10 @@ function UserSignIn({
     dispatch(setPageLoading(true));
     router.push("/auth/sign-up");
   };
+
+  ////
+
+  console.log("page", page);
 
   if (signInModal) {
     return (
@@ -194,9 +199,15 @@ function UserSignIn({
     <main className={styles.main_container}>
       <div className={styles.main_grid}>
         <div className={styles.title_grid}>
-          <div className={styles.main_title}>USER SIGN IN</div>
+          <div className={styles.main_title}>
+            {page === "checkout-sign-in"
+              ? "RETURNING CUSTOMER "
+              : "USER SIGN IN"}
+          </div>
           <div className={styles.sub_title}>
-            SIGN IN FOR ACCESS TO YOUR ACCOUNT AND ORDER HISTORY
+            {page === "checkout-sign-in"
+              ? "IF YOU HAVE AN ACCOUNT, SIGN IN TO CHECKOUT FASTER"
+              : "SIGN IN FOR ACCESS TO YOUR ACCOUNT AND ORDER HISTORY"}
           </div>
         </div>
 
@@ -224,7 +235,7 @@ function UserSignIn({
                     variant="contained"
                     onClick={singInHandler}
                     disabled={pageLoading}
-                    loading={pageLoading}
+                    loading={pageLoading_user}
                     className={styles.sign_in_button}
                   >
                     Sign In
@@ -243,19 +254,36 @@ function UserSignIn({
             className={styles.body_grid_right}
           >
             <div className={styles.body_grid_right_inner}>
-              <div className={styles.to_sign_up_text}>
-                Creating an account allows you to checkout quickly, keep track
-                of your orders and{" "}
-                <span style={{ color: "red" }}>FREE SHIPPING</span> for the 1st
-                order
-              </div>
-              <Button
-                variant="contained"
-                onClick={toSignUpHandler}
-                className={styles.to_sign_up}
-              >
-                Create a new account
-              </Button>
+              {page === "checkout-sign-in" ? (
+                <div className={styles.to_sign_up_text}>
+                  If you don&apos;t have an account, you can continue to
+                  checkout as a guest
+                </div>
+              ) : (
+                <div className={styles.to_sign_up_text}>
+                  Creating an account allows you to checkout quickly, keep track
+                  of your orders and{" "}
+                  <span style={{ color: "red" }}>FREE SHIPPING</span> for the
+                  1st order
+                </div>
+              )}
+              {page === "checkout-sign-in" ? (
+                <Button
+                  variant="contained"
+                  onClick={() => router.push("/shop/checkout")}
+                  className={styles.to_sign_up}
+                >
+                  CHECKOUT AS GUEST
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  onClick={toSignUpHandler}
+                  className={styles.to_sign_up}
+                >
+                  Create a new account
+                </Button>
+              )}
             </div>
           </Grid>
         </Grid>

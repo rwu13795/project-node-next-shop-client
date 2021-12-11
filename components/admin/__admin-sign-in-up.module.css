@@ -1,0 +1,13 @@
+.button_box {
+  width: 65%;
+  max-width: 300px;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 765px) {
+  .button_box {
+    height: 30px;
+    font-size: min(14px, 4vw);
+  }
+}

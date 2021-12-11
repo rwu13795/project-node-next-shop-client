@@ -1,24 +1,124 @@
 .main {
-  margin-left: min(5%, 4rem);
-  margin-right: min(5%, 4rem);
-  margin-bottom: 4rem;
-  height: 100vh;
+  margin-top: 50px;
+  width: 80vw;
+  max-width: 90rem;
+  margin-bottom: 30px;
 }
 
 .main_grid {
-  flex-direction: column;
-  justify-content: center;
+  width: 100%;
+  display: flex;
+  flex-flow: nowrap row;
+  justify-content: space-evenly;
   align-items: center;
-  /* width: 70vw; */
 }
-/* @media screen and (min-width: 1400px) {
-  .main_grid {
-    max-width: 60rem;
-  }
-} */
 
-.main_grid_item {
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: space-between;
+.left_grid {
+  width: 45%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+}
+.right_grid {
+  width: 45%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.mid_grid {
+  width: auto;
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+}
+.mid_grid_line {
+  display: block;
+  align-self: center;
+  border: 1px solid rgb(0, 81, 148);
+  border-width: 2px 1px;
+  width: 0px;
+  height: 170px;
+}
+
+.title {
+  font-size: 50px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.button_box {
+  width: 80%;
+  max-width: 400px;
+}
+.text {
+  font-size: 30px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+}
+.text_2 {
+  font-size: 30px;
+  text-align: center;
+}
+
+@media screen and (min-width: 765px) and (max-width: 1080px) {
+  .main {
+    width: 95vw;
+  }
+}
+
+@media screen and (max-width: 765px) {
+  .main {
+    margin-top: 30px;
+    width: 95vw;
+  }
+
+  .main_grid {
+    display: flex;
+    flex-flow: nowrap column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .left_grid {
+    width: 100%;
+  }
+  .right_grid {
+    width: 100%;
+  }
+
+  .mid_grid {
+    width: 100%;
+    height: auto;
+    flex-flow: row nowrap;
+    justify-content: center;
+    margin: 26px 0;
+  }
+  .mid_grid_line {
+    display: block;
+    align-self: center;
+    border: 1px solid rgb(0, 81, 148);
+    border-width: 3px 0 0;
+    width: 45%;
+    height: 0px;
+  }
+
+  .title {
+    font-size: 35px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  .text {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .text_2 {
+    font-size: 20px;
+    margin: 0 5px;
+  }
+
+  .button_box {
+    height: 30px;
+    font-size: min(14px, 4vw);
+  }
 }

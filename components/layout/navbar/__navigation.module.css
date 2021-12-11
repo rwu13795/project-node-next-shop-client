@@ -47,6 +47,17 @@ font-family: 'Monofett', cursive;
   justify-content: center;
 }
 
+.admin_right_nav {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 20px;
+}
+.sign_out_button {
+  margin-left: 20px;
+}
+
 @media screen and (max-width: 765px) {
   .filter_container_1 {
     display: flex;
@@ -59,5 +70,15 @@ font-family: 'Monofett', cursive;
     visibility: hidden;
     opacity: 0;
     transition: 0.6;
+  }
+
+  .admin_right_nav {
+    font-size: min(18px, 4.5vw);
+    margin-right: 5px;
+  }
+  .sign_out_button {
+    margin: 0 6px;
+    font-size: min(12px, 3.5vw);
+    padding: 2px 4px;
   }
 }

@@ -14,7 +14,7 @@ import {
 } from "../../utils/redux-store/adminSlice";
 
 // UI //
-import { CircularProgress, Grid } from "@mui/material";
+import { Button, CircularProgress, Grid } from "@mui/material";
 import styles from "./__index.module.css";
 
 const signIn_inputFieldsArray = [
@@ -54,35 +54,66 @@ const AdminPage: NextPage = () => {
 
   return (
     <main className={styles.main}>
-      <Grid container className={styles.main_grid}>
-        {loggedInAsAdmin === true ? (
-          <div>
-            <CircularProgress />
+      <div className={styles.title}>ADMINISTRATION</div>
+      {isRegistering ? (
+        <div className={styles.main_grid}>
+          <div className={styles.right_grid}>
+            <div className={styles.text}>
+              Have an existing Adminstrator account?
+            </div>
+            <Button
+              variant="contained"
+              onClick={switchHandler}
+              className={styles.button_box}
+            >
+              Sign In
+            </Button>
           </div>
-        ) : isRegistering ? (
-          <Grid>
-            <button onClick={switchHandler}>Sign In</button>
-            <div>Or</div>
-            <hr />
-            <div>Register</div>
+
+          <div className={styles.mid_grid}>
+            <div className={styles.mid_grid_line}></div>
+            <div className={styles.text_2}>OR</div>
+            <div className={styles.mid_grid_line}></div>
+          </div>
+
+          <div className={styles.left_grid}>
+            <div className={styles.text}>Register</div>
             <AuthForm
               inputFieldsArray={register_inputFieldsArray}
               inputType={inputTypes.adminRegister}
+              page="admin-auth"
             />
-          </Grid>
-        ) : (
-          <Grid>
-            <div>Sign In</div>
+          </div>
+        </div>
+      ) : (
+        <div className={styles.main_grid}>
+          <div className={styles.left_grid}>
+            <div className={styles.text}>Sign in as Administrator</div>
             <AuthForm
               inputFieldsArray={signIn_inputFieldsArray}
               inputType={inputTypes.adminSignIn}
+              page="admin-auth"
             />
-            <hr />
-            <div>Or</div>
-            <button onClick={switchHandler}>Register</button>
-          </Grid>
-        )}
-      </Grid>
+          </div>
+
+          <div className={styles.mid_grid}>
+            <div className={styles.mid_grid_line}></div>
+            <div className={styles.text_2}>OR</div>
+            <div className={styles.mid_grid_line}></div>
+          </div>
+
+          <div className={styles.right_grid}>
+            <div className={styles.text}>Create a new Adminstrator account</div>
+            <Button
+              variant="contained"
+              onClick={switchHandler}
+              className={styles.button_box}
+            >
+              Register
+            </Button>
+          </div>
+        </div>
+      )}
     </main>
   );
 };

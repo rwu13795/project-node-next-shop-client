@@ -25,6 +25,7 @@ import {
   selectAuthErrors,
   selectLoadingStatus_user,
   setLoadingStatus,
+  setPageLoading_user,
   signUp,
 } from "../../utils/redux-store/userSlice";
 import { useRouter } from "next/router";
@@ -76,6 +77,8 @@ function UserSignUp({
       if (elem) elem.scrollIntoView({ block: "center" });
       return;
     }
+
+    dispatch(setPageLoading_user(true));
 
     // let errorInput = onSubmitErrorCheck(
     //   inputValues,

@@ -91,7 +91,9 @@ function FormInputField(props: Props): JSX.Element {
   if (
     page === "user-sign-in" ||
     page === "update-info" ||
-    page === "checkout"
+    page === "checkout" ||
+    page === "checkout-sign-in" ||
+    page === "admin-auth"
   ) {
     md = 12;
   }

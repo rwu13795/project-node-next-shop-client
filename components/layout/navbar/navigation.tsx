@@ -33,13 +33,9 @@ import AdminSignOutModal from "./../../admin/admin-sign-out-modal";
 import FilterViewIcon from "../navbar-items/filter-view-icon";
 
 // UI //
-import { Divider, Grid, TextField, Box, Tooltip } from "@mui/material";
+import { Divider, Grid, TextField, Box, Tooltip, Button } from "@mui/material";
 import LinearProgress from "@mui/material/LinearProgress";
 import styles from "./__navigation.module.css";
-import {
-  setOneItmePerRow,
-  setOpenFilterModal,
-} from "../../../utils/redux-store/shopSlice";
 
 interface Props {
   page?: string;
@@ -137,20 +133,28 @@ export default function MainNavigation({ page, page_cat, filter_view }: Props) {
   };
 
   let content;
-  if (page !== "admin") {
-    content = <UserNavbar page={page} page_cat={page_cat} />;
-  } else {
+  if (page === "admin") {
     content = (
-      <div>
+      <div className={styles.admin_right_nav}>
         <AdminSignOutModal
           adminModal={adminModal}
           setAdminModal={setAdminModal}
         />
+        <div>ADMINISTRATION</div>
         {loggedInAsAdmin && (
-          <button onClick={adminSignOutHandler}>Sign Out</button>
+          <Button
+            variant="outlined"
+            color="warning"
+            onClick={adminSignOutHandler}
+            className={styles.sign_out_button}
+          >
+            Sign Out
+          </Button>
         )}
       </div>
     );
+  } else {
+    content = <UserNavbar page={page} page_cat={page_cat} />;
   }
 
   return (
@@ -181,7 +185,7 @@ export default function MainNavigation({ page, page_cat, filter_view }: Props) {
           sm={7}
           xs={7}
           container
-          justifyContent="space-between"
+          justifyContent={page === "admin" ? "flex-end" : "space-between"}
           alignItems="center"
         >
           {content}

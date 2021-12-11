@@ -20,6 +20,7 @@
 
 @media screen and (max-width: 765px) {
   .main_container {
+    margin-top: 30px;
     width: 95vw;
   }
   .main_container_no_item {

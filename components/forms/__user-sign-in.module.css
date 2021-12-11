@@ -82,6 +82,7 @@
   width: 180px;
   font-size: 16px;
 }
+
 .forget_pw {
   text-decoration: underline;
   font-size: 20px;
@@ -171,7 +172,7 @@
     border-bottom: solid rgb(129, 129, 129) 2px;
   }
   .body_grid_left_inner {
-    width: 90%;
+    width: 100%;
   }
 
   .button_group {
@@ -187,10 +188,10 @@
 
   .body_grid_right {
     width: 100%;
-    margin: 10px 5px 10px 5px;
+    margin: 0;
   }
   .body_grid_right_inner {
-    width: 90%;
+    width: 96%;
   }
   .to_sign_up {
     width: 80vw;

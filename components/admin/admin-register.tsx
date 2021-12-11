@@ -1,7 +1,5 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, FormEvent, MouseEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { CircularProgress } from "@mui/material";
 
 import {
   Errors,
@@ -19,6 +17,11 @@ import {
 import { inputNames } from "../../utils/enums-types/input-names";
 import { AuthErrors } from "../../utils/redux-store/userSlice";
 
+// UI //
+import { Button, CircularProgress } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import styles from "./__admin-sign-in-up.module.css";
+
 interface Props {
   inputFieldsArray: string[];
   inputValues: InputValues;
@@ -27,9 +30,11 @@ interface Props {
   inputFields: (
     fields: string[],
     inputValues: InputValues,
-    requestError: AuthErrors | AdminErrors
+    requestError: AuthErrors | AdminErrors,
+    page?: string
   ) => JSX.Element[];
   touched: Touched;
+  page?: string;
 }
 
 export default function AdminRegister({
@@ -39,12 +44,17 @@ export default function AdminRegister({
   setInputErrors,
   inputFields,
   touched,
+  page,
 }: Props): JSX.Element {
   const dispatch = useDispatch();
   const adminErrors = useSelector(selectAdminErrors);
   const loadingStatus_admin = useSelector(selectLoadingStatus_admin);
 
-  const adminRegisterHandler = () => {
+  const adminRegisterHandler = (
+    e: FormEvent<HTMLFormElement> | MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+
     let errorInput = finalCheck(inputValues, touched, setInputErrors);
     if (errorInput !== "") {
       let elem = document.getElementById(errorInput);
@@ -62,28 +72,18 @@ export default function AdminRegister({
   };
 
   return (
-    <div>
-      {inputFields(inputFieldsArray, inputValues, adminErrors)}
-      <div>
-        <button
-          onClick={adminRegisterHandler}
-          disabled={loadingStatus_admin === "loading"}
-        >
-          Register
-        </button>
-        {loadingStatus_admin === "loading" && (
-          <CircularProgress
-            size={45}
-            sx={{
-              position: "absolute",
-              top: "40%",
-              left: "46%",
-              // marginTop: "-12px",
-              // marginLeft: "-12px",
-            }}
-          />
-        )}
-      </div>
-    </div>
+    <form onSubmit={adminRegisterHandler}>
+      {inputFields(inputFieldsArray, inputValues, adminErrors, page)}
+      <LoadingButton
+        type="submit"
+        variant="contained"
+        onClick={adminRegisterHandler}
+        disabled={loadingStatus_admin === "loading"}
+        loading={loadingStatus_admin === "loading"}
+        className={styles.button_box}
+      >
+        Register
+      </LoadingButton>
+    </form>
   );
 }

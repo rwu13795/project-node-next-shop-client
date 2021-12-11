@@ -12,7 +12,7 @@ import {
   selectCurrentUser,
   selectIsLoggedIn,
 } from "../../utils/redux-store/userSlice";
-import CartDetail from "../../components/shop/cart/cart-detail";
+import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 import { loadUserInfo } from "../../utils/redux-store/shopSlice";
 import CheckoutStage_1 from "../../components/shop/checkout/checkout-stage-1";
 import CheckoutStage_2 from "../../components/shop/checkout/checkout-stage-2";
@@ -22,7 +22,6 @@ import CheckoutStage_3 from "../../components/shop/checkout/checkout-stage-3";
 import { Box, Tab, Grid } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import styles from "./__checkout.module.css";
-import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 
 export interface AllowedStages {
   two: boolean;
@@ -163,7 +162,7 @@ const CheckoutPage: NextPage = ({}) => {
     <main className={styles.main_container_no_item}>
       <div className={styles.main_title}>CHECKOUT</div>
       <div className={styles.no_item_text}>
-        You {"don't"} have any item in the cart
+        You don&apos;t have any item in the cart
       </div>
     </main>
   );
@@ -172,6 +171,5 @@ const CheckoutPage: NextPage = ({}) => {
 export default CheckoutPage;
 
 export function getStaticProps() {
-  // (2) //
   return { props: { page: "checkout" } };
 }

@@ -79,10 +79,24 @@
   font-size: 30px;
 }
 
+.main_container_login_checkout {
+  width: 80vw;
+  max-width: 90rem;
+  margin-bottom: 40px;
+}
+.main_grid_login_checkout {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 @media screen and (min-width: 765px) and (max-width: 1000px) {
   .main_container {
     width: 95vw;
     margin-top: 30px;
+  }
+  .main_container_login_checkout {
+    width: 95vw;
   }
 }
 
@@ -90,7 +104,11 @@
   .main_container {
     width: 100vw;
     margin-top: 30px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
+  }
+  .main_container_login_checkout {
+    width: 100vw;
+    margin-bottom: 0;
   }
 
   .tag {
