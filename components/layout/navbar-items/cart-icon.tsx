@@ -94,7 +94,7 @@ function CartIcon({
         in={showCart}
         className={styles.cart_collapse_box}
         sx={{ display: { xs: "none", sm: "none", md: "block" } }}
-        timeout={{ enter: 800, exit: 800 }}
+        timeout={{ enter: 500, exit: 500 }}
       >
         <Paper
           onMouseLeave={closeCartDropDown}
@@ -124,7 +124,7 @@ function CartIcon({
           <Slide
             direction="up"
             in={showCart}
-            timeout={{ enter: 800, exit: 800 }}
+            timeout={{ enter: 500, exit: 500 }}
           >
             <Paper className={styles.cart_slide}>
               <div className={styles.item_container}>

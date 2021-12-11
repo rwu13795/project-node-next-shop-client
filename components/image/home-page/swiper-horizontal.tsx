@@ -91,7 +91,7 @@ export default function Swiper_horizontal_homePage({
                         height={height}
                         // blurDataURL={prop.sm_blur[index]}
                         // placeholder="blur"
-                        // loading="eager"
+                        loading="eager"
                       />
                     </Box>
                   );

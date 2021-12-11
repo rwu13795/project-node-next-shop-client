@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, memo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -11,7 +11,7 @@ import MenuSharpIcon from "@mui/icons-material/MenuSharp";
 import CancelPresentationSharpIcon from "@mui/icons-material/CancelPresentationSharp";
 import styles from "./__menu-list.module.css";
 
-export default function MenuIcon(): JSX.Element {
+function MenuIcon(): JSX.Element {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   const openMenu = () => {
@@ -83,3 +83,5 @@ export default function MenuIcon(): JSX.Element {
     </Fragment>
   );
 }
+
+export default memo(MenuIcon);

@@ -5,6 +5,7 @@ import {
   Dispatch,
   SetStateAction,
   CSSProperties,
+  memo,
 } from "react";
 import Link from "next/link";
 
@@ -41,7 +42,7 @@ const border_bot: CSSProperties = {
   borderBottom: "solid 3px #008ab4",
 };
 
-export default function MenuList({
+function MenuList({
   setShowMenu_nav,
   showMenu_nav,
   setCurrentCat,
@@ -184,3 +185,5 @@ export default function MenuList({
     </Fragment>
   );
 }
+
+export default memo(MenuList);

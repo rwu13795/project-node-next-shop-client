@@ -1,4 +1,4 @@
-import { useState, MouseEvent, Fragment } from "react";
+import { useState, MouseEvent, Fragment, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
@@ -33,10 +33,7 @@ interface Props {
   page?: string;
 }
 
-export default function UserIcon({
-  closeCartDropDown,
-  page,
-}: Props): JSX.Element {
+function UserIcon({ closeCartDropDown, page }: Props): JSX.Element {
   const router = useRouter();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -131,3 +128,5 @@ export default function UserIcon({
     </Fragment>
   );
 }
+
+export default memo(UserIcon);

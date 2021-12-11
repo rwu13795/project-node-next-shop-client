@@ -60,6 +60,9 @@ export interface DeleteProduct {
   admin_username?: string;
 }
 
+mainCatArray.pop();
+const adminMainCatArray = [...mainCatArray];
+
 const AdmimProductsListPage: NextPage<PageProps> = ({
   products: startProducts,
   product_category,
@@ -259,7 +262,7 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
           )}
 
           <div className={styles.title_2}>PRODUCTS CATEGORIES</div>
-          {mainCatArray.map((cat, index) => {
+          {adminMainCatArray.map((cat, index) => {
             return (
               <div key={index} className={styles.menu_draw_container}>
                 <MeunListDrawer
@@ -325,6 +328,7 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
                           variant="outlined"
                           color="primary"
                           onClick={() => editButtonHandler(p._id)}
+                          className={styles.product_button}
                         >
                           Edit
                         </Button>
@@ -333,6 +337,7 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
                           variant="outlined"
                           color="error"
                           onClick={() => deleteModalHandler(id, image, title)}
+                          className={styles.product_button}
                         >
                           Delete
                         </Button>

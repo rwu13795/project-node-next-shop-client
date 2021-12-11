@@ -92,6 +92,7 @@ function MeunListDrawer({
       break;
   }
 
+  // if the cat is accessory, dont make a drawer
   if (!list || !keys) {
     return (
       <Fragment>

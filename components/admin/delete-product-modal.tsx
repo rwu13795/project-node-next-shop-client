@@ -3,15 +3,11 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import Image from "next/image";
 
-import {
-  adminSignOut,
-  deleteProduct,
-} from "../../utils/redux-store/adminSlice";
-import { setPageLoading } from "../../utils/redux-store/layoutSlice";
+import { DeleteProduct } from "../../pages/admin/products-list";
 
 // UI //
-import { Menu, Modal, Box, Backdrop, Fade } from "@mui/material";
-import { DeleteProduct } from "../../pages/admin/products-list";
+import { Menu, Modal, Box, Backdrop, Fade, Button } from "@mui/material";
+import styles from "./__admin-sign-in-up.module.css";
 
 const style = {
   position: "absolute" as "absolute",
@@ -57,23 +53,40 @@ function DeleteProdcutModal({
         }}
       >
         <Fade in={openDeleteModal}>
-          <Box sx={style}>
-            <div>
-              <div>{delete_product.title}</div>
-              <div>
+          <Box className={styles.delete_warning_modal}>
+            <div className={styles.delete_left_grid}>
+              <div className={styles.modal_text}>{delete_product.title}</div>
+              <div className={styles.delete_image}>
                 <Image
                   src={delete_product.image}
                   alt="delete"
-                  width={100}
-                  height={130}
+                  width={200}
+                  height={260}
                 />
               </div>
             </div>
-            <div>
-              This product and its related images will be deleted permanently.
+            <div className={styles.delete_right_grid}>
+              <div className={styles.modal_text}>
+                This product and its related images will be deleted permanently
+              </div>
+              <div className={styles.modal_button_box}>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={deleteProductHandler}
+                  className={styles.modal_button}
+                >
+                  Delete
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={closeModal}
+                  className={styles.modal_button}
+                >
+                  Cancel
+                </Button>
+              </div>
             </div>
-            <button onClick={deleteProductHandler}>Delete</button>
-            <button onClick={closeModal}>Cancel</button>
           </Box>
         </Fade>
       </Modal>

@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, Fragment, memo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
@@ -18,10 +18,7 @@ interface Props {
   page?: string;
 }
 
-export default function UserGuestIcon({
-  closeCartDropDown,
-  page,
-}: Props): JSX.Element {
+function UserGuestIcon({ closeCartDropDown, page }: Props): JSX.Element {
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -95,3 +92,5 @@ export default function UserGuestIcon({
     </Fragment>
   );
 }
+
+export default memo(UserGuestIcon);

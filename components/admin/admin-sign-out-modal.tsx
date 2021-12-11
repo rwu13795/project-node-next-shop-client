@@ -6,20 +6,8 @@ import { adminSignOut } from "../../utils/redux-store/adminSlice";
 import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 
 // UI //
-import { Menu, Modal, Box, Backdrop, Fade } from "@mui/material";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  outerHeight: 800,
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import { Menu, Modal, Box, Backdrop, Fade, Button } from "@mui/material";
+import styles from "./__admin-sign-in-up.module.css";
 
 interface Props {
   adminModal: boolean;
@@ -54,13 +42,28 @@ export default function AdminSignOutModal({
         }}
       >
         <Fade in={adminModal}>
-          <Box sx={style}>
-            <div>
-              Going back to Home Page will sign you out the current
+          <Box className={styles.sign_out_modal}>
+            <div className={styles.modal_text}>
+              Going back to Home Page will sign you out from the current
               Administration session
             </div>
-            <button onClick={signOut}>Continue</button>
-            <button onClick={closeModal}>Cancel</button>
+            <div className={styles.modal_button_box}>
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={signOut}
+                className={styles.modal_button}
+              >
+                Continue
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={closeModal}
+                className={styles.modal_button}
+              >
+                Cancel
+              </Button>
+            </div>
           </Box>
         </Fade>
       </Modal>

@@ -96,6 +96,9 @@
   justify-content: space-around;
   margin-bottom: 40px;
 }
+.product_button {
+  width: 40%;
+}
 
 .select_admin_box {
   width: 100%;
@@ -147,5 +150,14 @@
   .title_2 {
     font-size: 16px;
     margin: 10px 0;
+  }
+
+  .button_group {
+    margin-bottom: 20px;
+  }
+  .product_button {
+    width: 40%;
+    padding: 1px 2px;
+    font-size: min(12px, 3vw);
   }
 }

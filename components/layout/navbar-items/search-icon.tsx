@@ -1,4 +1,4 @@
-import { Fragment, useState, FormEvent } from "react";
+import { Fragment, useState, FormEvent, memo } from "react";
 
 import SearchInputBar from "./search-input-bar";
 
@@ -8,7 +8,7 @@ import SearchSharpIcon from "@mui/icons-material/SearchSharp";
 import CancelPresentationSharpIcon from "@mui/icons-material/CancelPresentationSharp";
 import styles from "./__search-bar.module.css";
 
-export default function SearchIcon(): JSX.Element {
+function SearchIcon(): JSX.Element {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   const openMenu = () => {
@@ -42,3 +42,5 @@ export default function SearchIcon(): JSX.Element {
     </Fragment>
   );
 }
+
+export default memo(SearchIcon);
