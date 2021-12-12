@@ -93,7 +93,8 @@ function FormInputField(props: Props): JSX.Element {
     page === "update-info" ||
     page === "checkout" ||
     page === "checkout-sign-in" ||
-    page === "admin-auth"
+    page === "admin-auth" ||
+    page === "add-review-modal"
   ) {
     md = 12;
   }
@@ -115,6 +116,7 @@ function FormInputField(props: Props): JSX.Element {
         <OutlinedInput
           type={type}
           required
+          multiline
           name={inputName}
           value={inputValue}
           onFocus={onFocus}

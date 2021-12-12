@@ -27,7 +27,7 @@ import {
 } from "../../../../../utils/helper-functions/input-error-check";
 
 // UI //
-import { Menu, Modal, Box, Backdrop, Fade } from "@mui/material";
+import { Menu, Modal, Box, Backdrop, Fade, Button } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material";
 import styles from "./__add-review.module.css";
 import browserClient from "../../../../../utils/axios-client/browser-client";
@@ -102,7 +102,10 @@ function AddReviewModal({
       onFocusHandler,
       onBlurHandler,
       onChangeHandler,
-      inputErrors
+      inputErrors,
+      undefined,
+      undefined,
+      "add-review-modal"
     );
   };
 
@@ -165,18 +168,41 @@ function AddReviewModal({
         }}
       >
         <Fade in={openAddReivewModal}>
-          <Box className={styles.modal_box}>
-            <div className={styles.main_grid}>
+          <Box className={styles.modal_container}>
+            <div className={styles.modal_grid}>
               <div className={styles.stars_container}>
-                {SelectStars(setRating, setRatingError, openAddReivewModal)}
-                {ratingError}
+                <div className={styles.rating_text}>OVERALL RATING</div>
+                <div className={styles.stars_box}>
+                  {SelectStars(setRating, setRatingError, openAddReivewModal)}
+                </div>
+                <div className={styles.rating_error}>{ratingError}</div>
               </div>
-              {inputFields(inputFieldsArray, inputValues)}
-              <button onClick={reviewSubmitHandler} disabled={submited}>
-                POST REVIEW
-              </button>
-              <button onClick={closeModal}>CANCEL</button>
-              {submited && <div>Thank you for submitting your feedback!</div>}
+              <div className={styles.input_container}>
+                {inputFields(inputFieldsArray, inputValues)}
+              </div>
+              <div className={styles.button_container}>
+                <Button
+                  variant="outlined"
+                  onClick={reviewSubmitHandler}
+                  disabled={submited}
+                  className={styles.button}
+                >
+                  POST REVIEW
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="warning"
+                  onClick={closeModal}
+                  className={styles.button}
+                >
+                  CANCEL
+                </Button>
+              </div>
+              {submited && (
+                <div className={styles.submitted_text}>
+                  Thank you for submitting your feedback!
+                </div>
+              )}
             </div>
           </Box>
         </Fade>
@@ -206,6 +232,7 @@ const SelectStars = (
   const [starsColor, setStarsColor] = useState(initialColor);
   const [selectedStars, setSelectedStars] = useState(starsColor);
   const [isRated, setIsRated] = useState(false);
+
   const onClickHandler = (rating: number, ratingKey: string) => {
     setIsRated(true);
     setRating(ratingKey);

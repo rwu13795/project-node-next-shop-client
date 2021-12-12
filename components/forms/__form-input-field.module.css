@@ -16,6 +16,11 @@
 .input_box {
   box-shadow: 2px 2px 5px black;
 }
+.input_box_select_size {
+  height: 80px;
+  box-shadow: 2px 2px 5px black;
+}
+
 .input_error {
   color: red;
   font-size: min(4vw, 1rem);

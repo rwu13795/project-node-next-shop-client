@@ -5,7 +5,7 @@ import { inputNames } from "../enums-types/input-names";
 import { Errors, InputValues } from "./input-error-check";
 import FormInputField from "../../components/forms/form-input-field";
 import SelectState from "../../components/forms/select-state-field";
-import SelectSize from "../../components/forms/select-size-field";
+import SelectSize_2 from "../../components/forms/select-size-field";
 import { AuthErrors } from "../redux-store/userSlice";
 import { AdminErrors } from "../redux-store/adminSlice";
 
@@ -42,16 +42,15 @@ export default function renderInputFields(
       }
       case inputNames.size: {
         content = (
-          <div key={inputName}>
-            <SelectSize
-              value={inputValues[inputName]}
-              inputName={inputName}
-              onFocusHandler={onFocusHandler}
-              onBlurHandler={onBlurHandler}
-              onChangeHandler={onChangeHandler}
-            />
-            {inputErrors[inputName]}
-          </div>
+          <SelectSize_2
+            key={inputName}
+            value={inputValues[inputName]}
+            inputName={inputName}
+            onFocusHandler={onFocusHandler}
+            onBlurHandler={onBlurHandler}
+            onChangeHandler={onChangeHandler}
+            inputError={inputErrors[inputName]}
+          />
         );
         break;
       }
