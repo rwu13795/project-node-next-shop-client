@@ -1,7 +1,7 @@
 import { GetServerSidePropsContext, NextPage } from "next";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 import serverClient from "../../utils/axios-client/server-client";
 import { PageProductProps } from "../../utils/react-hooks/get-more-products";
@@ -61,45 +61,51 @@ const SearchResult: NextPage<PageProps> = ({
       <div className={styles.main_title}>
         SEARCH RESULT FOR: {`"${search}"`}
       </div>
-      <div className={styles.items_body}>
-        {products.map((p, index) => {
-          let lastElem = index + 1 === products.length;
-          return lastElem ? (
-            <Grid
-              item
-              container
-              className={styles.items_grid}
-              md={4}
-              sm={oneItemPerRow ? 12 : 6}
-              xs={oneItemPerRow ? 12 : 6}
-              ref={lastElementRef}
-              key={index}
-            >
-              <ProductPreview
-                productId={p._id}
-                colorPropsList={p.colorPropsList}
-                productInfo={p.productInfo}
-              />
-            </Grid>
-          ) : (
-            <Grid
-              item
-              container
-              className={styles.items_grid}
-              md={4}
-              sm={oneItemPerRow ? 12 : 6}
-              xs={oneItemPerRow ? 12 : 6}
-              key={index}
-            >
-              <ProductPreview
-                productId={p._id}
-                colorPropsList={p.colorPropsList}
-                productInfo={p.productInfo}
-              />
-            </Grid>
-          );
-        })}
-      </div>
+      {products.length > 0 ? (
+        <div className={styles.items_body}>
+          {products.map((p, index) => {
+            let lastElem = index + 1 === products.length;
+            return lastElem ? (
+              <Grid
+                item
+                container
+                className={styles.items_grid}
+                md={4}
+                sm={oneItemPerRow ? 12 : 6}
+                xs={oneItemPerRow ? 12 : 6}
+                ref={lastElementRef}
+                key={index}
+              >
+                <ProductPreview
+                  productId={p._id}
+                  colorPropsList={p.colorPropsList}
+                  productInfo={p.productInfo}
+                />
+              </Grid>
+            ) : (
+              <Grid
+                item
+                container
+                className={styles.items_grid}
+                md={4}
+                sm={oneItemPerRow ? 12 : 6}
+                xs={oneItemPerRow ? 12 : 6}
+                key={index}
+              >
+                <ProductPreview
+                  productId={p._id}
+                  colorPropsList={p.colorPropsList}
+                  productInfo={p.productInfo}
+                />
+              </Grid>
+            );
+          })}
+        </div>
+      ) : (
+        <div className={styles.sub_title}>
+          Sorry, we were not able to find any item that matches the criteria
+        </div>
+      )}
     </main>
   );
 };

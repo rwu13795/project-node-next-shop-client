@@ -33,6 +33,7 @@
   justify-content: flex-start;
   align-items: center;
   margin-bottom: 60px;
+  padding-right: 10px;
   width: 20vw;
   height: 75vh;
   max-width: 20%;
@@ -53,6 +54,7 @@
   margin-bottom: 60px;
   width: 80vw;
   max-width: 80%;
+  padding-left: 20px;
 }
 .right_grid_upper {
   display: flex;
@@ -129,12 +131,14 @@
     max-width: 100%;
     position: static;
     margin-bottom: 20px;
+    padding-right: 0;
     height: auto;
   }
   .right_grid {
     width: 95vw;
     max-width: 100%;
     margin-bottom: 10px;
+    padding-left: 0;
   }
   .right_grid_upper {
     width: 100%;

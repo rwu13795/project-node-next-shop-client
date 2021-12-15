@@ -116,7 +116,7 @@ function FormInputField(props: Props): JSX.Element {
         <OutlinedInput
           type={type}
           required
-          multiline
+          multiline={page === "add-review-modal"}
           name={inputName}
           value={inputValue}
           onFocus={onFocus}

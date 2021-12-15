@@ -4,8 +4,10 @@ import {
   useEffect,
   FormEvent,
   MouseEvent,
+  memo,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 import {
   Errors,
@@ -45,7 +47,7 @@ interface Props {
   page?: string;
 }
 
-export default function AdminSignIn({
+function AdminSignIn({
   inputFieldsArray,
   inputValues,
   inputErrors,
@@ -55,6 +57,8 @@ export default function AdminSignIn({
   page,
 }: Props): JSX.Element {
   const dispatch = useDispatch();
+  const router = useRouter();
+
   const adminErrors = useSelector(selectAdminErrors);
   const loadingStatus_admin = useSelector(selectLoadingStatus_admin);
 
@@ -84,6 +88,7 @@ export default function AdminSignIn({
         password: inputValues[inputNames.password],
       })
     );
+    router.push(`/admin/products-list`);
   };
 
   return (
@@ -103,3 +108,5 @@ export default function AdminSignIn({
     </form>
   );
 }
+
+export default memo(AdminSignIn);

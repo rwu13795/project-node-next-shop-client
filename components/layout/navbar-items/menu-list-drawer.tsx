@@ -147,7 +147,11 @@ function MeunListDrawer({
                       return (
                         <ListItemButton
                           key={product}
-                          className={styles.menu_drawer_items}
+                          className={
+                            page === "admin"
+                              ? styles.menu_drawer_items_admin
+                              : styles.menu_drawer_items
+                          }
                         >
                           {productCatNum && page === "admin" ? (
                             <ListItemText

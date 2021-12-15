@@ -4,6 +4,7 @@ import React, {
   SetStateAction,
   useEffect,
   Fragment,
+  memo,
 } from "react";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
@@ -50,7 +51,7 @@ interface Props {
   resetReviewsUser?: () => void;
 }
 
-export default function ProductDetail({
+function ProductDetail({
   product,
   reviewDoc,
   editModeItem,
@@ -278,6 +279,8 @@ export default function ProductDetail({
     </main>
   );
 }
+
+export default memo(ProductDetail);
 
 const _price = styles.product_desc_price;
 const _title = styles.product_desc_title;

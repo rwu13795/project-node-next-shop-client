@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, useState, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, useState, SetStateAction, memo } from "react";
 import Image from "next/image";
 
 import { inputNames } from "../../../utils/enums-types/input-names";
@@ -32,7 +32,7 @@ interface Props {
   setFormHasError: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function AddImage(props: Props): JSX.Element {
+function AddImage(props: Props): JSX.Element {
   const {
     colorProps,
     listIndex,
@@ -41,6 +41,8 @@ export default function AddImage(props: Props): JSX.Element {
     propError,
     setFormHasError,
   } = props;
+
+  console.log("FUKING RERENDERING");
 
   const [editImage, setEditImage] = useState<boolean>(false);
 
@@ -184,3 +186,5 @@ export default function AddImage(props: Props): JSX.Element {
     </Grid>
   );
 }
+
+export default memo(AddImage);

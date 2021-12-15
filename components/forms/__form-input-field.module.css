@@ -42,7 +42,7 @@
     font-size: 14px;
   }
   .input_box {
-    height: 50px;
+    min-height: 50px;
     font-size: 18px;
   }
   .input_error {

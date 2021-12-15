@@ -1,4 +1,4 @@
-import { useState, Fragment, SetStateAction, Dispatch } from "react";
+import { useState, Fragment, SetStateAction, Dispatch, memo } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 
@@ -14,10 +14,7 @@ interface Props {
   setAdminModal: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function AdminSignOutModal({
-  adminModal,
-  setAdminModal,
-}: Props): JSX.Element {
+function AdminSignOutModal({ adminModal, setAdminModal }: Props): JSX.Element {
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -70,3 +67,5 @@ export default function AdminSignOutModal({
     </Fragment>
   );
 }
+
+export default memo(AdminSignOutModal);

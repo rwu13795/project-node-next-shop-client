@@ -36,39 +36,55 @@ interface Props {
 }
 
 function SingleReview({
-  review: reviewObject,
+  review,
   reviewPrimaryId,
   pageNum,
   reviewFilter,
   refreshReviewsAdmin,
   page,
 }: Props): JSX.Element {
-  const { user_name, rating, date, title, review, size, _id, id_allReviews } =
-    reviewObject;
   const client = browserClient();
 
-  const [isLong, setIsLong] = useState<boolean>(review.length > 300);
-  const [shortText, setShortText] = useState<string>(
-    isLong ? review.slice(0, 300) + "..." : review
+  // the states in "useState" won't be updated immediately
+  // if I need to update the states whenever the review object is changed
+  // I have to use the "useEffect" on each of this state
+  // to ensure the states are updated whenever there is change in the review object
+
+  // since the state "isLong" is depending all the review (Body), "shortText" is
+  // depending on "isLong" and so on. I have to update each of these states,
+  // "isLong","shortText","body","showMore", one by one using the "useEffect"
+  // to ensure the changes are reflected correctly
+  const [currentReview, setCurrentReview] = useState<ReviewProps>(review);
+  useEffect(() => {
+    setCurrentReview(review);
+  }, [review]);
+
+  const [isLong, setIsLong] = useState<boolean>(
+    currentReview.review.length > 300
   );
+  useEffect(() => {
+    setIsLong(currentReview.review.length > 300);
+  }, [currentReview]);
+
+  const [shortText, setShortText] = useState<string>(
+    isLong ? currentReview.review.slice(0, 300) + "..." : currentReview.review
+  );
+  useEffect(() => {
+    setShortText(
+      isLong ? currentReview.review.slice(0, 300) + "..." : currentReview.review
+    );
+  }, [currentReview, isLong]);
+
   const [body, setBody] = useState<string>(shortText);
   const [showMore, setShowMore] = useState<boolean>(false);
-
-  // there are some weird behaviors where the body will retain the last review body
-  // if the new and old reviews are literally the same, then it won't update the
-  // component (it happens when I put the same review body in different reviews )
   useEffect(() => {
-    /*
-    setIsLong(review.length > 300);
-    setShortText(review.length > 300 ?  review.slice(0, 300) + "..." : review);
-    */
     setBody(shortText);
     setShowMore(false);
-  }, [review, shortText]);
+  }, [shortText, currentReview]);
 
   const showMoreLess = () => {
     if (!showMore) {
-      setBody(review);
+      setBody(currentReview.review);
       setShowMore(true);
     } else {
       setBody(shortText);
@@ -81,15 +97,15 @@ function SingleReview({
     // filtered, the "_id" is the "_id" of the "reviewsByRating" review,
     // not the "_id" of the "allReviews"
     let id: string;
-    if (id_allReviews) {
-      id = id_allReviews;
+    if (currentReview.id_allReviews) {
+      id = currentReview.id_allReviews;
     } else {
-      id = _id;
+      id = currentReview._id;
     }
     await client.post("http://localhost:5000/api/products/delete-review", {
       id_allReviews: id,
       reviewPrimaryId,
-      rating,
+      rating: currentReview.rating,
     });
 
     // refresh the reviews after deleting
@@ -108,26 +124,33 @@ function SingleReview({
       )}
 
       <div className={styles.upper_grid}>
-        <div className={styles.upper_grid_box_name}>{user_name}</div>
+        <div className={styles.upper_grid_box_name}>
+          {currentReview.user_name}
+        </div>
         <div className={styles.upper_grid_box_stars}>
           <div className={styles.stars_container}>
-            {Array.from(Array(starNum[rating]), (_, i) => i).map((_, i) => {
-              return <div key={i}>★</div>;
-            })}
+            {Array.from(Array(starNum[currentReview.rating]), (_, i) => i).map(
+              (_, i) => {
+                return <div key={i}>★</div>;
+              }
+            )}
           </div>
           <div className={styles.stars_container} style={{ color: "#979797" }}>
-            {Array.from(Array(5 - starNum[rating]), (_, i) => i).map((_, i) => {
+            {Array.from(
+              Array(5 - starNum[currentReview.rating]),
+              (_, i) => i
+            ).map((_, i) => {
               return <div key={i}>★</div>;
             })}
           </div>
         </div>
         <div className={styles.upper_grid_box}>
-          {new Date(date).toDateString()}
+          {new Date(currentReview.date).toDateString()}
         </div>
       </div>
 
       <div className={styles.lower_grid}>
-        <div className={styles.title}>{title}</div>
+        <div className={styles.title}>{currentReview.title}</div>
         <div className={styles.body}>
           {body}
           {isLong &&
@@ -151,7 +174,7 @@ function SingleReview({
         </div>
         <div className={styles.size_box}>
           <span className={styles.size}>Purchased size</span>
-          {size.toUpperCase()}
+          {currentReview.size.toUpperCase()}
         </div>
       </div>
     </Grid>

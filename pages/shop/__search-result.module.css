@@ -18,6 +18,13 @@
   font-weight: bold;
   margin-bottom: 20px;
 }
+.sub_title {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 35px;
+  padding-bottom: 20px;
+  border-bottom: solid black 2px;
+}
 
 .items_body {
   display: flex;
@@ -40,5 +47,9 @@
     font-size: 26px;
     border-width: 4px;
     margin-bottom: 10px;
+  }
+  .sub_title {
+    margin-top: 20px;
+    font-size: 22px;
   }
 }

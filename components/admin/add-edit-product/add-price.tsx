@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, memo } from "react";
 
 import { inputNames } from "../../../utils/enums-types/input-names";
 import { ReducerProductInfo } from "../../../utils/react-hooks/add-product-reducer";
@@ -26,7 +26,8 @@ interface Props {
   setErrors: Dispatch<SetStateAction<Errors>>;
   setFormHasError: Dispatch<SetStateAction<boolean>>;
 }
-export default function AddPrice(props: Props): JSX.Element {
+
+function AddPrice(props: Props): JSX.Element {
   const {
     productInfo,
     dispatchAddInfo,
@@ -78,3 +79,5 @@ export default function AddPrice(props: Props): JSX.Element {
     </Grid>
   );
 }
+
+export default memo(AddPrice);

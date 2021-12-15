@@ -8,6 +8,7 @@ import React, {
   SyntheticEvent,
   Dispatch,
   SetStateAction,
+  useCallback,
 } from "react";
 
 import useUpload from "../../utils/react-hooks/add-product-upload";
@@ -69,6 +70,10 @@ const AddProductPage: NextPage<PageProps> = ({
   reviews,
   page,
 }) => {
+  // NOTE //
+  // whenever there is a change in any one of the states in the reducer
+  // all the components
+
   const client = browserClient();
   const router = useRouter();
   const reduxDispatch = useDispatch();
@@ -93,13 +98,13 @@ const AddProductPage: NextPage<PageProps> = ({
     product ? product : initialProductState
   );
 
-  useEffect(() => {
-    if (!loggedInAsAdmin) {
-      router.push("/admin");
-    } else {
-      setCheckingAuth(false);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!loggedInAsAdmin) {
+  //     router.push("/admin");
+  //   } else {
+  //     setCheckingAuth(false);
+  //   }
+  // }, []);
 
   useEffect(() => {
     reduxDispatch(setPageLoading(false));
@@ -108,14 +113,23 @@ const AddProductPage: NextPage<PageProps> = ({
     return instantlyToTop;
   }, []);
 
-  const dispatchAddInfo = (e: AddInfoEvents) => {
+  const dispatchAddInfo = useCallback((e: AddInfoEvents) => {
     const inputValue = e.target.value;
     const inputField = e.target.name;
     dispatch({
       type: Actions.addInfo,
       payload: { inputField, inputValue },
     });
-  };
+  }, []);
+
+  // const dispatchAddInfo = (e: AddInfoEvents) => {
+  //   const inputValue = e.target.value;
+  //   const inputField = e.target.name;
+  //   dispatch({
+  //     type: Actions.addInfo,
+  //     payload: { inputField, inputValue },
+  //   });
+  // };
 
   // useUpload hook
   const { postUpload, errors, setErrors, uploading } = useUpload({
@@ -154,13 +168,9 @@ const AddProductPage: NextPage<PageProps> = ({
     setReviewDoc(reviewDoc);
   };
 
-  // if (!loggedInAsAdmin) {
-  //   return <h2>Loading . . . </h2>;
+  // if (checkingAuth) {
+  //   return <div>Loading ...</div>;
   // }
-
-  if (checkingAuth) {
-    return <div>Loading ...</div>;
-  }
 
   return (
     <main className={styles.main}>

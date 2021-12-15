@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, FormEvent, MouseEvent } from "react";
+import { Dispatch, SetStateAction, FormEvent, MouseEvent, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -37,7 +37,7 @@ interface Props {
   page?: string;
 }
 
-export default function AdminRegister({
+function AdminRegister({
   inputFieldsArray,
   inputValues,
   inputErrors,
@@ -87,3 +87,5 @@ export default function AdminRegister({
     </form>
   );
 }
+
+export default memo(AdminRegister);

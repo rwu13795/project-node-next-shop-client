@@ -209,10 +209,10 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
   };
 
   const selectAdminHandler = async (e: SelectChangeEvent<string>) => {
-    console.log("select admin", e.target.value);
     const newSelect = e.target.value;
     if (newSelect === selectedAdmin) return;
 
+    setCurrentPage(1);
     await fetchNewList(1, main_cat, sub_cat, newSelect);
     setSelectedAdmin(newSelect);
   };
@@ -229,6 +229,8 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
       </main>
     );
   }
+
+  console.log("re-render in root");
 
   return (
     <main className={styles.main}>

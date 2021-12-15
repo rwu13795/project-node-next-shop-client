@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import { ReducerProductInfo } from "../../../utils/react-hooks/add-product-reducer";
 import { inputNames } from "../../../utils/enums-types/input-names";
 import { AddInfoEvents } from "../../../pages/admin/add-product";
@@ -19,15 +21,17 @@ import styles from "./__styles.module.css";
 interface Props {
   dispatchAddInfo: (e: AddInfoEvents) => void;
   productInfo: ReducerProductInfo;
+  // title: string;
   propError: Errors;
   setErrors: Dispatch<SetStateAction<Errors>>;
   setFormHasError: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function AddTitle(props: Props): JSX.Element {
+function AddTitle(props: Props): JSX.Element {
   const {
     dispatchAddInfo,
     productInfo,
+    // title,
     propError,
     setErrors,
     setFormHasError,
@@ -66,3 +70,5 @@ export default function AddTitle(props: Props): JSX.Element {
     </Grid>
   );
 }
+
+export default memo(AddTitle);

@@ -1,4 +1,11 @@
-import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
+import {
+  Dispatch,
+  Fragment,
+  SetStateAction,
+  useEffect,
+  useState,
+  memo,
+} from "react";
 
 import { ReducerProductInfo } from "../../../utils/react-hooks/add-product-reducer";
 import { inputNames } from "../../../utils/enums-types/input-names";
@@ -37,7 +44,7 @@ interface Props {
   setFormHasError: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function SelectCategory(props: Props): JSX.Element {
+function SelectCategory(props: Props): JSX.Element {
   const {
     dispatchAddInfo,
     productInfo,
@@ -142,3 +149,5 @@ export default function SelectCategory(props: Props): JSX.Element {
     </Fragment>
   );
 }
+
+export default memo(SelectCategory);

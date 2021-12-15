@@ -19,6 +19,7 @@
   height: 80vh;
   width: 100%;
   overflow: auto;
+  padding-right: 10px;
 }
 .side_bar_container::-webkit-scrollbar {
   width: 4px !important;

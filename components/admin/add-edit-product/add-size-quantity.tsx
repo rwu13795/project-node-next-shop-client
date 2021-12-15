@@ -1,4 +1,10 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  memo,
+  useCallback,
+} from "react";
 
 import { inputNames } from "../../../utils/enums-types/input-names";
 import {
@@ -34,7 +40,7 @@ interface Props {
   setFormHasError: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function AddSizeQuantity(props: Props): JSX.Element {
+function AddSizeQuantity(props: Props): JSX.Element {
   const {
     colorProps,
     listIndex,
@@ -45,14 +51,25 @@ export default function AddSizeQuantity(props: Props): JSX.Element {
     setFormHasError,
   } = props;
 
+  const addSizeHandler = useCallback(
+    (inputValue: string, inputField: string) => {
+      dispatch({
+        type: Actions.addSizes,
+        payload: { listIndex, inputValue, inputField },
+      });
+    },
+    [dispatch, listIndex]
+  );
+
   const sizesChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { name: inputField, value: inputValue } = e.currentTarget;
     setFormHasError(false);
     onChangeErrorCheck(inputField, inputValue, setErrors);
-    dispatch({
-      type: Actions.addSizes,
-      payload: { listIndex, inputValue, inputField },
-    });
+    // dispatch({
+    //   type: Actions.addSizes,
+    //   payload: { listIndex, inputValue, inputField },
+    // });
+    addSizeHandler(inputValue, inputField);
   };
 
   let error =
@@ -83,3 +100,5 @@ export default function AddSizeQuantity(props: Props): JSX.Element {
     </FormControl>
   );
 }
+
+export default memo(AddSizeQuantity);

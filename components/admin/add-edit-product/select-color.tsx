@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, SetStateAction, Fragment } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, Fragment, memo } from "react";
 import { SelectChangeEvent } from "@mui/material";
 
 import {
@@ -36,7 +36,7 @@ interface Props {
   setFormHasError: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function SelectColor(props: Props): JSX.Element {
+function SelectColor(props: Props): JSX.Element {
   const {
     colorProps,
     listIndex,
@@ -156,3 +156,5 @@ export default function SelectColor(props: Props): JSX.Element {
     </Fragment>
   );
 }
+
+export default memo(SelectColor);

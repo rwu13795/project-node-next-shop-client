@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, memo } from "react";
 
 import SelectColor from "./select-color";
 import { inputNames } from "../../../utils/enums-types/input-names";
@@ -29,7 +29,7 @@ interface Props {
 
 const sizesArray = [inputNames.small, inputNames.medium, inputNames.large];
 
-export default function AddColorsProps(props: Props): JSX.Element {
+function AddColorsProps(props: Props): JSX.Element {
   const {
     colorProps,
     listIndex,
@@ -113,3 +113,5 @@ export default function AddColorsProps(props: Props): JSX.Element {
     </Grid>
   );
 }
+
+export default memo(AddColorsProps);

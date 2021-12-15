@@ -111,6 +111,9 @@ function AddReviewModal({
 
   const closeModal = () => {
     setRating("");
+    setInputValue(() => {
+      return initializeValues(inputFieldsArray);
+    });
     if (setOpenAddReivewModal) setOpenAddReivewModal(false);
   };
 
@@ -148,11 +151,15 @@ function AddReviewModal({
     });
 
     setSubmited(true);
+
     if (refreshReviewsUser) {
       await refreshReviewsUser(1, "");
       setReviewFilter("");
       setPageNum(1);
     }
+
+    let elem = document.getElementById("review_submitted");
+    if (elem) elem.scrollIntoView({ block: "center" });
   };
 
   return (
@@ -184,7 +191,9 @@ function AddReviewModal({
                 <Button
                   variant="outlined"
                   onClick={reviewSubmitHandler}
-                  disabled={submited}
+                  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+                  // remember to uncomment this after adding review
+                  // disabled={submited}
                   className={styles.button}
                 >
                   POST REVIEW
@@ -195,11 +204,11 @@ function AddReviewModal({
                   onClick={closeModal}
                   className={styles.button}
                 >
-                  CANCEL
+                  CLOSE
                 </Button>
               </div>
               {submited && (
-                <div className={styles.submitted_text}>
+                <div id="review_submitted" className={styles.submitted_text}>
                   Thank you for submitting your feedback!
                 </div>
               )}

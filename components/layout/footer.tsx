@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { memo } from "react";
 
 import styles from "./__footer.module.css";
 
@@ -7,7 +8,7 @@ interface Props {
   page?: string;
 }
 
-export default function Footer({ page }: Props): JSX.Element {
+function Footer({ page }: Props): JSX.Element {
   const footer = page === "home" ? styles.footer_home : styles.footer;
 
   return (
@@ -36,3 +37,5 @@ export default function Footer({ page }: Props): JSX.Element {
     </footer>
   );
 }
+
+export default memo(Footer);

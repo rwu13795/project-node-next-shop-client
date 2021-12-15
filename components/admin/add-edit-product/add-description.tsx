@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, memo } from "react";
 
 import { inputNames } from "../../../utils/enums-types/input-names";
 import { ReducerProductInfo } from "../../../utils/react-hooks/add-product-reducer";
@@ -26,7 +26,7 @@ interface Props {
   setFormHasError: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function AddDescription(props: Props): JSX.Element {
+function AddDescription(props: Props): JSX.Element {
   const {
     productInfo,
     dispatchAddInfo,
@@ -67,16 +67,4 @@ export default function AddDescription(props: Props): JSX.Element {
   );
 }
 
-/*
-        <div>
-      <label>Description: </label>
-      <textarea
-        name={inputNames.desc}
-        rows={6}
-        value={productInfo.description}
-        onChange={onChangeHandler}
-      ></textarea>
-
-      <span>{propError[inputNames.desc]}</span>
-    </div> 
-    */
+export default memo(AddDescription);

@@ -62,13 +62,6 @@ const MenSubCatPage: NextPage<SubCat_PageProps> = ({
     window.scrollTo({ top: 0 });
   };
 
-  // I have to move the "useGetMoreProducts" to the render-sub-cat, because the react
-  // hook cannot be called conditionally. when the startProducts changes with the sub_cat,
-  // the "useGetMoreProducts" will not update the products correctly
-  if (!startProducts || startProducts.length < 1) {
-    return <h1>No Products</h1>;
-  }
-
   return (
     <main className={styles.main_container}>
       <PageLinks {...props} />

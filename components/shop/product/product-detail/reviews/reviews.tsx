@@ -53,37 +53,37 @@ function ProductReviews({
   resetReviewsUser,
   refreshReviewsAdmin,
 }: Props): JSX.Element {
-  const {
-    averageRating,
-    total,
-    allReviews,
-    allRatings,
-    _id: reviewPrimaryId,
-    productId,
-  } = reviewDoc;
+  // const {
+  //   averageRating,
+  //   total,
+  //   allReviews,
+  //   allRatings,
+  //   _id: reviewPrimaryId,
+  //   productId,
+  // } = reviewDoc;
   const client = browserClient();
 
-  const [currentReviews, setCurrentReviews] =
-    useState<ReviewProps[]>(allReviews);
+  const [currentReviews, setCurrentReviews] = useState<ReviewProps[]>(
+    reviewDoc.allReviews
+  );
   const [pageNum, setPageNum] = useState<number>(1);
   const [reviewFilter, setReviewFilter] = useState<string>("");
 
-  // console.log(stayOnFilter);
-
   useEffect(() => {
-    setCurrentReviews(allReviews);
+    setCurrentReviews(reviewDoc.allReviews);
     if (editMode) {
       setPageNum(stayOnPage ? stayOnPage : 1);
       setReviewFilter(stayOnFilter ? stayOnFilter : "");
     }
-  }, [allReviews, stayOnPage, stayOnFilter, editMode]);
+  }, [stayOnPage, stayOnFilter, editMode, reviewDoc]);
 
   const REVIEWS_PER_PAGE = 6;
   const num1 = pageNum > 1 ? (pageNum - 1) * REVIEWS_PER_PAGE + 1 : pageNum;
   const num2 = (pageNum - 1) * REVIEWS_PER_PAGE + currentReviews.length;
 
-  const ratingKeys = Object.keys(allRatings);
-  const totalReviews = reviewFilter !== "" ? allRatings[reviewFilter] : total;
+  const ratingKeys = Object.keys(reviewDoc.allRatings);
+  const totalReviews =
+    reviewFilter !== "" ? reviewDoc.allRatings[reviewFilter] : reviewDoc.total;
 
   const getMoreReviews = async (action: string) => {
     let newPage: number;
@@ -148,6 +148,10 @@ function ProductReviews({
     }
   };
 
+  // console.log(stayOnFilter);
+  /////////////
+  console.log("currentReviews---------------->", currentReviews);
+
   return (
     <Grid
       container
@@ -160,9 +164,11 @@ function ProductReviews({
             <a id="product_reviews">
               <h1>Reviews</h1>
             </a>
-            <Button variant="outlined" onClick={writeReviewHandler}>
-              Write a review
-            </Button>
+            {page !== "admin" && (
+              <Button variant="outlined" onClick={writeReviewHandler}>
+                Write a review
+              </Button>
+            )}
           </div>
 
           <Grid
@@ -181,15 +187,15 @@ function ProductReviews({
             >
               <div>
                 <div className={styles.reviews_desc_box}>
-                  <div>Average Customer Rating: {averageRating}</div>
+                  <div>Average Customer Rating: {reviewDoc.averageRating}</div>
                 </div>
                 <div className={styles.reviews_desc_box}>
                   <RatingStars
-                    averageRating={averageRating}
-                    total={total}
+                    averageRating={reviewDoc.averageRating}
+                    total={reviewDoc.total}
                     large={true}
                   />
-                  <div>{total} Reviews</div>
+                  <div>{reviewDoc.total} Reviews</div>
                 </div>
               </div>
             </Grid>
@@ -215,10 +221,10 @@ function ProductReviews({
                   return (
                     <RatingBars
                       key={index}
-                      ratingNum={allRatings[star]}
+                      ratingNum={reviewDoc.allRatings[star]}
                       star={star}
                       index={index}
-                      total={total}
+                      total={reviewDoc.total}
                       reviewFilter={reviewFilter}
                       setReviewFilter={setReviewFilter}
                       filterReviews={filterReviews}
@@ -238,7 +244,10 @@ function ProductReviews({
           >
             <div className={_sub_title} id="reviews_sub">
               {num1}-{num2} of{" "}
-              {reviewFilter !== "" ? allRatings[reviewFilter] : total} Reviews
+              {reviewFilter !== ""
+                ? reviewDoc.allRatings[reviewFilter]
+                : reviewDoc.total}{" "}
+              Reviews
             </div>
 
             {reviewFilter !== "" && (
@@ -270,7 +279,7 @@ function ProductReviews({
                   <SingleReview
                     review={review}
                     pageNum={pageNum}
-                    reviewPrimaryId={reviewPrimaryId}
+                    reviewPrimaryId={reviewDoc._id}
                     setPageNum={setPageNum}
                     setCurrentReviews={setCurrentReviews}
                     refreshReviewsAdmin={refreshReviewsAdmin}
@@ -301,8 +310,8 @@ function ProductReviews({
                 disabled={
                   currentReviews.length < REVIEWS_PER_PAGE ||
                   (reviewFilter !== ""
-                    ? num2 === allRatings[reviewFilter]
-                    : num2 === total)
+                    ? num2 === reviewDoc.allRatings[reviewFilter]
+                    : num2 === reviewDoc.total)
                 }
                 className={_nav_button}
               >
@@ -315,21 +324,27 @@ function ProductReviews({
         </Fragment>
       ) : (
         <div className={_no_review}>
-          <div>No review yet, be the first one to</div>
-          <Button
-            variant="outlined"
-            onClick={writeReviewHandler}
-            className={_write_button}
-          >
-            Write a review
-          </Button>
+          {page === "admin" ? (
+            <div>There is no review for this product</div>
+          ) : (
+            <Fragment>
+              <div>No review yet, be the first one to</div>
+              <Button
+                variant="outlined"
+                onClick={writeReviewHandler}
+                className={_write_button}
+              >
+                Write a review
+              </Button>
+            </Fragment>
+          )}
         </div>
       )}
 
       <AddReviewModal
         openAddReivewModal={openAddReivewModal}
         setOpenAddReivewModal={setOpenAddReivewModal}
-        productId={productId}
+        productId={reviewDoc.productId}
         refreshReviewsUser={refreshReviewsUser}
         setReviewFilter={setReviewFilter}
         setPageNum={setPageNum}
