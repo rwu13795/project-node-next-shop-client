@@ -43,6 +43,7 @@ import {
 // UI //
 import { Button, SelectChangeEvent } from "@mui/material";
 import styles from "./__stage.module.css";
+import PaymentProcessingModal from "./payment-processing-modal";
 
 interface Props {
   setStage: Dispatch<SetStateAction<string>>;
@@ -165,10 +166,3 @@ function CheckoutStage_1({ setStage, setAllowedStages }: Props): JSX.Element {
 }
 
 export default memo(CheckoutStage_1);
-
-/*
-scroll to the specific element on button click
-
-<input type="button" onClick="document.getElementById('middle').scrollIntoView();" />
-
-*/

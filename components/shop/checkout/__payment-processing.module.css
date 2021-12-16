@@ -1,0 +1,118 @@
+.processing_modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70vw;
+  min-width: 680px;
+  max-width: 1000px;
+  background-color: white;
+  background-image: linear-gradient(
+    to top,
+    rgba(34, 185, 255, 0.5) 0%,
+    rgb(255, 255, 255) 40%
+  );
+  border: 2px solid #000;
+  padding: 30px 20px;
+  box-shadow: 3px 6px 8px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.modal_text {
+  font-size: 50px;
+  font-family: "Oswald", sans-serif;
+  font-weight: bold;
+  text-align: center;
+  margin-right: 10px;
+  text-shadow: 3px 3px 6px rgba(34, 185, 255, 0.5);
+}
+
+.cube_container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+
+.processing_cube {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background: radial-gradient(white, rgba(34, 185, 255, 0.5));
+  box-shadow: 2px 2px 6px black;
+  border: black solid 2px;
+  animation: mover 400ms infinite alternate;
+  margin: 0 10px;
+}
+.processing_cube:nth-child(3) {
+  animation-delay: 100ms;
+}
+.processing_cube:nth-child(4) {
+  animation-delay: 200ms;
+}
+.processing_cube:nth-child(5) {
+  animation-delay: 300ms;
+}
+.processing_cube:nth-child(6) {
+  animation-delay: 400ms;
+}
+
+@-webkit-keyframes mover {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-15px);
+  }
+}
+@keyframes mover {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-15px);
+  }
+}
+
+@media screen and (min-width: 765px) and (max-width: 1150px) {
+  .processing_modal {
+    width: 80vw;
+    max-width: 800px;
+  }
+  .modal_text {
+    font-size: 40px;
+  }
+  .processing_cube {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+@media screen and (max-width: 765px) {
+  .processing_modal {
+    width: 90vw;
+    min-width: auto;
+    max-width: 600px;
+    padding: 20px 5px;
+    flex-flow: row wrap;
+  }
+
+  .modal_text {
+    font-size: min(26px, 7vw);
+    margin-right: 5px;
+  }
+  .processing_cube {
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+    margin: 0 6px;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .cube_container {
+    margin-top: 34px;
+  }
+}

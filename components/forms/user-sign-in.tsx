@@ -131,9 +131,10 @@ function UserSignIn({
     router.push("/auth/sign-up");
   };
 
-  ////
-
-  console.log("page", page);
+  const checkoutAsGuestHandler = () => {
+    dispatch(setPageLoading(true));
+    router.push("/shop/checkout");
+  };
 
   if (signInModal) {
     return (
@@ -270,7 +271,7 @@ function UserSignIn({
               {page === "checkout-sign-in" ? (
                 <Button
                   variant="contained"
-                  onClick={() => router.push("/shop/checkout")}
+                  onClick={checkoutAsGuestHandler}
                   className={styles.to_sign_up}
                 >
                   CHECKOUT AS GUEST

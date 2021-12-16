@@ -1,17 +1,5 @@
 import { Backdrop, Modal, Fade, CircularProgress, Box } from "@mui/material";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  outerHeight: 800,
-  width: "30vw",
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import styles from "./__payment-processing.module.css";
 
 export default function PaymentProcessingModal({}): JSX.Element {
   return (
@@ -28,25 +16,15 @@ export default function PaymentProcessingModal({}): JSX.Element {
         }}
       >
         <Fade in={true}>
-          <Box sx={style}>
-            <div
-              style={{
-                fontSize: "4vw",
-                textAlign: "center",
-                position: "relative",
-              }}
-            >
-              Processing Your Payment
+          <Box className={styles.processing_modal}>
+            <div className={styles.modal_text}>PROCESSING YOUR PAYMENT</div>
+            <div className={styles.cube_container}>
+              <div className={styles.processing_cube}></div>
+              <div className={styles.processing_cube}></div>
+              <div className={styles.processing_cube}></div>
+              <div className={styles.processing_cube}></div>
+              <div className={styles.processing_cube}></div>
             </div>
-            <CircularProgress
-              size={45}
-              sx={{
-                position: "fixed",
-                top: "50%",
-                left: "43%",
-                margin: 0,
-              }}
-            />
           </Box>
         </Fade>
       </Modal>

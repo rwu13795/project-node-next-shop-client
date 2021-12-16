@@ -1,33 +1,19 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import axios from "axios";
 
-import {
-  MainCategory,
-  MenCategory,
-} from "../../../utils/enums-types/product-category";
-import useGetMoreProducts, {
-  PageProductProps,
-} from "../../../utils/react-hooks/get-more-products";
+import { MainCategory } from "../../../utils/enums-types/product-category";
 import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 import SubCatProductsList from "../../../components/shop/product/sub-cat-list";
 import PageLinks from "../../../components/layout/page-links/links";
 import { SubCat_PageProps } from "../../../utils/enums-types/categories-interfaces";
-
-// UI //
-import {
-  Button,
-  CircularProgress,
-  Divider,
-  Grid,
-  SelectChangeEvent,
-} from "@mui/material";
-import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import styles from "./__sub-cat.module.css";
 import { instantlyToTop } from "../../../utils/helper-functions/scrollToTopInstantly";
 import serverClient from "../../../utils/axios-client/server-client";
+
+// UI //
+import { Button } from "@mui/material";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import styles from "./__sub-cat.module.css";
 
 const MenSubCatPage: NextPage<SubCat_PageProps> = ({
   products: startProducts,
@@ -35,14 +21,6 @@ const MenSubCatPage: NextPage<SubCat_PageProps> = ({
   sub_cat,
   main_cat,
 }) => {
-  // if (process.browser) {
-  //   // set the scroll back to top manaully, otherwise, the 1st and 2nd pages will
-  //   // be fetched when user refresh the page
-  //   history.scrollRestoration = "manual";
-  //   window.onbeforeunload = function () {
-  //     window.scrollTo(0, 0);
-  //   };
-  // }
   const dispatch = useDispatch();
 
   const props = { main_cat, sub_cat };
