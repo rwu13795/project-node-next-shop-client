@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, memo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import SelectColor from "./select-color";
 import { inputNames } from "../../../utils/enums-types/input-names";
@@ -16,33 +17,42 @@ import { Grid, Box, Divider, Button } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import styles from "./__styles.module.css";
 import main_styles from "../../layout/__layout.module.css";
+import {
+  ColorPropsState,
+  removeColor_addProduct,
+} from "../../../utils/redux-store/addProductSlice";
 
 interface Props {
-  colorProps: ReducerColorProps;
+  colorProps: ColorPropsState;
   listIndex: number;
-  dispatch: Dispatch<ActionType>;
-  propError: Errors;
   editMode: boolean;
-  setErrors: Dispatch<SetStateAction<Errors>>;
-  setFormHasError: Dispatch<SetStateAction<boolean>>;
+  setFormHasError: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const sizesArray = [inputNames.small, inputNames.medium, inputNames.large];
 
-function AddColorsProps(props: Props): JSX.Element {
-  const {
-    colorProps,
-    listIndex,
-    dispatch,
-    propError,
-    editMode,
-    setErrors,
-    setFormHasError,
-  } = props;
+function AddColorsProps({
+  colorProps,
+  listIndex,
+  editMode,
+  setFormHasError,
+}: Props): JSX.Element {
+  const dispatch = useDispatch();
 
   const removeColorHandler = () => {
-    dispatch({ type: Actions.removeColor, payload: { listIndex, editMode } });
+    dispatch(removeColor_addProduct({ listIndex, editMode }));
   };
+
+  console.log("in add colorProps", colorProps);
+
+  // NOTE //
+  // always, only pass the specific value which will be consumed by the component
+  // DO NOT pass the entire object to the child component which only needs part of
+  // the value in the object (for instance, in the "select-color" component, it only
+  // needs the "colorName" and "colorCode" from the "colorProp", if I pass the entire
+  // "colorProp" to the "select-color", even there is change apart from the "colorName"
+  // and "colorCode", "select-color" component will be re-rendered since the entire
+  // "colorProp" object is passed into it)
 
   return (
     <Grid item container className={styles.colorProps_grid}>
@@ -66,11 +76,9 @@ function AddColorsProps(props: Props): JSX.Element {
       <Grid item container justifyContent="center">
         <Grid item container xs={12} sm={6} md={6}>
           <SelectColor
-            colorProps={colorProps}
+            colorName={colorProps.colorName}
+            colorCode={colorProps.colorCode}
             listIndex={listIndex}
-            dispatch={dispatch}
-            propError={propError}
-            setErrors={setErrors}
             setFormHasError={setFormHasError}
           />
         </Grid>
@@ -88,11 +96,8 @@ function AddColorsProps(props: Props): JSX.Element {
               <AddSizeQuantity
                 key={size}
                 size={size}
-                colorProps={colorProps}
+                sizesList={colorProps.sizes}
                 listIndex={listIndex}
-                dispatch={dispatch}
-                propError={propError}
-                setErrors={setErrors}
                 setFormHasError={setFormHasError}
               />
             );
@@ -102,11 +107,8 @@ function AddColorsProps(props: Props): JSX.Element {
 
       <Grid item container>
         <AddImage
-          colorProps={colorProps}
           listIndex={listIndex}
-          dispatch={dispatch}
           editMode={editMode}
-          propError={propError}
           setFormHasError={setFormHasError}
         />
       </Grid>

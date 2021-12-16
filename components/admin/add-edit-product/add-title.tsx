@@ -1,15 +1,17 @@
-import { memo } from "react";
+import { memo, ChangeEvent } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { ReducerProductInfo } from "../../../utils/react-hooks/add-product-reducer";
+import {
+  clearUploadError_byInputName,
+  selectTitle_addProduct,
+  selectUploadError_byInputName,
+  setTitle_addProduct,
+} from "../../../utils/redux-store/addProductSlice";
+import { RootState } from "../../../utils/redux-store";
 import { inputNames } from "../../../utils/enums-types/input-names";
-import { AddInfoEvents } from "../../../pages/admin/add-product";
-import { Errors } from "../../../utils/helper-functions/input-error-check";
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { onChangeErrorCheck } from "../../../utils/helper-functions/input-error-check";
 
 // UI //
 import {
-  TextField,
   FormControl,
   FormHelperText,
   Grid,
@@ -19,35 +21,26 @@ import {
 import styles from "./__styles.module.css";
 
 interface Props {
-  dispatchAddInfo: (e: AddInfoEvents) => void;
-  productInfo: ReducerProductInfo;
-  // title: string;
-  propError: Errors;
-  setErrors: Dispatch<SetStateAction<Errors>>;
-  setFormHasError: Dispatch<SetStateAction<boolean>>;
+  setFormHasError: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function AddTitle(props: Props): JSX.Element {
-  const {
-    dispatchAddInfo,
-    productInfo,
-    // title,
-    propError,
-    setErrors,
-    setFormHasError,
-  } = props;
+function AddTitle({ setFormHasError }: Props): JSX.Element {
+  const dispatch = useDispatch();
+  const title = useSelector(selectTitle_addProduct);
+  const uploadError = useSelector((state: RootState) =>
+    selectUploadError_byInputName(state, inputNames.title)
+  );
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
+    dispatch(clearUploadError_byInputName(inputNames.title));
     setFormHasError(false);
-    onChangeErrorCheck(name, value, setErrors);
-    dispatchAddInfo(e);
+    dispatch(setTitle_addProduct(value));
   };
 
-  const error = !(
-    propError[inputNames.title] === undefined ||
-    propError[inputNames.title] === ""
-  );
+  const error = uploadError !== "";
+
+  console.log("re-render in add title");
 
   return (
     <Grid item>
@@ -57,14 +50,14 @@ function AddTitle(props: Props): JSX.Element {
           id="outlined-title"
           name={inputNames.title}
           type="text"
-          value={productInfo.title}
+          value={title}
           onChange={onChangeHandler}
           label="Title"
           error={error}
           className={styles.input_box_shadow}
         />
         <FormHelperText className={styles.input_error}>
-          {propError[inputNames.title]}
+          {uploadError}
         </FormHelperText>
       </FormControl>
     </Grid>

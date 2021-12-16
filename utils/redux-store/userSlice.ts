@@ -580,12 +580,19 @@ export {
 
 export default userSlice.reducer;
 
-// create the selectors which select the root of the state
-// and use this inside the "createSelector"
+// NOTE from Redux Docs //
+// In typical Reselect usage, you write your top-level "input selectors" as plain functions,
+// and use createSelector to create memoized selectors that look up nested value
 const selectUser = (state: RootState) => state.user;
+export const selectCurrentUser = createSelector(
+  [selectUser],
+  (userState) => userState.currentUser
+);
+export const selectAuthErrors = createSelector(
+  [selectUser],
+  (userState) => userState.authErrors
+);
 
-export const selectCurrentUser = (state: RootState) => state.user.currentUser;
-export const selectAuthErrors = (state: RootState) => state.user.authErrors;
 // use the "createSelector" to create a memoized selector
 // so the the selector will not re-select if the un-related state change in the same page
 export const selectIsLoggedIn = createSelector(

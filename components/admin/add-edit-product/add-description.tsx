@@ -1,16 +1,17 @@
 import { ChangeEvent, Dispatch, SetStateAction, memo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { inputNames } from "../../../utils/enums-types/input-names";
-import { ReducerProductInfo } from "../../../utils/react-hooks/add-product-reducer";
-import { AddInfoEvents } from "../../../pages/admin/add-product";
 import {
-  Errors,
-  onChangeErrorCheck,
-} from "../../../utils/helper-functions/input-error-check";
+  clearUploadError_byInputName,
+  selectDesc_addProduct,
+  selectUploadError_byInputName,
+  setDesc_addProduct,
+} from "../../../utils/redux-store/addProductSlice";
+import { RootState } from "../../../utils/redux-store";
+import { inputNames } from "../../../utils/enums-types/input-names";
 
 // UI //
 import {
-  TextField,
   FormHelperText,
   FormControl,
   OutlinedInput,
@@ -19,33 +20,26 @@ import {
 import styles from "./__styles.module.css";
 
 interface Props {
-  dispatchAddInfo: (e: AddInfoEvents) => void;
-  productInfo: ReducerProductInfo;
-  propError: Errors;
-  setErrors: Dispatch<SetStateAction<Errors>>;
-  setFormHasError: Dispatch<SetStateAction<boolean>>;
+  setFormHasError: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function AddDescription(props: Props): JSX.Element {
-  const {
-    productInfo,
-    dispatchAddInfo,
-    propError,
-    setErrors,
-    setFormHasError,
-  } = props;
+function AddDescription({ setFormHasError }: Props): JSX.Element {
+  const dispatch = useDispatch();
+  const description = useSelector(selectDesc_addProduct);
+  const uploadError = useSelector((state: RootState) =>
+    selectUploadError_byInputName(state, inputNames.desc)
+  );
 
   const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.currentTarget;
+    dispatch(clearUploadError_byInputName(inputNames.desc));
     setFormHasError(false);
-    onChangeErrorCheck(name, value, setErrors);
-    dispatchAddInfo(e);
+    dispatch(setDesc_addProduct(value));
   };
 
-  const error = !(
-    propError[inputNames.desc] === undefined ||
-    propError[inputNames.desc] === ""
-  );
+  const error = uploadError !== "";
+
+  console.log("re-render in add DESC");
 
   return (
     <FormControl error={error} className={styles.desc_box}>
@@ -55,13 +49,13 @@ function AddDescription(props: Props): JSX.Element {
         multiline
         rows={7}
         name={inputNames.desc}
-        value={productInfo.description}
+        value={description}
         onChange={onChangeHandler}
         error={error}
         className={styles.input_box_shadow}
       />
       <FormHelperText className={styles.input_error}>
-        {propError[inputNames.desc]}
+        {uploadError}
       </FormHelperText>
     </FormControl>
   );

@@ -1,13 +1,16 @@
-import { ChangeEvent, Dispatch, useState, SetStateAction, memo } from "react";
+import { ChangeEvent, useState, memo } from "react";
 import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
 
-import { inputNames } from "../../../utils/enums-types/input-names";
-import { Errors } from "../../../utils/helper-functions/input-error-check";
 import {
-  ActionType,
-  ReducerColorProps,
-} from "../../../utils/react-hooks/add-product-reducer";
-import { Actions } from "../../../utils/enums-types/product-reducer-actions";
+  addImage_addProduct,
+  removeImage_addProduct,
+  replaceImage_addProduct,
+  selectImageUrls_byListIndex,
+  selectUploadError_byInputName,
+} from "../../../utils/redux-store/addProductSlice";
+import { RootState } from "../../../utils/redux-store";
+import { inputNames } from "../../../utils/enums-types/input-names";
 
 // UI //
 import {
@@ -24,43 +27,52 @@ import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import styles from "./__styles.module.css";
 
 interface Props {
-  colorProps: ReducerColorProps;
   listIndex: number;
-  dispatch: Dispatch<ActionType>;
   editMode: boolean;
-  propError: Errors;
-  setFormHasError: Dispatch<SetStateAction<boolean>>;
+  setFormHasError: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function AddImage(props: Props): JSX.Element {
-  const {
-    colorProps,
-    listIndex,
-    dispatch,
-    editMode,
-    propError,
-    setFormHasError,
-  } = props;
+// NOTE //
+// Beacause the image file is a non-serializable value, Redux cannot compare the image
+// file's current value  with its previous value. So it means any component that consume
+// the value of the image file (such as this "addImage" component) will be re-rendered
+// every single time when there is change in the "colorProps" state (such as changing Qty
+// in the "addSizeQty")
 
-  console.log("FUKING RERENDERING");
+// So, in the Store first whenever the a image file is added,
+// I have to convert the image file into a Url, and push this Url to an arrry,
+// and then use selector to select this array by the listIndex
+// by doing so, Redux is able compare the values of the urlArray, and won't trigger
+// the re-rendering in "addImage" if the url values are the same
+function AddImage({
+  listIndex,
+  editMode,
+  setFormHasError,
+}: Props): JSX.Element {
+  const dispatch = useDispatch();
+  const imageUrls = useSelector((state: RootState) =>
+    selectImageUrls_byListIndex(state, listIndex)
+  );
+  const uploadError = useSelector((state: RootState) =>
+    selectUploadError_byInputName(state, inputNames.imagesCount)
+  );
 
   const [editImage, setEditImage] = useState<boolean>(false);
 
   const addImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const newImagesList = e.target.files as FileList;
     setFormHasError(false);
-    dispatch({ type: Actions.addImage, payload: { listIndex, newImagesList } });
+    dispatch(addImage_addProduct({ listIndex, newImagesList }));
   };
 
   const replaceImageHandler = (
     e: ChangeEvent<HTMLInputElement>,
     imageIndex: number
   ) => {
-    const newImage = (e.target.files as FileList)[0];
-    dispatch({
-      type: Actions.replaceImage,
-      payload: { listIndex, newImage, imageIndex, editMode },
-    });
+    const newImageFile = (e.target.files as FileList)[0];
+    dispatch(
+      replaceImage_addProduct({ newImageFile, listIndex, imageIndex, editMode })
+    );
   };
 
   const removeImageHandler = (imageIndex: number) => {
@@ -70,19 +82,19 @@ function AddImage(props: Props): JSX.Element {
     ) as HTMLInputElement;
     if (input) input.value = "";
 
-    dispatch({
-      type: Actions.removeImage,
-      payload: { listIndex, imageIndex, editMode },
-    });
+    dispatch(removeImage_addProduct({ listIndex, imageIndex, editMode }));
   };
 
   const editImageHandler = () => {
     setEditImage((prev) => !prev);
   };
 
+  /////////////////////
+  console.log("FUKING RERENDERING in add images");
+
   return (
     <Grid item container className={styles.form_grid_center}>
-      {colorProps.imageFiles.length > 0 && (
+      {imageUrls.length > 0 && (
         <div style={{ marginRight: "1rem" }}>
           {editImage ? (
             <Button color="error" variant="outlined" onClick={editImageHandler}>
@@ -96,7 +108,7 @@ function AddImage(props: Props): JSX.Element {
         </div>
       )}
 
-      {colorProps.imageFiles.map((file, imageIndex) => {
+      {imageUrls.map((url, imageIndex) => {
         return (
           <Box key={imageIndex} className={styles.image_box}>
             {/* have to change the "htmlfor" and "id" dynamically, otherwise the first label/input will
@@ -143,12 +155,7 @@ function AddImage(props: Props): JSX.Element {
               </Grid>
             )}
 
-            <Image
-              src={typeof file === "string" ? file : URL.createObjectURL(file)}
-              alt="selected image"
-              width={180}
-              height={180}
-            />
+            <Image src={url} alt="selected-image" width={180} height={180} />
             {/* <Box className={styles.image_file_text}>
                 {file}
                 {typeof file !== "string" && file.name}
@@ -178,9 +185,9 @@ function AddImage(props: Props): JSX.Element {
         </Grid>
       </Box>
 
-      {colorProps.imageCount < 1 && (
+      {imageUrls.length < 1 && (
         <FormHelperText className={styles.input_error}>
-          {propError[inputNames.imagesCount]}
+          {uploadError}
         </FormHelperText>
       )}
     </Grid>

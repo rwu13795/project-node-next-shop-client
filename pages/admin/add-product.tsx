@@ -44,6 +44,10 @@ import styles from "./__add-product.module.css";
 import { Reviews } from "../shop/product-detail/[product_id]";
 import browserClient from "../../utils/axios-client/browser-client";
 import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
+import {
+  AddProductState,
+  setInitialState_addProduct,
+} from "../../utils/redux-store/addProductSlice";
 
 const initialProductState: ProductState = {
   colorPropsList: [initialColorProps],
@@ -57,7 +61,7 @@ export type AddInfoEvents =
 
 interface PageProps {
   productId: string;
-  product: ProductState;
+  product: AddProductState;
   reviews: Reviews;
   editMode: boolean;
   page: string;
@@ -76,7 +80,7 @@ const AddProductPage: NextPage<PageProps> = ({
 
   const client = browserClient();
   const router = useRouter();
-  const reduxDispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const adminUser = useSelector(selectAdminUser);
   const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
@@ -90,13 +94,21 @@ const AddProductPage: NextPage<PageProps> = ({
   const [checkingAuth, setCheckingAuth] = useState<boolean>(true);
 
   useEffect(() => {
-    reduxDispatch(getAdminStatus());
-  }, [reduxDispatch]);
+    dispatch(getAdminStatus());
+  }, [dispatch]);
 
-  const [state, dispatch] = useReducer(
-    addProductReducer,
-    product ? product : initialProductState
-  );
+  console.log("edit product", product);
+
+  useEffect(() => {
+    if (product !== null) {
+      dispatch(setInitialState_addProduct(product));
+    }
+  }, [product, dispatch]);
+
+  // const [state, dispatch] = useReducer(
+  //   addProductReducer,
+  //   product ? product : initialProductState
+  // );
 
   // useEffect(() => {
   //   if (!loggedInAsAdmin) {
@@ -107,20 +119,20 @@ const AddProductPage: NextPage<PageProps> = ({
   // }, []);
 
   useEffect(() => {
-    reduxDispatch(setPageLoading(false));
+    dispatch(setPageLoading(false));
   });
   useEffect(() => {
     return instantlyToTop;
   }, []);
 
-  const dispatchAddInfo = useCallback((e: AddInfoEvents) => {
-    const inputValue = e.target.value;
-    const inputField = e.target.name;
-    dispatch({
-      type: Actions.addInfo,
-      payload: { inputField, inputValue },
-    });
-  }, []);
+  // const dispatchAddInfo = useCallback((e: AddInfoEvents) => {
+  //   const inputValue = e.target.value;
+  //   const inputField = e.target.name;
+  //   dispatch({
+  //     type: Actions.addInfo,
+  //     payload: { inputField, inputValue },
+  //   });
+  // }, []);
 
   // const dispatchAddInfo = (e: AddInfoEvents) => {
   //   const inputValue = e.target.value;
@@ -132,24 +144,24 @@ const AddProductPage: NextPage<PageProps> = ({
   // };
 
   // useUpload hook
-  const { postUpload, errors, setErrors, uploading } = useUpload({
-    colorPropsList: state.colorPropsList,
-    productInfo: state.productInfo,
-    editMode,
-    deletedImgaes: state.deletedImages,
-    productId,
-    admin_username: adminUser.admin_username,
-    csrfToken,
-    onSuccess: () => {
-      console.log("OK");
-      router.push(
-        `/admin/products-list?main=${state.productInfo.main_cat}&sub=${state.productInfo.sub_cat}`
-      );
-    },
-  });
+  // const { postUpload, errors, setErrors, uploading } = useUpload({
+  //   colorPropsList: state.colorPropsList,
+  //   productInfo: state.productInfo,
+  //   editMode,
+  //   deletedImgaes: state.deletedImages,
+  //   productId,
+  //   admin_username: adminUser.admin_username,
+  //   csrfToken,
+  //   onSuccess: () => {
+  //     console.log("OK");
+  //     router.push(
+  //       `/admin/products-list?main=${state.productInfo.main_cat}&sub=${state.productInfo.sub_cat}`
+  //     );
+  //   },
+  // });
 
   const uploadHandler = async () => {
-    await postUpload();
+    // await postUpload();
   };
 
   const tagChangeHandler = (event: SyntheticEvent, newValue: string) => {
@@ -168,9 +180,14 @@ const AddProductPage: NextPage<PageProps> = ({
     setReviewDoc(reviewDoc);
   };
 
-  // if (checkingAuth) {
-  //   return <div>Loading ...</div>;
-  // }
+  // NOTE //
+  // always, only pass the specific value which will be consumed by the component
+  // DO NOT pass the entire object to the child component which only needs part of
+  // the value in the object (for instance, in the "select-color" component, it only
+  // needs the "colorName" and "colorCode" from the "colorProp", if I pass the entire
+  // "colorProp" to the "select-color", even there is change apart from the "colorName"
+  // and "colorCode", "select-color" component will be re-rendered since the entire
+  // "colorProp" object is passed into it)
 
   return (
     <main className={styles.main}>
@@ -201,15 +218,16 @@ const AddProductPage: NextPage<PageProps> = ({
             </Box>
             <TabPanel value={"1"}>
               <ProductForm
-                dispatchAddInfo={dispatchAddInfo}
-                productInfo={state.productInfo}
-                colorPropsList={state.colorPropsList}
-                propError={errors}
-                setErrors={setErrors}
+                // dispatchAddInfo={dispatchAddInfo}
+                // productInfo={state.productInfo}
+                // colorPropsList={state.colorPropsList}
+                // propError={errors}
+                // setErrors={setErrors}
                 editMode={editMode}
-                dispatch={dispatch}
-                uploadHandler={uploadHandler}
-                uploading={uploading}
+                productId={productId}
+                // dispatch={dispatch}
+                // uploadHandler={uploadHandler}
+                // uploading={uploading}
               />
             </TabPanel>
             <TabPanel value={"2"}>
@@ -240,15 +258,15 @@ const AddProductPage: NextPage<PageProps> = ({
           <div className={styles.main_title}>Add New Product</div>
 
           <ProductForm
-            dispatchAddInfo={dispatchAddInfo}
-            productInfo={state.productInfo}
-            colorPropsList={state.colorPropsList}
-            propError={errors}
-            setErrors={setErrors}
+            // dispatchAddInfo={dispatchAddInfo}
+            // productInfo={state.productInfo}
+            // colorPropsList={state.colorPropsList}
+            // // propError={errors}
+            // setErrors={setErrors}
             editMode={editMode}
-            dispatch={dispatch}
-            uploadHandler={uploadHandler}
-            uploading={uploading}
+            // dispatch={dispatch}
+            // uploadHandler={uploadHandler}
+            // uploading={uploading}
           />
         </Grid>
       )}
@@ -270,7 +288,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   try {
     // if no productId is found in the query, that means we are NOT editting the product
-    // send a arbitary id number to let Node server know
     const { data }: { data: PageProps } = await client.get(
       `http://localhost:5000/api/products/detail/${productId}?admin="yes"`
     );

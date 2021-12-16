@@ -33,57 +33,81 @@ import {
   selectPageLoading,
   setPageLoading,
 } from "../../../utils/redux-store/layoutSlice";
+import {
+  addMoreColor_addProduct,
+  resetState_addProduct,
+  selectColorPropsList,
+  selectUploadErrors_addProduct,
+  selectUploadStatus_addProduct,
+  setUploadStatus_addProduct,
+  uploadNewProduct,
+} from "../../../utils/redux-store/addProductSlice";
 
 interface Props {
-  dispatchAddInfo: (e: AddInfoEvents) => void;
-  productInfo: ReducerProductInfo;
-  colorPropsList: ReducerColorProps[];
-  propError: Errors;
-  setErrors: Dispatch<SetStateAction<Errors>>;
+  // dispatchAddInfo: (e: AddInfoEvents) => void;
+  // productInfo: ReducerProductInfo;
+  // colorPropsList: ReducerColorProps[];
+  // propError: Errors;
+  // setErrors: Dispatch<SetStateAction<Errors>>;
   editMode: boolean;
-  dispatch: Dispatch<ActionType>;
-  uploadHandler: () => Promise<void>;
-  uploading: boolean;
+  productId?: string;
+  // dispatch: Dispatch<ActionType>;
+  // uploadHandler: () => Promise<void>;
+  // uploading: boolean;
 }
 
 export default function ProductForm(props: Props): JSX.Element {
   const {
-    dispatchAddInfo,
-    productInfo,
-    colorPropsList,
-    propError,
-    setErrors,
+    // dispatchAddInfo,
+    // productInfo,
+    // colorPropsList,
+    // propError,
+    // setErrors,
     editMode,
-    dispatch,
-    uploadHandler,
-    uploading,
+    productId,
+    // dispatch,
+    // uploadHandler,
+    // uploading,
   } = props;
 
   const router = useRouter();
-  const reduxDispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  const pageLoading = useSelector(selectPageLoading);
+  const colorPropsList = useSelector(selectColorPropsList);
+  const uploadStatus = useSelector(selectUploadStatus_addProduct);
+  const uploadErrors = useSelector(selectUploadErrors_addProduct);
 
   const [formHasError, setFormHasError] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   useEffect(() => {
-    if (isSubmitted) {
-      setFormHasError(Object.keys(propError).length !== 0);
-      setIsSubmitted(false);
+    if (uploadStatus === "failed") {
+      dispatch(setPageLoading(false));
+      setFormHasError(true);
     }
-  }, [isSubmitted, propError]);
+    if (uploadStatus === "succeeded") {
+      router.push("/admin/products-list");
+    }
+  }, [uploadStatus, dispatch, router]);
 
-  const onSubmitHandler = async () => {
-    reduxDispatch(setPageLoading(true));
-    await uploadHandler();
-    setIsSubmitted(true);
-  };
+  useEffect(() => {
+    return () => {
+      dispatch(setUploadStatus_addProduct("idle"));
+    };
+  }, []);
 
   const cancelButtonHandler = () => {
-    reduxDispatch(setPageLoading(true));
+    dispatch(setPageLoading(true));
+    dispatch(resetState_addProduct());
     router.push("/admin/products-list");
   };
+
+  const uploadHandler = () => {
+    dispatch(setPageLoading(true));
+    dispatch(uploadNewProduct({ editMode, productId }));
+  };
+
+  console.log("re-rendering in product-form");
 
   return (
     <Grid
@@ -103,28 +127,9 @@ export default function ProductForm(props: Props): JSX.Element {
           md={6}
           className={styles.form_grid_flex_start}
         >
-          <SelectCategory
-            dispatchAddInfo={dispatchAddInfo}
-            productInfo={productInfo}
-            propError={propError}
-            setErrors={setErrors}
-            setFormHasError={setFormHasError}
-          />
-
-          <AddTitle
-            dispatchAddInfo={dispatchAddInfo}
-            productInfo={productInfo}
-            propError={propError}
-            setErrors={setErrors}
-            setFormHasError={setFormHasError}
-          />
-          <AddPrice
-            dispatchAddInfo={dispatchAddInfo}
-            productInfo={productInfo}
-            propError={propError}
-            setErrors={setErrors}
-            setFormHasError={setFormHasError}
-          />
+          <SelectCategory setFormHasError={setFormHasError} />
+          <AddTitle setFormHasError={setFormHasError} />
+          <AddPrice setFormHasError={setFormHasError} />
         </Grid>
         <Grid
           item
@@ -133,13 +138,7 @@ export default function ProductForm(props: Props): JSX.Element {
           md={6}
           className={styles.form_grid_flex_start}
         >
-          <AddDescription
-            dispatchAddInfo={dispatchAddInfo}
-            productInfo={productInfo}
-            propError={propError}
-            setErrors={setErrors}
-            setFormHasError={setFormHasError}
-          />
+          <AddDescription setFormHasError={setFormHasError} />
         </Grid>
       </Grid>
 
@@ -150,10 +149,7 @@ export default function ProductForm(props: Props): JSX.Element {
               <AddColorsProps
                 colorProps={prop}
                 listIndex={index}
-                dispatch={dispatch}
-                propError={propError}
                 editMode={editMode}
-                setErrors={setErrors}
                 setFormHasError={setFormHasError}
               />
             </Fragment>
@@ -167,7 +163,7 @@ export default function ProductForm(props: Props): JSX.Element {
             startIcon={<AddCircleIcon className={styles.form_button_icon} />}
             className={styles.form_button}
             onClick={() => {
-              dispatch({ type: Actions.addMoreColor });
+              dispatch(addMoreColor_addProduct());
             }}
           >
             Add more colors
@@ -176,12 +172,12 @@ export default function ProductForm(props: Props): JSX.Element {
 
         <Grid item>
           <LoadingButton
-            loading={uploading}
+            loading={uploadStatus === "loading"}
             loadingPosition="start"
             startIcon={<SaveIcon className={styles.form_button_icon} />}
             className={styles.form_button}
             variant="contained"
-            onClick={onSubmitHandler}
+            onClick={uploadHandler}
           >
             Save
           </LoadingButton>

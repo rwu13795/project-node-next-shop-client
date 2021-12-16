@@ -1,82 +1,50 @@
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  memo,
-  useCallback,
-} from "react";
+import { ChangeEvent, memo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
+import {
+  selectUploadError_byInputName,
+  setSizeQty_addProduct,
+} from "../../../utils/redux-store/addProductSlice";
+import { RootState } from "../../../utils/redux-store";
 import { inputNames } from "../../../utils/enums-types/input-names";
-import {
-  ActionType,
-  ReducerColorProps,
-} from "../../../utils/react-hooks/add-product-reducer";
-import { AddInfoEvents } from "../../../pages/admin/add-product";
-import { Actions } from "../../../utils/enums-types/product-reducer-actions";
 import { capitalize } from "../../../utils/helper-functions/capitalize-first-letter";
-import {
-  Errors,
-  onChangeErrorCheck,
-} from "../../../utils/helper-functions/input-error-check";
 
 // UI //
 import {
-  TextField,
   FormControl,
   InputLabel,
   OutlinedInput,
   FormHelperText,
-  Grid,
 } from "@mui/material";
 import styles from "./__styles.module.css";
 
 interface Props {
-  colorProps: ReducerColorProps;
+  sizesList: { [name: string]: number };
   listIndex: number;
   size: string;
-  dispatch: Dispatch<ActionType>;
-  propError: Errors;
-  setErrors: Dispatch<SetStateAction<Errors>>;
-  setFormHasError: Dispatch<SetStateAction<boolean>>;
+  setFormHasError: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function AddSizeQuantity(props: Props): JSX.Element {
-  const {
-    colorProps,
-    listIndex,
-    size,
-    dispatch,
-    propError,
-    setErrors,
-    setFormHasError,
-  } = props;
-
-  const addSizeHandler = useCallback(
-    (inputValue: string, inputField: string) => {
-      dispatch({
-        type: Actions.addSizes,
-        payload: { listIndex, inputValue, inputField },
-      });
-    },
-    [dispatch, listIndex]
+function AddSizeQuantity({
+  sizesList,
+  listIndex,
+  size,
+  setFormHasError,
+}: Props): JSX.Element {
+  const dispatch = useDispatch();
+  const uploadError = useSelector((state: RootState) =>
+    selectUploadError_byInputName(state, inputNames.size)
   );
 
   const sizesChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name: inputField, value: inputValue } = e.currentTarget;
+    const { name: size, value: qty } = e.currentTarget;
+    dispatch(setSizeQty_addProduct({ listIndex, qty, size }));
     setFormHasError(false);
-    onChangeErrorCheck(inputField, inputValue, setErrors);
-    // dispatch({
-    //   type: Actions.addSizes,
-    //   payload: { listIndex, inputValue, inputField },
-    // });
-    addSizeHandler(inputValue, inputField);
   };
 
-  let error =
-    !(
-      propError[inputNames.size] === undefined ||
-      propError[inputNames.size] === ""
-    ) && isNaN(colorProps.sizes[size]);
+  let error = uploadError !== "" && isNaN(sizesList[size]);
+
+  console.log("render in select size qty in INDEX", listIndex);
 
   return (
     <FormControl className={styles.form_control_size} error={error}>
@@ -85,7 +53,7 @@ function AddSizeQuantity(props: Props): JSX.Element {
         id="outlined-size-qty"
         type="number"
         name={size}
-        value={isNaN(colorProps.sizes[size]) ? "" : colorProps.sizes[size]}
+        value={isNaN(sizesList[size]) ? "" : sizesList[size]}
         onChange={sizesChangeHandler}
         inputProps={{ min: 0 }}
         label={size}
@@ -95,7 +63,7 @@ function AddSizeQuantity(props: Props): JSX.Element {
         className={styles.input_box_shadow}
       />
       <FormHelperText className={styles.input_error}>
-        {error && propError[inputNames.size]}
+        {error && uploadError}
       </FormHelperText>
     </FormControl>
   );

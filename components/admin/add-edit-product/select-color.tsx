@@ -26,54 +26,54 @@ import {
   OutlinedInput,
 } from "@mui/material";
 import styles from "./__styles.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectUploadError_byInputName,
+  setColorInfo_addProduct,
+} from "../../../utils/redux-store/addProductSlice";
+import { RootState } from "../../../utils/redux-store";
 
 interface Props {
-  colorProps: ReducerColorProps;
+  colorName: string;
+  colorCode: string;
   listIndex: number;
-  dispatch: Dispatch<ActionType>;
-  propError: Errors;
-  setErrors: Dispatch<SetStateAction<Errors>>;
-  setFormHasError: Dispatch<SetStateAction<boolean>>;
+  setFormHasError: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function SelectColor(props: Props): JSX.Element {
-  const {
-    colorProps,
-    listIndex,
-    dispatch,
-    propError,
-    setErrors,
-    setFormHasError,
-  } = props;
+function SelectColor({
+  colorName,
+  colorCode,
+  listIndex,
+  setFormHasError,
+}: Props): JSX.Element {
+  const dispatch = useDispatch();
+
+  const uploadError_colorName = useSelector((state: RootState) =>
+    selectUploadError_byInputName(state, inputNames.colorName)
+  );
+  const uploadError_colorCode = useSelector((state: RootState) =>
+    selectUploadError_byInputName(state, inputNames.colorCode)
+  );
 
   const selectColorHandler = (
     e:
       | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
       | SelectChangeEvent<string>
   ) => {
-    const inputValue = e.target.value;
-    const inputField = e.target.name;
+    const { name, value } = e.target;
     setFormHasError(false);
-    onChangeErrorCheck(inputField, inputValue, setErrors);
-    dispatch({
-      type: Actions.addColorInfo,
-      payload: { listIndex, inputField, inputValue },
-    });
+    dispatch(setColorInfo_addProduct({ listIndex, name, value }));
   };
 
   const error_colorName =
-    !(
-      propError[inputNames.colorName] === "" ||
-      propError[inputNames.colorName] === undefined
-    ) &&
-    (colorProps.colorName === "" || colorProps.colorName === undefined);
+    uploadError_colorName !== "" &&
+    (colorName === "" || colorName === undefined);
 
   const error_colorCode =
-    !(
-      propError[inputNames.colorCode] === "" ||
-      propError[inputNames.colorCode] === undefined
-    ) &&
-    (colorProps.colorCode === "" || colorProps.colorCode === undefined);
+    uploadError_colorCode !== "" &&
+    (colorCode === "" || colorCode === undefined);
+
+  console.log("rendering in Select-color");
 
   return (
     <Fragment>
@@ -95,16 +95,16 @@ function SelectColor(props: Props): JSX.Element {
             type="color"
             label="Pick a Color"
             name={inputNames.colorCode}
-            value={colorProps.colorCode}
+            value={colorCode}
             onChange={selectColorHandler}
-            error={error_colorCode}
+            // error={error_colorCode}
             // InputLabelProps={{
             //   shrink: true,
             // }}
             className={styles.input_box_shadow}
           />
           <FormHelperText className={styles.input_error}>
-            {error_colorCode && propError[inputNames.colorCode]}
+            {error_colorCode && uploadError_colorCode}
           </FormHelperText>
         </FormControl>
       </Grid>
@@ -124,7 +124,7 @@ function SelectColor(props: Props): JSX.Element {
           <InputLabel>Color Name</InputLabel>
           <Select
             label="Color Name"
-            value={colorProps.colorName}
+            value={colorName}
             name={inputNames.colorName}
             onChange={selectColorHandler}
             className={styles.input_box_shadow}
@@ -149,7 +149,7 @@ function SelectColor(props: Props): JSX.Element {
             })}
           </Select>
           <FormHelperText className={styles.input_error}>
-            {error_colorName && propError[inputNames.colorName]}
+            {error_colorName && uploadError_colorName}
           </FormHelperText>
         </FormControl>
       </Grid>

@@ -1,3 +1,15 @@
+/*  *  *  *  *  *  NOTE  *  *  *  *  *  *  */
+/*
+  Don't use the React "useReducer" !
+  Even a partial change in the states will trigger the re-rendering
+  in the parent and ALL the children components. 
+
+  for a small form, the re-rendering won't be visibly noticeable,
+  but in this "addProduct" form, the re-rendering causes the "addImages"
+  component to keep re-acquiring the local images from the input field!!
+*/
+/*  *  *  *  *  *  NOTE  *  *  *  *  *  *  */
+
 import produce from "immer";
 import { inputNames } from "../enums-types/input-names";
 

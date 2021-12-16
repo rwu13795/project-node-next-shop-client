@@ -1,19 +1,16 @@
-import {
-  Dispatch,
-  Fragment,
-  SetStateAction,
-  useEffect,
-  useState,
-  memo,
-} from "react";
+import { Fragment, useEffect, useState, memo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { ReducerProductInfo } from "../../../utils/react-hooks/add-product-reducer";
-import { inputNames } from "../../../utils/enums-types/input-names";
-import { AddInfoEvents } from "../../../pages/admin/add-product";
 import {
-  Errors,
-  onChangeErrorCheck,
-} from "../../../utils/helper-functions/input-error-check";
+  clearUploadError_byInputName,
+  selectMainCat_addProduct,
+  selectSubCat_addProduct,
+  selectUploadError_byInputName,
+  setMainCat_addProduct,
+  setSubCat_addProduct,
+} from "../../../utils/redux-store/addProductSlice";
+import { RootState } from "../../../utils/redux-store";
+import { inputNames } from "../../../utils/enums-types/input-names";
 import {
   mainCatArray,
   menCatArray,
@@ -37,29 +34,27 @@ import {
 import styles from "./__styles.module.css";
 
 interface Props {
-  dispatchAddInfo: (e: AddInfoEvents) => void;
-  productInfo: ReducerProductInfo;
-  propError: Errors;
-  setErrors: Dispatch<SetStateAction<Errors>>;
-  setFormHasError: Dispatch<SetStateAction<boolean>>;
+  setFormHasError: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function SelectCategory(props: Props): JSX.Element {
-  const {
-    dispatchAddInfo,
-    productInfo,
-    propError,
-    setErrors,
-    setFormHasError,
-  } = props;
+function SelectCategory({ setFormHasError }: Props): JSX.Element {
+  const dispatch = useDispatch();
+  const main_cat = useSelector(selectMainCat_addProduct);
+  const sub_cat = useSelector(selectSubCat_addProduct);
+  const uploadError_mainCat = useSelector((state: RootState) =>
+    selectUploadError_byInputName(state, inputNames.main)
+  );
+  const uploadError_subCat = useSelector((state: RootState) =>
+    selectUploadError_byInputName(state, inputNames.sub)
+  );
 
   const [noMainCat, setNoMainCat] = useState<boolean>(true);
   const [subCatArray, setSubCatArray] = useState<string[]>([""]);
 
   useEffect(() => {
     setNoMainCat(true);
-    if (productInfo.main_cat !== "") {
-      let main = capitalize(productInfo.main_cat);
+    if (main_cat !== "") {
+      let main = capitalize(main_cat);
       setNoMainCat(false);
       switch (main) {
         case MainCategory.men:
@@ -75,22 +70,23 @@ function SelectCategory(props: Props): JSX.Element {
           break;
       }
     }
-  }, [productInfo.main_cat]);
+  }, [main_cat]);
 
   const onChangeHandler = (e: SelectChangeEvent<string>) => {
     const { name, value } = e.target;
+    dispatch(clearUploadError_byInputName(name));
     setFormHasError(false);
-    onChangeErrorCheck(name, value, setErrors);
-    dispatchAddInfo(e);
+    if (name === inputNames.main) {
+      dispatch(setMainCat_addProduct(value));
+    } else {
+      dispatch(setSubCat_addProduct(value));
+    }
   };
 
-  let error_main = !(
-    propError[inputNames.main] === undefined ||
-    propError[inputNames.main] === ""
-  );
-  let error_sub = !(
-    propError[inputNames.sub] === undefined || propError[inputNames.sub] === ""
-  );
+  let error_main = uploadError_mainCat !== "";
+  let error_sub = uploadError_subCat !== "";
+
+  console.log("render in cat select");
 
   return (
     <Fragment>
@@ -99,7 +95,7 @@ function SelectCategory(props: Props): JSX.Element {
           <InputLabel id="main-cat-select">Main-Category</InputLabel>
           <Select
             labelId="main-cat-select"
-            value={capitalize(productInfo.main_cat)}
+            value={capitalize(main_cat)}
             name={inputNames.main}
             label="Main Category" // the length oflabel string will determine the length of line break in the box
             onChange={onChangeHandler}
@@ -115,7 +111,7 @@ function SelectCategory(props: Props): JSX.Element {
             })}
           </Select>
           <FormHelperText className={styles.input_error}>
-            {propError[inputNames.main]}
+            {uploadError_mainCat}
           </FormHelperText>
         </FormControl>
       </Grid>
@@ -126,7 +122,7 @@ function SelectCategory(props: Props): JSX.Element {
           <Select
             labelId="sub-cat-select"
             label="Sub Category"
-            value={capitalize(productInfo.sub_cat)}
+            value={capitalize(sub_cat)}
             name={inputNames.sub}
             onChange={onChangeHandler}
             disabled={noMainCat}
@@ -142,7 +138,7 @@ function SelectCategory(props: Props): JSX.Element {
             })}
           </Select>
           <FormHelperText className={styles.input_error}>
-            {propError[inputNames.sub]}
+            {uploadError_subCat}
           </FormHelperText>
         </FormControl>
       </Grid>

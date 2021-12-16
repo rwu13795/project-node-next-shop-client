@@ -1,3 +1,16 @@
+/*  *  *  *  *  *  NOTE  *  *  *  *  *  *  */
+/*
+  Don't use the React "useReducer" !
+  every single change in the states will trigger the re-rendering
+  in the parent and ALL the children components. And the re-rendering 
+  causes the "addImages" component to keep re-acquiring the local images
+
+  Since this "useUpload" hook is depending on the states in the reducer,
+  every single change in the states will invoke this "useUpload" hook,
+  it makes re-rendering problem even worse
+*/
+/*  *  *  *  *  *  NOTE  *  *  *  *  *  *  */
+
 import { useState } from "react";
 
 import browserClient from "../../utils/axios-client/browser-client";
