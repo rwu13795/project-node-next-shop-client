@@ -1,20 +1,17 @@
 import { useRouter } from "next/dist/client/router";
-import React, {
-  Dispatch,
-  SetStateAction,
-  Fragment,
-  useState,
-  useEffect,
-} from "react";
+import React, { Fragment, useState, useEffect, memo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { Errors } from "../../../utils/helper-functions/input-error-check";
+import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 import {
-  ActionType,
-  ReducerColorProps,
-  ReducerProductInfo,
-} from "../../../utils/react-hooks/add-product-reducer";
-import { AddInfoEvents } from "../../../pages/admin/add-product";
-import { Actions } from "../../../utils/enums-types/product-reducer-actions";
+  addMoreColor_addProduct,
+  resetState_addProduct,
+  selectColorPropsList,
+  selectUploadStatus_addProduct,
+  setUploadStatus_addProduct,
+  uploadNewProduct,
+} from "../../../utils/redux-store/addProductSlice";
+
 import SelectCategory from "./select-category";
 import AddTitle from "./add-title";
 import AddPrice from "./add-price";
@@ -27,58 +24,22 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import SaveIcon from "@mui/icons-material/Save";
 import styles from "./__styles.module.css";
-import main_styles from "../../layout/__layout.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectPageLoading,
-  setPageLoading,
-} from "../../../utils/redux-store/layoutSlice";
-import {
-  addMoreColor_addProduct,
-  resetState_addProduct,
-  selectColorPropsList,
-  selectUploadErrors_addProduct,
-  selectUploadStatus_addProduct,
-  setUploadStatus_addProduct,
-  uploadNewProduct,
-} from "../../../utils/redux-store/addProductSlice";
 
 interface Props {
-  // dispatchAddInfo: (e: AddInfoEvents) => void;
-  // productInfo: ReducerProductInfo;
-  // colorPropsList: ReducerColorProps[];
-  // propError: Errors;
-  // setErrors: Dispatch<SetStateAction<Errors>>;
   editMode: boolean;
   productId?: string;
-  // dispatch: Dispatch<ActionType>;
-  // uploadHandler: () => Promise<void>;
-  // uploading: boolean;
 }
 
-export default function ProductForm(props: Props): JSX.Element {
-  const {
-    // dispatchAddInfo,
-    // productInfo,
-    // colorPropsList,
-    // propError,
-    // setErrors,
-    editMode,
-    productId,
-    // dispatch,
-    // uploadHandler,
-    // uploading,
-  } = props;
+function ProductForm(props: Props): JSX.Element {
+  const { editMode, productId } = props;
 
   const router = useRouter();
   const dispatch = useDispatch();
 
   const colorPropsList = useSelector(selectColorPropsList);
   const uploadStatus = useSelector(selectUploadStatus_addProduct);
-  const uploadErrors = useSelector(selectUploadErrors_addProduct);
 
   const [formHasError, setFormHasError] = useState<boolean>(false);
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   useEffect(() => {
     if (uploadStatus === "failed") {
@@ -106,8 +67,6 @@ export default function ProductForm(props: Props): JSX.Element {
     dispatch(setPageLoading(true));
     dispatch(uploadNewProduct({ editMode, productId }));
   };
-
-  console.log("re-rendering in product-form");
 
   return (
     <Grid
@@ -201,3 +160,5 @@ export default function ProductForm(props: Props): JSX.Element {
     </Grid>
   );
 }
+
+export default memo(ProductForm);

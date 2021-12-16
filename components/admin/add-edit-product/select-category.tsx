@@ -86,8 +86,6 @@ function SelectCategory({ setFormHasError }: Props): JSX.Element {
   let error_main = uploadError_mainCat !== "";
   let error_sub = uploadError_subCat !== "";
 
-  console.log("render in cat select");
-
   return (
     <Fragment>
       <Grid item>

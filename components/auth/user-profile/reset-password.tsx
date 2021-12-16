@@ -9,8 +9,6 @@ import {
   onBlurErrorCheck,
   onChangeErrorCheck,
   onFocusErrorCheck,
-  onFormEnterSubmitCheck,
-  onSubmitErrorCheck,
   Touched,
 } from "../../../utils/helper-functions/input-error-check";
 import {
@@ -25,15 +23,7 @@ import { initializeValues } from "../../../utils/helper-functions/initialize-val
 import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 
 // UI //
-import {
-  Box,
-  styled,
-  Tab,
-  Grid,
-  CircularProgress,
-  SelectChangeEvent,
-  Button,
-} from "@mui/material";
+import { SelectChangeEvent } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import SaveIcon from "@mui/icons-material/Save";
 import styles from "./__profile.module.css";

@@ -1,26 +1,20 @@
-import { Dispatch, SetStateAction, memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { memo } from "react";
+import { useDispatch } from "react-redux";
 
 import SelectColor from "./select-color";
 import { inputNames } from "../../../utils/enums-types/input-names";
-import { Errors } from "../../../utils/helper-functions/input-error-check";
 import AddImage from "./add-image";
-import {
-  ActionType,
-  ReducerColorProps,
-} from "../../../utils/react-hooks/add-product-reducer";
-import { Actions } from "../../../utils/enums-types/product-reducer-actions";
 import AddSizeQuantity from "./add-size-quantity";
-
-// UI //
-import { Grid, Box, Divider, Button } from "@mui/material";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import styles from "./__styles.module.css";
-import main_styles from "../../layout/__layout.module.css";
 import {
   ColorPropsState,
   removeColor_addProduct,
 } from "../../../utils/redux-store/addProductSlice";
+
+// UI //
+import { Grid, Box, Button } from "@mui/material";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import styles from "./__styles.module.css";
+import main_styles from "../../layout/__layout.module.css";
 
 interface Props {
   colorProps: ColorPropsState;
@@ -42,8 +36,6 @@ function AddColorsProps({
   const removeColorHandler = () => {
     dispatch(removeColor_addProduct({ listIndex, editMode }));
   };
-
-  console.log("in add colorProps", colorProps);
 
   // NOTE //
   // always, only pass the specific value which will be consumed by the component

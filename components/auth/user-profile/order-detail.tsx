@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState, memo, Fragment } from "react";
+import { useState, memo, Fragment } from "react";
 import Image from "next/image";
 
 import browserClient from "../../../utils/axios-client/browser-client";
@@ -6,7 +6,6 @@ import { Order } from "../../../pages/auth/profile";
 import { CartItem } from "../../../utils/redux-store/userSlice";
 
 // UI //
-import { Pagination, Grid } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import styles from "./__order-detail.module.css";

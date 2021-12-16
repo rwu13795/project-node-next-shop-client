@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, SetStateAction, memo } from "react";
+import { ChangeEvent, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -38,8 +38,6 @@ function AddDescription({ setFormHasError }: Props): JSX.Element {
   };
 
   const error = uploadError !== "";
-
-  console.log("re-render in add DESC");
 
   return (
     <FormControl error={error} className={styles.desc_box}>

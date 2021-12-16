@@ -1,5 +1,4 @@
 import { ChangeEvent, useEffect, useState, memo, Fragment } from "react";
-import Image from "next/image";
 
 import browserClient from "../../../utils/axios-client/browser-client";
 import { Order } from "../../../pages/auth/profile";
@@ -7,15 +6,12 @@ import { CartItem } from "../../../utils/redux-store/userSlice";
 import OrderDetail from "./order-detail";
 
 // UI //
-import { Pagination, Grid } from "@mui/material";
+import { Pagination } from "@mui/material";
 import styles from "./__profile.module.css";
 
 interface Props {
   orders: Order[];
   ordersTotal: number;
-}
-interface Props_sub {
-  items: CartItem[];
 }
 
 function OrderHistory({

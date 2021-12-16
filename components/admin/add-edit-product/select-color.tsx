@@ -1,16 +1,12 @@
-import { ChangeEvent, Dispatch, SetStateAction, Fragment, memo } from "react";
-import { SelectChangeEvent } from "@mui/material";
+import { ChangeEvent, Fragment, memo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
-  Errors,
-  onChangeErrorCheck,
-} from "../../../utils/helper-functions/input-error-check";
+  selectUploadError_byInputName,
+  setColorInfo_addProduct,
+} from "../../../utils/redux-store/addProductSlice";
+import { RootState } from "../../../utils/redux-store";
 import { inputNames } from "../../../utils/enums-types/input-names";
-import {
-  ActionType,
-  ReducerColorProps,
-} from "../../../utils/react-hooks/add-product-reducer";
-import { Actions } from "../../../utils/enums-types/product-reducer-actions";
 import { colorNames } from "../../../utils/enums-types/color-names";
 
 // UI //
@@ -22,16 +18,10 @@ import {
   Grid,
   Box,
   FormHelperText,
-  TextField,
+  SelectChangeEvent,
   OutlinedInput,
 } from "@mui/material";
 import styles from "./__styles.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectUploadError_byInputName,
-  setColorInfo_addProduct,
-} from "../../../utils/redux-store/addProductSlice";
-import { RootState } from "../../../utils/redux-store";
 
 interface Props {
   colorName: string;
@@ -72,8 +62,6 @@ function SelectColor({
   const error_colorCode =
     uploadError_colorCode !== "" &&
     (colorCode === "" || colorCode === undefined);
-
-  console.log("rendering in Select-color");
 
   return (
     <Fragment>

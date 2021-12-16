@@ -89,9 +89,6 @@ function AddImage({
     setEditImage((prev) => !prev);
   };
 
-  /////////////////////
-  console.log("FUKING RERENDERING in add images");
-
   return (
     <Grid item container className={styles.form_grid_center}>
       {imageUrls.length > 0 && (

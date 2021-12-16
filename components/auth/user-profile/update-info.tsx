@@ -9,16 +9,12 @@ import React, {
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Button, SelectChangeEvent } from "@mui/material";
-
 import {
   finalCheck,
   InputValues,
   onBlurErrorCheck,
   onChangeErrorCheck,
   onFocusErrorCheck,
-  onFormEnterSubmitCheck,
-  onSubmitErrorCheck,
 } from "../../../utils/helper-functions/input-error-check";
 import { inputNames } from "../../../utils/enums-types/input-names";
 import {
@@ -38,7 +34,8 @@ import { initializeValues } from "../../../utils/helper-functions/initialize-val
 import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 
 // UI //
-import { Box, styled, Tab, Grid } from "@mui/material";
+
+import { SelectChangeEvent } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import { LoadingButton, TabContext, TabList, TabPanel } from "@mui/lab";
 import styles from "./__profile.module.css";

@@ -40,8 +40,6 @@ function AddTitle({ setFormHasError }: Props): JSX.Element {
 
   const error = uploadError !== "";
 
-  console.log("re-render in add title");
-
   return (
     <Grid item>
       <FormControl error={error} className={styles.form_control}>

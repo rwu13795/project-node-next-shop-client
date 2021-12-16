@@ -13,13 +13,11 @@ import {
   Errors,
   finalCheck,
   InputValues,
-  onSubmitErrorCheck,
   Touched,
 } from "../../utils/helper-functions/input-error-check";
 import {
   AdminErrors,
   adminSignIn,
-  // getAdminStatus,
   selectAdminErrors,
   selectLoadingStatus_admin,
 } from "../../utils/redux-store/adminSlice";
@@ -28,14 +26,12 @@ import { AuthErrors } from "../../utils/redux-store/userSlice";
 import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 
 // UI //
-import { Button, CircularProgress } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import styles from "./__admin-sign-in-up.module.css";
 
 interface Props {
   inputFieldsArray: string[];
   inputValues: InputValues;
-  inputErrors: Errors;
   setInputErrors: Dispatch<SetStateAction<Errors>>;
   inputFields: (
     fields: string[],
@@ -50,7 +46,6 @@ interface Props {
 function AdminSignIn({
   inputFieldsArray,
   inputValues,
-  inputErrors,
   setInputErrors,
   inputFields,
   touched,

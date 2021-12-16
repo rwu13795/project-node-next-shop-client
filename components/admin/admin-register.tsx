@@ -5,7 +5,6 @@ import {
   Errors,
   finalCheck,
   InputValues,
-  onSubmitErrorCheck,
   Touched,
 } from "../../utils/helper-functions/input-error-check";
 import {
@@ -18,14 +17,12 @@ import { inputNames } from "../../utils/enums-types/input-names";
 import { AuthErrors } from "../../utils/redux-store/userSlice";
 
 // UI //
-import { Button, CircularProgress } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import styles from "./__admin-sign-in-up.module.css";
 
 interface Props {
   inputFieldsArray: string[];
   inputValues: InputValues;
-  inputErrors: Errors;
   setInputErrors: Dispatch<SetStateAction<Errors>>;
   inputFields: (
     fields: string[],
@@ -40,7 +37,6 @@ interface Props {
 function AdminRegister({
   inputFieldsArray,
   inputValues,
-  inputErrors,
   setInputErrors,
   inputFields,
   touched,

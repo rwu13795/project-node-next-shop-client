@@ -1,4 +1,4 @@
-import { useState, Fragment, SetStateAction, Dispatch, memo } from "react";
+import { Fragment, SetStateAction, Dispatch, memo } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import Image from "next/image";
@@ -6,21 +6,8 @@ import Image from "next/image";
 import { DeleteProduct } from "../../pages/admin/products-list";
 
 // UI //
-import { Menu, Modal, Box, Backdrop, Fade, Button } from "@mui/material";
+import { Modal, Box, Backdrop, Fade, Button } from "@mui/material";
 import styles from "./__admin-sign-in-up.module.css";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  outerHeight: 800,
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
 
 interface Props {
   openDeleteModal: boolean;

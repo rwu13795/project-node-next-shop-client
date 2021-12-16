@@ -44,8 +44,6 @@ function AddSizeQuantity({
 
   let error = uploadError !== "" && isNaN(sizesList[size]);
 
-  console.log("render in select size qty in INDEX", listIndex);
-
   return (
     <FormControl className={styles.form_control_size} error={error}>
       <InputLabel htmlFor="outlined-size-qty">{capitalize(size)}</InputLabel>

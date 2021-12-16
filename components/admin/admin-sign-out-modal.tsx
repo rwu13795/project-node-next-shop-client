@@ -1,4 +1,4 @@
-import { useState, Fragment, SetStateAction, Dispatch, memo } from "react";
+import { Fragment, SetStateAction, Dispatch, memo } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 
@@ -6,7 +6,7 @@ import { adminSignOut } from "../../utils/redux-store/adminSlice";
 import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 
 // UI //
-import { Menu, Modal, Box, Backdrop, Fade, Button } from "@mui/material";
+import { Modal, Box, Backdrop, Fade, Button } from "@mui/material";
 import styles from "./__admin-sign-in-up.module.css";
 
 interface Props {

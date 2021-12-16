@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, SetStateAction, memo } from "react";
+import { ChangeEvent, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -40,8 +40,6 @@ function AddPrice({ setFormHasError }: Props): JSX.Element {
   };
 
   const error = uploadError !== "";
-
-  console.log("re-rendering in PRICE");
 
   return (
     <Grid item>
