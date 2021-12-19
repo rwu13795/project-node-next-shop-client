@@ -11,7 +11,7 @@ import {
 } from "../../../utils/redux-store/adminProductSlice";
 
 // UI //
-import { Grid, Box, Button } from "@mui/material";
+import { Grid, Button } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import styles from "./__styles.module.css";
 import main_styles from "../../layout/__layout.module.css";
@@ -49,8 +49,8 @@ function AddColorsProps({
   return (
     <Grid item container className={styles.colorProps_grid}>
       <Grid item container className={styles.form_grid_space_between}>
-        <Box className={main_styles.text_4}>Color #{listIndex + 1}</Box>
-        <Box>
+        <div className={main_styles.text_4}>Color #{listIndex + 1}</div>
+        <div>
           <Button
             variant="outlined"
             color="warning"
@@ -63,7 +63,7 @@ function AddColorsProps({
           >
             Remove this color
           </Button>
-        </Box>
+        </div>
       </Grid>
       <Grid item container justifyContent="center">
         <Grid item container xs={12} sm={6} md={6}>

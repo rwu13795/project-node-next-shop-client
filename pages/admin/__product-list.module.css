@@ -1,6 +1,6 @@
 .main {
   margin-top: 50px;
-  width: 90vw;
+  width: 100%;
 }
 
 .main_grid {
@@ -65,6 +65,7 @@
   max-width: 100%;
 }
 .right_grid_lower {
+  margin-top: 20px;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
@@ -101,9 +102,6 @@
   justify-content: space-around;
   margin-bottom: 40px;
 }
-.product_button {
-  width: 40%;
-}
 
 .select_admin_box {
   width: 100%;
@@ -114,6 +112,17 @@
 }
 .select_control {
   width: 100%;
+}
+
+@media screen and (min-width: 765px) and (max-width: 1080px) {
+  .left_grid {
+    width: 40vw;
+    max-width: 40%;
+  }
+  .right_grid {
+    width: 60vw;
+    max-width: 60%;
+  }
 }
 
 @media screen and (max-width: 765px) {
@@ -161,10 +170,5 @@
 
   .button_group {
     margin-bottom: 20px;
-  }
-  .product_button {
-    width: 40%;
-    padding: 1px 2px;
-    font-size: min(12px, 3vw);
   }
 }

@@ -236,12 +236,11 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
             <div className={styles.select_admin_box}>
               <div className={styles.title_2}>SELECT ADMINISTRATOR</div>
               <FormControl className={styles.select_control}>
-                <InputLabel className={styles.select_label}>ADMIN</InputLabel>
+                <InputLabel>ADMIN</InputLabel>
                 <Select
                   value={selectedAdmin}
                   label="ADMIN"
                   onChange={selectAdminHandler}
-                  // className={styles.select_menu}
                 >
                   {admin_username_array.map((admin) => {
                     return (
@@ -302,7 +301,8 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
                       item
                       container
                       className={styles.inner_grid}
-                      md={4}
+                      lg={4}
+                      md={6}
                       sm={6}
                       xs={6}
                       key={p._id}
@@ -321,7 +321,7 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
                           variant="outlined"
                           color="primary"
                           onClick={() => editButtonHandler(p._id)}
-                          className={styles.product_button}
+                          sx={{ width: "40%", fontSize: "min(12px, 3vw)" }}
                         >
                           Edit
                         </Button>
@@ -330,7 +330,7 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
                           variant="outlined"
                           color="error"
                           onClick={() => deleteModalHandler(id, image, title)}
-                          className={styles.product_button}
+                          sx={{ width: "40%", fontSize: "min(12px, 3vw)" }}
                         >
                           Delete
                         </Button>

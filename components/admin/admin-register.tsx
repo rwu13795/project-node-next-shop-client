@@ -18,7 +18,7 @@ import { AuthErrors } from "../../utils/redux-store/userSlice";
 
 // UI //
 import { LoadingButton } from "@mui/lab";
-import styles from "./__admin-sign-in-up.module.css";
+import { sxMUI } from "./__admin-sign-in-up-MUI";
 
 interface Props {
   inputFieldsArray: string[];
@@ -76,7 +76,7 @@ function AdminRegister({
         onClick={adminRegisterHandler}
         disabled={loadingStatus_admin === "loading"}
         loading={loadingStatus_admin === "loading"}
-        className={styles.button_box}
+        sx={sxMUI.button}
       >
         Register
       </LoadingButton>

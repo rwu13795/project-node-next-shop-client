@@ -35,9 +35,10 @@
 }
 .mid_grid_line {
   display: block;
+  background-color: rgb(0, 81, 148);
   align-self: center;
   border: 1px solid rgb(0, 81, 148);
-  border-width: 2px 1px;
+  border-width: 2px 2px;
   width: 0px;
   height: 170px;
 }
@@ -47,14 +48,10 @@
   font-weight: bold;
   margin-bottom: 20px;
 }
-.button_box {
-  width: 80%;
-  max-width: 400px;
-}
+
 .text {
   font-size: 30px;
   margin-bottom: 20px;
-  margin-left: 10px;
 }
 .text_2 {
   font-size: 30px;
@@ -115,10 +112,5 @@
   .text_2 {
     font-size: 20px;
     margin: 0 5px;
-  }
-
-  .button_box {
-    height: 30px;
-    font-size: min(14px, 4vw);
   }
 }

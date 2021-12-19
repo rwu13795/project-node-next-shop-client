@@ -17,8 +17,10 @@ import {
   Grid,
   OutlinedInput,
   InputLabel,
+  useMediaQuery,
 } from "@mui/material";
 import styles from "./__styles.module.css";
+import { sxMUI } from "./__styles-MUI";
 
 interface Props {
   setFormHasError: React.Dispatch<React.SetStateAction<boolean>>;
@@ -38,11 +40,16 @@ function AddTitle({ setFormHasError }: Props): JSX.Element {
     dispatch(setTitle_adminProduct(value));
   };
 
+  const isSmall = useMediaQuery("(max-width: 550px)");
+
   const error = uploadError !== "";
 
   return (
     <Grid item>
-      <FormControl error={error} className={styles.form_control}>
+      <FormControl
+        error={error}
+        sx={isSmall ? sxMUI.form_control_small : sxMUI.form_control}
+      >
         <InputLabel htmlFor="outlined-title">Title</InputLabel>
         <OutlinedInput
           id="outlined-title"
@@ -54,9 +61,7 @@ function AddTitle({ setFormHasError }: Props): JSX.Element {
           error={error}
           className={styles.input_box_shadow}
         />
-        <FormHelperText className={styles.input_error}>
-          {uploadError}
-        </FormHelperText>
+        <FormHelperText sx={sxMUI.input_error}>{uploadError}</FormHelperText>
       </FormControl>
     </Grid>
   );

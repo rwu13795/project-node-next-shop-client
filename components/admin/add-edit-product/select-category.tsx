@@ -29,8 +29,10 @@ import {
   FormHelperText,
   Box,
   Grid,
+  useMediaQuery,
 } from "@mui/material";
 import styles from "./__styles.module.css";
+import { sxMUI } from "./__styles-MUI";
 
 interface Props {
   setFormHasError: React.Dispatch<React.SetStateAction<boolean>>;
@@ -51,6 +53,8 @@ function SelectCategory({ setFormHasError }: Props): JSX.Element {
 
   const [noMainCat, setNoMainCat] = useState<boolean>(true);
   const [subCatArray, setSubCatArray] = useState<string[]>([""]);
+
+  const isSmall = useMediaQuery("(max-width: 550px)");
 
   useEffect(() => {
     setNoMainCat(true);
@@ -90,7 +94,10 @@ function SelectCategory({ setFormHasError }: Props): JSX.Element {
   return (
     <Fragment>
       <Grid item>
-        <FormControl error={error_main} className={styles.form_control}>
+        <FormControl
+          error={error_main}
+          sx={isSmall ? sxMUI.form_control_small : sxMUI.form_control}
+        >
           <InputLabel id="main-cat-select">Main-Category</InputLabel>
           <Select
             labelId="main-cat-select"
@@ -109,14 +116,17 @@ function SelectCategory({ setFormHasError }: Props): JSX.Element {
               );
             })}
           </Select>
-          <FormHelperText className={styles.input_error}>
+          <FormHelperText sx={sxMUI.input_error}>
             {uploadError_mainCat}
           </FormHelperText>
         </FormControl>
       </Grid>
 
       <Grid item>
-        <FormControl error={error_sub} className={styles.form_control}>
+        <FormControl
+          error={error_sub}
+          sx={isSmall ? sxMUI.form_control_small : sxMUI.form_control}
+        >
           <InputLabel id="sub-cat-select">Sub-Category</InputLabel>
           <Select
             labelId="sub-cat-select"
@@ -136,7 +146,7 @@ function SelectCategory({ setFormHasError }: Props): JSX.Element {
               );
             })}
           </Select>
-          <FormHelperText className={styles.input_error}>
+          <FormHelperText sx={sxMUI.input_error}>
             {uploadError_subCat}
           </FormHelperText>
         </FormControl>

@@ -54,6 +54,11 @@
   justify-content: flex-start;
   align-items: flex-start;
 }
+.sub_box_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 
 .image_box {
   width: min(320px, 20vw);
@@ -75,6 +80,7 @@
 }
 
 .item_text {
+  margin: 0 10px;
   font-size: 20px;
 }
 

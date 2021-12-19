@@ -106,7 +106,7 @@ const AddProductPage: NextPage<PageProps> = ({
   return (
     <main className={styles.main}>
       {editMode ? (
-        <Grid container className={styles.main_grid}>
+        <div className={styles.main_grid}>
           <TabContext value={stage}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <Grid
@@ -157,13 +157,13 @@ const AddProductPage: NextPage<PageProps> = ({
               </Button>
             </TabPanel>
           </TabContext>
-        </Grid>
+        </div>
       ) : (
-        <Grid container className={styles.main_grid}>
+        <div className={styles.main_grid}>
           <div className={styles.main_title}>Add New Product</div>
 
           <ProductForm editMode={editMode} />
-        </Grid>
+        </div>
       )}
     </main>
   );

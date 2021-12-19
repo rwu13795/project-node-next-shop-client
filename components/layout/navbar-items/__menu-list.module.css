@@ -92,13 +92,6 @@
   padding-left: 2rem;
 }
 
-.menu_drawer_items {
-  padding-left: 5rem;
-}
-.menu_drawer_items_admin {
-  padding-left: min(34px, 2vw);
-}
-
 .close_icon {
   float: right;
   margin-top: 0.6rem;
@@ -109,10 +102,4 @@
   color: rgb(0, 138, 180);
   cursor: pointer;
   transition: ease-in 0.3s;
-}
-
-@media screen and (max-width: 765px) {
-  .menu_drawer_items_admin {
-    padding-left: 5rem;
-  }
 }

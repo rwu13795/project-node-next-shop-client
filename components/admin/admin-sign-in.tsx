@@ -27,7 +27,7 @@ import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 
 // UI //
 import { LoadingButton } from "@mui/lab";
-import styles from "./__admin-sign-in-up.module.css";
+import { sxMUI } from "./__admin-sign-in-up-MUI";
 
 interface Props {
   inputFieldsArray: string[];
@@ -96,7 +96,7 @@ function AdminSignIn({
         onClick={adminSignInHandler}
         disabled={loadingStatus_admin === "loading"}
         loading={loadingStatus_admin === "loading"}
-        className={styles.button_box}
+        sx={sxMUI.button}
       >
         Sign In
       </LoadingButton>

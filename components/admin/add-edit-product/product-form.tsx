@@ -72,12 +72,7 @@ function ProductForm(props: Props): JSX.Element {
   };
 
   return (
-    <Grid
-      container
-      justifyContent="center"
-      alignItems="center"
-      className={styles.main_grid}
-    >
+    <div className={styles.main_grid}>
       <Grid item container justifyContent="center" md={6}>
         <h1>Product Info</h1>
       </Grid>
@@ -90,7 +85,9 @@ function ProductForm(props: Props): JSX.Element {
           className={styles.form_grid_flex_start}
         >
           <SelectCategory setFormHasError={setFormHasError} />
+
           <AddTitle setFormHasError={setFormHasError} />
+
           <AddPrice setFormHasError={setFormHasError} />
         </Grid>
         <Grid
@@ -153,14 +150,13 @@ function ProductForm(props: Props): JSX.Element {
           </Button>
         </Grid>
       </Grid>
-      <Grid>
-        {formHasError && (
-          <div className={styles.form_error}>
-            Something is missing, please check the form again
-          </div>
-        )}
-      </Grid>
-    </Grid>
+
+      {formHasError && (
+        <div className={styles.form_error}>
+          Something is missing, please check the form again
+        </div>
+      )}
+    </div>
   );
 }
 

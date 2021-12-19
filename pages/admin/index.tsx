@@ -17,6 +17,7 @@ import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantl
 // UI //
 import { Button, CircularProgress, Grid, Box } from "@mui/material";
 import styles from "./__admin_index.module.css";
+import { sxMUI } from "./__admin_index-MUI";
 
 const signIn_inputFieldsArray = [
   inputNames.admin_username,
@@ -66,7 +67,7 @@ const AdminPage: NextPage = () => {
             <Button
               variant="contained"
               onClick={switchHandler}
-              className={styles.button_box}
+              sx={sxMUI.button}
             >
               Sign In
             </Button>
@@ -105,11 +106,13 @@ const AdminPage: NextPage = () => {
           </div>
 
           <div className={styles.right_grid}>
-            <div className={styles.text}>Create a new Adminstrator account</div>
+            <div className={styles.text}>
+              Create a new Administrator account
+            </div>
             <Button
               variant="contained"
               onClick={switchHandler}
-              className={styles.button_box}
+              sx={sxMUI.button}
             >
               Register
             </Button>

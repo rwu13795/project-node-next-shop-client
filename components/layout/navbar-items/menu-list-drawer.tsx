@@ -21,7 +21,7 @@ import {
   List,
   Collapse,
   Divider,
-  Box,
+  useMediaQuery,
 } from "@mui/material";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
@@ -44,6 +44,8 @@ function MeunListDrawer({
 }: Props): JSX.Element {
   const router = useRouter();
   const dispatch = useDispatch();
+
+  const isSmall = useMediaQuery("(max-width: 1080px)");
 
   const [expand, setExpand] = useState<boolean>(false);
 
@@ -127,10 +129,10 @@ function MeunListDrawer({
           {keys &&
             keys.map((key, index) => {
               return (
-                <Box key={index}>
-                  <Box className={styles.menu_drawer_items_column_head}>
+                <div key={index}>
+                  <div className={styles.menu_drawer_items_column_head}>
                     {key.toUpperCase()}:
-                  </Box>
+                  </div>
                   {list &&
                     list[key].map((product) => {
                       let num = 0;
@@ -146,11 +148,7 @@ function MeunListDrawer({
                       return (
                         <ListItemButton
                           key={product}
-                          className={
-                            page === "admin"
-                              ? styles.menu_drawer_items_admin
-                              : styles.menu_drawer_items
-                          }
+                          sx={{ pl: isSmall ? "5rem" : "min(34px, 2vw)" }}
                         >
                           {productCatNum && page === "admin" ? (
                             <ListItemText
@@ -168,7 +166,7 @@ function MeunListDrawer({
                         </ListItemButton>
                       );
                     })}
-                </Box>
+                </div>
               );
             })}
         </List>
