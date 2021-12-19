@@ -173,7 +173,7 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
     await fetchNewList(page, main_cat, sub_cat, selectedAdmin);
 
     let elem = document.getElementById("admin_cat_title");
-    if (elem) elem.scrollIntoView({ block: "center" });
+    if (elem) elem.scrollIntoView({ block: "center", behavior: "smooth" });
     setCurrentPage(page);
   };
 

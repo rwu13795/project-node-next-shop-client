@@ -1,18 +1,12 @@
-import { ThemeProvider } from "@mui/material/styles";
-import React, { useCallback, useEffect, useState, CSSProperties } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Link from "next/link";
-
-import { theme } from "../../styles/mui-theme";
-import styles from "./__layout.module.css";
 
 import MainNavigation from "./navbar/navigation";
 import { checkStock, getUserStatus } from "../../utils/redux-store/userSlice";
 import Footer from "./footer";
-
-import { Grid, Box } from "@mui/material";
 import { selectLockScrollBar } from "../../utils/redux-store/layoutSlice";
-import { border } from "@mui/system";
+
+import styles from "./__layout.module.css";
 
 interface Prop {
   children: React.ReactNode;
@@ -58,29 +52,19 @@ export default function Layout({
     };
   }, [dispatch]);
 
-  // NOTE //
-  // MUI theme only works on MUI component which is inside a normal React component
-  // it does not work on Next pages. In order to make the MUI theme works for the MUI
-  // conponent, every MUI component must be wrapped inside a Recat component,
-  // then put this React component inside the Next Page
   return (
-    // the <ThemeProvider> here will provide theme for all MUI components inside
-    // all the pages
-
     <main className={styles.root_page_layout} style={scrollBarStyle}>
-      {/* <ThemeProvider theme={theme}> */}
       <MainNavigation
         page={page}
         page_cat={page_cat}
         filter_view={filter_view}
       />
 
-      <Box className={styles.main_component}>
-        <Box className={styles.main_component_grid}>{children}</Box>
-      </Box>
+      <div className={styles.main_component}>
+        <div className={styles.main_component_grid}>{children}</div>
+      </div>
 
       {page !== "checkout" && <Footer page={page} />}
-      {/* </ThemeProvider> */}
     </main>
   );
 }

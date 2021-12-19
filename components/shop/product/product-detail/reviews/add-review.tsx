@@ -159,7 +159,7 @@ function AddReviewModal({
     }
 
     let elem = document.getElementById("review_submitted");
-    if (elem) elem.scrollIntoView({ block: "center" });
+    if (elem) elem.scrollIntoView({ block: "center", behavior: "smooth" });
   };
 
   return (

@@ -149,14 +149,14 @@ function CheckoutStage_2({
     const errorInput = finalCheck(billingAddress, touched, setInputErrors);
     if (errorInput !== "") {
       const elem = document.getElementById(errorInput);
-      if (elem) elem.scrollIntoView({ block: "center" });
+      if (elem) elem.scrollIntoView({ block: "center", behavior: "smooth" });
       return;
     }
 
     const cardErrorField = cardErorrsCheck(cardErorrs);
     if (cardErrorField !== "") {
       const elem = document.getElementById(cardErrorField);
-      if (elem) elem.scrollIntoView({ block: "center" });
+      if (elem) elem.scrollIntoView({ block: "center", behavior: "smooth" });
       return;
     }
 
@@ -170,7 +170,7 @@ function CheckoutStage_2({
         return { ...prev, [incompleteCardField]: "Incomplete field" };
       });
       const elem = document.getElementById(incompleteCardField);
-      if (elem) elem.scrollIntoView({ block: "center" });
+      if (elem) elem.scrollIntoView({ block: "center", behavior: "smooth" });
       return;
     }
 

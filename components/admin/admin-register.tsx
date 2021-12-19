@@ -54,7 +54,7 @@ function AdminRegister({
     let errorInput = finalCheck(inputValues, touched, setInputErrors);
     if (errorInput !== "") {
       let elem = document.getElementById(errorInput);
-      if (elem) elem.scrollIntoView({ block: "center" });
+      if (elem) elem.scrollIntoView({ block: "center", behavior: "smooth" });
       return;
     }
 

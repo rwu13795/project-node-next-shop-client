@@ -59,7 +59,7 @@ function MeunListDrawer({
       selectCatHandler(cat, product);
 
       let elem = document.getElementById("admin_cat_title");
-      if (elem) elem.scrollIntoView({ block: "center" });
+      if (elem) elem.scrollIntoView({ block: "center", behavior: "smooth" });
       return;
     }
     router.push(`/shop/${cat.toLowerCase()}/${product.toLowerCase()}`);

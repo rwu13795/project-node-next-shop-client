@@ -20,13 +20,18 @@ function RatingStars({ averageRating, total, large }: Props): JSX.Element {
   const full_stars = large ? styles.full_stars_large : styles.full_stars;
   const empty_stars = large ? styles.empty_stars_large : styles.empty_stars;
 
+  const readReviewHandler = () => {
+    const elem = document.getElementById("product_reviews");
+    if (elem) elem.scrollIntoView({ block: "center", behavior: "smooth" });
+  };
+
   return (
     <Tooltip title={`Read ${total} reviews`}>
       <div className={styles.ratings}>
-        <a href="#product_reviews" className={styles.reviews_link}>
+        <div onClick={readReviewHandler}>
           <div className={empty_stars}></div>
           <div className={full_stars} style={{ width: `${percentage}%` }}></div>
-        </a>
+        </div>
       </div>
     </Tooltip>
   );

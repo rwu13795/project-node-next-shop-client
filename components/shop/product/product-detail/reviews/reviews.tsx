@@ -53,16 +53,6 @@ function ProductReviews({
   resetReviewsUser,
   refreshReviewsAdmin,
 }: Props): JSX.Element {
-  // const {
-  //   averageRating,
-  //   total,
-  //   allReviews,
-  //   allRatings,
-  //   _id: reviewPrimaryId,
-  //   productId,
-  // } = reviewDoc;
-  const client = browserClient();
-
   const [currentReviews, setCurrentReviews] = useState<ReviewProps[]>(
     reviewDoc.allReviews
   );
@@ -148,9 +138,10 @@ function ProductReviews({
     }
   };
 
-  // console.log(stayOnFilter);
-  /////////////
-  console.log("currentReviews---------------->", currentReviews);
+  const scrollToReviewsSub = () => {
+    const elem = document.getElementById("reviews_sub");
+    if (elem) elem.scrollIntoView({ block: "center", behavior: "smooth" });
+  };
 
   return (
     <Grid
@@ -300,9 +291,7 @@ function ProductReviews({
                 disabled={pageNum === 1}
                 className={_nav_button}
               >
-                <a href="#reviews_sub" className={_link}>
-                  ◀
-                </a>
+                <span onClick={scrollToReviewsSub}>◀</span>
               </Button>
               <Button
                 variant="outlined"
@@ -315,9 +304,7 @@ function ProductReviews({
                 }
                 className={_nav_button}
               >
-                <a href="#reviews_sub" className={_link}>
-                  ▶
-                </a>
+                <span onClick={scrollToReviewsSub}>▶</span>
               </Button>
             </Grid>
           )}
