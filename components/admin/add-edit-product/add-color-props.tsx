@@ -7,8 +7,8 @@ import AddImage from "./add-image";
 import AddSizeQuantity from "./add-size-quantity";
 import {
   ColorPropsState,
-  removeColor_addProduct,
-} from "../../../utils/redux-store/addProductSlice";
+  removeColor_adminProduct,
+} from "../../../utils/redux-store/adminProductSlice";
 
 // UI //
 import { Grid, Box, Button } from "@mui/material";
@@ -34,7 +34,7 @@ function AddColorsProps({
   const dispatch = useDispatch();
 
   const removeColorHandler = () => {
-    dispatch(removeColor_addProduct({ listIndex, editMode }));
+    dispatch(removeColor_adminProduct({ listIndex, editMode }));
   };
 
   // NOTE //

@@ -4,13 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 import {
-  addMoreColor_addProduct,
-  resetState_addProduct,
+  addMoreColor_adminProduct,
+  resetState_adminProduct,
   selectColorPropsList,
-  selectUploadStatus_addProduct,
-  setUploadStatus_addProduct,
+  selectCurrentCats_adminProduct,
+  selectUploadStatus_adminProduct,
+  setUploadStatus_adminProduct,
   uploadNewProduct,
-} from "../../../utils/redux-store/addProductSlice";
+} from "../../../utils/redux-store/adminProductSlice";
 
 import SelectCategory from "./select-category";
 import AddTitle from "./add-title";
@@ -37,7 +38,8 @@ function ProductForm(props: Props): JSX.Element {
   const dispatch = useDispatch();
 
   const colorPropsList = useSelector(selectColorPropsList);
-  const uploadStatus = useSelector(selectUploadStatus_addProduct);
+  const uploadStatus = useSelector(selectUploadStatus_adminProduct);
+  const { main_cat, sub_cat } = useSelector(selectCurrentCats_adminProduct);
 
   const [formHasError, setFormHasError] = useState<boolean>(false);
 
@@ -47,20 +49,21 @@ function ProductForm(props: Props): JSX.Element {
       setFormHasError(true);
     }
     if (uploadStatus === "succeeded") {
-      router.push("/admin/products-list");
+      router.push(`/admin/products-list?main=${main_cat}&sub=${sub_cat}`);
     }
-  }, [uploadStatus, dispatch, router]);
+  }, [uploadStatus, dispatch, router, main_cat, sub_cat]);
 
+  // clear the state when component is being unmounted
   useEffect(() => {
     return () => {
-      dispatch(setUploadStatus_addProduct("idle"));
+      dispatch(setUploadStatus_adminProduct("idle"));
     };
   }, []);
 
   const cancelButtonHandler = () => {
     dispatch(setPageLoading(true));
-    dispatch(resetState_addProduct());
-    router.push("/admin/products-list");
+    dispatch(resetState_adminProduct());
+    router.push(`/admin/products-list?main=${main_cat}&sub=${sub_cat}`);
   };
 
   const uploadHandler = () => {
@@ -122,7 +125,7 @@ function ProductForm(props: Props): JSX.Element {
             startIcon={<AddCircleIcon className={styles.form_button_icon} />}
             className={styles.form_button}
             onClick={() => {
-              dispatch(addMoreColor_addProduct());
+              dispatch(addMoreColor_adminProduct());
             }}
           >
             Add more colors
@@ -131,7 +134,7 @@ function ProductForm(props: Props): JSX.Element {
 
         <Grid item>
           <LoadingButton
-            loading={uploadStatus === "loading"}
+            loading={uploadStatus === "loading" || uploadStatus === "succeeded"}
             loadingPosition="start"
             startIcon={<SaveIcon className={styles.form_button_icon} />}
             className={styles.form_button}

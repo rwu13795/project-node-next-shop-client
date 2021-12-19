@@ -3,14 +3,16 @@ import { ChangeEvent, FocusEvent, memo } from "react";
 // UI //
 import {
   FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
   FormHelperText,
   Grid,
+  InputLabel,
+  useMediaQuery,
+  Select,
+  SelectChangeEvent,
+  MenuItem,
 } from "@mui/material";
 import styles from "./__form-input-field.module.css";
+import { sxMUI } from "./__form-input-MUI";
 
 const sizeArray = ["Small", "Medium", "Large"];
 
@@ -35,33 +37,38 @@ function SelectSize_2({
 }: Props): JSX.Element {
   const showError = !(inputError === undefined || inputError === "");
 
+  const isSmall = useMediaQuery("(max-width: 765px)");
+
   return (
     <Grid item container xs={12} sm={6} md={6}>
-      <FormControl error={showError} className={styles.form_control_half}>
-        <InputLabel className={styles.form_label}>PURCHASED SIZE</InputLabel>
-        <Select
-          value={value}
-          name={inputName}
-          label="PURCHASED SIZE"
-          onFocus={onFocusHandler}
-          onBlur={onBlurHandler}
-          onChange={onChangeHandler}
-          error={showError}
-          MenuProps={MenuProps}
-          className={styles.input_box}
-        >
-          {sizeArray.map((size) => {
-            return (
-              <MenuItem key={size} value={size}>
-                {size}
-              </MenuItem>
-            );
-          })}
-        </Select>
-        <FormHelperText className={styles.input_error}>
-          {inputError}
-        </FormHelperText>
-      </FormControl>
+      <div className={styles.form_control_half}>
+        <FormControl error={showError} sx={{ width: "100%" }}>
+          <InputLabel sx={{ fontSize: isSmall ? "14px" : "20px" }}>
+            PURCHASED SIZE
+          </InputLabel>
+          <Select
+            value={value}
+            name={inputName}
+            label="PURCHASED SIZE"
+            onFocus={onFocusHandler}
+            onBlur={onBlurHandler}
+            onChange={onChangeHandler}
+            error={showError}
+            MenuProps={MenuProps}
+            className={styles.input_box_shadow}
+            sx={isSmall ? sxMUI.input_box_small : sxMUI.input_box}
+          >
+            {sizeArray.map((size) => {
+              return (
+                <MenuItem key={size} value={size}>
+                  {size}
+                </MenuItem>
+              );
+            })}
+          </Select>
+          <FormHelperText sx={sxMUI.input_error}>{inputError}</FormHelperText>
+        </FormControl>
+      </div>
     </Grid>
   );
 }

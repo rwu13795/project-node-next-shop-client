@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import {
   clearUploadError_byInputName,
-  selectDesc_addProduct,
+  selectDesc_adminProduct,
   selectUploadError_byInputName,
-  setDesc_addProduct,
-} from "../../../utils/redux-store/addProductSlice";
+  setDesc_adminProduct,
+} from "../../../utils/redux-store/adminProductSlice";
 import { RootState } from "../../../utils/redux-store";
 import { inputNames } from "../../../utils/enums-types/input-names";
 
@@ -25,7 +25,7 @@ interface Props {
 
 function AddDescription({ setFormHasError }: Props): JSX.Element {
   const dispatch = useDispatch();
-  const description = useSelector(selectDesc_addProduct);
+  const description = useSelector(selectDesc_adminProduct);
   const uploadError = useSelector((state: RootState) =>
     selectUploadError_byInputName(state, inputNames.desc)
   );
@@ -34,7 +34,7 @@ function AddDescription({ setFormHasError }: Props): JSX.Element {
     const { name, value } = e.currentTarget;
     dispatch(clearUploadError_byInputName(inputNames.desc));
     setFormHasError(false);
-    dispatch(setDesc_addProduct(value));
+    dispatch(setDesc_adminProduct(value));
   };
 
   const error = uploadError !== "";

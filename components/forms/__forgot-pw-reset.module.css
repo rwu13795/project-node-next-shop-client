@@ -39,11 +39,6 @@
   flex-flow: column nowrap;
   align-items: center;
 }
-.submit_button {
-  margin-left: 10px;
-  margin-bottom: 30px;
-  width: 200px;
-}
 
 .text_indicator {
   display: flex;
@@ -64,9 +59,5 @@
   }
   .sub_title {
     font-size: 16px;
-  }
-
-  .submit_button {
-    width: min(200px, 50vw);
   }
 }

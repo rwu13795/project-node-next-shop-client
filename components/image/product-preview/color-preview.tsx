@@ -35,7 +35,6 @@ function PreviewColor({
   setPreviewImage,
   page,
 }: Props): JSX.Element {
-  const _container = styles.color_container;
   const _ring = styles.color_ball_outer_ring;
   const _ring_active = styles.color_ball_outer_ring_active;
   const _ball = styles.color_ball;

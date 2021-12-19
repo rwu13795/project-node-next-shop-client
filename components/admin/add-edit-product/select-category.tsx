@@ -3,16 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 import {
   clearUploadError_byInputName,
-  selectMainCat_addProduct,
-  selectSubCat_addProduct,
+  selectMainCat_adminProduct,
+  selectSubCat_adminProduct,
   selectUploadError_byInputName,
-  setMainCat_addProduct,
-  setSubCat_addProduct,
-} from "../../../utils/redux-store/addProductSlice";
+  setMainCat_adminProduct,
+  setSubCat_adminProduct,
+} from "../../../utils/redux-store/adminProductSlice";
 import { RootState } from "../../../utils/redux-store";
 import { inputNames } from "../../../utils/enums-types/input-names";
 import {
-  mainCatArray,
   menCatArray,
   womenCatArray,
   kidsCatArray,
@@ -37,10 +36,12 @@ interface Props {
   setFormHasError: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+const mainCatArray = ["Women", "Men", "Kids"];
+
 function SelectCategory({ setFormHasError }: Props): JSX.Element {
   const dispatch = useDispatch();
-  const main_cat = useSelector(selectMainCat_addProduct);
-  const sub_cat = useSelector(selectSubCat_addProduct);
+  const main_cat = useSelector(selectMainCat_adminProduct);
+  const sub_cat = useSelector(selectSubCat_adminProduct);
   const uploadError_mainCat = useSelector((state: RootState) =>
     selectUploadError_byInputName(state, inputNames.main)
   );
@@ -77,9 +78,9 @@ function SelectCategory({ setFormHasError }: Props): JSX.Element {
     dispatch(clearUploadError_byInputName(name));
     setFormHasError(false);
     if (name === inputNames.main) {
-      dispatch(setMainCat_addProduct(value));
+      dispatch(setMainCat_adminProduct(value));
     } else {
-      dispatch(setSubCat_addProduct(value));
+      dispatch(setSubCat_adminProduct(value));
     }
   };
 

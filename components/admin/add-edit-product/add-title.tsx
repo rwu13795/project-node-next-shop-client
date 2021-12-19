@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import {
   clearUploadError_byInputName,
-  selectTitle_addProduct,
+  selectTitle_adminProduct,
   selectUploadError_byInputName,
-  setTitle_addProduct,
-} from "../../../utils/redux-store/addProductSlice";
+  setTitle_adminProduct,
+} from "../../../utils/redux-store/adminProductSlice";
 import { RootState } from "../../../utils/redux-store";
 import { inputNames } from "../../../utils/enums-types/input-names";
 
@@ -26,16 +26,16 @@ interface Props {
 
 function AddTitle({ setFormHasError }: Props): JSX.Element {
   const dispatch = useDispatch();
-  const title = useSelector(selectTitle_addProduct);
+  const title = useSelector(selectTitle_adminProduct);
   const uploadError = useSelector((state: RootState) =>
     selectUploadError_byInputName(state, inputNames.title)
   );
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.currentTarget;
+    const { value } = e.currentTarget;
     dispatch(clearUploadError_byInputName(inputNames.title));
     setFormHasError(false);
-    dispatch(setTitle_addProduct(value));
+    dispatch(setTitle_adminProduct(value));
   };
 
   const error = uploadError !== "";

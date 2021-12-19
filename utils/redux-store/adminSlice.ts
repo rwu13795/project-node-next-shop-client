@@ -91,24 +91,6 @@ const adminRegister = createAsyncThunk<
   }
 });
 
-const deleteProduct = createAsyncThunk<
-  void,
-  { productId: string; admin_username: string },
-  { state: RootState }
->("admin/deleteProduct", async ({ productId, admin_username }, thunkAPI) => {
-  try {
-    const response = await client.post(serverUrl + "/admin/delete-product", {
-      productId,
-      csrfToken: thunkAPI.getState().admin.csrfToken,
-      admin_username,
-    });
-    return response.data;
-  } catch (err: any) {
-    // catch the error sent from the server manually, and put in inside the action.payload
-    return thunkAPI.rejectWithValue(err.response.data);
-  }
-});
-
 const adminSlice = createSlice({
   name: "admin",
   initialState,
@@ -190,34 +172,12 @@ const adminSlice = createSlice({
           }
           state.loadingStatus = "idle";
         }
-      )
-      ////////////////////
-      // DELETE PRODUCT //
-      ////////////////////
-      .addCase(deleteProduct.fulfilled, (state, action): void => {
-        state.loadingStatus = "succeeded";
-      })
-      .addCase(
-        deleteProduct.rejected,
-        (state, action: PayloadAction<any>): void => {
-          for (let err of action.payload.errors) {
-            state.adminErrors[err.field] = err.message;
-            console.log(err.message);
-          }
-          state.loadingStatus = "idle";
-        }
       );
   },
 });
 export const { clearAdminErrors, setLoadingStatus_admin } = adminSlice.actions;
 
-export {
-  adminSignIn,
-  adminSignOut,
-  adminRegister,
-  getAdminStatus,
-  deleteProduct,
-};
+export { adminSignIn, adminSignOut, adminRegister, getAdminStatus };
 
 export default adminSlice.reducer;
 

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, CSSProperties, memo } from "react";
 import Image from "next/image";
 
 import { Grid, Box } from "@mui/material";
@@ -19,9 +19,7 @@ interface Props {
   srcProp: { md: string[] };
 }
 
-export default function Swiper_horizontal_homePage({
-  srcProp,
-}: Props): JSX.Element {
+function Swiper_horizontal_homePage({ srcProp }: Props): JSX.Element {
   const [slideNum, setSlideNum] = useState<number>(1);
 
   const onSlideChangeHandler = (e: SwiperCore) => {
@@ -50,7 +48,6 @@ export default function Swiper_horizontal_homePage({
         }}
         // wrapperClass={styles.swiper_custom_wrapper}
       >
-        <div></div>
         {srcProp.md.map((src, index) => {
           return index === 0 ? (
             <SwiperSlide
@@ -72,7 +69,7 @@ export default function Swiper_horizontal_homePage({
                   width = 130;
                   height = 480;
                   return (
-                    <Box
+                    <div
                       key={index + src}
                       style={{
                         width: "20%",
@@ -82,7 +79,7 @@ export default function Swiper_horizontal_homePage({
                         left: `${left}%`,
                         backgroundColor: "black",
                       }}
-                      sx={{ boxShadow: 15 }}
+                      // sx={{ boxShadow: 15 }}
                     >
                       <Image
                         src={src}
@@ -91,9 +88,9 @@ export default function Swiper_horizontal_homePage({
                         height={height}
                         // blurDataURL={prop.sm_blur[index]}
                         // placeholder="blur"
-                        loading="eager"
+                        // loading="eager"
                       />
-                    </Box>
+                    </div>
                   );
                 })}
               </Grid>
@@ -106,9 +103,18 @@ export default function Swiper_horizontal_homePage({
                 display: "block",
                 width: "100vw",
                 height: "100%",
-                // objectFit: "cover",
+                objectFit: "cover",
               }}
             >
+              {/* <div
+                style={{
+                  position: "relative",
+                  display: "block",
+                  width: "100vw",
+                  height: "100%",
+                  objectFit: "cover",
+                }}
+              > */}
               <Image
                 className={styles.slide_image}
                 src={src}
@@ -116,10 +122,11 @@ export default function Swiper_horizontal_homePage({
                 layout="fill"
                 // width={3000}
                 // height={2500}
-                // blurDataURL={prop.md}
-                // placeholder="blur"
+                // // blurDataURL={prop.md}
+                // // placeholder="blur"
                 // loading="eager"
               />
+              {/* </div> */}
             </SwiperSlide>
           );
           // );
@@ -135,6 +142,8 @@ export default function Swiper_horizontal_homePage({
   );
 }
 
+export default memo(Swiper_horizontal_homePage);
+
 const sm = [
   "/home/women-sm-1.jpg",
   "/home/women-sm-2.jpg",
@@ -142,8 +151,6 @@ const sm = [
   "/home/women-sm-4.jpg",
   "/home/women-sm-5.jpg",
 ];
-
-import { CSSProperties } from "react";
 
 export const slide_small = {
   title: {

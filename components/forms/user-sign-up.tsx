@@ -7,14 +7,12 @@ import {
   memo,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Link from "next/link";
+import { useRouter } from "next/router";
 
 import {
   Errors,
   finalCheck,
   InputValues,
-  onFormEnterSubmitCheck,
-  onSubmitErrorCheck,
   Touched,
 } from "../../utils/helper-functions/input-error-check";
 import { AdminErrors } from "../../utils/redux-store/adminSlice";
@@ -28,13 +26,12 @@ import {
   setPageLoading_user,
   signUp,
 } from "../../utils/redux-store/userSlice";
-import { useRouter } from "next/router";
+import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 
 // UI //
-import { Button, CircularProgress } from "@mui/material";
+import { Button, useMediaQuery } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import styles from "./__user-sign-up.module.css";
-import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 
 interface Props {
   inputFieldsArray: string[];
@@ -44,9 +41,11 @@ interface Props {
   inputFields: (
     fields: string[],
     inputValues: InputValues,
-    requestError: AuthErrors | AdminErrors
+    requestError: AuthErrors | AdminErrors,
+    page?: string
   ) => JSX.Element[];
   touched: Touched;
+  page?: string;
 }
 
 function UserSignUp({
@@ -56,11 +55,14 @@ function UserSignUp({
   setInputErrors,
   inputFields,
   touched,
+  page,
 }: Props): JSX.Element {
   const dispatch = useDispatch();
   const router = useRouter();
   const authErrors = useSelector(selectAuthErrors);
   const loadingStatus_user = useSelector(selectLoadingStatus_user);
+
+  const isSmall = useMediaQuery("(max-width: 765px)");
 
   useEffect(() => {
     dispatch(setLoadingStatus("idle"));
@@ -74,23 +76,11 @@ function UserSignUp({
     let errorInput = finalCheck(inputValues, touched, setInputErrors);
     if (errorInput !== "") {
       let elem = document.getElementById(errorInput);
-      if (elem) elem.scrollIntoView({ block: "center" });
+      if (elem) elem.scrollIntoView({ block: "center", behavior: "smooth" });
       return;
     }
 
     dispatch(setPageLoading_user(true));
-
-    // let errorInput = onSubmitErrorCheck(
-    //   inputValues,
-    //   inputErrors,
-    //   setInputErrors
-    // );
-    // errorInput = onFormEnterSubmitCheck(inputValues, touched, setInputErrors);
-    // if (errorInput !== "") {
-    //   let elem = document.getElementById(errorInput);
-    //   if (elem) elem.scrollIntoView({ block: "center" });
-    //   return;
-    // }
 
     dispatch(
       signUp({
@@ -131,7 +121,7 @@ function UserSignUp({
             <div> Do you have an existing account?</div>
             <Button
               variant="contained"
-              className={styles.sign_in_button}
+              sx={{ width: "180px", mt: "10px" }}
               onClick={onSignInClickHandler}
             >
               Sign In
@@ -145,7 +135,7 @@ function UserSignUp({
                 <div className={styles.input_title}>
                   ENTER YOUR INFORMATION BELOW
                 </div>
-                {inputFields(inputFieldsArray, inputValues, authErrors)}
+                {inputFields(inputFieldsArray, inputValues, authErrors, page)}
               </div>
               <div className={styles.create_button_container}>
                 <LoadingButton
@@ -154,14 +144,13 @@ function UserSignUp({
                   onClick={singUpHandler}
                   disabled={loadingStatus_user !== "idle"}
                   loading={loadingStatus_user === "loading"}
-                  className={styles.create_button}
+                  sx={{ width: isSmall ? "70vw" : "300px", mt: "20px" }}
                 >
                   CREATE ACCOUNT
                 </LoadingButton>
               </div>
             </div>
           </form>
-          {/* {loadingStatus_user === "loading" && <CircularProgress />} */}
         </div>
       ) : (
         <Redirect_signedUp_to_homePage />

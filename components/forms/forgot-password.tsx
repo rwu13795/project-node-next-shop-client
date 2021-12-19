@@ -38,8 +38,9 @@ import {
 } from "../../utils/redux-store/layoutSlice";
 
 // UI //
-import { Button } from "@mui/material";
+import { Button, useMediaQuery } from "@mui/material";
 import styles from "./__user-sign-in.module.css";
+import { sxMUI } from "./__user-sign-in-MUI";
 
 interface Props {
   inputFieldsArray: string[];
@@ -66,6 +67,8 @@ function UserForgotPassword({
   const router = useRouter();
   const authErrors = useSelector(selectAuthErrors);
   const loadingStatus_user = useSelector(selectLoadingStatus_user);
+
+  const isSmall = useMediaQuery("(max-width: 765px)");
 
   useEffect(() => {
     dispatch(clearAuthErrors("all"));
@@ -127,7 +130,7 @@ function UserForgotPassword({
               variant="contained"
               onClick={requestSubmitHandler}
               disabled={loadingStatus_user === loadingStatus.succeeded}
-              className={styles.reset_button}
+              sx={isSmall ? sxMUI.reset_button_small : sxMUI.reset_button}
             >
               SUBMIT
             </Button>
@@ -145,7 +148,7 @@ function UserForgotPassword({
           <Button
             variant="outlined"
             onClick={backToSignInHandler}
-            className={styles.reset_button}
+            sx={isSmall ? sxMUI.reset_button_small : sxMUI.reset_button}
           >
             Back to Sign In
           </Button>

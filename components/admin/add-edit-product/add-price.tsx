@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import {
   clearUploadError_byInputName,
-  selectPrice_addProduct,
+  selectPrice_adminProduct,
   selectUploadError_byInputName,
-  setPrice_addProduct,
-} from "../../../utils/redux-store/addProductSlice";
+  setPrice_adminProduct,
+} from "../../../utils/redux-store/adminProductSlice";
 import { RootState } from "../../../utils/redux-store";
 import { inputNames } from "../../../utils/enums-types/input-names";
 
@@ -27,7 +27,7 @@ interface Props {
 
 function AddPrice({ setFormHasError }: Props): JSX.Element {
   const dispatch = useDispatch();
-  const price = useSelector(selectPrice_addProduct);
+  const price = useSelector(selectPrice_adminProduct);
   const uploadError = useSelector((state: RootState) =>
     selectUploadError_byInputName(state, inputNames.price)
   );
@@ -36,7 +36,7 @@ function AddPrice({ setFormHasError }: Props): JSX.Element {
     const { value } = e.currentTarget;
     dispatch(clearUploadError_byInputName(inputNames.price));
     setFormHasError(false);
-    dispatch(setPrice_addProduct(parseInt(value)));
+    dispatch(setPrice_adminProduct(value));
   };
 
   const error = uploadError !== "";

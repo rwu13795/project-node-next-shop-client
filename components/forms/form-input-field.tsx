@@ -3,15 +3,16 @@ import { inputNames } from "../../utils/enums-types/input-names";
 
 // UI //
 import {
-  TextField,
   FormControl,
   FormHelperText,
   Grid,
   OutlinedInput,
   InputLabel,
   GridSize,
+  useMediaQuery,
 } from "@mui/material";
 import styles from "./__form-input-field.module.css";
+import { sxMUI } from "./__form-input-MUI";
 
 interface Props {
   inputName: string;
@@ -37,6 +38,8 @@ function FormInputField(props: Props): JSX.Element {
     isDisabled,
     page,
   } = props;
+
+  const isSmall = useMediaQuery("(max-width: 765px)");
 
   let type: string;
   switch (inputName) {
@@ -109,51 +112,40 @@ function FormInputField(props: Props): JSX.Element {
       className={styles.form_container}
       id={inputName}
     >
-      <FormControl error={showError} className={form_control}>
-        <InputLabel htmlFor={inputLabel} className={styles.form_label}>
-          {inputLabel}
-        </InputLabel>
-        <OutlinedInput
-          type={type}
-          required
-          multiline={page === "add-review-modal"}
-          name={inputName}
-          value={inputValue}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          onChange={onChange}
-          disabled={isDisabled}
-          label={inputLabel}
-          error={showError}
-          className={styles.input_box}
-        />
-        <FormHelperText className={styles.input_error}>
+      <div
+        className={form_control}
+        style={{ marginRight: page === "user-sign-up" ? "10px" : "0" }}
+      >
+        <FormControl error={showError} sx={{ width: "100%" }}>
+          <InputLabel
+            htmlFor={inputLabel}
+            sx={{ fontSize: isSmall ? "14px" : "20px" }}
+          >
+            {inputLabel}
+          </InputLabel>
+          <OutlinedInput
+            type={type}
+            required
+            multiline={page === "add-review-modal"}
+            name={inputName}
+            value={inputValue}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            onChange={onChange}
+            disabled={isDisabled}
+            label={inputLabel}
+            error={showError}
+            className={styles.input_box_shadow}
+            sx={isSmall ? sxMUI.input_box_small : sxMUI.input_box}
+          />
+        </FormControl>
+        <FormHelperText sx={sxMUI.input_error}>
           {authError}
           {inputError}
         </FormHelperText>
-      </FormControl>
+      </div>
     </Grid>
   );
 }
 
 export default memo(FormInputField);
-
-/*
-    <div>
-      <label>{inputName.replace(regex, " ").toUpperCase()}</label>
-      <input
-        type={type}
-        required
-        name={inputName}
-        value={inputValue}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        onChange={onChange}
-        disabled={isDisabled}
-      ></input>
-      <span>
-        {authError}
-        {inputError}
-      </span>
-    </div>
-*/

@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import {
   selectUploadError_byInputName,
-  setColorInfo_addProduct,
-} from "../../../utils/redux-store/addProductSlice";
+  setColorInfo_adminProduct,
+} from "../../../utils/redux-store/adminProductSlice";
 import { RootState } from "../../../utils/redux-store";
 import { inputNames } from "../../../utils/enums-types/input-names";
 import { colorNames } from "../../../utils/enums-types/color-names";
@@ -52,7 +52,7 @@ function SelectColor({
   ) => {
     const { name, value } = e.target;
     setFormHasError(false);
-    dispatch(setColorInfo_addProduct({ listIndex, name, value }));
+    dispatch(setColorInfo_adminProduct({ listIndex, name, value }));
   };
 
   const error_colorName =

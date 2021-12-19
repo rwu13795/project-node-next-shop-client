@@ -1,6 +1,5 @@
-import { Fragment, useEffect, useState } from "react";
-
-import { Grid } from "@mui/material";
+import { Fragment, useEffect, useState, memo } from "react";
+import dynamic from "next/dynamic";
 
 import SwiperCore, { Pagination, Navigation, Mousewheel } from "swiper";
 import "swiper/css";
@@ -15,7 +14,7 @@ SwiperCore.use([Pagination, Navigation, Mousewheel]);
 
 interface Props {}
 
-export default function Swiper_homePage({}: Props): JSX.Element {
+function Swiper_homePage({}: Props): JSX.Element {
   const [slideEnd, setSlideEnd] = useState<boolean>(false);
 
   const dispatch = useDispatch();
@@ -62,6 +61,14 @@ export default function Swiper_homePage({}: Props): JSX.Element {
     </div>
   );
 }
+
+// export default memo(Swiper_homePage);
+
+export default memo(
+  dynamic(() => Promise.resolve(Swiper_homePage), {
+    ssr: false,
+  })
+);
 
 /*
 

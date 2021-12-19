@@ -12,10 +12,11 @@ import {
   selectAdminUser,
   selectLoggedInAsAdmin,
 } from "../../utils/redux-store/adminSlice";
+import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
 
 // UI //
-import { Button, CircularProgress, Grid } from "@mui/material";
-import styles from "./__index.module.css";
+import { Button, CircularProgress, Grid, Box } from "@mui/material";
+import styles from "./__admin_index.module.css";
 
 const signIn_inputFieldsArray = [
   inputNames.admin_username,
@@ -35,9 +36,10 @@ const AdminPage: NextPage = () => {
   const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
 
   const [isRegistering, setIsRegistering] = useState<boolean>(false);
-  // const [loading, setLoading] = useState<boolean>(loggedInAsAdmin && true)
 
-  // console.log("adminUser in index-------------->", loggedInAsAdmin);
+  useEffect(() => {
+    return instantlyToTop;
+  }, []);
 
   useEffect(() => {
     if (loggedInAsAdmin) {
@@ -53,7 +55,7 @@ const AdminPage: NextPage = () => {
   };
 
   return (
-    <main className={styles.main}>
+    <div className={styles.main}>
       <div className={styles.title}>ADMINISTRATION</div>
       {isRegistering ? (
         <div className={styles.main_grid}>
@@ -114,7 +116,7 @@ const AdminPage: NextPage = () => {
           </div>
         </div>
       )}
-    </main>
+    </div>
   );
 };
 

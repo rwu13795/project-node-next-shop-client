@@ -136,7 +136,7 @@ function ForgotPasswordReset({
     let errorInput = finalCheck(inputValues, touched, setInputErrors);
     if (errorInput !== "") {
       let elem = document.getElementById(errorInput);
-      if (elem) elem.scrollIntoView({ block: "center" });
+      if (elem) elem.scrollIntoView({ block: "center", behavior: "smooth" });
       return;
     }
 
@@ -148,6 +148,8 @@ function ForgotPasswordReset({
         confirm_new_password: inputValues[inputNames.confirm_new_password],
       })
     );
+    const elem = document.getElementById("reset_pw_button");
+    if (elem) elem.focus();
   };
 
   const inputFields = () => {
@@ -173,13 +175,14 @@ function ForgotPasswordReset({
             <div className={styles.input_fields}>{inputFields()}</div>
 
             <Button
+              id="reset_pw_button"
               type="submit"
               variant="contained"
               onClick={resetPasswordHandler}
               disabled={
                 loadingStatus_user === loadingStatus.succeeded || isExpired
               }
-              className={styles.submit_button}
+              sx={{ mb: "30px", width: "min(200px, 50vw)" }}
             >
               SUBMIT
             </Button>

@@ -109,7 +109,6 @@ function MeunListDrawer({
 
   return (
     <Fragment>
-      <Divider />
       <ListItemButton onClick={toggleExpand} sx={{ pl: 2 }}>
         <ListItemText primary={cat.toUpperCase()} />
         {expand ? <ExpandLess /> : <ExpandMore />}

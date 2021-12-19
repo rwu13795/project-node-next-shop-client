@@ -2,8 +2,8 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  height: 44px;
-  flex-flow: row;
+  min-height: 44px;
+  flex-flow: row wrap;
   margin-top: 5px;
   margin-bottom: 5px;
 }
@@ -48,8 +48,11 @@
 }
 
 .item_card_box {
-  margin-top: 30px;
   margin-bottom: 30px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .image_box {
@@ -96,7 +99,9 @@
   }
 
   .color_container {
-    height: min(44px, 7vw);
+    min-height: auto;
+    height: auto;
+    /* height: min(44px, 7vw); */
   }
   .color_ball {
     width: min(31px, 4.8vw);

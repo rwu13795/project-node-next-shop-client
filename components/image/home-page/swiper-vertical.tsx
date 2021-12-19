@@ -1,4 +1,4 @@
-import { Dispatch, Fragment, SetStateAction } from "react";
+import { Dispatch, Fragment, SetStateAction, memo } from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Pagination, Navigation, Mousewheel } from "swiper";
@@ -37,7 +37,7 @@ const paginationOption: PaginationOptions = {
   },
 };
 
-export default function Swiper_vertical_homePage({
+function Swiper_vertical_homePage({
   setSlideEnd,
   slideEnd,
 }: Props): JSX.Element {
@@ -89,6 +89,8 @@ export default function Swiper_vertical_homePage({
     </Fragment>
   );
 }
+
+export default memo(Swiper_vertical_homePage);
 
 const vertical_navbar: CSSProperties = {
   position: "absolute",

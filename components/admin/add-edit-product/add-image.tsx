@@ -3,12 +3,12 @@ import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  addImage_addProduct,
-  removeImage_addProduct,
-  replaceImage_addProduct,
+  addImage_adminProduct,
+  removeImage_adminProduct,
+  replaceImage_adminProduct,
   selectImageUrls_byListIndex,
   selectUploadError_byInputName,
-} from "../../../utils/redux-store/addProductSlice";
+} from "../../../utils/redux-store/adminProductSlice";
 import { RootState } from "../../../utils/redux-store";
 import { inputNames } from "../../../utils/enums-types/input-names";
 
@@ -62,7 +62,7 @@ function AddImage({
   const addImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const newImagesList = e.target.files as FileList;
     setFormHasError(false);
-    dispatch(addImage_addProduct({ listIndex, newImagesList }));
+    dispatch(addImage_adminProduct({ listIndex, newImagesList }));
   };
 
   const replaceImageHandler = (
@@ -71,7 +71,12 @@ function AddImage({
   ) => {
     const newImageFile = (e.target.files as FileList)[0];
     dispatch(
-      replaceImage_addProduct({ newImageFile, listIndex, imageIndex, editMode })
+      replaceImage_adminProduct({
+        newImageFile,
+        listIndex,
+        imageIndex,
+        editMode,
+      })
     );
   };
 
@@ -82,7 +87,7 @@ function AddImage({
     ) as HTMLInputElement;
     if (input) input.value = "";
 
-    dispatch(removeImage_addProduct({ listIndex, imageIndex, editMode }));
+    dispatch(removeImage_adminProduct({ listIndex, imageIndex, editMode }));
   };
 
   const editImageHandler = () => {

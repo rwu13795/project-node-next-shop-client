@@ -37,15 +37,6 @@
   margin-bottom: 30px;
   font-size: 20px;
 }
-.sign_in_button {
-  margin-top: 10px;
-  width: 120px;
-}
-.create_button {
-  margin-top: 20px;
-  width: 260px;
-  margin-left: 10px;
-}
 
 .input_title {
   font-size: 20px;
@@ -94,9 +85,6 @@
     margin-left: 10px;
   }
 
-  .create_button {
-    width: 70vw;
-  }
   .input_title {
     width: 100%;
     text-align: center;

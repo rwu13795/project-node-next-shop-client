@@ -1,4 +1,5 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
+import Link from "next/link";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 

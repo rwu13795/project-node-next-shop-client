@@ -45,6 +45,7 @@ export interface AddProductState {
   deletedImages: string[];
   uploadStatus: string;
   uploadErrors: UploadErrors;
+  currentCats: { main_cat: string; sub_cat: string };
 }
 
 interface UploadParams {
@@ -93,96 +94,128 @@ const initialState: AddProductState = {
   deletedImages: [],
   uploadStatus: "idle",
   uploadErrors: initialUploadErrors,
+  currentCats: { main_cat: "", sub_cat: "" },
 };
 
 const client = browserClient();
+const serverUrl = "http://localhost:5000/api";
 
 // createAsyncThunk<"PayloadAction type", "function param" , "ThunkApiConfig">
 const uploadNewProduct = createAsyncThunk<
-  void,
+  { main_cat: string; sub_cat: string },
   UploadParams,
   { state: RootState }
->("add_product/uploadNewProduct", async ({ editMode, productId }, thunkAPI) => {
-  const state = thunkAPI.getState().add_product;
-  const csrfToken = thunkAPI.getState().admin.csrfToken;
-  const admin_username = thunkAPI.getState().admin.adminUser.admin_username;
+>(
+  "admin_product/uploadNewProduct",
+  async ({ editMode, productId }, thunkAPI) => {
+    const state = thunkAPI.getState().admin_product;
+    const csrfToken = thunkAPI.getState().admin.csrfToken;
+    const admin_username = thunkAPI.getState().admin.adminUser.admin_username;
 
-  try {
-    // re-format the props and put the imageFiles into "formData"
-    let colorPropsUpload: ColorPropsForUpload[] = [];
+    try {
+      // re-format the props and put the imageFiles into "formData"
+      let colorPropsUpload: ColorPropsForUpload[] = [];
 
-    const formData = new FormData();
-    for (let elem of state.colorPropsList) {
-      let modifiedIndex = [];
-      let modifiedImages = [...elem.imageFiles];
-      // seperate images Urls and images Files
-      if (elem.imageFiles.length > 0) {
-        for (let i = 0; i < elem.imageFiles.length; i++) {
-          if (editMode) {
-            if (typeof elem.imageFiles[i] !== "string") {
+      const formData = new FormData();
+      for (let elem of state.colorPropsList) {
+        let modifiedIndex = [];
+        let modifiedImages = [...elem.imageFiles];
+        // seperate images Urls and images Files
+        if (elem.imageFiles.length > 0) {
+          for (let i = 0; i < elem.imageFiles.length; i++) {
+            if (editMode) {
+              if (typeof elem.imageFiles[i] !== "string") {
+                formData.append("uploaded_images", elem.imageFiles[i]);
+                modifiedImages[i] = "modified";
+                modifiedIndex.push(i);
+              }
+            } else {
               formData.append("uploaded_images", elem.imageFiles[i]);
-              modifiedImages[i] = "modified";
-              modifiedIndex.push(i);
             }
-          } else {
-            formData.append("uploaded_images", elem.imageFiles[i]);
           }
         }
+        // we don't want to send the imageFiles again, so we create and send
+        // a new array containing the colorProps
+        if (editMode) {
+          colorPropsUpload.push({
+            colorName: elem.colorName,
+            colorCode: elem.colorCode,
+            sizes: { ...elem.sizes },
+            imageCount: elem.imageCount,
+            modifiedImages,
+            modifiedIndex,
+          });
+        } else {
+          colorPropsUpload.push({
+            colorName: elem.colorName,
+            colorCode: elem.colorCode,
+            sizes: { ...elem.sizes },
+            imageCount: elem.imageCount,
+          });
+        }
       }
-      // we don't want to send the imageFiles again, so we create and send
-      // a new array containing the colorProps
-      if (editMode) {
-        colorPropsUpload.push({
-          colorName: elem.colorName,
-          colorCode: elem.colorCode,
-          sizes: { ...elem.sizes },
-          imageCount: elem.imageCount,
-          modifiedImages,
-          modifiedIndex,
-        });
-      } else {
-        colorPropsUpload.push({
-          colorName: elem.colorName,
-          colorCode: elem.colorCode,
-          sizes: { ...elem.sizes },
-          imageCount: elem.imageCount,
-        });
-      }
+
+      const body = {
+        ...state.productInfo,
+        colorPropsListFromClient: colorPropsUpload,
+        deletedImgaes: state.deletedImages,
+        productId,
+        admin_username,
+        csrfToken,
+      };
+
+      // the "body" cannot be put inside "req.body" directly while using FormData,
+      // this "body" has to be added to "req.body.propName", and we need to parse this
+      // "req.body.document" in the server
+      formData.append("document", JSON.stringify(body));
+
+      const { data } = await client.post(
+        editMode
+          ? serverUrl + "/admin/edit-product"
+          : serverUrl + "/admin/add-product",
+        formData
+      );
+
+      return { main_cat: data.main_cat, sub_cat: data.sub_cat };
+    } catch (err: any) {
+      // catch the error sent from the server manually, and put it in inside the action.payload
+      return thunkAPI.rejectWithValue(err.response.data);
     }
-
-    const body = {
-      ...state.productInfo,
-      colorPropsListFromClient: colorPropsUpload,
-      deletedImgaes: state.deletedImages,
-      productId,
-      admin_username,
-      csrfToken,
-    };
-
-    // the "body" cannot be put inside "req.body" directly while using FormData,
-    // this "body" has to be added to "req.body.propName", and we need to parse this
-    // "req.body.document" in the server
-    formData.append("document", JSON.stringify(body));
-
-    await client.post(
-      editMode
-        ? "http://localhost:5000/api/admin/edit-product"
-        : "http://localhost:5000/api/admin/add-product",
-      formData
-    );
-
-    return;
-  } catch (err: any) {
-    // catch the error sent from the server manually, and put it in inside the action.payload
-    return thunkAPI.rejectWithValue(err.response.data);
   }
-});
+);
+const deleteProduct = createAsyncThunk<
+  void,
+  { productId: string; admin_username: string },
+  { state: RootState }
+>(
+  "admin_product/deleteProduct",
+  async ({ productId, admin_username }, thunkAPI) => {
+    try {
+      const response = await client.post(serverUrl + "/admin/delete-product", {
+        productId,
+        csrfToken: thunkAPI.getState().admin.csrfToken,
+        admin_username,
+      });
+      return response.data;
+    } catch (err: any) {
+      // catch the error sent from the server manually, and put in inside the action.payload
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+////////////////////////////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////
 const addProductSlice = createSlice({
-  name: "add_product",
+  name: "admin_product",
   initialState,
   reducers: {
-    setInitialState_addProduct(state, action: PayloadAction<AddProductState>) {
+    setInitialState_adminProduct(
+      state,
+      action: PayloadAction<AddProductState>
+    ) {
       const { productInfo, colorPropsList } = action.payload;
       state.productInfo = productInfo;
       state.colorPropsList = colorPropsList;
@@ -192,38 +225,46 @@ const addProductSlice = createSlice({
           .imageFiles as string[];
       }
     },
-    resetState_addProduct(state) {
+    resetState_adminProduct(state) {
       state.colorPropsList = [{ ...initialColorProps }];
       state.productInfo = { ...initialProductInfo };
       state.deletedImages = [];
       state.uploadErrors = { ...initialUploadErrors };
     },
+    setCurrentCats_adminProduct(
+      state,
+      action: PayloadAction<{ main: string; sub: string }>
+    ) {
+      state.currentCats.main_cat = action.payload.main.toLowerCase();
+      state.currentCats.sub_cat = action.payload.sub.toLowerCase();
+    },
 
     //////////////////
     // product info //
-    setMainCat_addProduct(state, action: PayloadAction<string>) {
+    setMainCat_adminProduct(state, action: PayloadAction<string>) {
       state.productInfo.main_cat = action.payload;
     },
-    setSubCat_addProduct(state, action: PayloadAction<string>) {
+    setSubCat_adminProduct(state, action: PayloadAction<string>) {
       state.productInfo.sub_cat = action.payload;
     },
 
-    setTitle_addProduct(state, action: PayloadAction<string>) {
+    setTitle_adminProduct(state, action: PayloadAction<string>) {
       state.productInfo.title = action.payload;
     },
-    setDesc_addProduct(state, action: PayloadAction<string>) {
+    setDesc_adminProduct(state, action: PayloadAction<string>) {
       state.productInfo.description = action.payload;
     },
-    setPrice_addProduct(state, action: PayloadAction<number>) {
-      state.productInfo.price = action.payload;
+    setPrice_adminProduct(state, action: PayloadAction<string>) {
+      const price = parseFloat(parseFloat(action.payload).toFixed(2));
+      state.productInfo.price = price;
     },
 
     //////////////////
     // colors props //
-    addMoreColor_addProduct(state) {
+    addMoreColor_adminProduct(state) {
       state.colorPropsList.push(initialColorProps);
     },
-    removeColor_addProduct(
+    removeColor_adminProduct(
       state,
       action: PayloadAction<{ listIndex: number; editMode: boolean }>
     ) {
@@ -239,7 +280,7 @@ const addProductSlice = createSlice({
         state.colorPropsList.push(initialColorProps);
       }
     },
-    setColorInfo_addProduct(
+    setColorInfo_adminProduct(
       state,
       action: PayloadAction<{
         listIndex: number;
@@ -254,7 +295,7 @@ const addProductSlice = createSlice({
         state.colorPropsList[listIndex].colorName = value;
       }
     },
-    setSizeQty_addProduct(
+    setSizeQty_adminProduct(
       state,
       action: PayloadAction<{ listIndex: number; qty: string; size: string }>
     ) {
@@ -264,7 +305,7 @@ const addProductSlice = createSlice({
 
     ////////////////////
     // image handlers //
-    addImage_addProduct(
+    addImage_adminProduct(
       state,
       action: PayloadAction<{ listIndex: number; newImagesList: FileList }>
     ) {
@@ -284,7 +325,7 @@ const addProductSlice = createSlice({
           state.colorPropsList[listIndex].imageFiles.length;
       }
     },
-    removeImage_addProduct(
+    removeImage_adminProduct(
       state,
       action: PayloadAction<{
         listIndex: number;
@@ -302,7 +343,7 @@ const addProductSlice = createSlice({
       state.colorPropsList[listIndex].imageUrls.splice(imageIndex, 1);
       state.colorPropsList[listIndex].imageCount -= 1;
     },
-    replaceImage_addProduct(
+    replaceImage_adminProduct(
       state,
       action: PayloadAction<{
         newImageFile: File;
@@ -330,7 +371,7 @@ const addProductSlice = createSlice({
     clearUploadError_byInputName(state, action: PayloadAction<string>) {
       state.uploadErrors[action.payload] = "";
     },
-    setUploadStatus_addProduct(state, action: PayloadAction<string>) {
+    setUploadStatus_adminProduct(state, action: PayloadAction<string>) {
       state.uploadStatus = action.payload;
     },
   },
@@ -338,13 +379,21 @@ const addProductSlice = createSlice({
     builder
       ///////////////////////
       // UPLOAD NEW PRODUCT//
-      .addCase(uploadNewProduct.fulfilled, (state): void => {
-        state.uploadStatus = "succeeded";
-        state.colorPropsList = [{ ...initialColorProps }];
-        state.productInfo = { ...initialProductInfo };
-        state.deletedImages = [];
-        state.uploadErrors = { ...initialUploadErrors };
-      })
+      .addCase(
+        uploadNewProduct.fulfilled,
+        (
+          state,
+          action: PayloadAction<{ main_cat: string; sub_cat: string }>
+        ): void => {
+          state.uploadStatus = "succeeded";
+          state.currentCats.main_cat = action.payload.main_cat;
+          state.currentCats.sub_cat = action.payload.sub_cat;
+          state.colorPropsList = [{ ...initialColorProps }];
+          state.productInfo = { ...initialProductInfo };
+          state.deletedImages = [];
+          state.uploadErrors = { ...initialUploadErrors };
+        }
+      )
       .addCase(uploadNewProduct.pending, (state): void => {
         state.uploadStatus = "loading";
       })
@@ -374,47 +423,63 @@ const addProductSlice = createSlice({
             }
           }
         }
+      )
+      ////////////////////
+      // DELETE PRODUCT //
+      .addCase(deleteProduct.fulfilled, (state, action): void => {
+        state.uploadStatus = "succeeded";
+      })
+      .addCase(
+        deleteProduct.rejected,
+        (state, action: PayloadAction<any>): void => {
+          for (let err of action.payload.errors) {
+            state.uploadErrors[err.field] = err.message;
+            console.log(err.message);
+          }
+          state.uploadStatus = "failed";
+        }
       );
   },
 });
 
 export const {
-  setInitialState_addProduct,
-  resetState_addProduct,
+  setInitialState_adminProduct,
+  resetState_adminProduct,
+  setCurrentCats_adminProduct,
   // product info //
-  setMainCat_addProduct,
-  setSubCat_addProduct,
-  setTitle_addProduct,
-  setDesc_addProduct,
-  setPrice_addProduct,
+  setMainCat_adminProduct,
+  setSubCat_adminProduct,
+  setTitle_adminProduct,
+  setDesc_adminProduct,
+  setPrice_adminProduct,
   // colors props //
-  addMoreColor_addProduct,
-  removeColor_addProduct,
-  setColorInfo_addProduct,
-  setSizeQty_addProduct,
+  addMoreColor_adminProduct,
+  removeColor_adminProduct,
+  setColorInfo_adminProduct,
+  setSizeQty_adminProduct,
   // image handlers //
-  addImage_addProduct,
-  removeImage_addProduct,
-  replaceImage_addProduct,
+  addImage_adminProduct,
+  removeImage_adminProduct,
+  replaceImage_adminProduct,
   // upload //
   clearUploadError_byInputName,
-  setUploadStatus_addProduct,
+  setUploadStatus_adminProduct,
 } = addProductSlice.actions;
 
-export { uploadNewProduct };
+export { uploadNewProduct, deleteProduct };
 
 export default addProductSlice.reducer;
 
 // NOTE from Redux Docs //
 // In typical Reselect usage, you write your top-level "input selectors" as plain functions,
 // and use createSelector to create memoized selectors that look up nested value
-const selectAddProductState = (state: RootState) => state.add_product;
+const selectAdminProductState = (state: RootState) => state.admin_product;
 
-const selectProductInfo = createSelector([selectAddProductState], (state) => {
+const selectProductInfo = createSelector([selectAdminProductState], (state) => {
   return state.productInfo;
 });
 export const selectColorPropsList = createSelector(
-  [selectAddProductState],
+  [selectAdminProductState],
   (state) => {
     return state.colorPropsList;
   }
@@ -422,47 +487,49 @@ export const selectColorPropsList = createSelector(
 export const selectImageUrls_byListIndex = (
   state: RootState,
   listIndex: number
-) => state.add_product.colorPropsList[listIndex].imageUrls;
+) => state.admin_product.colorPropsList[listIndex].imageUrls;
+
 // select productInfo //
-export const selectTitle_addProduct = createSelector(
+export const selectTitle_adminProduct = createSelector(
   [selectProductInfo],
   (state) => {
     return state.title;
   }
 );
-export const selectDesc_addProduct = createSelector(
+export const selectDesc_adminProduct = createSelector(
   [selectProductInfo],
   (state) => {
     return state.description;
   }
 );
-export const selectMainCat_addProduct = createSelector(
+export const selectMainCat_adminProduct = createSelector(
   [selectProductInfo],
   (state) => {
     return state.main_cat;
   }
 );
-export const selectSubCat_addProduct = createSelector(
+export const selectSubCat_adminProduct = createSelector(
   [selectProductInfo],
   (state) => {
     return state.sub_cat;
   }
 );
-export const selectPrice_addProduct = createSelector(
+export const selectPrice_adminProduct = createSelector(
   [selectProductInfo],
   (state) => {
     return state.price;
   }
 );
 
-export const selectUploadStatus_addProduct = createSelector(
-  [selectAddProductState],
+// upload info //
+export const selectUploadStatus_adminProduct = createSelector(
+  [selectAdminProductState],
   (state) => {
     return state.uploadStatus;
   }
 );
-export const selectUploadErrors_addProduct = createSelector(
-  [selectAddProductState],
+export const selectUploadErrors_adminProduct = createSelector(
+  [selectAdminProductState],
   (state) => {
     return state.uploadErrors;
   }
@@ -471,5 +538,12 @@ export const selectUploadError_byInputName = (
   state: RootState,
   inputName: string
 ) => {
-  return state.add_product.uploadErrors[inputName];
+  return state.admin_product.uploadErrors[inputName];
 };
+
+export const selectCurrentCats_adminProduct = createSelector(
+  [selectAdminProductState],
+  (state) => {
+    return state.currentCats;
+  }
+);

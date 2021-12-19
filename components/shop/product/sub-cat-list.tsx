@@ -185,7 +185,7 @@ function SubCatProductsList({
             />
           </div>
 
-          <div className={styles.filter_tags}>
+          <div className={styles.filter_tags} id="sub_cat_filter_tag">
             <div className={styles.items_num}>
               {filterStats?.matchingTotal} item
               {filterStats?.matchingTotal && filterStats.matchingTotal > 1
@@ -231,6 +231,7 @@ function SubCatProductsList({
                     productId={p._id}
                     colorPropsList={p.colorPropsList}
                     productInfo={p.productInfo}
+                    oneItemPerRow={oneItemPerRow}
                   />
                 </Grid>
               ) : (
@@ -247,6 +248,7 @@ function SubCatProductsList({
                     productId={p._id}
                     colorPropsList={p.colorPropsList}
                     productInfo={p.productInfo}
+                    oneItemPerRow={oneItemPerRow}
                   />
                 </Grid>
               );

@@ -9,6 +9,7 @@ import {
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import {
   Errors,
@@ -39,10 +40,10 @@ import {
 } from "../../utils/redux-store/layoutSlice";
 
 // UI //
-import { Button, CircularProgress, Grid } from "@mui/material";
+import { Button, CircularProgress, Grid, useMediaQuery } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import styles from "./__user-sign-in.module.css";
-import { useRouter } from "next/router";
+import { sxMUI } from "./__user-sign-in-MUI";
 
 interface Props {
   inputFieldsArray: string[];
@@ -79,6 +80,8 @@ function UserSignIn({
   const pageLoading = useSelector(selectPageLoading);
   const pageLoading_user = useSelector(selectPageLoading_user);
 
+  const isSmall = useMediaQuery("(max-width: 765px)");
+
   useEffect(() => {
     dispatch(clearAuthErrors("all"));
     dispatch(setLoadingStatus("idle"));
@@ -98,7 +101,7 @@ function UserSignIn({
     let errorInput = finalCheck(inputValues, touched, setInputErrors);
     if (errorInput !== "") {
       let elem = document.getElementById(errorInput);
-      if (elem) elem.scrollIntoView({ block: "center" });
+      if (elem) elem.scrollIntoView({ block: "center", behavior: "smooth" });
       return;
     }
 
@@ -121,7 +124,7 @@ function UserSignIn({
     }
     // since the signIn button loading animation is depending on "pageLoading"
     // I have to use the other "pageLoading_user" to trigger the loading bar
-    dispatch(setPageLoading_user(true));
+    dispatch(setPageLoading(true));
     router.push("/auth/forgot-password");
   };
 
@@ -149,18 +152,22 @@ function UserSignIn({
                 "user-sign-in"
               )}
               <div className={styles.button_group}>
-                <div
-                  onClick={forgetPasswordHandler}
-                  className={styles.forget_pw}
-                >
-                  FORGOT PASSWORD?
-                </div>
+                <Link href="/auth/forgot-password">
+                  <a
+                    onClick={forgetPasswordHandler}
+                    className={styles.forget_pw}
+                  >
+                    FORGOT PASSWORD?
+                  </a>
+                </Link>
                 <Button
+                  sx={
+                    isSmall ? sxMUI.sign_in_button_small : sxMUI.sign_in_button
+                  }
                   type="submit"
                   variant="contained"
                   onClick={singInHandler}
                   disabled={loadingStatus_user === "loading"}
-                  className={styles.sign_in_button}
                 >
                   Sign In
                 </Button>
@@ -172,7 +179,7 @@ function UserSignIn({
             <Button
               variant="contained"
               onClick={toSignUpHandler}
-              className={styles.to_sign_up}
+              sx={isSmall ? sxMUI.to_sign_up_small : sxMUI.to_sign_up}
             >
               Create a new account
             </Button>
@@ -225,19 +232,25 @@ function UserSignIn({
               <form onSubmit={singInHandler}>
                 {inputFields(inputFieldsArray, inputValues, authErrors, page)}
                 <div className={styles.button_group}>
-                  <div
-                    onClick={forgetPasswordHandler}
-                    className={styles.forget_pw}
-                  >
-                    FORGOT PASSWORD?
-                  </div>
+                  <Link href="/auth/forgot-password">
+                    <a
+                      onClick={forgetPasswordHandler}
+                      className={styles.forget_pw}
+                    >
+                      FORGOT PASSWORD?
+                    </a>
+                  </Link>
                   <LoadingButton
                     type="submit"
                     variant="contained"
                     onClick={singInHandler}
                     disabled={pageLoading}
                     loading={pageLoading_user}
-                    className={styles.sign_in_button}
+                    sx={
+                      isSmall
+                        ? sxMUI.sign_in_button_small
+                        : sxMUI.sign_in_button
+                    }
                   >
                     Sign In
                   </LoadingButton>
@@ -272,7 +285,7 @@ function UserSignIn({
                 <Button
                   variant="contained"
                   onClick={checkoutAsGuestHandler}
-                  className={styles.to_sign_up}
+                  sx={isSmall ? sxMUI.to_sign_up_small : sxMUI.to_sign_up}
                 >
                   CHECKOUT AS GUEST
                 </Button>
@@ -280,7 +293,7 @@ function UserSignIn({
                 <Button
                   variant="contained"
                   onClick={toSignUpHandler}
-                  className={styles.to_sign_up}
+                  sx={isSmall ? sxMUI.to_sign_up_small : sxMUI.to_sign_up}
                 >
                   Create a new account
                 </Button>

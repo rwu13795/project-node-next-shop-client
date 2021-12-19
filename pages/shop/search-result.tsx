@@ -80,6 +80,7 @@ const SearchResult: NextPage<PageProps> = ({
                   productId={p._id}
                   colorPropsList={p.colorPropsList}
                   productInfo={p.productInfo}
+                  oneItemPerRow={oneItemPerRow}
                 />
               </Grid>
             ) : (
@@ -96,6 +97,7 @@ const SearchResult: NextPage<PageProps> = ({
                   productId={p._id}
                   colorPropsList={p.colorPropsList}
                   productInfo={p.productInfo}
+                  oneItemPerRow={oneItemPerRow}
                 />
               </Grid>
             );

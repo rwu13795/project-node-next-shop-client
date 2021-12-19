@@ -170,6 +170,6 @@ const CheckoutPage: NextPage = ({}) => {
 
 export default CheckoutPage;
 
-export function getStaticProps() {
+export function getServerSideProps() {
   return { props: { page: "checkout" } };
 }

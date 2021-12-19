@@ -5,7 +5,7 @@ export const homeImageProps = [
     category: MainCategory.women,
     md: [
       "/home/large/women-1.jpg",
-      "/home/large/women-2.jpg",
+      "https://testing-images-on-s3.s3.us-east-2.amazonaws.com/other-images/women-2.jpg",
       "/home/large/women-3.jpg",
       "/home/large/women-4.jpg",
     ],

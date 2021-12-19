@@ -33,7 +33,15 @@ import AdminSignOutModal from "./../../admin/admin-sign-out-modal";
 import FilterViewIcon from "../navbar-items/filter-view-icon";
 
 // UI //
-import { Divider, Grid, TextField, Box, Tooltip, Button } from "@mui/material";
+import {
+  Divider,
+  Grid,
+  TextField,
+  Box,
+  Tooltip,
+  Button,
+  dividerClasses,
+} from "@mui/material";
 import LinearProgress from "@mui/material/LinearProgress";
 import styles from "./__navigation.module.css";
 
@@ -115,12 +123,9 @@ export default function MainNavigation({ page, page_cat, filter_view }: Props) {
   /******************************************************************************/
 
   const adminSignOutHandler = () => {
-    dispatch(adminSignOut());
-    setTimeout(() => {
-      dispatch(getUserStatus());
-    }, 2000);
     dispatch(setPageLoading(true));
     router.push("/admin");
+    dispatch(adminSignOut());
   };
 
   const onLogoClickHandler = () => {
@@ -193,9 +198,9 @@ export default function MainNavigation({ page, page_cat, filter_view }: Props) {
       </Grid>
 
       {filter_view && (
-        <Grid item container className={filterContainer}>
+        <div className={filterContainer}>
           <FilterViewIcon page={page} />
-        </Grid>
+        </div>
       )}
       <Box sx={{ width: "100%" }}>
         {(pageLoading || pageLoading_user) && <LinearProgress />}

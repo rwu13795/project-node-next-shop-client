@@ -1,4 +1,4 @@
-import { Fragment, Dispatch, SetStateAction } from "react";
+import { Fragment, Dispatch, SetStateAction, memo } from "react";
 import Image from "next/image";
 
 import { Box } from "@mui/system";
@@ -16,7 +16,7 @@ interface Props {
   total: number;
 }
 
-export default function Swiper_horizontal_NavButton_homePage({
+function Swiper_horizontal_NavButton_homePage({
   slideNum,
   total,
 }: Props): JSX.Element {
@@ -44,6 +44,8 @@ export default function Swiper_horizontal_NavButton_homePage({
     </Fragment>
   );
 }
+
+export default memo(Swiper_horizontal_NavButton_homePage);
 
 const nav_botton = {
   display: "flex",

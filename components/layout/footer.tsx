@@ -24,15 +24,11 @@ function Footer({ page }: Props): JSX.Element {
         </span>
       </a>
       <div style={{ paddingRight: "2vh" }}>
-        <Link href="/admin">
-          <a>Administration</a>
-        </Link>
+        <Link href="/admin">Administration</Link>
       </div>
       <div>foot testing block</div>
       <div>
-        <Link href="/shop/order-status">
-          <a>Track Order</a>
-        </Link>
+        <Link href="/shop/order-status">Track Order</Link>
       </div>
     </footer>
   );

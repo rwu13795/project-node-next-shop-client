@@ -6,10 +6,23 @@ export enum MainCategory {
 }
 export const mainCatArray = Object.values(MainCategory);
 
+///////////
+// WOMEN //
+///////////
 export enum WomenCategory {
-  jeans = "Jeans",
+  // tops
+  t_shirts = "T-shirts",
+  blouses = "Blouses",
+  coats = "Coats",
+  hoodies = "Hoodies",
+  // bottoms
   shorts = "Shorts",
   dresses = "Dresses",
+  jeans = "Jeans",
+  // accessories
+  socks = "Socks",
+  hats = "Hats",
+  glasses = "Glasses",
 }
 export const womenCatArray = Object.values(WomenCategory);
 export const womenMenuList = {
@@ -18,18 +31,21 @@ export const womenMenuList = {
   accessories: ["Socks", "Hats", "Glasses"],
 };
 
+/////////
+// MEN //
+/////////
 export enum MenCategory {
   // tops
   t_shirts = "T-shirts",
   shirts = "Shirts",
   coats = "Coats",
-  blazers = "Hoodies",
+  hoodies = "Hoodies",
   // bottoms
   shorts = "Shorts",
   pants = "Pants",
   jeans = "Jeans",
-  // misc
-  shoes = "Socks",
+  // accessories
+  socks = "Socks",
   hats = "Hats",
   glasses = "Glasses",
 }
@@ -40,9 +56,21 @@ export const menMenuList = {
   accessories: ["Socks", "Hats", "Glasses"],
 };
 
+//////////
+// KIDs //
+//////////
 export enum KidsCategory {
-  Tshirts = "T-shirts",
+  // tops
+  t_shirts = "T-shirts",
+  sweaters = "Sweaters",
+  Jackets = "Jackets",
+  // bottoms
   shorts = "Shorts",
+  pants = "Pants",
+  jeans = "Jeans",
+  // accessories
+  socks = "Socks",
+  hats = "Hats",
 }
 export const kidsCatArray = Object.values(KidsCategory);
 export const kidsMenuList = {

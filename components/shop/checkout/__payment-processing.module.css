@@ -36,7 +36,7 @@
   align-items: baseline;
 }
 
-.processing_cube {
+.cube {
   width: 20px;
   height: 20px;
   border-radius: 5px;
@@ -46,16 +46,16 @@
   animation: mover 400ms infinite alternate;
   margin: 0 10px;
 }
-.processing_cube:nth-child(3) {
+.cube:nth-child(3) {
   animation-delay: 100ms;
 }
-.processing_cube:nth-child(4) {
+.cube:nth-child(4) {
   animation-delay: 200ms;
 }
-.processing_cube:nth-child(5) {
+.cube:nth-child(5) {
   animation-delay: 300ms;
 }
-.processing_cube:nth-child(6) {
+.cube:nth-child(6) {
   animation-delay: 400ms;
 }
 
@@ -84,7 +84,7 @@
   .modal_text {
     font-size: 40px;
   }
-  .processing_cube {
+  .cube {
     width: 15px;
     height: 15px;
   }
@@ -103,7 +103,7 @@
     font-size: min(26px, 7vw);
     margin-right: 5px;
   }
-  .processing_cube {
+  .cube {
     width: 12px;
     height: 12px;
     border-radius: 4px;

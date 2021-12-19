@@ -1,6 +1,7 @@
 import { ThemeProvider } from "@mui/material/styles";
 import React, { useCallback, useEffect, useState, CSSProperties } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Link from "next/link";
 
 import { theme } from "../../styles/mui-theme";
 import styles from "./__layout.module.css";
@@ -9,7 +10,7 @@ import MainNavigation from "./navbar/navigation";
 import { checkStock, getUserStatus } from "../../utils/redux-store/userSlice";
 import Footer from "./footer";
 
-import { Grid } from "@mui/material";
+import { Grid, Box } from "@mui/material";
 import { selectLockScrollBar } from "../../utils/redux-store/layoutSlice";
 import { border } from "@mui/system";
 
@@ -67,19 +68,19 @@ export default function Layout({
     // all the pages
 
     <main className={styles.root_page_layout} style={scrollBarStyle}>
-      <ThemeProvider theme={theme}>
-        <MainNavigation
-          page={page}
-          page_cat={page_cat}
-          filter_view={filter_view}
-        />
+      {/* <ThemeProvider theme={theme}> */}
+      <MainNavigation
+        page={page}
+        page_cat={page_cat}
+        filter_view={filter_view}
+      />
 
-        <main className={styles.main_component}>
-          <div className={styles.main_component_grid}>{children}</div>
-        </main>
+      <Box className={styles.main_component}>
+        <Box className={styles.main_component_grid}>{children}</Box>
+      </Box>
 
-        {page !== "checkout" && <Footer page={page} />}
-      </ThemeProvider>
+      {page !== "checkout" && <Footer page={page} />}
+      {/* </ThemeProvider> */}
     </main>
   );
 }

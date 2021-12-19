@@ -374,17 +374,15 @@ const userSlice = createSlice({
           state.loadingStatus = "succeeded";
         }
       )
-      .addCase(signIn.pending, (state, action): void => {
+      .addCase(signIn.pending, (state): void => {
         state.loadingStatus = "loading";
       })
       .addCase(signIn.rejected, (state, action: PayloadAction<any>): void => {
-        //////////
-        console.log(action.payload);
-        //////////
         for (let err of action.payload.errors) {
           state.authErrors[err.field] = err.message;
         }
         state.loadingStatus = "failed";
+        state.pageLoading_user = false;
       })
       //////////////
       // SIGN OUT //

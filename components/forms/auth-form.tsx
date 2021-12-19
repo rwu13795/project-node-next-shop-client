@@ -115,25 +115,6 @@ function AuthForm({
     [inputErrors, onBlurHandler, onChangeHandler, onFocusHandler]
   );
 
-  // const inputFields = (
-  //   fields: string[],
-  //   inputValues: InputValues,
-  //   requestErrors: AuthErrors | AdminErrors,
-  //   page?: string,
-  // ) => {
-  //   return renderInputFields(
-  //     fields,
-  //     inputValues,
-  //     onFocusHandler,
-  //     onBlurHandler,
-  //     onChangeHandler,
-  //     inputErrors,
-  //     requestErrors,
-  //     false,
-  //     page,
-  //   );
-  // };
-
   const propsForChild = {
     inputFieldsArray,
     inputValues,

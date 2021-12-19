@@ -1,6 +1,5 @@
 import { GetServerSidePropsContext, NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
-import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useCallback, useState, Fragment } from "react";
 
@@ -8,24 +7,26 @@ import serverClient from "../../utils/axios-client/server-client";
 import ProductPreview from "../../components/image/product-preview/preview";
 import { PageProductProps } from "../../utils/react-hooks/get-more-products";
 import {
-  deleteProduct,
   getAdminStatus,
   selectAdminUser,
-  selectLoadingStatus_admin,
-  selectLoggedInAsAdmin,
-  setLoadingStatus_admin,
 } from "../../utils/redux-store/adminSlice";
 import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 import browserClient from "../../utils/axios-client/browser-client";
 import MeunListDrawer from "../../components/layout/navbar-items/menu-list-drawer";
 import DeleteProdcutModal from "../../components/admin/delete-product-modal";
+import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
+import {
+  selectCurrentCats_adminProduct,
+  setCurrentCats_adminProduct,
+  deleteProduct,
+  selectUploadStatus_adminProduct,
+  setUploadStatus_adminProduct,
+  resetState_adminProduct,
+} from "../../utils/redux-store/adminProductSlice";
 
 // UI //
 import {
-  Divider,
   Grid,
-  TextField,
-  Box,
   Pagination,
   Button,
   FormControl,
@@ -33,12 +34,8 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
-  FormHelperText,
-  GridSize,
 } from "@mui/material";
 import styles from "./__product-list.module.css";
-import { mainCatArray } from "../../utils/enums-types/product-category";
-import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
 
 export interface ProductCatNumAdmin {
   [main_cat: string]: { [sub_cat: string]: number };
@@ -60,8 +57,7 @@ export interface DeleteProduct {
   admin_username?: string;
 }
 
-mainCatArray.pop();
-const adminMainCatArray = [...mainCatArray];
+const adminMainCatArray = ["Women", "Men", "Kids"];
 
 const AdmimProductsListPage: NextPage<PageProps> = ({
   products: startProducts,
@@ -78,20 +74,14 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
   const client = browserClient();
 
   const admin_username = useSelector(selectAdminUser).admin_username;
-  const loadingStatus = useSelector(selectLoadingStatus_admin);
-  const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
+  const uploadStatus = useSelector(selectUploadStatus_adminProduct);
+  const { main_cat, sub_cat } = useSelector(selectCurrentCats_adminProduct);
 
-  useEffect(() => {
-    return instantlyToTop;
-  }, []);
-
-  // useEffect(() => {
-  //   if (!loggedInAsAdmin) {
-  //     router.push("/admin");
-  //   }
-  // }, []);
   useEffect(() => {
     dispatch(getAdminStatus());
+    dispatch(resetState_adminProduct());
+    dispatch(setCurrentCats_adminProduct({ main: startMain, sub: startSub }));
+    return instantlyToTop;
   }, []);
 
   useEffect(() => {
@@ -104,8 +94,8 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
   const [productCatNum, setProductCatNum] =
     useState<ProductCatNumAdmin>(product_category);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [main_cat, setMain_cat] = useState<string>(startMain);
-  const [sub_cat, setSub_cat] = useState<string>(startSub);
+  // const [main_cat, setMain_cat] = useState<string>(startMain);
+  // const [sub_cat, setSub_cat] = useState<string>(startSub);
   const [delete_product, setDelete_product] = useState<DeleteProduct>({
     id: "",
     image: "",
@@ -114,6 +104,10 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
   });
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [selectedAdmin, setSelectedAdmin] = useState<string>(admin_username);
+
+  useEffect(() => {
+    setSelectedAdmin(admin_username);
+  }, [admin_username]);
 
   const fetchNewList = useCallback(
     async (
@@ -137,8 +131,8 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
 
   useEffect(() => {
     // fetch new list after deleting an item to update the page
-    if (loadingStatus === "succeeded") {
-      dispatch(setLoadingStatus_admin("idle"));
+    if (uploadStatus === "succeeded") {
+      dispatch(setUploadStatus_adminProduct("idle"));
       // if products.length less than 2, that means there was only 1 item on the
       // current page before deleting, so I need to fetch items from the page in front
       if (products.length < 2 && currentPage > 1) {
@@ -150,7 +144,7 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
       dispatch(setPageLoading(false));
     }
   }, [
-    loadingStatus,
+    uploadStatus,
     dispatch,
     router,
     fetchNewList,
@@ -185,15 +179,13 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
 
   const selectCatHandler = async (main: string, sub: string) => {
     if (main === main_cat && sub === sub_cat) return;
-    setMain_cat(main);
-    setSub_cat(sub);
+    dispatch(setCurrentCats_adminProduct({ main, sub }));
     setCurrentPage(1);
     await fetchNewList(1, main, sub, selectedAdmin);
   };
 
   const deleteProductHandler = () => {
     dispatch(setPageLoading(true));
-    console.log(delete_product);
     dispatch(
       deleteProduct({
         productId: delete_product.id,
@@ -234,8 +226,8 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
 
   return (
     <main className={styles.main}>
-      <Grid container className={styles.main_grid}>
-        <Grid item container className={styles.left_grid}>
+      <div className={styles.main_grid}>
+        <div className={styles.left_grid}>
           <Button variant="outlined" onClick={goToAddProduct}>
             add new product
           </Button>
@@ -276,9 +268,9 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
               </div>
             );
           })}
-        </Grid>
+        </div>
 
-        <Grid item container className={styles.right_grid}>
+        <div className={styles.right_grid}>
           {admin_username_array.length > 0 && (
             <div className={styles.title_1} style={{ marginBottom: "10px" }}>
               Managing the products of Admin: &ldquo;
@@ -300,12 +292,11 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
                   {main_cat.toUpperCase()} {sub_cat.toUpperCase()}
                 </div>
               </div>
-              <Grid item container className={styles.right_grid_lower}>
+              <div className={styles.right_grid_lower}>
                 {products.map((p) => {
                   const id = p._id;
                   const image = p.colorPropsList[0].imageFiles[0];
                   const title = p.productInfo.title;
-
                   return (
                     <Grid
                       item
@@ -316,14 +307,14 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
                       xs={6}
                       key={p._id}
                     >
-                      <div>
-                        <ProductPreview
-                          productId={p._id}
-                          colorPropsList={p.colorPropsList}
-                          productInfo={p.productInfo}
-                          page="admin"
-                        />
-                      </div>
+                      <ProductPreview
+                        productId={p._id}
+                        colorPropsList={p.colorPropsList}
+                        productInfo={p.productInfo}
+                        oneItemPerRow={false}
+                        page="admin"
+                      />
+
                       <div className={styles.button_group}>
                         <Button
                           size="small"
@@ -347,11 +338,11 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
                     </Grid>
                   );
                 })}
-              </Grid>
+              </div>
             </Fragment>
           )}
-        </Grid>
-      </Grid>
+        </div>
+      </div>
       <div className={`${styles.inner_grid} ${styles.margin_bottom}`}>
         <Pagination
           count={Math.ceil(productsTotal / ITEMS_PER_PAGE)}

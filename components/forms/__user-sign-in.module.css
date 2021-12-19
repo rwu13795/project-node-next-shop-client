@@ -78,12 +78,9 @@
   align-items: center;
   margin-top: 10px;
 }
-.sign_in_button {
-  width: 180px;
-  font-size: 16px;
-}
 
 .forget_pw {
+  color: black;
   text-decoration: underline;
   font-size: 20px;
   transition: 0.2s;
@@ -98,23 +95,12 @@
   font-size: 22px;
   margin: 10px 0 10px 0;
 }
-.to_sign_up {
-  width: 26vw;
-  min-width: 300px;
-  font-size: 16px;
-  margin: 10px 0 10px 0;
-}
 
 .reset_pw_container {
   margin-top: 30px;
   margin-bottom: 20px;
 }
-.reset_button {
-  margin-left: 10px;
-  margin-bottom: 10px;
-  font-size: 16px;
-  width: 200px;
-}
+
 .reset_text {
   margin-left: 10px;
   font-size: 22px;
@@ -150,8 +136,6 @@
   }
 
   .body_grid {
-    margin-top: 30px;
-    width: 100%;
     flex-wrap: wrap;
   }
 
@@ -181,10 +165,6 @@
   .forget_pw {
     font-size: min(16px, 3.5vw);
   }
-  .sign_in_button {
-    width: min(160px, 40vw);
-    font-size: min(16px, 4vw);
-  }
 
   .body_grid_right {
     width: 100%;
@@ -193,16 +173,7 @@
   .body_grid_right_inner {
     width: 96%;
   }
-  .to_sign_up {
-    width: 80vw;
-    font-size: min(16px, 4vw);
-    margin: 10px 0 10px 0;
-  }
-  .reset_button {
-    width: min(200px, 50vw);
-    font-size: min(16px, 4vw);
-    margin-top: 15px;
-  }
+
   .to_sign_in {
     margin-top: 20px;
   }

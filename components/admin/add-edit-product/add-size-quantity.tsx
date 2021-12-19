@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import {
   selectUploadError_byInputName,
-  setSizeQty_addProduct,
-} from "../../../utils/redux-store/addProductSlice";
+  setSizeQty_adminProduct,
+} from "../../../utils/redux-store/adminProductSlice";
 import { RootState } from "../../../utils/redux-store";
 import { inputNames } from "../../../utils/enums-types/input-names";
 import { capitalize } from "../../../utils/helper-functions/capitalize-first-letter";
@@ -38,7 +38,7 @@ function AddSizeQuantity({
 
   const sizesChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { name: size, value: qty } = e.currentTarget;
-    dispatch(setSizeQty_addProduct({ listIndex, qty, size }));
+    dispatch(setSizeQty_adminProduct({ listIndex, qty, size }));
     setFormHasError(false);
   };
 

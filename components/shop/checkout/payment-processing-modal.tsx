@@ -19,11 +19,11 @@ export default function PaymentProcessingModal({}): JSX.Element {
           <Box className={styles.processing_modal}>
             <div className={styles.modal_text}>PROCESSING YOUR PAYMENT</div>
             <div className={styles.cube_container}>
-              <div className={styles.processing_cube}></div>
-              <div className={styles.processing_cube}></div>
-              <div className={styles.processing_cube}></div>
-              <div className={styles.processing_cube}></div>
-              <div className={styles.processing_cube}></div>
+              <div className={styles.cube}></div>
+              <div className={styles.cube}></div>
+              <div className={styles.cube}></div>
+              <div className={styles.cube}></div>
+              <div className={styles.cube}></div>
             </div>
           </Box>
         </Fade>

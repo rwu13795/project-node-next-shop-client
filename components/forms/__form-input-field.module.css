@@ -5,15 +5,15 @@
 .form_control {
   width: 100%;
   max-width: 40rem;
-  margin: 10px 10px 20px 10px;
+  margin: 10px 0px;
 }
 .form_control_half {
   width: 100%;
   max-width: 17.5rem;
-  margin: 10px 10px 20px 10px;
+  margin: 10px 0px;
 }
 
-.input_box {
+.input_box_shadow {
   box-shadow: 2px 2px 5px black;
 }
 .input_box_select_size {
@@ -21,10 +21,6 @@
   box-shadow: 2px 2px 5px black;
 }
 
-.input_error {
-  color: red;
-  font-size: min(4vw, 1rem);
-}
 .select_box {
   height: 45vh;
 }
@@ -35,30 +31,19 @@
   }
   .form_control {
     max-width: 50rem;
-    margin: 6px 10px 6px 10px;
-  }
-
-  .form_label {
-    font-size: 14px;
-  }
-  .input_box {
-    min-height: 50px;
-    font-size: 18px;
-  }
-  .input_error {
-    font-size: min(4vw, 12px);
+    margin: 6px 0px;
   }
 }
 
 @media screen and (min-width: 560px) and (max-width: 765px) {
   .form_control_half {
     max-width: 22rem;
-    margin: 10px;
+    margin: 6px 0px;
   }
 }
 @media screen and (max-width: 560px) {
   .form_control_half {
     max-width: 40rem;
-    margin: 10px;
+    margin: 6px 0px;
   }
 }

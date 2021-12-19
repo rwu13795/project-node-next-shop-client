@@ -27,6 +27,7 @@ interface Props {
   colorPropsList: PageColorProps[];
   productInfo: PageProductInfo;
   productId: string;
+  oneItemPerRow: boolean;
   page?: string;
 }
 
@@ -34,11 +35,11 @@ function ProductPreview({
   colorPropsList,
   productInfo,
   productId,
+  oneItemPerRow,
   page,
 }: Props): JSX.Element {
   const dispatch = useDispatch();
   const router = useRouter();
-  const oneItemPerRow = useSelector(selectOneItmePerRow);
 
   const { title, price, main_cat, sub_cat } = productInfo;
   const initialActiveColor = colorPropsList.map(() => {
@@ -46,7 +47,9 @@ function ProductPreview({
   });
 
   const productLink = `/shop/product-detail/${main_cat}-${sub_cat}-${productId}`;
+  // const imageBoxStyle = oneItemPerRow ? styles.image_box_2 : styles.image_box;
 
+  const [imageBoxStyle, setImageBoxStyle] = useState<string>(styles.image_box);
   const [previewImage, setPreviewImage] = useState<string>(
     colorPropsList[0].imageFiles[0]
   );
@@ -56,6 +59,14 @@ function ProductPreview({
     return temp;
   });
   const [activeIndex, setActiveIndex] = useState<number>(0);
+
+  useEffect(() => {
+    if (oneItemPerRow) {
+      setImageBoxStyle(styles.image_box_2);
+    } else {
+      setImageBoxStyle(styles.image_box);
+    }
+  }, [oneItemPerRow]);
 
   // I have to reset these states whenever the "colorPropsList, productInfo" were changed
   // otherwise, the info from the previous category will stay unchange until user hovers
@@ -94,17 +105,18 @@ function ProductPreview({
 
   return (
     <div className={styles.item_card_box}>
-      <div
-        className={oneItemPerRow ? styles.image_box_2 : styles.image_box}
-        onClick={onImageClickHandler}
-      >
+      <div className={imageBoxStyle} onClick={onImageClickHandler}>
         <Image
           src={previewImage}
           alt={previewImage}
-          layout="fill"
-          loading="eager"
+          blurDataURL={previewImage}
+          // layout="fill"
+          width={320}
+          height={380}
+          // loading="eager"
         />
       </div>
+
       <div className={styles.color_container}>
         {colorPropsList.map((props, index) => {
           return (

@@ -98,7 +98,9 @@ function FilterCheckBox({
       }
       return { ...prev, filter, pageNum: 1, filtering: true };
     });
-    window.scrollTo({ top: 0 });
+
+    let elem = document.getElementById("sub_cat_filter_tag");
+    if (elem) elem.scrollIntoView({ block: "center", behavior: "smooth" });
   };
 
   return filterType === "price" ? (

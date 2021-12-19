@@ -1,34 +1,21 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
-import React, {
-  useReducer,
-  ChangeEvent,
-  useEffect,
-  useState,
-  SyntheticEvent,
-  Dispatch,
-  SetStateAction,
-  useCallback,
-} from "react";
+import React, { ChangeEvent, useEffect, useState, SyntheticEvent } from "react";
 
-import useUpload from "../../utils/react-hooks/add-product-upload";
-import addProductReducer, {
-  initialColorProps,
-  initialProductInfo,
-  ProductState,
-} from "../../utils/react-hooks/add-product-reducer";
-import { Actions } from "../../utils/enums-types/product-reducer-actions";
 import serverClient from "../../utils/axios-client/server-client";
 import { useDispatch, useSelector } from "react-redux";
 import ProductForm from "../../components/admin/add-edit-product/product-form";
 import ProductReviews from "../../components/shop/product/product-detail/reviews/reviews";
 import { setPageLoading } from "../../utils/redux-store/layoutSlice";
+import { getAdminStatus } from "../../utils/redux-store/adminSlice";
+import { Reviews } from "../shop/product-detail/[product_id]";
+import browserClient from "../../utils/axios-client/browser-client";
+import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
 import {
-  getAdminStatus,
-  selectAdminUser,
-  selectCsrfToken_admin,
-  selectLoggedInAsAdmin,
-} from "../../utils/redux-store/adminSlice";
+  AddProductState,
+  selectCurrentCats_adminProduct,
+  setInitialState_adminProduct,
+} from "../../utils/redux-store/adminProductSlice";
 
 // UI
 import {
@@ -41,18 +28,6 @@ import {
 } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import styles from "./__add-product.module.css";
-import { Reviews } from "../shop/product-detail/[product_id]";
-import browserClient from "../../utils/axios-client/browser-client";
-import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
-import {
-  AddProductState,
-  setInitialState_addProduct,
-} from "../../utils/redux-store/addProductSlice";
-
-const initialProductState: ProductState = {
-  colorPropsList: [initialColorProps],
-  productInfo: initialProductInfo,
-};
 
 export type AddInfoEvents =
   | ChangeEvent<HTMLInputElement>
@@ -74,24 +49,15 @@ const AddProductPage: NextPage<PageProps> = ({
   reviews,
   page,
 }) => {
-  // NOTE //
-  // whenever there is a change in any one of the states in the reducer
-  // all the components
-
   const client = browserClient();
   const router = useRouter();
   const dispatch = useDispatch();
-
-  const adminUser = useSelector(selectAdminUser);
-  const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
-  const csrfToken = useSelector(selectCsrfToken_admin);
+  const { main_cat, sub_cat } = useSelector(selectCurrentCats_adminProduct);
 
   const [stage, setStage] = useState<string>("1");
   const [reviewDoc, setReviewDoc] = useState<Reviews>(reviews);
   const [stayOnPage, setStayOnPage] = useState<number>(1);
   const [stayOnFilter, setStayOnFilter] = useState<string>("");
-
-  const [checkingAuth, setCheckingAuth] = useState<boolean>(true);
 
   useEffect(() => {
     dispatch(getAdminStatus());
@@ -101,22 +67,9 @@ const AddProductPage: NextPage<PageProps> = ({
 
   useEffect(() => {
     if (product !== null) {
-      dispatch(setInitialState_addProduct(product));
+      dispatch(setInitialState_adminProduct(product));
     }
   }, [product, dispatch]);
-
-  // const [state, dispatch] = useReducer(
-  //   addProductReducer,
-  //   product ? product : initialProductState
-  // );
-
-  // useEffect(() => {
-  //   if (!loggedInAsAdmin) {
-  //     router.push("/admin");
-  //   } else {
-  //     setCheckingAuth(false);
-  //   }
-  // }, []);
 
   useEffect(() => {
     dispatch(setPageLoading(false));
@@ -124,45 +77,6 @@ const AddProductPage: NextPage<PageProps> = ({
   useEffect(() => {
     return instantlyToTop;
   }, []);
-
-  // const dispatchAddInfo = useCallback((e: AddInfoEvents) => {
-  //   const inputValue = e.target.value;
-  //   const inputField = e.target.name;
-  //   dispatch({
-  //     type: Actions.addInfo,
-  //     payload: { inputField, inputValue },
-  //   });
-  // }, []);
-
-  // const dispatchAddInfo = (e: AddInfoEvents) => {
-  //   const inputValue = e.target.value;
-  //   const inputField = e.target.name;
-  //   dispatch({
-  //     type: Actions.addInfo,
-  //     payload: { inputField, inputValue },
-  //   });
-  // };
-
-  // useUpload hook
-  // const { postUpload, errors, setErrors, uploading } = useUpload({
-  //   colorPropsList: state.colorPropsList,
-  //   productInfo: state.productInfo,
-  //   editMode,
-  //   deletedImgaes: state.deletedImages,
-  //   productId,
-  //   admin_username: adminUser.admin_username,
-  //   csrfToken,
-  //   onSuccess: () => {
-  //     console.log("OK");
-  //     router.push(
-  //       `/admin/products-list?main=${state.productInfo.main_cat}&sub=${state.productInfo.sub_cat}`
-  //     );
-  //   },
-  // });
-
-  const uploadHandler = async () => {
-    // await postUpload();
-  };
 
   const tagChangeHandler = (event: SyntheticEvent, newValue: string) => {
     setStage(newValue);
@@ -217,18 +131,7 @@ const AddProductPage: NextPage<PageProps> = ({
               <Divider />
             </Box>
             <TabPanel value={"1"}>
-              <ProductForm
-                // dispatchAddInfo={dispatchAddInfo}
-                // productInfo={state.productInfo}
-                // colorPropsList={state.colorPropsList}
-                // propError={errors}
-                // setErrors={setErrors}
-                editMode={editMode}
-                productId={productId}
-                // dispatch={dispatch}
-                // uploadHandler={uploadHandler}
-                // uploading={uploading}
-              />
+              <ProductForm editMode={editMode} productId={productId} />
             </TabPanel>
             <TabPanel value={"2"}>
               <ProductReviews
@@ -245,10 +148,12 @@ const AddProductPage: NextPage<PageProps> = ({
                 variant="outlined"
                 className={styles.form_button}
                 onClick={() => {
-                  router.push("/admin/products-list");
+                  router.push(
+                    `/admin/products-list?main=${main_cat}&sub=${sub_cat}`
+                  );
                 }}
               >
-                Back
+                Back to products list
               </Button>
             </TabPanel>
           </TabContext>
@@ -257,17 +162,7 @@ const AddProductPage: NextPage<PageProps> = ({
         <Grid container className={styles.main_grid}>
           <div className={styles.main_title}>Add New Product</div>
 
-          <ProductForm
-            // dispatchAddInfo={dispatchAddInfo}
-            // productInfo={state.productInfo}
-            // colorPropsList={state.colorPropsList}
-            // // propError={errors}
-            // setErrors={setErrors}
-            editMode={editMode}
-            // dispatch={dispatch}
-            // uploadHandler={uploadHandler}
-            // uploading={uploading}
-          />
+          <ProductForm editMode={editMode} />
         </Grid>
       )}
     </main>

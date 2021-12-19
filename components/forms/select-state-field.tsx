@@ -3,15 +3,17 @@ import { ChangeEvent, FocusEvent, memo } from "react";
 // UI //
 import {
   FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
   FormHelperText,
   Grid,
+  InputLabel,
   GridSize,
+  useMediaQuery,
+  Select,
+  SelectChangeEvent,
+  MenuItem,
 } from "@mui/material";
 import styles from "./__form-input-field.module.css";
+import { sxMUI } from "./__form-input-MUI";
 
 interface Props {
   value: string;
@@ -45,33 +47,38 @@ function SelectState({
     md = 12;
   }
 
+  const isSmall = useMediaQuery("(max-width: 765px)");
+
   return (
     <Grid item container xs={12} sm={6} md={md}>
-      <FormControl error={showError} className={styles.form_control_half}>
-        <InputLabel className={styles.form_label}>STATE</InputLabel>
-        <Select
-          value={value}
-          name={inputName}
-          label="STATE"
-          onFocus={onFocusHandler}
-          onBlur={onBlurHandler}
-          onChange={onChangeHandler}
-          error={showError}
-          className={styles.input_box}
-          MenuProps={MenuProps}
-        >
-          {stateArray.map((state) => {
-            return (
-              <MenuItem key={state} value={state}>
-                {state}
-              </MenuItem>
-            );
-          })}
-        </Select>
-        <FormHelperText className={styles.input_error}>
-          {inputError}
-        </FormHelperText>
-      </FormControl>
+      <div className={styles.form_control_half} style={{ marginRight: "10px" }}>
+        <FormControl error={showError} sx={{ width: "100%" }}>
+          <InputLabel sx={{ fontSize: isSmall ? "14px" : "20px" }}>
+            STATE
+          </InputLabel>
+          <Select
+            value={value}
+            name={inputName}
+            label="STATE"
+            onFocus={onFocusHandler}
+            onBlur={onBlurHandler}
+            onChange={onChangeHandler}
+            error={showError}
+            className={styles.input_box_shadow}
+            sx={isSmall ? sxMUI.input_box_small : sxMUI.input_box}
+            MenuProps={MenuProps}
+          >
+            {stateArray.map((state) => {
+              return (
+                <MenuItem key={state} value={state}>
+                  {state}
+                </MenuItem>
+              );
+            })}
+          </Select>
+          <FormHelperText sx={sxMUI.input_error}>{inputError}</FormHelperText>
+        </FormControl>
+      </div>
     </Grid>
   );
 }
