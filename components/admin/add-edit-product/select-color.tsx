@@ -20,8 +20,10 @@ import {
   FormHelperText,
   SelectChangeEvent,
   OutlinedInput,
+  useMediaQuery,
 } from "@mui/material";
 import styles from "./__styles.module.css";
+import { sxMUI } from "./__styles-MUI";
 
 interface Props {
   colorName: string;
@@ -55,6 +57,8 @@ function SelectColor({
     dispatch(setColorInfo_adminProduct({ listIndex, name, value }));
   };
 
+  const isSmall = useMediaQuery("(max-width: 550px)");
+
   const error_colorName =
     uploadError_colorName !== "" &&
     (colorName === "" || colorName === undefined);
@@ -75,7 +79,9 @@ function SelectColor({
       >
         <FormControl
           error={error_colorCode}
-          className={styles.form_control_color}
+          sx={
+            isSmall ? sxMUI.form_control_color_small : sxMUI.form_control_color
+          }
         >
           <InputLabel htmlFor="outlined-pick-color">Pick a Color</InputLabel>
           <OutlinedInput
@@ -85,13 +91,9 @@ function SelectColor({
             name={inputNames.colorCode}
             value={colorCode}
             onChange={selectColorHandler}
-            // error={error_colorCode}
-            // InputLabelProps={{
-            //   shrink: true,
-            // }}
             className={styles.input_box_shadow}
           />
-          <FormHelperText className={styles.input_error}>
+          <FormHelperText sx={sxMUI.input_error}>
             {error_colorCode && uploadError_colorCode}
           </FormHelperText>
         </FormControl>
@@ -107,7 +109,9 @@ function SelectColor({
       >
         <FormControl
           error={error_colorName}
-          className={styles.form_control_color}
+          sx={
+            isSmall ? sxMUI.form_control_color_small : sxMUI.form_control_color
+          }
         >
           <InputLabel>Color Name</InputLabel>
           <Select
@@ -116,6 +120,7 @@ function SelectColor({
             name={inputNames.colorName}
             onChange={selectColorHandler}
             className={styles.input_box_shadow}
+            MenuProps={MenuProps}
           >
             {colorNames.map((color) => {
               return (
@@ -126,17 +131,17 @@ function SelectColor({
                     justifyContent="flex-start"
                     alignItems="center"
                   >
-                    <Box>{color.name}</Box>
-                    <Box
+                    <div>{color.name}</div>
+                    <div
                       style={{ backgroundColor: `${color.code}` }}
                       className={styles.color_menu_ball}
-                    ></Box>
+                    ></div>
                   </Grid>
                 </MenuItem>
               );
             })}
           </Select>
-          <FormHelperText className={styles.input_error}>
+          <FormHelperText sx={sxMUI.input_error}>
             {error_colorName && uploadError_colorName}
           </FormHelperText>
         </FormControl>
@@ -144,5 +149,13 @@ function SelectColor({
     </Fragment>
   );
 }
+
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: "60vh",
+    },
+  },
+};
 
 export default memo(SelectColor);

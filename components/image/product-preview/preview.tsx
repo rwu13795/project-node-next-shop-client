@@ -118,24 +118,24 @@ function ProductPreview({
           />
         </div>
       </div>
-      <div className={styles.sub_box_container}>
-        <div className={styles.color_container}>
-          {colorPropsList.map((props, index) => {
-            return (
-              <PreviewColor
-                key={index}
-                productLink={productLink}
-                colorProps={props}
-                colorIndex={index}
-                productId={productId}
-                setPreviewImage={setPreviewImage}
-                activeColor={activeColor}
-                setActiveIndex={setActiveIndex}
-                page={page}
-              />
-            );
-          })}
-        </div>
+      {/* <div className={styles.sub_box_container}> */}
+      <div className={styles.color_container}>
+        {colorPropsList.map((props, index) => {
+          return (
+            <PreviewColor
+              key={index}
+              productLink={productLink}
+              colorProps={props}
+              colorIndex={index}
+              productId={productId}
+              setPreviewImage={setPreviewImage}
+              activeColor={activeColor}
+              setActiveIndex={setActiveIndex}
+              page={page}
+            />
+          );
+        })}
+        {/* </div> */}
       </div>
       <div className={styles.item_text}>{title.toUpperCase()}</div>
       <div className={styles.item_text}>$ {price}</div>

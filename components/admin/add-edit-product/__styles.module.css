@@ -2,17 +2,20 @@
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-  padding-top: 50px;
+  padding-top: 20px;
   margin-bottom: 50px;
 }
-@media screen and (min-width: 1400px) {
-  .main_grid {
-    max-width: 80rem;
-  }
+
+.main_title {
+  width: 100%;
+  text-align: center;
+  font-size: 34px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
 .form_grid_center {
-  margin-top: 1.3rem;
+  /* margin-top: 1.3rem;   margin is always overridden by the MUI default style */
   justify-content: center;
   align-items: center;
 }
@@ -22,21 +25,11 @@
   justify-content: flex-start;
   align-items: center;
 }
-@media screen and (max-width: 755px) {
-  .form_grid_flex_start {
-    justify-content: space-between;
-  }
-}
 
 .form_grid_space_between {
-  margin-top: 1.3rem;
+  /* margin-top: 1.3rem;   margin is always overridden by the MUI default style */
   justify-content: space-evenly;
   align-items: center;
-}
-@media screen and (max-width: 550px) {
-  .form_grid_space_between {
-    justify-content: center;
-  }
 }
 
 .form_grid_space_evenly {
@@ -45,42 +38,13 @@
   align-items: center;
 }
 
-.form_control_size {
-  margin-right: 0.2rem;
-  margin-left: 0.2rem;
-  width: 14vw;
-  min-width: 7rem;
-  max-width: 12rem;
-}
-@media screen and (max-width: 550px) {
-  .form_control_size {
-    width: 20vw;
-    min-width: 5rem;
-  }
-}
-
-.form_control_color {
-  margin-right: 0.2rem;
-  margin-left: 1rem;
-  width: 40vw;
-  min-width: 8rem;
-  max-width: 19rem;
-  border-radius: 1rem;
-}
-@media screen and (max-width: 550px) {
-  .form_control_color {
-    width: 90vw;
-  }
-}
-
 .desc_box {
   width: 90vw;
-  margin-right: 2px;
 }
 
 .colorProps_grid {
-  margin: 1.5rem 2px 1rem 0;
-  padding-bottom: 3rem;
+  /* margin: 1.5rem 2px 1rem 0;  margin is always overridden by the MUI default style */
+  padding-bottom: 30px;
   border: rgb(165, 164, 164) 1px solid;
   border-radius: 0.5rem;
   box-shadow: 2px 2px 5px black;
@@ -114,14 +78,15 @@
   font-size: min(5.5vw, 1rem);
   margin-right: 0 2px 0 2px;
 }
+.add_image_box {
+  width: max(min(14vw, 9rem), 7rem);
+  height: auto;
+  margin-left: 12px;
+  border-radius: 0.5rem;
+  box-shadow: 2px 2px 5px black;
+}
 
 .image_button {
-  width: 3.8vw;
-  height: 3.8vw;
-  min-width: 2rem;
-  min-height: 2rem;
-  max-width: 2.4rem;
-  max-height: 2.4rem;
   transition: ease-in 0.3s;
 }
 .image_button:hover {
@@ -131,12 +96,6 @@
 }
 
 .image_button_large {
-  width: 9vw;
-  height: 9vw;
-  min-width: 4.5rem;
-  min-height: 4.5rem;
-  max-width: 6rem;
-  max-height: 6rem;
   color: black;
   transition: ease-in 0.3s;
 }
@@ -145,37 +104,9 @@
   cursor: pointer;
   transition: ease-in 0.3s;
 }
+
 .image_button_text {
   font-size: min(6vw, 1.3rem);
-}
-
-.form_button {
-  font-size: min(4vw, 1.2rem);
-  margin-top: 0.8rem;
-  margin-right: 0.5rem;
-  margin-left: 0.5rem;
-}
-.form_button_icon {
-  width: 2.5vw;
-  height: 2.5vw;
-  min-width: 1.2rem;
-  min-height: 1.2rem;
-  max-width: 1.5rem;
-  max-height: 1.5rem;
-}
-
-.form_button_small {
-  font-size: min(2.5vw, 0.8rem);
-  margin-right: 0.5rem;
-  margin-left: 0.5rem;
-}
-.form_button_icon_small {
-  width: 1.8vw;
-  height: 1.8vw;
-  min-width: 0.8rem;
-  min-height: 0.8rem;
-  max-width: 1.1rem;
-  max-height: 1.1rem;
 }
 
 .form_error {
@@ -188,4 +119,23 @@
 
 .input_box_shadow {
   box-shadow: 2px 2px 5px black;
+}
+
+@media screen and (min-width: 1400px) {
+  .main_grid {
+    max-width: 80rem;
+  }
+}
+@media screen and (max-width: 755px) {
+  .form_grid_flex_start {
+    justify-content: space-between;
+  }
+}
+@media screen and (max-width: 550px) {
+  .form_grid_space_between {
+    justify-content: center;
+  }
+  .save_buttons_box {
+    margin-top: 25px;
+  }
 }

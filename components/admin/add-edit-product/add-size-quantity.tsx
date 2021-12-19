@@ -17,6 +17,7 @@ import {
   FormHelperText,
 } from "@mui/material";
 import styles from "./__styles.module.css";
+import { sxMUI } from "./__styles-MUI";
 
 interface Props {
   sizesList: { [name: string]: number };
@@ -45,7 +46,7 @@ function AddSizeQuantity({
   let error = uploadError !== "" && isNaN(sizesList[size]);
 
   return (
-    <FormControl className={styles.form_control_size} error={error}>
+    <FormControl error={error} sx={sxMUI.form_control_size}>
       <InputLabel htmlFor="outlined-size-qty">{capitalize(size)}</InputLabel>
       <OutlinedInput
         id="outlined-size-qty"
@@ -60,7 +61,7 @@ function AddSizeQuantity({
         startAdornment={<div></div>}
         className={styles.input_box_shadow}
       />
-      <FormHelperText className={styles.input_error}>
+      <FormHelperText sx={sxMUI.input_error}>
         {error && uploadError}
       </FormHelperText>
     </FormControl>

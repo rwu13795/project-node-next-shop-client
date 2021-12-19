@@ -22,9 +22,6 @@ function DeleteProdcutModal({
   setOpenDeleteModal,
   deleteProductHandler,
 }: Props): JSX.Element {
-  const router = useRouter();
-  const dispatch = useDispatch();
-
   const closeModal = () => setOpenDeleteModal(false);
 
   return (
@@ -40,7 +37,7 @@ function DeleteProdcutModal({
         }}
       >
         <Fade in={openDeleteModal}>
-          <Box className={styles.delete_warning_modal}>
+          <div className={styles.delete_warning_modal}>
             <div className={styles.delete_left_grid}>
               <div className={styles.modal_text}>{delete_product.title}</div>
               <div className={styles.delete_image}>
@@ -74,7 +71,7 @@ function DeleteProdcutModal({
                 </Button>
               </div>
             </div>
-          </Box>
+          </div>
         </Fade>
       </Modal>
     </Fragment>

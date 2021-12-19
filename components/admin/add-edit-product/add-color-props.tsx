@@ -15,6 +15,7 @@ import { Grid, Button } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import styles from "./__styles.module.css";
 import main_styles from "../../layout/__layout.module.css";
+import { sxMUI } from "./__styles-MUI";
 
 interface Props {
   colorProps: ColorPropsState;
@@ -47,17 +48,25 @@ function AddColorsProps({
   // "colorProp" object is passed into it)
 
   return (
-    <Grid item container className={styles.colorProps_grid}>
-      <Grid item container className={styles.form_grid_space_between}>
+    <Grid
+      item
+      container
+      className={styles.colorProps_grid}
+      sx={{ m: "10px 0" }}
+    >
+      <Grid
+        item
+        container
+        className={styles.form_grid_space_between}
+        sx={{ mt: "10px" }}
+      >
         <div className={main_styles.text_4}>Color #{listIndex + 1}</div>
         <div>
           <Button
             variant="outlined"
             color="warning"
-            startIcon={
-              <DeleteForeverIcon className={styles.form_button_icon_small} />
-            }
-            className={styles.form_button_small}
+            startIcon={<DeleteForeverIcon sx={sxMUI.form_button_icon_small} />}
+            sx={sxMUI.form_button_small}
             name={inputNames.removeColor}
             onClick={removeColorHandler}
           >
@@ -65,8 +74,8 @@ function AddColorsProps({
           </Button>
         </div>
       </Grid>
-      <Grid item container justifyContent="center">
-        <Grid item container xs={12} sm={6} md={6}>
+      <Grid item container sx={{ mt: "8px" }}>
+        <Grid item container xs={12} sm={6} md={6} alignItems="flex-start">
           <SelectColor
             colorName={colorProps.colorName}
             colorCode={colorProps.colorCode}
@@ -78,6 +87,7 @@ function AddColorsProps({
           item
           container
           flexDirection="row"
+          alignItems="flex-start"
           xs={12}
           sm={6}
           md={6}
@@ -97,7 +107,7 @@ function AddColorsProps({
         </Grid>
       </Grid>
 
-      <Grid item container>
+      <Grid item container sx={{ mt: "10px" }}>
         <AddImage
           listIndex={listIndex}
           editMode={editMode}

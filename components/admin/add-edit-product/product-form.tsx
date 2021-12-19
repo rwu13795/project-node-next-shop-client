@@ -25,6 +25,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import SaveIcon from "@mui/icons-material/Save";
 import styles from "./__styles.module.css";
+import { sxMUI } from "./__styles-MUI";
 
 interface Props {
   editMode: boolean;
@@ -73,9 +74,8 @@ function ProductForm(props: Props): JSX.Element {
 
   return (
     <div className={styles.main_grid}>
-      <Grid item container justifyContent="center" md={6}>
-        <h1>Product Info</h1>
-      </Grid>
+      <div className={styles.main_title}>PRODUCT INFO</div>
+
       <Grid item container>
         <Grid
           item
@@ -115,12 +115,17 @@ function ProductForm(props: Props): JSX.Element {
           );
         })}
       </Grid>
-      <Grid item container className={styles.form_grid_space_between}>
+      <Grid
+        item
+        container
+        className={styles.form_grid_space_between}
+        sx={{ mt: "20px" }}
+      >
         <Grid item>
           <Button
             variant="outlined"
-            startIcon={<AddCircleIcon className={styles.form_button_icon} />}
-            className={styles.form_button}
+            startIcon={<AddCircleIcon sx={sxMUI.form_button_icon} />}
+            sx={sxMUI.form_button}
             onClick={() => {
               dispatch(addMoreColor_adminProduct());
             }}
@@ -129,12 +134,12 @@ function ProductForm(props: Props): JSX.Element {
           </Button>
         </Grid>
 
-        <Grid item>
+        <div className={styles.save_buttons_box}>
           <LoadingButton
             loading={uploadStatus === "loading" || uploadStatus === "succeeded"}
             loadingPosition="start"
-            startIcon={<SaveIcon className={styles.form_button_icon} />}
-            className={styles.form_button}
+            startIcon={<SaveIcon sx={sxMUI.form_button_icon} />}
+            sx={sxMUI.form_button}
             variant="contained"
             onClick={uploadHandler}
           >
@@ -143,12 +148,12 @@ function ProductForm(props: Props): JSX.Element {
           <Button
             color="error"
             variant="outlined"
-            className={styles.form_button}
+            sx={sxMUI.form_button}
             onClick={cancelButtonHandler}
           >
             Cancel
           </Button>
-        </Grid>
+        </div>
       </Grid>
 
       {formHasError && (

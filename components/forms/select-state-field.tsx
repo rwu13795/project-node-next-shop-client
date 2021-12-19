@@ -88,7 +88,7 @@ export default memo(SelectState);
 const MenuProps = {
   PaperProps: {
     style: {
-      maxHeight: "40vh",
+      maxHeight: "45vh",
     },
   },
 };

@@ -25,6 +25,7 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import styles from "./__styles.module.css";
+import { sxMUI } from "./__styles-MUI";
 
 interface Props {
   listIndex: number;
@@ -112,7 +113,7 @@ function AddImage({
 
       {imageUrls.map((url, imageIndex) => {
         return (
-          <Box key={imageIndex} className={styles.image_box}>
+          <div key={imageIndex} className={styles.image_box}>
             {/* have to change the "htmlfor" and "id" dynamically, otherwise the first label/input will
                 always be triggered since all the labels have the same "htmlFor" and "id"  */}
             {editImage && (
@@ -127,12 +128,13 @@ function AddImage({
                 display: none, because assistive technology interprets the latter two styles to mean 
                 the file input isn't interactive. */}
                 <Tooltip title="Change">
-                  <Box>
+                  <div>
                     <InputLabel
                       htmlFor={`relace-image-${listIndex}-${imageIndex}`}
                     >
                       <ChangeCircleIcon
                         className={styles.image_button}
+                        sx={sxMUI.image_button}
                         style={{ color: "#008ab4 " }}
                       />
                     </InputLabel>
@@ -144,15 +146,16 @@ function AddImage({
                       style={{ display: "none" }}
                       onChange={(e) => replaceImageHandler(e, imageIndex)}
                     />
-                  </Box>
+                  </div>
                 </Tooltip>
                 <Tooltip title="Remove">
-                  <Box onClick={() => removeImageHandler(imageIndex)}>
+                  <div onClick={() => removeImageHandler(imageIndex)}>
                     <CancelIcon
                       className={styles.image_button}
+                      sx={sxMUI.image_button}
                       style={{ color: "#f44336" }}
                     />
-                  </Box>
+                  </div>
                 </Tooltip>
               </Grid>
             )}
@@ -162,17 +165,20 @@ function AddImage({
                 {file}
                 {typeof file !== "string" && file.name}
               </Box> */}
-          </Box>
+          </div>
         );
       })}
-      <Box className={styles.image_box}>
+      <div className={styles.add_image_box}>
         <Grid
           container
           className={styles.form_grid_center}
           flexDirection="column"
         >
           <InputLabel htmlFor={`add-more-image-${listIndex}`}>
-            <AddBoxIcon className={styles.image_button_large} />
+            <AddBoxIcon
+              className={styles.image_button_large}
+              sx={sxMUI.image_button_large}
+            />
           </InputLabel>
           <input
             multiple
@@ -183,14 +189,12 @@ function AddImage({
             style={{ display: "none" }}
             onChange={addImageHandler}
           />
-          <Box className={styles.image_button_text}>Add Images</Box>
+          <div className={styles.image_button_text}>Add Images</div>
         </Grid>
-      </Box>
+      </div>
 
       {imageUrls.length < 1 && (
-        <FormHelperText className={styles.input_error}>
-          {uploadError}
-        </FormHelperText>
+        <FormHelperText sx={sxMUI.input_error}>{uploadError}</FormHelperText>
       )}
     </Grid>
   );

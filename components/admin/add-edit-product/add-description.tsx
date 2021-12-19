@@ -18,6 +18,7 @@ import {
   InputLabel,
 } from "@mui/material";
 import styles from "./__styles.module.css";
+import { sxMUI } from "./__styles-MUI";
 
 interface Props {
   setFormHasError: React.Dispatch<React.SetStateAction<boolean>>;
@@ -52,9 +53,7 @@ function AddDescription({ setFormHasError }: Props): JSX.Element {
         error={error}
         className={styles.input_box_shadow}
       />
-      <FormHelperText className={styles.input_error}>
-        {uploadError}
-      </FormHelperText>
+      <FormHelperText sx={sxMUI.input_error}>{uploadError}</FormHelperText>
     </FormControl>
   );
 }

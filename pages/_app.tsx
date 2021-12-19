@@ -1,16 +1,15 @@
-import type { AppProps } from "next/app";
 import Head from "next/head";
 import { Provider } from "react-redux";
+import React from "react";
 
 import Layout from "../components/layout/layout";
 import store from "../utils/redux-store";
 
-//////////////////
+// inject MUI styles to server-side
 import PropTypes from "prop-types";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider } from "@emotion/react";
-
 import { theme } from "../styles/mui-theme";
 import createEmotionCache from "../utils/createEmotionCache";
 

@@ -8,6 +8,7 @@ import { inputNames } from "../../utils/enums-types/input-names";
 import { inputTypes } from "../../utils/enums-types/input-types";
 import {
   clearAdminErrors,
+  getAdminStatus,
   // getAdminStatus,
   selectAdminUser,
   selectLoggedInAsAdmin,
@@ -39,6 +40,7 @@ const AdminPage: NextPage = () => {
   const [isRegistering, setIsRegistering] = useState<boolean>(false);
 
   useEffect(() => {
+    dispatch(getAdminStatus());
     return instantlyToTop;
   }, []);
 
@@ -47,8 +49,6 @@ const AdminPage: NextPage = () => {
       router.push(`/admin/products-list`);
     }
   }, [loggedInAsAdmin, adminUser.admin_username, router]);
-
-  // `/admin/products-list?admin_username=${adminUser.admin_username}&page=1`
 
   const switchHandler = () => {
     dispatch(clearAdminErrors("all"));

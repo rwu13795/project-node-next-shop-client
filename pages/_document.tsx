@@ -16,9 +16,7 @@ import { theme } from "../styles/mui-theme";
 class MyDocument extends Document {
   render() {
     return (
-      <Html
-      // style={{ scrollBehavior: "smooth" }}
-      >
+      <Html>
         <Head>
           {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
@@ -54,6 +52,24 @@ export default MyDocument;
  default styles of those components in the production build
 
  I have to re-write the all CSS for the MUI components by using the MUI "sx" properties
+
+ ////////////
+ // UPDATE //
+ //////////// 
+ 
+ Found a solution
+
+ In the example MUI devs provided, the argument "prepend: true" is missing in the "createCache()".
+ This causes all the CSS modules were injected before the MUI styles.
+ 
+ updated the createEmotionCache() as below
+ createCache({
+    key: "css",
+    prepend: true,
+  })
+
+  I am not going to change the CSS, which I have rewritten for the MUI sx properties, back to
+  CSS modules. Just leave them there for reference
 */
 
 // MUI integration with NextJS
@@ -116,8 +132,8 @@ MyDocument.getInitialProps = async (ctx: DocumentContext) => {
     ...initialProps,
     // Styles fragment is rendered after the app and page rendering finish.
     styles: [
-      ...React.Children.toArray(initialProps.styles),
       ...emotionStyleTags,
+      ...React.Children.toArray(initialProps.styles),
     ],
   };
 };
