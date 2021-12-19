@@ -51,7 +51,10 @@ function SelectState({
 
   return (
     <Grid item container xs={12} sm={6} md={md}>
-      <div className={styles.form_control_half} style={{ marginRight: "10px" }}>
+      <div
+        className={styles.form_control_half}
+        style={{ marginRight: isSmall ? "0px" : "10px" }}
+      >
         <FormControl error={showError} sx={{ width: "100%" }}>
           <InputLabel sx={{ fontSize: isSmall ? "14px" : "20px" }}>
             STATE

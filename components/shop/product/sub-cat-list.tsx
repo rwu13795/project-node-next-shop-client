@@ -1,12 +1,4 @@
-import {
-  Dispatch,
-  Fragment,
-  SetStateAction,
-  useRef,
-  useState,
-  memo,
-  useEffect,
-} from "react";
+import { useRef, useState, memo, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,15 +22,8 @@ import {
 import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 
 // UI //
-import {
-  Button,
-  CircularProgress,
-  Divider,
-  Grid,
-  SelectChangeEvent,
-} from "@mui/material";
+import { Button, Divider, Grid } from "@mui/material";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import styles from "./__sub-cat-list.module.css";
 
 export interface RequestParams {

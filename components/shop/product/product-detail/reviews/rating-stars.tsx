@@ -1,12 +1,10 @@
-import React, { useState, Fragment, memo } from "react";
-import { PageColorProps } from "../../../../../utils/react-hooks/get-more-products";
-
-import { Reviews } from "../../../../../pages/shop/product-detail/[product_id]";
+import React, { memo } from "react";
+import { useDispatch } from "react-redux";
 
 // UI //
-
-import { Grid, Tooltip } from "@mui/material";
+import { useMediaQuery, Tooltip } from "@mui/material";
 import styles from "./__rating-stars.module.css";
+import { setExpandReviewDrawer } from "../../../../../utils/redux-store/shopSlice";
 
 interface Props {
   averageRating: number;
@@ -15,6 +13,9 @@ interface Props {
 }
 
 function RatingStars({ averageRating, total, large }: Props): JSX.Element {
+  const dispatch = useDispatch();
+  const isSmall = useMediaQuery("(max-width: 765px)");
+
   const percentage = (averageRating / 5) * 100;
 
   const full_stars = large ? styles.full_stars_large : styles.full_stars;
@@ -23,6 +24,9 @@ function RatingStars({ averageRating, total, large }: Props): JSX.Element {
   const readReviewHandler = () => {
     const elem = document.getElementById("product_reviews");
     if (elem) elem.scrollIntoView({ block: "center", behavior: "smooth" });
+    if (isSmall) {
+      dispatch(setExpandReviewDrawer(true));
+    }
   };
 
   return (

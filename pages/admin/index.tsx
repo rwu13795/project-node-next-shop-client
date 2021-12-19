@@ -9,16 +9,14 @@ import { inputTypes } from "../../utils/enums-types/input-types";
 import {
   clearAdminErrors,
   getAdminStatus,
-  // getAdminStatus,
   selectAdminUser,
   selectLoggedInAsAdmin,
 } from "../../utils/redux-store/adminSlice";
 import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
 
 // UI //
-import { Button, CircularProgress, Grid, Box } from "@mui/material";
+import { Button } from "@mui/material";
 import styles from "./__admin_index.module.css";
-import { sxMUI } from "./__admin_index-MUI";
 
 const signIn_inputFieldsArray = [
   inputNames.admin_username,
@@ -64,11 +62,7 @@ const AdminPage: NextPage = () => {
             <div className={styles.text}>
               Have an existing Adminstrator account?
             </div>
-            <Button
-              variant="contained"
-              onClick={switchHandler}
-              sx={sxMUI.button}
-            >
+            <Button variant="contained" onClick={switchHandler} sx={button}>
               Sign In
             </Button>
           </div>
@@ -109,11 +103,7 @@ const AdminPage: NextPage = () => {
             <div className={styles.text}>
               Create a new Administrator account
             </div>
-            <Button
-              variant="contained"
-              onClick={switchHandler}
-              sx={sxMUI.button}
-            >
+            <Button variant="contained" onClick={switchHandler} sx={button}>
               Register
             </Button>
           </div>
@@ -128,3 +118,10 @@ export default AdminPage;
 export function getStaticProps() {
   return { props: { page: "admin" } };
 }
+
+const button = {
+  width: "80%",
+  maxWidth: "400px",
+  fontSize: "min(16px, 4vw)",
+  mt: "10px",
+};

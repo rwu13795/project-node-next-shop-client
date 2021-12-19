@@ -41,7 +41,8 @@
 
 .form_button {
   font-size: min(4vw, 1.2rem);
-  left: 70vw;
+  float: right;
+  margin-right: 40px;
   position: relative;
 }
 

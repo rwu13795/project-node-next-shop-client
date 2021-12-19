@@ -30,15 +30,16 @@ const MenSubCatPage: NextPage<SubCat_PageProps> = ({
     dispatch(setPageLoading(false));
   });
 
-  // I have use the window.scrollTo() "instant" behavior when the page
-  // is unmounted, otherwise, the "smooth" behavior will make the new page looks
-  // start at the position of the old page and then "scroll smoothly" back to top
+  // when user navigate to other pages, the scroll position stays where it is
+  // untill the new page is loaded. It causes the screen "jumps" to top
+  // when the page or component is being unmount, use "instantlyToTop" to
+  // scroll to top before the new page is loaded
   useEffect(() => {
     return instantlyToTop;
   }, []);
 
   const backToTopHandler = () => {
-    window.scrollTo({ top: 0 });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (

@@ -32,6 +32,7 @@ interface ShopState {
   openFilterModal: boolean;
   oneItmePerRow: boolean;
   currentOrder: Order | undefined;
+  expandReviewDrawer: boolean;
 }
 
 interface CreateOrderBody {
@@ -79,6 +80,7 @@ const initialState: ShopState = {
   openFilterModal: false,
   oneItmePerRow: false,
   currentOrder: undefined,
+  expandReviewDrawer: false,
 };
 
 const createOrderHistory = createAsyncThunk<
@@ -170,6 +172,10 @@ const shopSlice = createSlice({
     setOneItmePerRow(state) {
       state.oneItmePerRow = !state.oneItmePerRow;
     },
+
+    setExpandReviewDrawer(state, action: PayloadAction<boolean>) {
+      state.expandReviewDrawer = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -198,6 +204,7 @@ export const {
   setFilterTagToClear,
   setOpenFilterModal,
   setOneItmePerRow,
+  setExpandReviewDrawer,
 } = shopSlice.actions;
 export { createOrderHistory };
 
@@ -240,4 +247,8 @@ export const selectOneItmePerRow = createSelector(
 export const selectCurrentOrder = createSelector(
   [selectCheckout],
   (shopState) => shopState.currentOrder
+);
+export const selectExpandReviewDrawer = createSelector(
+  [selectCheckout],
+  (shopState) => shopState.expandReviewDrawer
 );

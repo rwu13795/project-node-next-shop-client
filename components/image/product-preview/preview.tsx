@@ -112,8 +112,8 @@ function ProductPreview({
             alt={previewImage}
             blurDataURL={previewImage}
             // layout="fill"
-            width={320}
-            height={380}
+            width={685}
+            height={800}
             // loading="eager"
           />
         </div>
