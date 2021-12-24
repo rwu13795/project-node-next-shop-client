@@ -44,7 +44,8 @@ class MyDocument extends Document {
 export default MyDocument;
 
 // NOTE //
-/* the code below allows the MUI to be rendered in server-side and then
+/* 
+ the code below allows the MUI to be rendered in server-side and then
  injected into the <head> element.
 
  It does NOT solve the problem where the CSS modules styles, which were assigned to
@@ -59,8 +60,9 @@ export default MyDocument;
  
  Found a solution
 
- In the example MUI devs provided, the argument "prepend: true" is missing in the "createCache()".
- This causes all the CSS modules were injected before the MUI styles.
+ In the example MUI devs provided, the property "prepend: true" is missing in 
+ the "createCache()". By adding this property, all MUI styles will be loaded first,
+ which allows the styles in the CSS modules to override the MUI default styles
  
  updated the createEmotionCache() as below
  createCache({
@@ -68,8 +70,8 @@ export default MyDocument;
     prepend: true,
   })
 
-  I am not going to change the CSS, which I have rewritten for the MUI sx properties, back to
-  CSS modules. Just leave them there for reference
+  I am not going to put the CSS, which I have rewritten for the MUI sx properties, 
+  back to CSS modules. Just leave them there for reference
 */
 
 // MUI integration with NextJS

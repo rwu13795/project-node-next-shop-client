@@ -27,6 +27,7 @@
   height: 70vh;
   width: 100%;
   overflow: auto;
+  padding-right: 5px;
 }
 .summary_grid::-webkit-scrollbar {
   width: 4px !important;

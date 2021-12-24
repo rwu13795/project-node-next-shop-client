@@ -35,22 +35,25 @@
 }
 
 .item_container {
+  max-width: 422px;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-around;
-  margin: 20px;
+  justify-content: center;
+  margin: 20px 5px;
 }
 .image_container {
+  width: 50%;
   width: 200px;
   height: 230px;
   position: relative;
   border: 2px solid rgb(0, 138, 180);
 }
 .desc_container {
+  width: 50%;
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
-  font-size: 24px;
+  font-size: 20px;
   margin-left: 10px;
 }
 .desc_title {
@@ -137,7 +140,7 @@
     height: 115px;
   }
   .desc_container {
-    font-size: min(18px, 5vw);
+    font-size: min(17px, 4vw);
   }
 
   .view_order_detail {
