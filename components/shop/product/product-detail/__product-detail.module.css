@@ -18,7 +18,7 @@
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: center;
-  /* align-items: center; */
+  margin-top: 16px;
 }
 
 .product_images_container {
@@ -89,6 +89,12 @@
 .product_desc_detail_collapse_box {
   margin: 10px 5px 10px 5px;
   width: 90vw;
+}
+
+@media screen and (max-width: 1080px) {
+  .lower_grid {
+    margin-top: 6px;
+  }
 }
 
 @media screen and (max-width: 765px) {

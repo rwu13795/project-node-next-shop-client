@@ -12,6 +12,7 @@ import {
   setUploadStatus_adminProduct,
   uploadNewProduct,
 } from "../../../utils/redux-store/adminProductSlice";
+import { select_selectedAdmin } from "../../../utils/redux-store/adminSlice";
 
 import SelectCategory from "./select-category";
 import AddTitle from "./add-title";
@@ -41,6 +42,7 @@ function ProductForm(props: Props): JSX.Element {
   const colorPropsList = useSelector(selectColorPropsList);
   const uploadStatus = useSelector(selectUploadStatus_adminProduct);
   const { main_cat, sub_cat } = useSelector(selectCurrentCats_adminProduct);
+  const selectedAdmin = useSelector(select_selectedAdmin);
 
   const [formHasError, setFormHasError] = useState<boolean>(false);
 
@@ -50,9 +52,11 @@ function ProductForm(props: Props): JSX.Element {
       setFormHasError(true);
     }
     if (uploadStatus === "succeeded") {
-      router.push(`/admin/products-list?main=${main_cat}&sub=${sub_cat}`);
+      router.push(
+        `/admin/products-list?main=${main_cat}&sub=${sub_cat}&admin_username=${selectedAdmin}`
+      );
     }
-  }, [uploadStatus, dispatch, router, main_cat, sub_cat]);
+  }, [uploadStatus, dispatch, router, main_cat, sub_cat, selectedAdmin]);
 
   // clear the state when component is being unmounted
   useEffect(() => {
@@ -64,7 +68,9 @@ function ProductForm(props: Props): JSX.Element {
   const cancelButtonHandler = () => {
     dispatch(setPageLoading(true));
     dispatch(resetState_adminProduct());
-    router.push(`/admin/products-list?main=${main_cat}&sub=${sub_cat}`);
+    router.push(
+      `/admin/products-list?main=${main_cat}&sub=${sub_cat}&admin_username=${selectedAdmin}`
+    );
   };
 
   const uploadHandler = () => {

@@ -93,6 +93,9 @@
   margin: 0 10px;
   font-size: min(18px, 4vw);
 }
+.next_link {
+  text-decoration: none;
+}
 
 @media screen and (min-width: 765px) and (max-width: 1250px) {
 }

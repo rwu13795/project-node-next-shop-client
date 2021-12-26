@@ -9,6 +9,8 @@ import { PageProductProps } from "../../utils/react-hooks/get-more-products";
 import {
   getAdminStatus,
   selectAdminUser,
+  select_selectedAdmin,
+  setSelectedAdmin,
 } from "../../utils/redux-store/adminSlice";
 import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 import browserClient from "../../utils/axios-client/browser-client";
@@ -48,6 +50,7 @@ interface PageProps {
   main_cat: string;
   sub_cat: string;
   admin_username_array: string[];
+  start_selectedAdmin: string;
 }
 
 export interface DeleteProduct {
@@ -66,6 +69,7 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
   main_cat: startMain,
   sub_cat: startSub,
   admin_username_array,
+  start_selectedAdmin,
 }) => {
   const ITEMS_PER_PAGE = 6;
 
@@ -76,6 +80,7 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
   const admin_username = useSelector(selectAdminUser).admin_username;
   const uploadStatus = useSelector(selectUploadStatus_adminProduct);
   const { main_cat, sub_cat } = useSelector(selectCurrentCats_adminProduct);
+  const selectedAdmin = useSelector(select_selectedAdmin);
 
   useEffect(() => {
     dispatch(getAdminStatus());
@@ -103,11 +108,17 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
     admin_username: "",
   });
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
-  const [selectedAdmin, setSelectedAdmin] = useState<string>(admin_username);
+  // const [selectedAdmin, setSelectedAdmin] = useState<string>(admin_username);
 
+  // set the current selected admin
   useEffect(() => {
-    setSelectedAdmin(admin_username);
-  }, [admin_username]);
+    dispatch(setSelectedAdmin(admin_username));
+  }, [admin_username, dispatch]);
+  useEffect(() => {
+    if (start_selectedAdmin !== "") {
+      dispatch(setSelectedAdmin(start_selectedAdmin));
+    }
+  }, [start_selectedAdmin, dispatch]);
 
   const fetchNewList = useCallback(
     async (
@@ -206,7 +217,9 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
 
     setCurrentPage(1);
     await fetchNewList(1, main_cat, sub_cat, newSelect);
-    setSelectedAdmin(newSelect);
+
+    dispatch(setSelectedAdmin(newSelect));
+    // setSelectedAdmin(newSelect);
   };
 
   if (Object.keys(product_category).length === 0) {
@@ -372,7 +385,9 @@ export default AdmimProductsListPage;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const client = serverClient(context);
-  const { main, sub } = context.query;
+  const { main, sub, admin_username } = context.query;
+
+  console.log(admin_username);
 
   let main_cat = "men";
   let sub_cat = "t-shirts";
@@ -384,7 +399,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     const { data }: { data: PageProps } = await client.get(
       "http://localhost:5000/api/admin/get-products-list",
-      { params: { pageNum: 1, main: main_cat, sub: sub_cat } }
+      { params: { pageNum: 1, main: main_cat, sub: sub_cat, admin_username } }
     );
 
     console.log(data);
@@ -396,6 +411,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         product_category: data.product_category || {},
         productsTotal: data.productsTotal,
         admin_username_array: data.admin_username_array,
+        start_selectedAdmin: data.start_selectedAdmin,
         main_cat,
         sub_cat,
       },

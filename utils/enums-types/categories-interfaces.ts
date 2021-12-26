@@ -44,3 +44,14 @@ export interface SubCat_PageProps {
   sub_cat: string;
   main_cat: string;
 }
+
+export interface MainCat_PageProps {
+  products: {
+    cat_1: PageProductProps[];
+    cat_2: PageProductProps[];
+    cat_3: PageProductProps[];
+    cat_4: PageProductProps[];
+  };
+  subCatTitles: string[];
+  main_cat: string;
+}

@@ -44,6 +44,8 @@
   display: flex;
   flex-flow: row nowrap;
   margin-left: 20px;
+  padding-bottom: 10px;
+  box-shadow: 1px 2px 6px rgba(34, 185, 255);
 }
 .rating_text {
   font-family: "Oswald", sans-serif;
@@ -91,10 +93,7 @@
   justify-content: center;
   width: 36px;
   font-size: 36px;
-  /* border: solid red 2px; */
-  text-align: center;
   color: rgb(180, 180, 180);
-  /* background-color: #00789e; */
 }
 .stars:hover {
   cursor: pointer;
@@ -105,10 +104,7 @@
   justify-content: center;
   width: 36px;
   font-size: 36px;
-  /* background-color: #00789e; */
   color: #fde16d;
-  /* border: solid red 2px; */
-  text-align: center;
 }
 .stars_active:hover {
   cursor: pointer;

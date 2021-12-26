@@ -2,7 +2,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  height: 40px;
+  min-height: 40px;
 }
 
 .color_ball {
@@ -30,6 +30,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.color_ball_outer_container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 40px;
 }
 .color_ball_container {
   margin: 0 5px 0 5px;

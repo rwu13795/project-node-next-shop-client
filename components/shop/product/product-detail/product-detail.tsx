@@ -246,7 +246,13 @@ function ProductDetail({
 
             <Grid
               sx={{
-                display: { xs: "none", sm: "none", md: "none", lg: "flex" },
+                display: {
+                  xs: "none",
+                  sm: "none",
+                  md: "none",
+                  lg: "none",
+                  xl: "flex",
+                },
               }}
             >
               <div className={_line_item}>

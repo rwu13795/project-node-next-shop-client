@@ -33,6 +33,7 @@ interface AdminState {
   adminErrors: AdminErrors;
   loadingStatus: string;
   csrfToken: string;
+  selectedAdmin: string;
 }
 
 const initialState: AdminState = {
@@ -40,6 +41,7 @@ const initialState: AdminState = {
   adminErrors: {},
   loadingStatus: "idle",
   csrfToken: "",
+  selectedAdmin: "",
 };
 
 const client = browserClient();
@@ -104,6 +106,9 @@ const adminSlice = createSlice({
     },
     setLoadingStatus_admin(state, action: PayloadAction<string>) {
       state.loadingStatus = action.payload;
+    },
+    setSelectedAdmin(state, action: PayloadAction<string>) {
+      state.selectedAdmin = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -176,7 +181,8 @@ const adminSlice = createSlice({
       );
   },
 });
-export const { clearAdminErrors, setLoadingStatus_admin } = adminSlice.actions;
+export const { clearAdminErrors, setLoadingStatus_admin, setSelectedAdmin } =
+  adminSlice.actions;
 
 export { adminSignIn, adminSignOut, adminRegister, getAdminStatus };
 
@@ -203,4 +209,8 @@ export const selectLoggedInAsAdmin = createSelector(
 export const selectCsrfToken_admin = createSelector(
   [selectAdmin],
   (adminState) => adminState.csrfToken
+);
+export const select_selectedAdmin = createSelector(
+  [selectAdmin],
+  (adminState) => adminState.selectedAdmin
 );

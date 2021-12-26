@@ -53,7 +53,15 @@ function ProductDescriptionWrapper({ description }: Props): JSX.Element {
         </Grid>
       ) : (
         <Grid
-          sx={{ display: { xs: "none", sm: "none", md: "flex", lg: "none" } }}
+          sx={{
+            display: {
+              xs: "none",
+              sm: "none",
+              md: "flex",
+              lg: "flex",
+              xl: "none",
+            },
+          }}
         >
           <div className={styles.product_desc_detail_box}>
             <div style={{ fontSize: "18px" }}>Product Detail: </div>

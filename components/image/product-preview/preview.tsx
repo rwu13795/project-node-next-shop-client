@@ -27,7 +27,7 @@ interface Props {
   colorPropsList: PageColorProps[];
   productInfo: PageProductInfo;
   productId: string;
-  oneItemPerRow: boolean;
+  oneItemPerRow?: boolean;
   page?: string;
 }
 
@@ -97,25 +97,41 @@ function ProductPreview({
     dispatch(setPageLoading(true));
     if (page === "admin") {
       router.push(`/admin/add-product?productId=${productId}`);
-    } else {
-      router.push(productLink);
     }
   };
 
   return (
     <div className={styles.item_card_box}>
       <div className={styles.sub_box_container}>
-        <div className={imageBoxStyle} onClick={onImageClickHandler}>
-          <Image
-            src={previewImage}
-            alt={previewImage}
-            blurDataURL={previewImage}
-            // layout="fill"
-            width={685}
-            height={800}
-            // loading="eager"
-          />
-        </div>
+        {page === "admin" ? (
+          <div className={imageBoxStyle} onClick={onImageClickHandler}>
+            <Image
+              src={previewImage}
+              alt={previewImage}
+              blurDataURL={previewImage}
+              // layout="fill"
+              width={685}
+              height={800}
+              // loading="eager"
+            />
+          </div>
+        ) : (
+          <Link href={productLink}>
+            <a style={{ textDecoration: "none", color: "inherit" }}>
+              <div className={imageBoxStyle} onClick={onImageClickHandler}>
+                <Image
+                  src={previewImage}
+                  alt={previewImage}
+                  blurDataURL={previewImage}
+                  // layout="fill"
+                  width={685}
+                  height={800}
+                  // loading="eager"
+                />
+              </div>
+            </a>
+          </Link>
+        )}
       </div>
       {/* <div className={styles.sub_box_container}> */}
       <div className={styles.color_container}>
