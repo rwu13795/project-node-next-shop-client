@@ -1,0 +1,16 @@
+.main_grid {
+  margin-top: 20px;
+  min-height: 100vh;
+  flex-flow: row nowrap;
+  width: 100%;
+}
+.main_title {
+  width: 100%;
+  text-align: center;
+  font-size: 50px;
+  font-weight: bold;
+  border-bottom: rgb(0, 81, 148) solid 2px;
+}
+
+@media screen and (max-width: 765px) {
+}

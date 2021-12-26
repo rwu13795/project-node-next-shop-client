@@ -160,7 +160,7 @@ const AddProductPage: NextPage<PageProps> = ({
         </div>
       ) : (
         <div className={styles.main_grid}>
-          <div className={styles.main_title}>Add New Product</div>
+          <div className={styles.main_title}>ADD NEW PRODUCT</div>
 
           <ProductForm editMode={editMode} />
         </div>

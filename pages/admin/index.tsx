@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -13,6 +13,7 @@ import {
   selectLoggedInAsAdmin,
 } from "../../utils/redux-store/adminSlice";
 import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
+import serverClient from "../../utils/axios-client/server-client";
 
 // UI //
 import { Button } from "@mui/material";
@@ -115,7 +116,22 @@ const AdminPage: NextPage = () => {
 
 export default AdminPage;
 
-export function getStaticProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const client = serverClient(context);
+
+  const { data } = await client.get(
+    "http://localhost:5000/api/admin/admin-status"
+  );
+
+  if (data.adminUser.loggedInAsAdmin) {
+    return {
+      redirect: {
+        destination: "/admin/products-list",
+        permanent: false,
+      },
+    };
+  }
+
   return { props: { page: "admin" } };
 }
 

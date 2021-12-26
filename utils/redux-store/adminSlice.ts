@@ -150,6 +150,7 @@ const adminSlice = createSlice({
         state.adminUser.admin_username = "";
         state.adminUser.loggedInAsAdmin = false;
         state.csrfToken = "";
+        state.loadingStatus = "signed-out";
       })
       /////////////
       // SIGN UP //

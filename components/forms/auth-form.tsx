@@ -83,8 +83,19 @@ function AuthForm({
     (e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>) => {
       const { name, value } = e.target;
 
-      dispatch(clearAuthErrors(name));
-      dispatch(clearAdminErrors(name));
+      if (
+        name === inputNames.password ||
+        name === inputNames.confirm_password
+      ) {
+        dispatch(clearAuthErrors(inputNames.password));
+        dispatch(clearAuthErrors(inputNames.confirm_password));
+        dispatch(clearAdminErrors(inputNames.password));
+        dispatch(clearAdminErrors(inputNames.confirm_password));
+      } else {
+        dispatch(clearAuthErrors(name));
+        dispatch(clearAdminErrors(name));
+      }
+
       setInputValue((prev) => {
         return { ...prev, [name]: value };
       });

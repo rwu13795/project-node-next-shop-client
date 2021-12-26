@@ -70,7 +70,7 @@ export default function useGetMoreProducts(
       if (hasMore) {
         try {
           const { data } = await client.get(
-            `http://localhost:5000/api/products/${main_cat}/${sub_cat}`,
+            `http://localhost:5000/api/products/get/${main_cat}/${sub_cat}`,
             { params }
           );
           setHasMore(data.products.length >= ITEMS_PER_PAGE);

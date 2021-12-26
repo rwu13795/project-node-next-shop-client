@@ -60,6 +60,7 @@ function SubCatProductsList({
   } else {
     catListArray = kidsMenuList;
   }
+  const banner = `/sub-cat-banner/${main_cat}.jpg`;
 
   const [filterTags, setFilterTags] = useState<Set<string>>(new Set());
   const [params, setParams] = useState<RequestParams>({
@@ -162,12 +163,7 @@ function SubCatProductsList({
         <div className={styles.right_grid_upper_container}>
           <div className={styles.sub_cat_title}>{sub_cat.toUpperCase()}</div>
           <div className={styles.main_banner}>
-            <Image
-              src="/home/men.jpg"
-              alt="sub-cat"
-              width={1300}
-              height={900}
-            />
+            <Image src={banner} alt="sub-cat" width={1150} height={385} />
           </div>
 
           <div className={styles.filter_tags} id="sub_cat_filter_tag">

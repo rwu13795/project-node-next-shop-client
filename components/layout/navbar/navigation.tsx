@@ -22,7 +22,9 @@ import {
 } from "../../../utils/redux-store/userSlice";
 import {
   adminSignOut,
+  selectLoadingStatus_admin,
   selectLoggedInAsAdmin,
+  setLoadingStatus_admin,
 } from "../../../utils/redux-store/adminSlice";
 import {
   selectPageLoading,
@@ -57,6 +59,7 @@ export default function MainNavigation({ page, page_cat, filter_view }: Props) {
   const loggedInAsAdmin = useSelector(selectLoggedInAsAdmin);
   const pageLoading = useSelector(selectPageLoading);
   const pageLoading_user = useSelector(selectPageLoading_user);
+  const loadingStatus_admin = useSelector(selectLoadingStatus_admin);
 
   const [mainNavContainer, setMainNavContainer] = useState<string>(
     styles.main_1
@@ -122,9 +125,16 @@ export default function MainNavigation({ page, page_cat, filter_view }: Props) {
   }, [scrollStopListener, changeNavbarClassname]);
   /******************************************************************************/
 
-  const adminSignOutHandler = () => {
+  useEffect(() => {
+    // push to admin index only when the sign-out is done in the server
+    if (loadingStatus_admin === "signed-out") {
+      dispatch(setLoadingStatus_admin("idle"));
+      router.push("/admin");
+    }
+  }, [loadingStatus_admin, dispatch, router]);
+
+  const adminSignOutHandler = async () => {
     dispatch(setPageLoading(true));
-    router.push("/admin");
     dispatch(adminSignOut());
   };
 

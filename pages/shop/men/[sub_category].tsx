@@ -14,7 +14,7 @@ import serverClient from "../../../utils/axios-client/server-client";
 // UI //
 import { Button } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import styles from "./__sub-cat.module.css";
+import styles from "./__cat.module.css";
 
 const MenSubCatPage: NextPage<SubCat_PageProps> = ({
   products: startProducts,
@@ -70,7 +70,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const client = serverClient(context);
 
   const { data }: { data: SubCat_PageProps } = await client.get(
-    `http://localhost:5000/api/products/${main_cat}/${sub_cat}`
+    `http://localhost:5000/api/products/get/${main_cat}/${sub_cat}`
   );
 
   console.log(data);

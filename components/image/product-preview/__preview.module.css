@@ -62,21 +62,31 @@
 
 .image_box {
   width: min(320px, 20vw);
-  height: min(380px, 24vw);
+  height: min(380px, 23.5vw);
   margin-bottom: 10px;
   position: relative;
   object-fit: cover;
   box-shadow: 2px 4px 6px;
   cursor: pointer;
+  background-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgb(255, 255, 255) 10%
+  );
 }
 .image_box_2 {
   width: min(320px, 20vw);
-  height: min(380px, 24vw);
+  height: min(380px, 23.5vw);
   margin-bottom: 10px;
   position: relative;
   object-fit: cover;
   box-shadow: 2px 4px 6px;
   cursor: pointer;
+  background-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgb(255, 255, 255) 10%
+  );
 }
 
 .item_text {
