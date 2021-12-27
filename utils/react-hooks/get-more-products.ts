@@ -48,13 +48,12 @@ export default function useGetMoreProducts(
   // have to reset the products when the startProducts were changed
   // (when other sub-cat products are being rendered)
   useEffect(() => {
-    console.log("startProducts --->", startProducts);
     setProducts(startProducts);
     setFilterStats(startFilterStats);
     setHasMore(true);
   }, [startProducts, startFilterStats]);
 
-  console.log(params.pageNum);
+  console.log("page", params.pageNum);
 
   const axios_params = {
     page: params.pageNum,
@@ -121,8 +120,6 @@ export default function useGetMoreProducts(
       return;
     }
   }, [fetchMoreData, params]);
-
-  console.log("in get more hasMore", hasMore);
 
   return { isLoading, error, products, filterStats, hasMore };
 }

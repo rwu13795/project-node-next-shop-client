@@ -44,7 +44,7 @@ function FilterViewIcon({ page }: Props): JSX.Element {
           />
         </div>
       </div>
-      {page !== "search" && (
+      {page !== "search" && page !== "accessory" && (
         <div className={styles.filter_icon_box} onClick={onFilterClickHandler}>
           <div className={styles.filter_icon}>
             <FilterListIcon />

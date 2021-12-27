@@ -238,7 +238,7 @@ function SubCatProductsList({
             <h1>Sorry, there is no item added in this category yet</h1>
           )}
         </Grid>
-        {products.length < 6 && (
+        {products.length < 6 && main_cat !== "men" && (
           <div className={styles.hint_box}>
             HINT: Please navigate to the{" "}
             <Link href="/shop/men">Men&apos;s Collections</Link>, there are more

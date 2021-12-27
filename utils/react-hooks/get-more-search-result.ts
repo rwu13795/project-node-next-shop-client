@@ -1,10 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useCallback, memo } from "react";
-import { useDispatch } from "react-redux";
-import { RequestParams } from "../../components/shop/product/sub-cat-list";
 import browserClient from "../../utils/axios-client/browser-client";
-import { FilterStats } from "../enums-types/categories-interfaces";
-import { setProductFiltering } from "../redux-store/shopSlice";
 
 export interface PageColorProps {
   imageFiles: string[];
@@ -47,9 +43,6 @@ export default function useGetMoreSearchResult(
     setProducts(startProducts);
     setHasMore(startProducts.length >= ITEMS_PER_PAGE);
   }, [startProducts]);
-
-  ////////
-  console.log("pageNum in get more ---->", pageNum);
 
   const fetchMoreData = useCallback(async () => {
     if (hasMore) {
