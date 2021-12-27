@@ -2,6 +2,10 @@
   width: 80vw;
   max-width: 90rem;
   margin-top: 50px;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  margin-bottom: 20px;
 }
 .main_grid {
   width: 100%;
@@ -37,10 +41,39 @@
   justify-content: center;
 }
 
+.to_top_button {
+  width: 250px;
+  transition: all 0.5;
+}
+.to_top_button:hover {
+  animation: mover 1s infinite alternate;
+}
+@-webkit-keyframes mover {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes mover {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+.to_top_icon {
+  margin: 0 10px 0 10px;
+  transform: rotate(90deg);
+}
+
 @media screen and (max-width: 765px) {
   .main_container {
     width: 95vw;
     margin-top: 30px;
+    margin-bottom: 10px;
   }
 
   .main_title {

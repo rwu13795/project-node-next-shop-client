@@ -66,7 +66,7 @@ export enum KidsCategory {
   Jackets = "Jackets",
   // bottoms
   shorts = "Shorts",
-  pants = "Pants",
+  // pants = "Pants",
   jeans = "Jeans",
   // accessories
   socks = "Socks",
@@ -75,6 +75,6 @@ export enum KidsCategory {
 export const kidsCatArray = Object.values(KidsCategory);
 export const kidsMenuList = {
   tops: ["T-shirts", "Sweaters", "Jackets"],
-  bottoms: ["Shorts", "Pants", "Jeans"],
+  bottoms: ["Shorts", "Jeans"],
   accessories: ["Socks", "Hats"],
 };

@@ -13,9 +13,12 @@
 
 import { useState } from "react";
 
-import browserClient from "../../utils/axios-client/browser-client";
+import browserClient from "../axios-client/browser-client";
 import { inputNames } from "../enums-types/input-names";
-import { ReducerColorProps, ReducerProductInfo } from "./add-product-reducer";
+import {
+  ReducerColorProps,
+  ReducerProductInfo,
+} from "./_ref_add-product-reducer";
 import { Errors } from "../helper-functions/input-error-check";
 import { useDispatch } from "react-redux";
 import { setPageLoading } from "../redux-store/layoutSlice";

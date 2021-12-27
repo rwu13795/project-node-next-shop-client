@@ -110,7 +110,8 @@ const uploadNewProduct = createAsyncThunk<
   async ({ editMode, productId }, thunkAPI) => {
     const state = thunkAPI.getState().admin_product;
     const csrfToken = thunkAPI.getState().admin.csrfToken;
-    const admin_username = thunkAPI.getState().admin.adminUser.admin_username;
+    // to make change in item of a specific admin as the Master Admin
+    const selected_admin_username = thunkAPI.getState().admin.selectedAdmin;
 
     try {
       // re-format the props and put the imageFiles into "formData"
@@ -160,7 +161,7 @@ const uploadNewProduct = createAsyncThunk<
         colorPropsListFromClient: colorPropsUpload,
         deletedImgaes: state.deletedImages,
         productId,
-        admin_username,
+        selected_admin_username,
         csrfToken,
       };
 

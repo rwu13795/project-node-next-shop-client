@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
-import Link from "next/link";
-import { useState, ChangeEvent, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 
@@ -10,11 +9,12 @@ import MainCatProductsList from "../../../components/shop/product/main-cat-list"
 import { MainCat_PageProps } from "../../../utils/enums-types/categories-interfaces";
 
 // UI //
-import { Button } from "@mui/material";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import styles from "./__cat.module.css";
 
-const Men: NextPage<MainCat_PageProps> = ({ products, subCatTitles }) => {
+const MenMainCatPage: NextPage<MainCat_PageProps> = ({
+  products,
+  subCatTitles,
+}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const Men: NextPage<MainCat_PageProps> = ({ products, subCatTitles }) => {
   );
 };
 
-export default Men;
+export default MenMainCatPage;
 
 export async function getStaticProps() {
   const { data }: { data: MainCat_PageProps } = await axios.get(

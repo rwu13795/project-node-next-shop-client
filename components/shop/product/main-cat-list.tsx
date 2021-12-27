@@ -1,35 +1,22 @@
-import { useRef, useState, memo, useEffect } from "react";
+import { memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 
-import {
-  selectOneItmePerRow,
-  setFilterTagToClear,
-} from "../../../utils/redux-store/shopSlice";
 import ProductPreview from "../../image/product-preview/preview";
-import useGetMoreProducts, {
-  PageProductProps,
-} from "../../../utils/react-hooks/get-more-products";
-import useLastElementRef from "../../../utils/react-hooks/last-elem-ref";
-import {
-  FilterStats,
-  MainCat_PageProps,
-} from "../../../utils/enums-types/categories-interfaces";
-import ProductFilter from "./product-filter/filter";
+import { MainCat_PageProps } from "../../../utils/enums-types/categories-interfaces";
 import {
   menCatArray,
   womenCatArray,
   kidsCatArray,
 } from "../../../utils/enums-types/product-category";
 import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
+import { capitalize } from "../../../utils/helper-functions/capitalize-first-letter";
 
 // UI //
-import { Button, Divider, Grid, useMediaQuery } from "@mui/material";
-import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import { Button, useMediaQuery } from "@mui/material";
 import styles from "./__main-cat-list.module.css";
-import { capitalize } from "../../../utils/helper-functions/capitalize-first-letter";
 
 function MainCatProductsList({
   products,

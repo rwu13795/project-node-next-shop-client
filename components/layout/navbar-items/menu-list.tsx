@@ -155,7 +155,7 @@ function MenuList({
     <Fragment>
       {mainCatArray.map((cat, index) => {
         return (
-          <Grid item sx={mui_sx} key={index} onClick={onMainCatClickHandler}>
+          <Grid item sx={mui_sx} key={index}>
             <Link href={`/shop/${cat.toLowerCase()}`}>
               <a
                 className={styles.menu_list}
@@ -166,6 +166,7 @@ function MenuList({
                     : {}
                 }
                 onMouseEnter={() => openMenu(cat)}
+                onClick={onMainCatClickHandler}
               >
                 {cat.toUpperCase()}
               </a>

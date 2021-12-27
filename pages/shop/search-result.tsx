@@ -13,7 +13,8 @@ import useGetMoreSearchResult from "../../utils/react-hooks/get-more-search-resu
 import useLastElementRef from "../../utils/react-hooks/last-elem-ref";
 
 // UI //
-import { Grid } from "@mui/material";
+import { Grid, Button } from "@mui/material";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import styles from "./__search-result.module.css";
 
 interface PageProps {
@@ -55,6 +56,10 @@ const SearchResult: NextPage<PageProps> = ({
     undefined,
     setPageNum
   );
+
+  const backToTopHandler = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <main className={styles.main_container}>
@@ -108,6 +113,11 @@ const SearchResult: NextPage<PageProps> = ({
           Sorry, we were not able to find any item that matches the criteria
         </div>
       )}
+      <Button className={styles.to_top_button} onClick={backToTopHandler}>
+        <ArrowBackIosNewIcon className={styles.to_top_icon} />
+        back to top
+        <ArrowBackIosNewIcon className={styles.to_top_icon} />
+      </Button>
     </main>
   );
 };

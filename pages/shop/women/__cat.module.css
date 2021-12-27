@@ -1,0 +1,41 @@
+.main_container {
+  margin: 35px 15px 20px 15px;
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.to_top_button {
+  width: 250px;
+  transition: all 0.5;
+}
+.to_top_button:hover {
+  animation: mover 1s infinite alternate;
+}
+@-webkit-keyframes mover {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes mover {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+.to_top_icon {
+  margin: 0 10px 0 10px;
+  transform: rotate(90deg);
+}
+
+@media screen and (max-width: 765px) {
+  .main_container {
+    margin: 35px 5px 20px 5px;
+  }
+}

@@ -15,7 +15,7 @@ import { Button } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import styles from "./__cat.module.css";
 
-const WomenSubCatPage: NextPage<SubCat_PageProps> = ({
+const KidsSubCatPage: NextPage<SubCat_PageProps> = ({
   products: startProducts,
   filterStats: startFilterStats,
   sub_cat,
@@ -60,11 +60,11 @@ const WomenSubCatPage: NextPage<SubCat_PageProps> = ({
   );
 };
 
-export default WomenSubCatPage;
+export default KidsSubCatPage;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const sub_cat = context.query.sub_category;
-  const main_cat = MainCategory.women.toLowerCase();
+  const main_cat = MainCategory.kids.toLowerCase();
 
   const client = serverClient(context);
 
