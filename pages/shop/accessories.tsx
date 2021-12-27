@@ -9,7 +9,7 @@ import { MainCat_PageProps } from "../../utils/enums-types/categories-interfaces
 import AccessoryTab from "../../components/shop/product/accessory-tab";
 
 // UI //
-import { Box, Tab, Grid } from "@mui/material";
+import { Box, Tab, Grid, useMediaQuery } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import styles from "./__checkout.module.css";
 
@@ -19,6 +19,7 @@ const AccessoriesPage: NextPage<MainCat_PageProps> = ({
 }) => {
   const dispatch = useDispatch();
 
+  const isSmall = useMediaQuery("(max-width: 765px)");
   const [stage, setStage] = useState<string>("2");
 
   useEffect(() => {
@@ -31,6 +32,8 @@ const AccessoriesPage: NextPage<MainCat_PageProps> = ({
   const tagChangeHandler = (event: SyntheticEvent, newValue: string) => {
     setStage(newValue);
   };
+
+  const muiSX = { minWidth: isSmall ? "auto" : "150px" };
 
   return (
     <main className={styles.main_container}>
@@ -48,9 +51,24 @@ const AccessoriesPage: NextPage<MainCat_PageProps> = ({
                 allowScrollButtonsMobile
                 className={styles.tags_title_box}
               >
-                <Tab label="MEN" value={"1"} className={styles.tag} />
-                <Tab label="WOMEN" value={"2"} className={styles.tag} />
-                <Tab label="KIDS" value={"3"} className={styles.tag} />
+                <Tab
+                  label="MEN"
+                  value={"1"}
+                  className={styles.tag}
+                  sx={muiSX}
+                />
+                <Tab
+                  label="WOMEN"
+                  value={"2"}
+                  className={styles.tag}
+                  sx={muiSX}
+                />
+                <Tab
+                  label="KIDS"
+                  value={"3"}
+                  className={styles.tag}
+                  sx={muiSX}
+                />
               </TabList>
             </Grid>
           </Box>
