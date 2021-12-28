@@ -1,14 +1,7 @@
-import { Fragment, Dispatch, SetStateAction, memo } from "react";
-import Image from "next/image";
+import { Fragment, memo, CSSProperties } from "react";
 
-import { Box } from "@mui/system";
+// UI //
 import { Grid } from "@mui/material";
-
-import { SxProps, Theme } from "@mui/system";
-import { CSSProperties } from "react";
-
-import { MainCategory } from "../../../utils/enums-types/product-category";
-
 import styles from "./__swiper.module.css";
 
 interface Props {
@@ -23,8 +16,8 @@ function Swiper_horizontal_NavButton_homePage({
   return (
     <Fragment>
       <div className="swiper-horizontal-prev-botton" style={nav_botton}>
-        <Grid container alignItems="center">
-          <Image src="/angel-left-thin.svg" alt="left" width={30} height={30} />
+        <Grid container alignItems="center" className={styles.arrorw_left}>
+          <div>&lt;</div>
         </Grid>
       </div>
 
@@ -32,13 +25,8 @@ function Swiper_horizontal_NavButton_homePage({
         {slideNum} / {total}
       </div>
       <div className="swiper-horizontal-next-botton" style={nav_botton}>
-        <Grid container alignItems="center">
-          <Image
-            src="/angel-right-thin.svg"
-            alt="right"
-            width={30}
-            height={30}
-          />
+        <Grid container alignItems="center" className={styles.arrorw_right}>
+          <div>&gt;</div>
         </Grid>
       </div>
     </Fragment>
@@ -50,11 +38,4 @@ export default memo(Swiper_horizontal_NavButton_homePage);
 const nav_botton = {
   display: "flex",
   cursor: "pointer",
-  color: "red",
-  border: "red solid 2px",
 } as CSSProperties;
-
-const sx_botton = {
-  large: { display: { xs: "none", md: "block" } } as SxProps<Theme>,
-  small: { display: { xs: "block", md: "none" } } as SxProps<Theme>,
-};

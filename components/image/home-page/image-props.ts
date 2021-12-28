@@ -3,65 +3,84 @@ import { MainCategory } from "../../../utils/enums-types/product-category";
 export const homeImageProps = [
   {
     category: MainCategory.women,
-    md: [
-      "/home/large/women-1.jpg",
-      "https://testing-images-on-s3.s3.us-east-2.amazonaws.com/other-images/women-2.jpg",
-      "/home/large/women-3.jpg",
-      "/home/large/women-4.jpg",
+    large: [
+      "/home/large/women/1.webp",
+      "/home/large/women/2.webp",
+      "/home/large/women/3.webp",
+      "/home/large/women/4.webp",
     ],
-    sm: [
-      [
-        "/home/women-sm-1.jpg",
-        "/home/women-sm-2.jpg",
-        "/home/women-sm-3.jpg",
-        "/home/women-sm-4.jpg",
-        "/home/women-sm-5.jpg",
-      ],
-      "/home/large/women-1.jpg",
-      "/home/large/women-2.jpg",
-      "/home/large/women-3.jpg",
+    small: [
+      "/home/small/women/1.webp",
+      "/home/small/women/2.webp",
+      "/home/small/women/3.webp",
+      "/home/small/women/4.webp",
+    ],
+    x_small: [
+      "/home/small/x-small/women-1.webp",
+      "/home/small/x-small/women-2.webp",
+      "/home/small/x-small/women-3.webp",
+      "/home/small/x-small/women-4.webp",
+      "/home/small/x-small/women-5.webp",
     ],
   },
   {
     category: MainCategory.men,
-    md: [
-      "/home/large/men-1.jpg",
-      "/home/large/men-2.jpg",
-      "/home/large/men-3.jpg",
-      "/home/large/men-4.jpg",
+    large: [
+      "/home/large/men/1.webp",
+      "/home/large/men/2.webp",
+      "/home/large/men/3.webp",
+      "/home/large/men/4.webp",
     ],
-    sm: [
-      [
-        "/home/men-sm-1.jpg",
-        "/home/men-sm-2.jpg",
-        "/home/men-sm-3.jpg",
-        "/home/men-sm-4.jpg",
-        "/home/men-sm-5.jpg",
-        "/home/men-sm-6.jpg",
-      ],
-      "/home/large/men-1.jpg",
-      "/home/large/men-2.jpg",
-      "/home/large/men-3.jpg",
+    small: [
+      "/home/small/men/1.webp",
+      "/home/small/men/2.webp",
+      "/home/small/men/3.webp",
+      "/home/small/men/4.webp",
+    ],
+    x_small: [
+      "/home/small/x-small/men-1.webp",
+      "/home/small/x-small/men-2.webp",
+      "/home/small/x-small/men-3.webp",
+      "/home/small/x-small/men-4.webp",
+      "/home/small/x-small/men-5.webp",
+      "/home/small/x-small/men-6.webp",
     ],
   },
   {
     category: MainCategory.kids,
-    md: [
-      "/home/large/kids-1.jpg",
-      "/home/large/kids-2.jpg",
-      "/home/large/kids-3.jpg",
-      "/home/large/kids-4.jpg",
+    large: [
+      "/home/large/kids/1.webp",
+      "/home/large/kids/2.webp",
+      "/home/large/kids/3.webp",
+      "/home/large/kids/4.webp",
     ],
-    sm: [
-      [
-        "/home/kids-sm-1.jpg",
-        "/home/kids-sm-2.jpg",
-        "/home/kids-sm-3.jpg",
-        "/home/kids-sm-4.jpg",
-      ],
-      "/home/large/kids-1.jpg",
-      "/home/large/kids-2.jpg",
-      "/home/large/kids-3.jpg",
+    small: [
+      "/home/small/kids/1.webp",
+      "/home/small/kids/2.webp",
+      "/home/small/kids/3.webp",
+      "/home/small/kids/4.webp",
     ],
+    x_small: [
+      "/home/small/x-small/kids-1.webp",
+      "/home/small/x-small/kids-2.webp",
+      "/home/small/x-small/kids-3.webp",
+      "/home/small/x-small/kids-4.webp",
+    ],
+  },
+  {
+    category: MainCategory.accessories,
+    large: [
+      "/home/large/accessories/1.webp",
+      "/home/large/accessories/2.webp",
+      "/home/large/accessories/3.webp",
+      "/home/large/accessories/4.webp",
+    ],
+    small: [
+      "/home/small/accessories/1.webp",
+      "/home/small/accessories/2.webp",
+      "/home/small/accessories/3.webp",
+      "/home/small/accessories/4.webp",
+    ],
+    x_small: [""],
   },
 ];

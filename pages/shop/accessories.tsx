@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from "next";
 import { useDispatch } from "react-redux";
 import { SyntheticEvent, useEffect, useState } from "react";
 import axios from "axios";
@@ -13,14 +13,19 @@ import { Box, Tab, Grid, useMediaQuery } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import styles from "./__checkout.module.css";
 
-const AccessoriesPage: NextPage<MainCat_PageProps> = ({
+interface Props extends MainCat_PageProps {
+  tagNum: string;
+}
+
+const AccessoriesPage: NextPage<Props> = ({
+  tagNum,
   products,
   subCatTitles,
 }) => {
   const dispatch = useDispatch();
 
   const isSmall = useMediaQuery("(max-width: 765px)");
-  const [stage, setStage] = useState<string>("2");
+  const [stage, setStage] = useState<string>(tagNum);
 
   useEffect(() => {
     dispatch(setPageLoading(false));
@@ -93,15 +98,31 @@ const AccessoriesPage: NextPage<MainCat_PageProps> = ({
 
 export default AccessoriesPage;
 
-export async function getStaticProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  let main_cat = context.query.main_cat as string;
+
+  if (!main_cat) {
+    main_cat = "women";
+  }
+
   const { data }: { data: MainCat_PageProps } = await axios.get(
-    "http://localhost:5000/api/products/get-accessories?main_cat=women"
+    `http://localhost:5000/api/products/get-accessories?main_cat=${main_cat}`
   );
+
+  let tagNum: string;
+  if (main_cat === "men") {
+    tagNum = "1";
+  } else if (main_cat === "kids") {
+    tagNum = "3";
+  } else {
+    tagNum = "2";
+  }
 
   return {
     props: {
       products: data.products,
       subCatTitles: data.subCatTitles,
+      tagNum,
       filter_view: true,
       page: "accessory",
     },

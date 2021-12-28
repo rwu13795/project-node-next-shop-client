@@ -95,6 +95,10 @@ function Swiper_thumbs_product_detail_images({
                 alt={img}
                 layout="fill"
                 className={styles.slide_image}
+                // since all the images have different size and ratio, it is impossible
+                // to fit the image inside the box perfectly.
+                // if the size of all images is the same, the images can be easily fit inside
+                // the box and next-image can resize the image automatically
               />
             </SwiperSlide>
           );

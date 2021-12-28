@@ -76,8 +76,8 @@ function Swiper_product_detail_images({
   const zoomOutHandler = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
   ) => {
-    e.currentTarget.style.backgroundPosition = "0px 0px";
-    e.currentTarget.style.backgroundSize = "cover";
+    e.currentTarget.style.backgroundPosition = "center";
+    e.currentTarget.style.backgroundSize = "contain";
   };
 
   const openModalHandler = (img: string) => {
@@ -98,8 +98,9 @@ function Swiper_product_detail_images({
               className={styles.main_swpier_image}
               style={{
                 background: `url(${previewImage})`,
-                backgroundSize: "cover",
+                backgroundSize: "contain",
                 backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
               }}
             ></div>
           </SwiperSlide>
@@ -126,10 +127,15 @@ function Swiper_product_detail_images({
                 <div
                   id="bg_image"
                   className={styles.main_swpier_image}
+                  // since all the images have different size and ratio, it is impossible
+                  // to fit the image inside the box perfectly
+                  // if the size of all images is the same, the images can be easily fit inside
+                  // the box with the same size by using "contain" or "cover"
                   style={{
                     background: `url(${img})`,
-                    backgroundSize: "cover",
+                    backgroundSize: "contain",
                     backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
                   }}
                   onMouseMove={(e) => zoomInHandler(e)}
                   onMouseOut={(e) => zoomOutHandler(e)}
@@ -162,7 +168,9 @@ function Swiper_product_detail_images({
               <Image
                 src={img}
                 alt={img}
-                layout="fill"
+                layout="responsive"
+                width={500}
+                height={500}
                 className={styles.slide_image}
                 onClick={() => openModalHandler(img)}
               />
