@@ -61,7 +61,7 @@ function Swiper_thumbs_product_detail_images({
         <div className="thumbs-prev-btn-product-detail" style={nav_botton}>
           <Grid container justifyContent="center" className={nav_prev}>
             <Image
-              src="/angel-left-thin.svg"
+              src="/outlined_arrow.svg"
               alt="left"
               width={30}
               height={30}
@@ -108,7 +108,7 @@ function Swiper_thumbs_product_detail_images({
         <div className="thumbs-next-btn-product-detail" style={nav_botton}>
           <Grid container justifyContent="center" className={nav_next}>
             <Image
-              src="/angel-right-thin.svg"
+              src="/outlined_arrow.svg"
               alt="right"
               width={30}
               height={30}
