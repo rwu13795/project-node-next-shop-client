@@ -5,7 +5,6 @@ import axios from "axios";
 // custom axios client to make request in all pages
 const browserClient = () => {
   return axios.create({
-    baseURL: "/",
     withCredentials: true,
   });
 };

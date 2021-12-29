@@ -8,13 +8,13 @@ const serverClient = (ctx: GetServerSidePropsContext) => {
   if (typeof window === "undefined") {
     // in server
     return axios.create({
-      baseURL: "/",
+      // baseURL: "/",
       headers: ctx.req?.headers,
     });
   } else {
     // in browser
     return axios.create({
-      baseURL: "/",
+      // baseURL: "/",
       withCredentials: true,
     });
     // because when the page is loaded before, NextJS will use the cached code
