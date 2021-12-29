@@ -15,13 +15,17 @@ import styles from "./__checkout.module.css";
 
 interface Props extends MainCat_PageProps {
   tagNum: string;
+  req: any;
 }
 
 const AccessoriesPage: NextPage<Props> = ({
   tagNum,
   products,
   subCatTitles,
+  req,
 }) => {
+  console.log("req ------------->", req);
+
   const dispatch = useDispatch();
 
   const isSmall = useMediaQuery("(max-width: 765px)");
@@ -125,6 +129,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       tagNum,
       filter_view: true,
       page: "accessory",
+      req: context.req.headers,
     },
   };
 }

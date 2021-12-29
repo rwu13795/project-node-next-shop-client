@@ -5,13 +5,16 @@ import { GetServerSidePropsContext } from "next";
 // headers property in order to check for session, you must use this
 // custom axios client to make request in all pages
 const serverClient = (ctx: GetServerSidePropsContext) => {
-  if (typeof window === "undefined") {
+  console.log("typeof window ", typeof window);
+  if (typeof window === undefined) {
+    console.log("in server in server in server");
     // in server
     return axios.create({
       // baseURL: "/",
       headers: ctx.req?.headers,
     });
   } else {
+    console.log("in browser in browser in browser");
     // in browser
     return axios.create({
       // baseURL: "/",
