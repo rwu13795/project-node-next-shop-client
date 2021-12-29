@@ -2,10 +2,7 @@
   width: 45px;
   height: 45px;
   color: black;
-  /* max-width: 51px;
-  max-height: 51px; */
   cursor: pointer;
-  /* border-radius: 2rem; */
   transition: 0.3s ease-in-out;
 }
 .cart_icon:hover {
@@ -24,8 +21,6 @@
   border: solid 1px white;
   width: 25px;
   height: 25px;
-  /* max-width: 31px;
-  max-height: 31px; */
   text-align: center;
 }
 
@@ -60,10 +55,10 @@
   padding: 20px;
 }
 .cart_summary_menu::-webkit-scrollbar {
-  width: 8px !important;
+  width: 7px !important;
 }
 .cart_summary_menu::-webkit-scrollbar-thumb {
-  background-color: #00789c;
+  background-color: #008ab4;
   border: black 1px solid;
 }
 
@@ -73,7 +68,6 @@ use the "Collapse" effect for the container */
 /* "Collapse" does NOT fucking work inside a react-child-component, it must be used
 as a wrapper to wrap the component which is needed to be "collapsed"*/
 .cart_collapse_box {
-  /* border-radius: 0; */
   max-height: 80vh;
   top: 4rem;
   position: absolute;

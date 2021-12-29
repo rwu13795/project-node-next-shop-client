@@ -47,7 +47,7 @@ const AdminPage: NextPage = () => {
     if (loggedInAsAdmin) {
       router.push(`/admin/products-list`);
     }
-  }, [loggedInAsAdmin, adminUser.admin_username, router]);
+  }, [loggedInAsAdmin, router]);
 
   const switchHandler = () => {
     dispatch(clearAdminErrors("all"));

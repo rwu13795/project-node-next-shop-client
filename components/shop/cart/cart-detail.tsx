@@ -71,7 +71,8 @@ function CartDetail({
   let left_grid = styles.left_grid;
   let item_container = styles.item_container;
   let image_text_container = styles.image_text_container;
-  let imgae_container = styles.imgae_container;
+  let image_parent = styles.image_parent;
+  let image_box = styles.image_box;
   let text_container = styles.text_container;
   let item_title = styles.item_title;
   let qty_subtotal_grid = styles.qty_subtotal_grid;
@@ -90,7 +91,8 @@ function CartDetail({
   }
   if (summaryMode) {
     item_container = styles.item_container_checkout;
-    // image_text_container = styles.image_text_container_drop_down;
+    image_text_container = styles.image_text_container_drop_down;
+    image_parent = styles.image_parent_summary;
     text_container = styles.text_container_drop_down;
     item_title = styles.item_title_drop_down;
     subtotal = styles.subtotal_drop_down;
@@ -119,18 +121,14 @@ function CartDetail({
           return (
             <div key={index} className={item_container}>
               <div className={image_text_container}>
-                <div>
+                <div className={image_parent}>
                   <Image
                     src={item.imageUrl}
                     alt={item.title}
                     width={cartDropDown || summaryMode ? 120 : 300}
                     height={cartDropDown || summaryMode ? 132 : 320}
-                    // the next/image has in-line styles that will override most of
-                    // the layouts. without using "layout='filled'", the image won't cover the
-                    // parent box. I have to use "!important" to apply the layout in the
-                    // <Image /> and let the properties "width" and "height" in the component to
-                    // resize the width and height
-                    className={imgae_container}
+                    layout="responsive"
+                    className={image_box}
                   />
                 </div>
 
@@ -190,7 +188,7 @@ function CartDetail({
                 </div>
 
                 <div className={subtotal}>
-                  Subtotal: $ {item.quantity * item.price}
+                  <div>Subtotal:</div> <div>${item.quantity * item.price}</div>
                 </div>
               </div>
             </div>

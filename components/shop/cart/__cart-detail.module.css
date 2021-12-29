@@ -26,27 +26,42 @@
   justify-content: space-between;
   border: solid 2px rgb(0, 138, 180);
   padding: 15px;
+  gap: 5px;
 }
 
 .image_text_container {
+  width: 80%;
   font-size: 22px;
   display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  gap: 14px;
 }
 .item_title {
   font-size: 28px;
   font-weight: bolder;
 }
 
+.image_parent {
+  width: 50%;
+  max-width: 300px;
+  object-fit: cover;
+}
+.image_parent_summary {
+  width: 50%;
+  max-width: 120px;
+  object-fit: cover;
+}
 /* the next/image has in-line styles that will override most of
 the layouts. I have to use "!important" to apply the layout in the
 <Image /> and use the properties "width" and "height" in the component to
 handle the width and height */
-.imgae_container {
+.image_box {
   border: 2px solid black !important;
 }
 
 .text_container {
-  margin-left: 20px;
+  width: 50%;
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-around;
@@ -54,6 +69,7 @@ handle the width and height */
 }
 
 .qty_subtotal_grid {
+  width: 20%;
   display: flex;
   flex-flow: column wrap;
   justify-content: space-between;
@@ -80,6 +96,10 @@ handle the width and height */
 }
 
 .subtotal {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-end;
+  gap: 5px;
   text-align: right;
   font-size: 22px;
   font-weight: bold;
@@ -178,8 +198,12 @@ handle the width and height */
 }
 
 .image_text_container_drop_down {
+  width: 80%;
   font-size: 16px;
   display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  gap: 14px;
 }
 .item_title_drop_down {
   font-size: 16px;
@@ -187,12 +211,16 @@ handle the width and height */
 }
 
 .text_container_drop_down {
-  margin-left: 20px;
+  width: 50%;
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-around;
 }
 .subtotal_drop_down {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-end;
+  gap: 5px;
   text-align: right;
   font-size: 17px;
   font-weight: bold;
@@ -243,6 +271,7 @@ handle the width and height */
   padding-bottom: 20px;
 }
 .qty_subtotal_grid_checkout {
+  width: 20%;
   display: flex;
   flex-flow: column wrap;
   justify-content: space-between;
@@ -291,6 +320,11 @@ handle the width and height */
     font-size: min(18px, 4vw);
     display: flex;
   }
+  .image_text_container_drop_down {
+    justify-content: center;
+    width: 100%;
+  }
+
   .item_title {
     font-size: min(24px, 5vw);
     font-weight: bolder;
@@ -322,7 +356,7 @@ handle the width and height */
     width: 100%;
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     margin-top: 14px;
   }
@@ -348,7 +382,7 @@ handle the width and height */
 
   .subtotal {
     text-align: right;
-    font-size: 22px;
+    font-size: min(20px, 5.5vw);
     font-weight: bold;
   }
 
@@ -367,11 +401,15 @@ handle the width and height */
   .item_container_checkout {
     padding-bottom: 5px;
   }
+  .image_text_container_drop_down {
+    justify-content: center;
+    width: 100%;
+  }
   .qty_subtotal_grid_checkout {
     display: flex;
     width: 100%;
     flex-flow: row nowrap;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     margin-top: 14px;
   }

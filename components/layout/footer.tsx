@@ -20,22 +20,26 @@ function Footer({ page }: Props): JSX.Element {
             <div>rwu13795.work@gmail.com</div>
           </div>
         </div>
-        <div className={styles.middle_grid}>
-          <Link href="/shop/order-status">
-            <a style={{ textDecoration: "none", color: "inherit" }}>
-              <div className={styles.link_text + " " + styles.link}>
-                Order Status
-              </div>
-            </a>
-          </Link>
-          <Link href="/admin">
-            <a style={{ textDecoration: "none", color: "inherit" }}>
-              <div className={styles.link_text + " " + styles.link}>
-                Administration
-              </div>
-            </a>
-          </Link>
-        </div>
+
+        {page !== "admin" && (
+          <div className={styles.middle_grid}>
+            <Link href="/shop/order-status">
+              <a style={{ textDecoration: "none", color: "inherit" }}>
+                <div className={styles.link_text + " " + styles.link}>
+                  Order Status
+                </div>
+              </a>
+            </Link>
+            <Link href="/admin">
+              <a style={{ textDecoration: "none", color: "inherit" }}>
+                <div className={styles.link_text + " " + styles.link}>
+                  Administration
+                </div>
+              </a>
+            </Link>
+          </div>
+        )}
+
         <div className={styles.right_grid}>
           <div>&copy; 2022 By Ray Wu</div>
           <a
