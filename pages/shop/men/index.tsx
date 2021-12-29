@@ -10,6 +10,7 @@ import { MainCat_PageProps } from "../../../utils/enums-types/categories-interfa
 
 // UI //
 import styles from "./__cat.module.css";
+import browserClient from "../../../utils/axios-client/browser-client";
 
 const MenMainCatPage: NextPage<MainCat_PageProps> = ({
   products,
@@ -24,6 +25,16 @@ const MenMainCatPage: NextPage<MainCat_PageProps> = ({
     return instantlyToTop;
   }, []);
 
+  //////////////////////
+  const client = browserClient();
+  const click = async () => {
+    const { data } = await client.get(
+      "https://node-next-shop-server.herokuapp.com/api/auth/user-status"
+    );
+    console.log(data);
+  };
+  ////////////////////////
+
   return (
     <main className={styles.main_container}>
       <MainCatProductsList
@@ -31,6 +42,8 @@ const MenMainCatPage: NextPage<MainCat_PageProps> = ({
         subCatTitles={subCatTitles}
         main_cat="men"
       />
+
+      <button onClick={click}>AAAAAAAA</button>
     </main>
   );
 };
