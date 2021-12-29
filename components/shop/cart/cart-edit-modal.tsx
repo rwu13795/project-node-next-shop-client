@@ -52,7 +52,7 @@ function CartEditModal({ category, productId, index, editItem }: Props) {
   }, []);
 
   const handleClose = () => setOpen(false);
-  const editItemHandler = () => {
+  const editItemHandler = async () => {
     dispatch(setEditItem({ index, item: editItem }));
     if (isSmall) {
       dispatch(setPageLoading(true));
@@ -60,7 +60,7 @@ function CartEditModal({ category, productId, index, editItem }: Props) {
       // page with the editItem info
       router.push(`/shop/product-detail/${category}-edit-${productId}`);
     } else {
-      fetchProduct();
+      await fetchProduct();
       setOpen(true);
     }
   };

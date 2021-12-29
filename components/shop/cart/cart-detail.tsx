@@ -188,7 +188,8 @@ function CartDetail({
                 </div>
 
                 <div className={subtotal}>
-                  <div>Subtotal:</div> <div>${item.quantity * item.price}</div>
+                  <div>Subtotal:</div>
+                  <div>${(item.quantity * item.price).toFixed(2)}</div>
                 </div>
               </div>
             </div>
