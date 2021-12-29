@@ -11,7 +11,6 @@ const layoutSlice = createSlice({
   initialState,
   reducers: {
     setPageLoading(state, action: PayloadAction<boolean>) {
-      console.log("setting pageLoading to", action.payload);
       state.pageLoading = action.payload;
     },
     setLockScrollBar(state, action: PayloadAction<boolean>) {
@@ -38,14 +37,12 @@ const selectLayoutState = (state: RootState) => state.layout;
 export const selectPageLoading = createSelector(
   [selectLayoutState],
   (state) => {
-    console.log("pageLoading selector");
     return state.pageLoading;
   }
 );
 export const selectLockScrollBar = createSelector(
   [selectLayoutState],
   (state) => {
-    console.log("lockScrollbar selector");
     return state.lockScrollBar;
   }
 );

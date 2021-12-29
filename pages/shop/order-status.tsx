@@ -1,7 +1,6 @@
 import { NextPage } from "next";
-import { useRouter } from "next/dist/client/router";
 import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
 import { setPageLoading } from "../../utils/redux-store/layoutSlice";
@@ -46,7 +45,6 @@ const OrderStatusPage: NextPage = ({}) => {
   ) => {
     e.preventDefault();
 
-    console.log(orderId);
     try {
       const { data } = await client.post(
         "http://localhost:5000/api/shop/order-status",
@@ -54,7 +52,6 @@ const OrderStatusPage: NextPage = ({}) => {
       );
       setOrder(data.order);
     } catch (err: any) {
-      //   console.log(err.response.data.errors);
       const error: string = err.response.data.errors[0].message;
       setOrder(undefined);
       setError(error);

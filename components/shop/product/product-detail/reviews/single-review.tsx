@@ -1,23 +1,11 @@
-import React, {
-  useState,
-  Fragment,
-  memo,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-} from "react";
-import { PageColorProps } from "../../../../../utils/react-hooks/get-more-products";
+import React, { useState, memo, useEffect } from "react";
 
-import {
-  ReviewProps,
-  Reviews,
-} from "../../../../../pages/shop/product-detail/[product_id]";
+import { ReviewProps } from "../../../../../pages/shop/product-detail/[product_id]";
 import { starNum } from "./reviews";
 
 // UI //
-import { Grid, Tooltip, Button } from "@mui/material";
+import { Grid, Button } from "@mui/material";
 import styles from "./__single-review.module.css";
-import { style } from "@mui/system";
 import browserClient from "../../../../../utils/axios-client/browser-client";
 
 interface Props {
@@ -110,7 +98,6 @@ function SingleReview({
 
     // refresh the reviews after deleting
     if (refreshReviewsAdmin) {
-      console.log("deleting review");
       refreshReviewsAdmin(pageNum, reviewFilter);
     }
   };

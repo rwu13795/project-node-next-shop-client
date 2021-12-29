@@ -11,7 +11,7 @@ import SwiperCore, { Pagination, Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { Grid, Box, useMediaQuery } from "@mui/material";
+import { Grid, useMediaQuery } from "@mui/material";
 import styles from "./__swiper.module.css";
 
 SwiperCore.use([Pagination, Navigation]);
@@ -62,7 +62,6 @@ function Swiper_horizontal_homePage({ srcProp }: Props): JSX.Element {
           display: "block",
           width: "100vw",
           height: "100%",
-          backgroundColor: "teal",
         }}
       >
         {isSmall

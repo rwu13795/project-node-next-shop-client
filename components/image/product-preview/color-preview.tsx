@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  Dispatch,
-  SetStateAction,
-  memo,
-  useEffect,
-} from "react";
+import React, { useState, memo, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { PageColorProps } from "../../../utils/react-hooks/get-more-products";

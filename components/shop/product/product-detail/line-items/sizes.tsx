@@ -1,4 +1,4 @@
-import React, { useState, memo } from "react";
+import React, { memo } from "react";
 import { PageColorProps } from "../../../../../utils/react-hooks/get-more-products";
 
 // UI //

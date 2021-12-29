@@ -1,9 +1,9 @@
-import { Fragment, useState, FormEvent, memo } from "react";
+import { Fragment, useState, memo } from "react";
 
 import SearchInputBar from "./search-input-bar";
 
 // UI //
-import { Divider, Grid, TextField, Box, Drawer, Tooltip } from "@mui/material";
+import { Box, Drawer, Tooltip } from "@mui/material";
 import SearchSharpIcon from "@mui/icons-material/SearchSharp";
 import CancelPresentationSharpIcon from "@mui/icons-material/CancelPresentationSharp";
 import styles from "./__search-bar.module.css";

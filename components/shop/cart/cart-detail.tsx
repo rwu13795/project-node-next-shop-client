@@ -1,16 +1,14 @@
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState, Fragment, memo } from "react";
+import { Fragment, memo } from "react";
 import { useRouter } from "next/router";
 
 import {
   CartItem,
   removeFromCartSession,
-  selectChangeInCart,
   selectCurrentUser,
   selectIsLoggedIn,
   selectTotalAmount,
-  setChangeInCart,
 } from "../../../utils/redux-store/userSlice";
 import CartEditModal from "./cart-edit-modal";
 
@@ -68,7 +66,7 @@ function CartDetail({
     );
   };
 
-  // a pile of shitty styles
+  // a pile of shitty styles for "summary", "normal" and "dropDown" mode
   let main = styles.main_grid;
   let left_grid = styles.left_grid;
   let item_container = styles.item_container;
@@ -86,7 +84,6 @@ function CartDetail({
     left_grid = styles.left_grid_drop_down;
     item_container = styles.item_container_drop_down;
     image_text_container = styles.image_text_container_drop_down;
-    imgae_container = styles.imgae_container_drop_down;
     text_container = styles.text_container_drop_down;
     item_title = styles.item_title_drop_down;
     subtotal = styles.subtotal_drop_down;
@@ -94,7 +91,6 @@ function CartDetail({
   if (summaryMode) {
     item_container = styles.item_container_checkout;
     // image_text_container = styles.image_text_container_drop_down;
-    imgae_container = styles.imgae_container_drop_down;
     text_container = styles.text_container_drop_down;
     item_title = styles.item_title_drop_down;
     subtotal = styles.subtotal_drop_down;
@@ -123,12 +119,18 @@ function CartDetail({
           return (
             <div key={index} className={item_container}>
               <div className={image_text_container}>
-                <div className={imgae_container}>
+                <div>
                   <Image
                     src={item.imageUrl}
                     alt={item.title}
                     width={cartDropDown || summaryMode ? 120 : 300}
-                    height={cartDropDown || summaryMode ? 141 : 332}
+                    height={cartDropDown || summaryMode ? 132 : 320}
+                    // the next/image has in-line styles that will override most of
+                    // the layouts. without using "layout='filled'", the image won't cover the
+                    // parent box. I have to use "!important" to apply the layout in the
+                    // <Image /> and let the properties "width" and "height" in the component to
+                    // resize the width and height
+                    className={imgae_container}
                   />
                 </div>
 

@@ -1,7 +1,6 @@
 import { useState, memo, Fragment } from "react";
 import Image from "next/image";
 
-import browserClient from "../../../utils/axios-client/browser-client";
 import { Order } from "../../../pages/auth/profile";
 import { CartItem } from "../../../utils/redux-store/userSlice";
 

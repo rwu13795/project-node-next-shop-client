@@ -37,15 +37,16 @@
   font-weight: bolder;
 }
 
+/* the next/image has in-line styles that will override most of
+the layouts. I have to use "!important" to apply the layout in the
+<Image /> and use the properties "width" and "height" in the component to
+handle the width and height */
 .imgae_container {
-  width: 300px;
-  height: calc(width * 1.1);
-  min-width: 200px;
-  min-height: 220px;
-  border: 2px solid black;
-  margin-right: 20px;
+  border: 2px solid black !important;
 }
+
 .text_container {
+  margin-left: 20px;
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-around;
@@ -153,6 +154,8 @@
 }
 
 .no_item_text {
+  width: 90%;
+  text-align: center;
   font-size: 30px;
 }
 
@@ -182,15 +185,9 @@
   font-size: 16px;
   font-weight: bolder;
 }
-.imgae_container_drop_down {
-  width: 120px;
-  height: 140px;
-  min-width: 120px;
-  min-height: 140px;
-  border: 2px solid black;
-  margin-right: 20px;
-}
+
 .text_container_drop_down {
+  margin-left: 20px;
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-around;
@@ -299,14 +296,6 @@
     font-weight: bolder;
   }
 
-  .imgae_container {
-    width: 180px;
-    height: calc(width * 1.1);
-    min-width: 100px;
-    min-height: 110px;
-    border: 2px solid black;
-    margin-right: 16px;
-  }
   .text_container {
     display: flex;
     flex-flow: column nowrap;
@@ -371,9 +360,6 @@
   }
   .checkout_button {
     font-size: min(20px, 6vw);
-  }
-  .no_item_text {
-    font-size: 22px;
   }
 }
 

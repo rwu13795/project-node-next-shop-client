@@ -53,8 +53,6 @@ export default function useGetMoreProducts(
     setHasMore(true);
   }, [startProducts, startFilterStats]);
 
-  console.log("page", params.pageNum);
-
   const axios_params = {
     page: params.pageNum,
     filter: {

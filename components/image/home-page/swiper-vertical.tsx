@@ -1,21 +1,18 @@
-import { Dispatch, Fragment, SetStateAction, memo } from "react";
+import { Dispatch, Fragment, SetStateAction, memo, CSSProperties } from "react";
+import { useDispatch } from "react-redux";
 
+import { setLockScrollBar } from "../../../utils/redux-store/layoutSlice";
+import { homeImageProps } from "./image-props";
+import Swiper_horizontal_homePage from "./swiper-horizontal";
+
+// UI //
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Pagination, Navigation, Mousewheel } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-
-import { setLockScrollBar } from "../../../utils/redux-store/layoutSlice";
-import { useDispatch } from "react-redux";
-import { CSSProperties } from "react-transition-group/node_modules/@types/react";
-
-import Swiper_horizontal_homePage from "./swiper-horizontal";
-
-import styles from "./__swiper.module.css";
-import { homeImageProps } from "./image-props";
 import { PaginationOptions } from "swiper/types/modules/pagination";
-import { TrainOutlined } from "@mui/icons-material";
+import styles from "./__swiper.module.css";
 
 SwiperCore.use([Pagination, Navigation, Mousewheel]);
 
@@ -45,7 +42,6 @@ function Swiper_vertical_homePage({
 
   // NOTE (3) //
   const reachEndHandler = () => {
-    console.log("slide end in veritcal");
     setTimeout(() => setSlideEnd(true), 300);
   };
 
@@ -95,7 +91,6 @@ export default memo(Swiper_vertical_homePage);
 const vertical_navbar: CSSProperties = {
   position: "absolute",
   left: "min(1.5rem, 1.9vw)",
-  // left: "20%",
   top: "43vh",
   zIndex: 99,
   width: "25px",

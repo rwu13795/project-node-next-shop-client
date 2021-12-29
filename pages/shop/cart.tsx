@@ -1,15 +1,8 @@
 import { NextPage } from "next";
-import { useRouter } from "next/dist/client/router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  checkStock,
-  removeFromCartSession,
-  selectCart,
-  selectCurrentUser,
-  selectIsLoggedIn,
-} from "../../utils/redux-store/userSlice";
+import { checkStock, selectCart } from "../../utils/redux-store/userSlice";
 import CartDetail from "../../components/shop/cart/cart-detail";
 import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
 

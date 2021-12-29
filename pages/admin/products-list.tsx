@@ -99,8 +99,6 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
   const [productCatNum, setProductCatNum] =
     useState<ProductCatNumAdmin>(product_category);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  // const [main_cat, setMain_cat] = useState<string>(startMain);
-  // const [sub_cat, setSub_cat] = useState<string>(startSub);
   const [delete_product, setDelete_product] = useState<DeleteProduct>({
     id: "",
     image: "",
@@ -108,7 +106,6 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
     admin_username: "",
   });
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
-  // const [selectedAdmin, setSelectedAdmin] = useState<string>(admin_username);
 
   // set the current selected admin
   useEffect(() => {
@@ -177,7 +174,6 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
   };
 
   const changePageHandler = async (event: any, page: number) => {
-    console.log(page);
     if (page === currentPage) {
       return;
     }
@@ -219,7 +215,6 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
     await fetchNewList(1, main_cat, sub_cat, newSelect);
 
     dispatch(setSelectedAdmin(newSelect));
-    // setSelectedAdmin(newSelect);
   };
 
   if (Object.keys(product_category).length === 0) {
@@ -234,8 +229,6 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
       </main>
     );
   }
-
-  console.log("re-render in root");
 
   return (
     <main className={styles.main}>
@@ -387,8 +380,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const client = serverClient(context);
   const { main, sub, admin_username } = context.query;
 
-  console.log(admin_username);
-
   let main_cat = "men";
   let sub_cat = "t-shirts";
   if (main && sub) {
@@ -401,8 +392,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       "http://localhost:5000/api/admin/get-products-list",
       { params: { pageNum: 1, main: main_cat, sub: sub_cat, admin_username } }
     );
-
-    console.log(data);
 
     return {
       props: {

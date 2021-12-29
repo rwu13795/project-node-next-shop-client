@@ -1,5 +1,4 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
-import Link from "next/link";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
@@ -72,8 +71,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { data }: { data: SubCat_PageProps } = await client.get(
     `http://localhost:5000/api/products/get/${main_cat}/${sub_cat}`
   );
-
-  console.log(data);
 
   return {
     props: {

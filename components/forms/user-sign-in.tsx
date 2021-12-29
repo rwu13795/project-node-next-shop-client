@@ -1,7 +1,6 @@
 import {
   Dispatch,
   SetStateAction,
-  useState,
   useEffect,
   memo,
   MouseEvent,
@@ -15,16 +14,12 @@ import {
   Errors,
   finalCheck,
   InputValues,
-  onBlurErrorCheck,
-  onFormEnterSubmitCheck,
-  onSubmitErrorCheck,
   Touched,
 } from "../../utils/helper-functions/input-error-check";
 import { AdminErrors } from "../../utils/redux-store/adminSlice";
 import {
   AuthErrors,
   clearAuthErrors,
-  forgotPassword_Request,
   selectAuthErrors,
   selectLoadingStatus_user,
   selectPageLoading_user,
@@ -33,7 +28,6 @@ import {
   signIn,
 } from "../../utils/redux-store/userSlice";
 import { inputNames } from "../../utils/enums-types/input-names";
-import { loadingStatus } from "../../utils/enums-types/loading-status";
 import {
   selectPageLoading,
   setPageLoading,
@@ -48,7 +42,6 @@ import { sxMUI } from "./__user-sign-in-MUI";
 interface Props {
   inputFieldsArray: string[];
   inputValues: InputValues;
-  inputErrors: Errors;
   setInputErrors: Dispatch<SetStateAction<Errors>>;
   inputFields: (
     fields: string[],
@@ -65,7 +58,6 @@ interface Props {
 function UserSignIn({
   inputFieldsArray,
   inputValues,
-  inputErrors,
   setInputErrors,
   inputFields,
   touched,

@@ -16,12 +16,9 @@ import {
   TokenResult,
 } from "@stripe/stripe-js";
 import {
-  CardElement,
   useElements,
   useStripe,
   CardNumberElement,
-  CardExpiryElement,
-  CardCvcElement,
 } from "@stripe/react-stripe-js";
 import Image from "next/image";
 
@@ -33,13 +30,11 @@ import {
   onBlurErrorCheck,
   onChangeErrorCheck,
   onFocusErrorCheck,
-  onSubmitErrorCheck,
 } from "../../../utils/helper-functions/input-error-check";
 import {
   Touched,
   Errors,
 } from "../../../utils/helper-functions/input-error-check";
-import { inputTypes } from "../../../utils/enums-types/input-types";
 import {
   selectBillingAddress,
   addressFields,
@@ -47,18 +42,12 @@ import {
   toggleBillingAddress,
 } from "../../../utils/redux-store/shopSlice";
 import { AllowedStages } from "../../../pages/shop/checkout";
-import { TextFieldStyled } from "../../../styles/mui-custom-components";
 import renderInputFields from "../../../utils/helper-functions/render-input-fields";
 import { selectCart } from "../../../utils/redux-store/userSlice";
 import CartDetail from "../cart/cart-detail";
 
 // UI //
-import {
-  Button,
-  Checkbox,
-  SelectChangeEvent,
-  FormHelperText,
-} from "@mui/material";
+import { Button, Checkbox, SelectChangeEvent } from "@mui/material";
 import styles from "./__stage.module.css";
 import StripeCardElement from "./stripe-card-elements";
 
@@ -98,7 +87,7 @@ function CheckoutStage_2({
   setStripeCardToken,
 }: Props): JSX.Element {
   const dispatch = useDispatch();
-  // const authErrors = useSelector(selectAuthErrors);
+
   const billingAddress = useSelector(selectBillingAddress);
   const elements = useElements();
   const stripe = useStripe();

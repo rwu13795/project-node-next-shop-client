@@ -1,5 +1,4 @@
-import { createTheme, responsiveFontSizes } from "@mui/material/styles";
-import darkScrollbar from "@mui/material/darkScrollbar";
+import { createTheme } from "@mui/material/styles";
 
 let theme = createTheme({
   palette: {

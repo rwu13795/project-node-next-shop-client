@@ -1,16 +1,8 @@
-import {
-  Fragment,
-  useEffect,
-  useRef,
-  useState,
-  CSSProperties,
-  memo,
-} from "react";
+import { Fragment, useState, memo } from "react";
 import dynamic from "next/dynamic";
 import { useMediaQuery } from "react-responsive";
 
-import { Divider, Grid, TextField, Box, Tooltip } from "@mui/material";
-
+import { Grid } from "@mui/material";
 import UserIcon from "../navbar-items/user-icon";
 import CartIcon from "../navbar-items/cart-icon";
 import SearchIcon from "../navbar-items/search-icon";

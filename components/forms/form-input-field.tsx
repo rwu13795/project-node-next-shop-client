@@ -61,8 +61,6 @@ function FormInputField(props: Props): JSX.Element {
     }
   }
 
-  console.log("page", page);
-
   const regex = /[_]/g;
   const inputLabel = inputName.replace(regex, " ").toUpperCase();
   const showError =

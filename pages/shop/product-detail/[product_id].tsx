@@ -1,6 +1,5 @@
 import { GetServerSidePropsContext, NextPage } from "next";
-import { useState, Dispatch, SetStateAction, useEffect } from "react";
-import Link from "next/link";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { PageProductProps } from "../../../utils/react-hooks/get-more-products";
@@ -9,7 +8,6 @@ import ProductDetail from "../../../components/shop/product/product-detail/produ
 import serverClient from "../../../utils/axios-client/server-client";
 
 // UI //
-import { Tooltip, Box, IconButton } from "@mui/material";
 import styles from "./__detail.module.css";
 import PageLinks from "../../../components/layout/page-links/links";
 import browserClient from "../../../utils/axios-client/browser-client";
@@ -132,7 +130,7 @@ export default ProductDetailPage;
  */
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const param = context.params?.product_id as string;
-  console.log(param);
+
   const productId = param.slice(param.length - 24);
   // the "main_cat is used to highlight the navbar menu list"
   const main_cat = param.split("-")[0];

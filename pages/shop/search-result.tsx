@@ -1,7 +1,6 @@
 import { GetServerSidePropsContext, NextPage } from "next";
-import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import serverClient from "../../utils/axios-client/server-client";
 import { PageProductProps } from "../../utils/react-hooks/get-more-products";

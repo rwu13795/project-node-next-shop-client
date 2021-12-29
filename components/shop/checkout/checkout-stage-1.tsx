@@ -16,8 +16,6 @@ import {
   onBlurErrorCheck,
   onChangeErrorCheck,
   onFocusErrorCheck,
-  onFormEnterSubmitCheck,
-  onSubmitErrorCheck,
 } from "../../../utils/helper-functions/input-error-check";
 import { inputNames } from "../../../utils/enums-types/input-names";
 import {
@@ -43,7 +41,6 @@ import {
 // UI //
 import { Button, SelectChangeEvent } from "@mui/material";
 import styles from "./__stage.module.css";
-import PaymentProcessingModal from "./payment-processing-modal";
 
 interface Props {
   setStage: Dispatch<SetStateAction<string>>;

@@ -1,5 +1,4 @@
 import {
-  Fragment,
   useState,
   FormEvent,
   memo,
@@ -9,7 +8,7 @@ import {
 } from "react";
 
 // UI //
-import { Divider, Grid, TextField, Box, Drawer, Button } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import SearchSharpIcon from "@mui/icons-material/SearchSharp";
 import styles from "./__search-bar.module.css";

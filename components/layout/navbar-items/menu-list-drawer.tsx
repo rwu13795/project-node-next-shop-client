@@ -2,7 +2,6 @@ import { Fragment, useState, SetStateAction, Dispatch, memo } from "react";
 import { useRouter } from "next/router";
 
 import {
-  mainCatArray,
   MainCategory,
   womenMenuList,
   menMenuList,
@@ -14,9 +13,7 @@ import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 
 // UI //
 import {
-  Drawer,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
   List,
   Collapse,

@@ -6,9 +6,9 @@ import React, {
   useCallback,
   Fragment,
 } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { CircularProgress, SelectChangeEvent } from "@mui/material";
+import { SelectChangeEvent } from "@mui/material";
 
 import {
   InputValues,
@@ -35,7 +35,6 @@ import AdminRegister from "../admin/admin-register";
 import UserForgotPassword from "./forgot-password";
 import { initializeValues } from "../../utils/helper-functions/initialize-values";
 import { inputNames } from "../../utils/enums-types/input-names";
-import { capitalize } from "../../utils/helper-functions/capitalize-first-letter";
 
 interface Props {
   inputType: string; // "signIn" | "signUp"

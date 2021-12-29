@@ -11,8 +11,6 @@ import React, {
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 
-import { SelectChangeEvent } from "@mui/material";
-
 import {
   Errors,
   finalCheck,
@@ -20,12 +18,9 @@ import {
   onBlurErrorCheck,
   onChangeErrorCheck,
   onFocusErrorCheck,
-  onFormEnterSubmitCheck,
-  onSubmitErrorCheck,
   Touched,
 } from "../../utils/helper-functions/input-error-check";
 import renderInputFields from "../../utils/helper-functions/render-input-fields";
-
 import {
   clearAuthErrors,
   forgotPassword_Reset,
@@ -38,7 +33,7 @@ import { loadingStatus } from "../../utils/enums-types/loading-status";
 import Redirect_to_signIn from "../auth/redirect-to-sign-In";
 
 // UI //
-import { Button } from "@mui/material";
+import { Button, SelectChangeEvent } from "@mui/material";
 import styles from "./__forgot-pw-reset.module.css";
 
 interface Props {
@@ -120,7 +115,6 @@ function ForgotPasswordReset({
     e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>
   ) => {
     const { name, value } = e.target;
-    console.log(name);
     dispatch(clearAuthErrors(name));
     setInputValues((prev) => {
       return { ...prev, [name]: value };

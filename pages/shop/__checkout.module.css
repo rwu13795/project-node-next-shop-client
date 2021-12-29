@@ -80,7 +80,9 @@
   align-items: center;
 }
 .no_item_text {
+  width: 90%;
   font-size: 30px;
+  text-align: center;
 }
 
 .main_container_login_checkout {

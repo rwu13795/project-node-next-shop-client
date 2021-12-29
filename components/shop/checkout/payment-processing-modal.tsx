@@ -1,4 +1,4 @@
-import { Backdrop, Modal, Fade, CircularProgress, Box } from "@mui/material";
+import { Backdrop, Modal, Fade, Box } from "@mui/material";
 import styles from "./__payment-processing.module.css";
 
 export default function PaymentProcessingModal({}): JSX.Element {

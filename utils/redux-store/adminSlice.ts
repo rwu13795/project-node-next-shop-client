@@ -121,7 +121,6 @@ const adminSlice = createSlice({
         (state, action: PayloadAction<AdminState>): void => {
           state.adminUser = action.payload.adminUser;
           state.csrfToken = action.payload.csrfToken;
-          console.log("in redux getAdminStatus---------->", state.adminUser);
         }
       )
       /////////////

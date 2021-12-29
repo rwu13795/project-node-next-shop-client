@@ -46,3 +46,19 @@ MyApp.propTypes = {
   emotionCache: PropTypes.object,
   pageProps: PropTypes.object.isRequired,
 };
+
+// NOTE //
+/*
+ bug on windows for next@11.1.1 and above using in typescript 
+
+ the global CSS module cannot be imported inside this _app.tsx as the Next docs 
+ suggests
+
+ error - ./styles/globals.css
+ Global CSS cannot be imported from files other than your Custom <App>. Due to the Global nature of stylesheets, and to avoid conflicts, Please move all first-party global CSS imports to pages/_app.js. Or convert the import to Component-Level CSS (CSS Modules).
+ Read more: https://nextjs.org/docs/messages/css-global
+ Location: pages\_app.js
+
+ the bug only occurs on windows for next@11.1.1 and above. If I downgrade to 11.1.0,
+ it might work. 
+*/

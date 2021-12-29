@@ -63,8 +63,6 @@ const AddProductPage: NextPage<PageProps> = ({
     dispatch(getAdminStatus());
   }, [dispatch]);
 
-  console.log("edit product", product);
-
   useEffect(() => {
     if (product !== null) {
       dispatch(setInitialState_adminProduct(product));

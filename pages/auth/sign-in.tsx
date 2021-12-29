@@ -3,14 +3,8 @@ import { useRouter } from "next/dist/client/router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  CurrentUser,
-  selectIsLoggedIn,
-} from "../../utils/redux-store/userSlice";
-import {
-  selectPageLoading,
-  setPageLoading,
-} from "../../utils/redux-store/layoutSlice";
+import { selectIsLoggedIn } from "../../utils/redux-store/userSlice";
+import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 import serverClient from "../../utils/axios-client/server-client";
 import AuthForm from "../../components/forms/auth-form";
 import { inputTypes } from "../../utils/enums-types/input-types";

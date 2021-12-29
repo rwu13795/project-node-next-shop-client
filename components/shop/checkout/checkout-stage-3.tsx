@@ -11,7 +11,6 @@ import {
   selectShippingAddress,
 } from "../../../utils/redux-store/shopSlice";
 import {
-  clearCartSession,
   selectCart,
   selectCsrfToken,
   selectCurrentUser,
@@ -23,7 +22,7 @@ import PaymentProcessingModal from "./payment-processing-modal";
 import CartDetail from "../cart/cart-detail";
 
 // UI //
-import { Button, SelectChangeEvent } from "@mui/material";
+import { Button } from "@mui/material";
 import styles from "./__stage.module.css";
 import { capitalizeAddress } from "../../../utils/helper-functions/capitalize-first-letter";
 

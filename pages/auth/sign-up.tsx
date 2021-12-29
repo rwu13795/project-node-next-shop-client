@@ -54,8 +54,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     "http://localhost:5000/api/auth/user-status"
   );
 
-  console.log(data);
-
   if (data.currentUser.isLoggedIn) {
     // redirect the user to the main page without rendering the sign-up page
     // if user has a signed-in session

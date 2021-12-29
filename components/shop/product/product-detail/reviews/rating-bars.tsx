@@ -1,13 +1,7 @@
-import React, { useState, Fragment, memo } from "react";
-import { PageColorProps } from "../../../../../utils/react-hooks/get-more-products";
-
-import {
-  AllRatings,
-  Reviews,
-} from "../../../../../pages/shop/product-detail/[product_id]";
+import React, { memo } from "react";
 
 // UI //
-import { Grid, Tooltip } from "@mui/material";
+import { Grid } from "@mui/material";
 import styles from "./__rating-bars.module.css";
 
 interface Props {
@@ -15,8 +9,6 @@ interface Props {
   star: string;
   index: number;
   total: number;
-  reviewFilter: string;
-  setReviewFilter: React.Dispatch<React.SetStateAction<string>>;
   filterReviews: (star: string) => Promise<void>;
 }
 
@@ -25,8 +17,6 @@ function RatingBars({
   star,
   index,
   total,
-  reviewFilter,
-  setReviewFilter,
   filterReviews,
 }: Props): JSX.Element {
   const container =

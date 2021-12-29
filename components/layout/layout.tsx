@@ -21,8 +21,6 @@ export default function Layout({
   page_cat,
   filter_view,
 }: Prop): JSX.Element {
-  // since the Layout component will be rendered on every page,
-  // the user auth will be checked no matter which page is loaded up first
   const dispatch = useDispatch();
 
   const lockScrollBar = useSelector(selectLockScrollBar);

@@ -19,7 +19,6 @@ import {
 import {
   FormControl,
   InputLabel,
-  Menu,
   MenuItem,
   Select,
   SelectChangeEvent,

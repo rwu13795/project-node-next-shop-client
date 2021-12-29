@@ -1,25 +1,9 @@
-import Link from "next/link";
-import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/dist/client/router";
-import {
-  Fragment,
-  useEffect,
-  useRef,
-  useState,
-  CSSProperties,
-  useCallback,
-  memo,
-} from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  getUserStatus,
-  selectCurrentUser,
-  selectIsLoggedIn,
-  selectPageLoading_user,
-  signOut,
-} from "../../../utils/redux-store/userSlice";
+import { selectPageLoading_user } from "../../../utils/redux-store/userSlice";
 import {
   adminSignOut,
   selectLoadingStatus_admin,
@@ -35,15 +19,7 @@ import AdminSignOutModal from "./../../admin/admin-sign-out-modal";
 import FilterViewIcon from "../navbar-items/filter-view-icon";
 
 // UI //
-import {
-  Divider,
-  Grid,
-  TextField,
-  Box,
-  Tooltip,
-  Button,
-  dividerClasses,
-} from "@mui/material";
+import { Grid, Box, Tooltip, Button } from "@mui/material";
 import LinearProgress from "@mui/material/LinearProgress";
 import styles from "./__navigation.module.css";
 
@@ -71,13 +47,8 @@ export default function MainNavigation({ page, page_cat, filter_view }: Props) {
 
   /*******  Scroll Stop Listener for changing the color of the navbar  ********/
   const changeNavbarClassname = useCallback(() => {
-    // console.log("checking window Y");
-    // if (sub_cat) {
-    //   setClassname(styles.main_3);
-    // } else {
     setMainNavContainer(styles.main_1);
     setFilterContainer(styles.filter_container_1);
-    // }
   }, []);
 
   const scrollStopListener = useCallback(function scrollStop(
@@ -95,7 +66,6 @@ export default function MainNavigation({ page, page_cat, filter_view }: Props) {
         // Clear our timeout throughout the scroll
         window.clearTimeout(isScrolling);
 
-        // console.log("setting to transparent");
         setMainNavContainer(styles.main_2);
         setFilterContainer(styles.filter_container_2);
 
@@ -110,7 +80,6 @@ export default function MainNavigation({ page, page_cat, filter_view }: Props) {
   useEffect(() => {
     scrollStopListener(changeNavbarClassname);
     return () => {
-      console.log("unmounting the scrollStopListener");
       window.addEventListener(
         "scroll",
         (event) => {

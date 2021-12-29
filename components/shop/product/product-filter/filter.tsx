@@ -1,12 +1,4 @@
-import {
-  Dispatch,
-  SetStateAction,
-  memo,
-  useState,
-  useCallback,
-  useEffect,
-  Fragment,
-} from "react";
+import { Dispatch, SetStateAction, memo, useState, Fragment } from "react";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import dynamic from "next/dynamic";
@@ -25,20 +17,15 @@ import FilterSubComponent from "./filter-sub";
 // UI //
 import {
   Grid,
-  Checkbox,
-  FormControlLabel,
   styled,
   Divider,
-  Button,
   Box,
   Drawer,
   ModalProps,
   Modal,
   CircularProgress,
 } from "@mui/material";
-import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import CancelPresentationSharpIcon from "@mui/icons-material/CancelPresentationSharp";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import styles from "./__filter.module.css";
 
 interface Props {
@@ -60,8 +47,6 @@ function ProductFilter({
   const isSmall = useMediaQuery({ query: "(max-width: 765px)" });
 
   const [clearFilter, setClearFilter] = useState<boolean>(false);
-
-  console.log("isSmall", isSmall);
 
   const clearFilterHandler = () => {
     dispatch(setProductFiltering(true));

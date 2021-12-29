@@ -41,8 +41,6 @@ const CheckoutPage: NextPage = ({}) => {
   });
   const [stripeCardToken, setStripeCardToken] = useState<TokenResult>();
 
-  // const [checkoutError, setCheckoutError] = useState();
-
   // if user is logged in, load the addressInfo from the currentUser
   // to the shippingAddress of the checkoutSlice
   useEffect(() => {
@@ -77,14 +75,8 @@ const CheckoutPage: NextPage = ({}) => {
     dispatch(setPageLoading(false));
   });
 
-  // useEffect(() => {
-  //   return instantlyToTop();
-  // });
-
   const tagChangeHandler = (event: SyntheticEvent, newValue: string) => {
     setStage(newValue);
-
-    console.log(newValue);
 
     if (newValue === "1") {
       setAllowedStages({ two: false, three: false });

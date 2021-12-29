@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState, memo } from "react";
+import { useEffect, useState, memo } from "react";
 import dynamic from "next/dynamic";
 
 import SwiperCore, { Pagination, Navigation, Mousewheel } from "swiper";
@@ -29,26 +29,9 @@ function Swiper_homePage({}: Props): JSX.Element {
 
   useEffect(() => {
     if (slideEnd) {
-      console.log("slide end");
       dispatch(setLockScrollBar(false));
-      // sligtly scroll down a bit, so that window can listen to the "scrollTop == 0" below
     }
   }, [slideEnd, dispatch]);
-
-  // useEffect(() => {
-  //   if (slideEnd) {
-
-  //     // window.onscroll = () => {
-  //     //   console.log("window on scroll");
-  //     //   if (document.documentElement.scrollTop == 0) {
-  //     //     setSlideEnd(false);
-  //     //   }
-  //     // };
-  //   }
-  //   return () => {
-  //     window.onscroll = null;
-  //   };
-  // }, [slideEnd, dispatch]);
 
   return (
     // While using "%" to set height and width, all elements Node in the chain must
@@ -61,8 +44,6 @@ function Swiper_homePage({}: Props): JSX.Element {
     </div>
   );
 }
-
-// export default memo(Swiper_homePage);
 
 export default memo(
   dynamic(() => Promise.resolve(Swiper_homePage), {

@@ -1,7 +1,6 @@
 import {
   Fragment,
   useState,
-  FormEvent,
   Dispatch,
   SetStateAction,
   CSSProperties,
@@ -18,10 +17,9 @@ import {
 } from "../../../utils/enums-types/product-category";
 
 // UI //
-import { Divider, Grid, TextField, Box, Collapse, Paper } from "@mui/material";
+import { Grid, Collapse } from "@mui/material";
 import { SxProps, Theme } from "@mui/system";
 import styles from "./__menu-list.module.css";
-import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 

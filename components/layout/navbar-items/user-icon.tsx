@@ -2,9 +2,6 @@ import { useState, MouseEvent, Fragment, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
-import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-
 import {
   clearAuthErrors,
   getUserStatus,
@@ -13,6 +10,7 @@ import {
   signOut,
 } from "../../../utils/redux-store/userSlice";
 import UserGuestIcon from "./user-guest-icon";
+import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 
 // UI //
 import {
@@ -24,9 +22,10 @@ import {
   Tooltip,
   Box,
 } from "@mui/material";
+import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import { Logout, Settings } from "@mui/icons-material";
 import styles from "./__user-icon.module.css";
-import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 
 interface Props {
   closeCartDropDown: () => void;
@@ -53,7 +52,6 @@ function UserIcon({ closeCartDropDown, page }: Props): JSX.Element {
     dispatch(signOut());
     // re-acquire a "guest" session after signing out
     // have to wait a few seconds for the mongoDB destoying the old session
-    console.log("signing out");
     setTimeout(() => {
       dispatch(getUserStatus());
     }, 2000);

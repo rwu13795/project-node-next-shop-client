@@ -1,4 +1,4 @@
-import React, { Fragment, memo, Dispatch, SetStateAction } from "react";
+import React, { Fragment, memo } from "react";
 import dynamic from "next/dynamic";
 import { useMediaQuery } from "react-responsive";
 

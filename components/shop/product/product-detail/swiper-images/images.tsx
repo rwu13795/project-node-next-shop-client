@@ -1,13 +1,5 @@
-import Image from "next/image";
 import dynamic from "next/dynamic";
-import {
-  useState,
-  Fragment,
-  useRef,
-  CSSProperties,
-  useEffect,
-  memo,
-} from "react";
+import { useState, Fragment, memo } from "react";
 import { useMediaQuery } from "react-responsive";
 
 import { PageColorProps } from "../../../../../utils/react-hooks/get-more-products";
@@ -18,7 +10,7 @@ import Swiper_thumbs_product_detail_images from "./thumbs";
 import SwiperCore, { Navigation } from "swiper";
 
 // UI //
-import { Grid, Box, Hidden } from "@mui/material";
+import { Grid } from "@mui/material";
 import styles from "./__images.module.css";
 
 SwiperCore.use([Navigation]);
@@ -118,6 +110,9 @@ function ProductDetailImages({
 // the "useMediaQuery" will cause error while using it with the NextJS ServerSideRendering
 // use the "dynamic" function to call the component, this will make this
 // component to be rendered on "client site" only
+
+// OR, I could use the "useMediaQuery" from the "MUI", which can be injected in the
+// server-side rendering
 export default memo(
   dynamic(() => Promise.resolve(ProductDetailImages), {
     ssr: false,

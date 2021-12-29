@@ -1,12 +1,8 @@
-import React, { useState, Dispatch, SetStateAction, memo } from "react";
+import React, { Dispatch, SetStateAction, memo } from "react";
 import { PageColorProps } from "../../../../../utils/react-hooks/get-more-products";
 
 // UI //
-import { ToggleButtonStyled } from "../../../../../styles/mui-custom-components";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-
 import styles from "./__colors.module.css";
-import { useRouter } from "next/router";
 
 interface Props {
   colorPropsList: PageColorProps[];

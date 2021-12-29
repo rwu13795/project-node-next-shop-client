@@ -435,7 +435,6 @@ const addProductSlice = createSlice({
         (state, action: PayloadAction<any>): void => {
           for (let err of action.payload.errors) {
             state.uploadErrors[err.field] = err.message;
-            console.log(err.message);
           }
           state.uploadStatus = "failed";
         }

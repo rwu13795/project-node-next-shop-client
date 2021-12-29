@@ -5,13 +5,9 @@ import {
   Dispatch,
   FocusEvent,
   ChangeEvent,
-  MouseEvent,
-  useMemo,
   memo,
   useEffect,
 } from "react";
-import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
 
 import { initializeValues } from "../../../../../utils/helper-functions/initialize-values";
 import renderInputFields from "../../../../../utils/helper-functions/render-input-fields";
@@ -23,27 +19,13 @@ import {
   onBlurErrorCheck,
   onFocusErrorCheck,
   onSubmitErrorCheck,
-  finalCheck,
 } from "../../../../../utils/helper-functions/input-error-check";
 
 // UI //
-import { Menu, Modal, Box, Backdrop, Fade, Button } from "@mui/material";
+import { Modal, Box, Backdrop, Fade, Button } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material";
 import styles from "./__add-review.module.css";
 import browserClient from "../../../../../utils/axios-client/browser-client";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  outerHeight: 800,
-  width: "100vw",
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 0,
-};
 
 interface Props {
   productId: string;
@@ -118,7 +100,6 @@ function AddReviewModal({
   };
 
   const reviewSubmitHandler = async () => {
-    // let hasError = false;
     let errorInputfield = "";
     errorInputfield = onSubmitErrorCheck(inputValues, setInputErrors);
     if (rating === "") {
@@ -126,17 +107,6 @@ function AddReviewModal({
       errorInputfield = "error";
     }
     if (errorInputfield !== "") return;
-
-    // let errorInput = finalCheck(inputValues, touched, setInputErrors);
-    // if (rating === "") {
-    //   setRatingError("Rating required");
-    //   return;
-    // }
-    // if (errorInput !== "") {
-    //   let elem = document.getElementById(errorInput);
-    //   if (elem) elem.scrollIntoView({ block: "center" });
-    //   return;
-    // }
 
     await client.post("http://localhost:5000/api/products/add-review", {
       productId,
@@ -191,9 +161,7 @@ function AddReviewModal({
                 <Button
                   variant="outlined"
                   onClick={reviewSubmitHandler}
-                  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
-                  // remember to uncomment this after adding review
-                  // disabled={submited}
+                  disabled={submited}
                   className={styles.button}
                 >
                   POST REVIEW

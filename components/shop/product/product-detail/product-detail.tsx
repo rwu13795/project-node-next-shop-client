@@ -1,12 +1,5 @@
-import React, {
-  useState,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  Fragment,
-  memo,
-} from "react";
-import Image from "next/image";
+import React, { useState, useEffect, memo } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
@@ -29,7 +22,6 @@ import {
 } from "../../../../utils/helper-functions/input-error-check";
 import {
   addToCartSession,
-  CartItem,
   selectEditItem,
 } from "../../../../utils/redux-store/userSlice";
 import {
@@ -38,7 +30,7 @@ import {
 } from "../../../../utils/redux-store/shopSlice";
 
 // UI //
-import { Grid, Button, Box, Collapse, Paper } from "@mui/material";
+import { Grid, Button } from "@mui/material";
 import styles from "./__product-detail.module.css";
 
 interface Props {
@@ -114,7 +106,6 @@ function ProductDetail({
   };
 
   const addToCartHandler = () => {
-    // console.log(selectedSize, quantity, currentColor.colorName);
     if (!selectedSize) {
       setErrors({ [inputNames.size]: "Please select a size" });
       return;

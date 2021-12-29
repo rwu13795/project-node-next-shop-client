@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, memo } from "react";
+import { useCallback, useState, memo } from "react";
 import dynamic from "next/dynamic";
 import { useMediaQuery } from "react-responsive";
 import { useRouter } from "next/router";
@@ -8,7 +8,6 @@ import ProductDetail from "../product/product-detail/product-detail";
 import { PageProductProps } from "../../../utils/react-hooks/get-more-products";
 import { CartItem, setEditItem } from "../../../utils/redux-store/userSlice";
 import browserClient from "../../../utils/axios-client/browser-client";
-import { Reviews } from "../../../pages/shop/product-detail/[product_id]";
 
 // UI //
 import Backdrop from "@mui/material/Backdrop";

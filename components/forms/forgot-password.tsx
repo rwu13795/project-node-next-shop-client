@@ -1,22 +1,18 @@
 import {
   Dispatch,
   SetStateAction,
-  useState,
   useEffect,
   memo,
   MouseEvent,
   FormEvent,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 import {
   Errors,
   finalCheck,
   InputValues,
-  onFormEnterSubmitCheck,
-  onSubmitErrorCheck,
   Touched,
 } from "../../utils/helper-functions/input-error-check";
 import { AdminErrors } from "../../utils/redux-store/adminSlice";
@@ -26,16 +22,11 @@ import {
   forgotPassword_Request,
   selectAuthErrors,
   selectLoadingStatus_user,
-  selectPageLoading_user,
   setLoadingStatus,
-  signIn,
 } from "../../utils/redux-store/userSlice";
 import { inputNames } from "../../utils/enums-types/input-names";
 import { loadingStatus } from "../../utils/enums-types/loading-status";
-import {
-  selectPageLoading,
-  setPageLoading,
-} from "../../utils/redux-store/layoutSlice";
+import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 
 // UI //
 import { Button, useMediaQuery } from "@mui/material";
@@ -45,7 +36,6 @@ import { sxMUI } from "./__user-sign-in-MUI";
 interface Props {
   inputFieldsArray: string[];
   inputValues: InputValues;
-  inputErrors: Errors;
   setInputErrors: Dispatch<SetStateAction<Errors>>;
   inputFields: (
     fields: string[],
@@ -58,7 +48,6 @@ interface Props {
 
 function UserForgotPassword({
   inputValues,
-  inputErrors,
   setInputErrors,
   inputFields,
   touched,
@@ -84,8 +73,6 @@ function UserForgotPassword({
     e: FormEvent<HTMLFormElement> | MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
-
-    console.log(inputValues);
 
     let errorInput = finalCheck(inputValues, touched, setInputErrors);
     if (errorInput !== "") {

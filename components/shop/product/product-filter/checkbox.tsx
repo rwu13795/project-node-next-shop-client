@@ -4,11 +4,8 @@ import { RequestParams } from "../sub-cat-list";
 
 // UI //
 import {
-  Grid,
   Checkbox,
   FormControlLabel,
-  Modal,
-  CircularProgress,
   Radio,
   FormControl,
   RadioGroup,
@@ -17,7 +14,6 @@ import styles from "./__checkbox.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectFilterTagToClear,
-  selectProductFiltering,
   setFilterTagToClear,
   setProductFiltering,
 } from "../../../../utils/redux-store/shopSlice";
@@ -109,9 +105,6 @@ function FilterCheckBox({
         aria-label="gender"
         defaultValue="Featured"
         name="radio-buttons-group"
-        onChange={(e) => {
-          console.log(e.target.value);
-        }}
       >
         <FormControlLabel
           value="Featured"

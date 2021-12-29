@@ -1,5 +1,4 @@
 import { NextPage } from "next";
-import Link from "next/link";
 import { useRouter } from "next/dist/client/router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,8 +14,6 @@ import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantl
 import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 
 // UI //
-import { Box, Tab, Grid } from "@mui/material";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
 import styles from "./__checkout.module.css";
 
 const LoginCheckoutPage: NextPage = ({}) => {

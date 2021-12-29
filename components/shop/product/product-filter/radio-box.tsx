@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import {
   selectFilterTagToClear,
-  selectProductFiltering,
   setFilterTagToClear,
   setProductFiltering,
 } from "../../../../utils/redux-store/shopSlice";
@@ -11,11 +10,7 @@ import { RequestParams } from "../sub-cat-list";
 
 // UI //
 import {
-  Grid,
-  Checkbox,
   FormControlLabel,
-  Modal,
-  CircularProgress,
   Radio,
   FormControl,
   RadioGroup,

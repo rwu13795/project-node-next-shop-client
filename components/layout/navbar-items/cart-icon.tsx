@@ -1,4 +1,4 @@
-import { useEffect, useState, MouseEvent, Fragment, useRef, memo } from "react";
+import { useEffect, Fragment, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/dist/client/router";
 import Image from "next/image";
@@ -16,20 +16,14 @@ import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 import {
   Collapse,
   Box,
-  Fade,
   Paper,
-  Menu,
-  IconButton,
-  Tooltip,
   ModalProps,
   Modal,
   styled,
   Slide,
   Button,
 } from "@mui/material";
-import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
-import LocalMallSharpIcon from "@mui/icons-material/LocalMallSharp";
 import CancelPresentationSharpIcon from "@mui/icons-material/CancelPresentationSharp";
 import styles from "./__cart-icon.module.css";
 
@@ -98,8 +92,6 @@ function CartIcon({
       >
         <Paper
           onMouseLeave={closeCartDropDown}
-          // elevation={10}
-          // sx={{ filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))" }}
           className={styles.cart_summary_menu}
         >
           <div>

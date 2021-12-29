@@ -57,7 +57,6 @@ export const onBlurErrorCheck = (
             };
           });
           hasError = true;
-          console.log("hasError in bad email", hasError);
         }
         break;
       }

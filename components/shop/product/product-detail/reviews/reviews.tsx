@@ -1,16 +1,5 @@
-import React, {
-  useState,
-  Fragment,
-  memo,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import React, { useState, Fragment, memo, useEffect } from "react";
 
-import Image from "next/image";
-
-import browserClient from "../../../../../utils/axios-client/browser-client";
-import { PageColorProps } from "../../../../../utils/react-hooks/get-more-products";
 import {
   Reviews,
   ReviewProps,
@@ -216,8 +205,6 @@ function ProductReviews({
                       star={star}
                       index={index}
                       total={reviewDoc.total}
-                      reviewFilter={reviewFilter}
-                      setReviewFilter={setReviewFilter}
                       filterReviews={filterReviews}
                     />
                   );

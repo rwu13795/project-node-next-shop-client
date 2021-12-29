@@ -1,8 +1,5 @@
 import { Fragment, CSSProperties } from "react";
 import {
-  CardElement,
-  useElements,
-  useStripe,
   CardNumberElement,
   CardExpiryElement,
   CardCvcElement,

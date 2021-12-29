@@ -22,7 +22,7 @@ import {
 import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 
 // UI //
-import { Button, Divider, Grid } from "@mui/material";
+import { Button, Divider, Grid, useMediaQuery } from "@mui/material";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import styles from "./__sub-cat-list.module.css";
 
@@ -51,6 +51,9 @@ function SubCatProductsList({
 }: Props): JSX.Element {
   const dispatch = useDispatch();
   const oneItemPerRow = useSelector(selectOneItmePerRow);
+
+  const isLarge = useMediaQuery("(min-width: 1450px)");
+  const isXL = useMediaQuery("(min-width: 1750px)");
 
   let catListArray: { [key: string]: string[] };
   if (main_cat === "men") {
@@ -116,6 +119,8 @@ function SubCatProductsList({
         xs={false}
         sm={false}
         md={3}
+        lg={3}
+        xl={isLarge ? 2 : 3}
         className={styles.left_grid}
       >
         <div className={styles.side_bar_container}>
@@ -159,11 +164,20 @@ function SubCatProductsList({
           )}
         </div>
       </Grid>
-      <Grid item container xs={12} sm={12} md={9} className={styles.right_grid}>
+      <Grid
+        item
+        container
+        xs={12}
+        sm={12}
+        md={9}
+        lg={9}
+        xl={isLarge ? 10 : 9}
+        className={styles.right_grid}
+      >
         <div className={styles.right_grid_upper_container}>
           <div className={styles.sub_cat_title}>{sub_cat.toUpperCase()}</div>
           <div className={styles.main_banner}>
-            <Image src={banner} alt="sub-cat" width={1150} height={385} />
+            <Image src={banner} alt="sub-cat" width={1400} height={480} />
           </div>
 
           <div className={styles.filter_tags} id="sub_cat_filter_tag">
@@ -203,6 +217,8 @@ function SubCatProductsList({
                   container
                   className={styles.items_grid}
                   md={4}
+                  lg={4}
+                  xl={isXL ? 3 : 4}
                   sm={oneItemPerRow ? 12 : 6}
                   xs={oneItemPerRow ? 12 : 6}
                   ref={lastElementRef}
@@ -221,6 +237,8 @@ function SubCatProductsList({
                   container
                   className={styles.items_grid}
                   md={4}
+                  lg={4}
+                  xl={isXL ? 3 : 4}
                   sm={oneItemPerRow ? 12 : 6}
                   xs={oneItemPerRow ? 12 : 6}
                   key={index}

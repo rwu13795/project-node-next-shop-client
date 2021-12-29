@@ -5,12 +5,12 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import { RootState } from ".";
-import { Order, OrderAddressFields } from "../../pages/auth/profile";
+import { Order } from "../../pages/auth/profile";
 import browserClient from "../axios-client/browser-client";
 
 import { inputNames } from "../enums-types/input-names";
 import { InputValues } from "../helper-functions/input-error-check";
-import { CartItem, CurrentUser } from "./userSlice";
+import { CurrentUser } from "./userSlice";
 
 export interface PaymentDetail {
   payment_processer: string;

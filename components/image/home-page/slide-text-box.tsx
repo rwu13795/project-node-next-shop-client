@@ -1,22 +1,11 @@
-import React, {
-  Fragment,
-  useState,
-  CSSProperties,
-  memo,
-  useEffect,
-} from "react";
+import React, { memo } from "react";
 import Link from "next/link";
 
-import { MainCategory } from "../../../utils/enums-types/product-category";
-import Swiper_horizontal_NavButton_homePage from "./nav-button-horizontal";
-
 // UI //
-import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Pagination, Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { Grid, Box, useMediaQuery } from "@mui/material";
 import styles from "./__swiper.module.css";
 import { useDispatch } from "react-redux";
 import { setPageLoading } from "../../../utils/redux-store/layoutSlice";

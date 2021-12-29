@@ -13,7 +13,6 @@ const serverClient = (ctx: GetServerSidePropsContext) => {
     });
   } else {
     // in browser
-    console.log("NextJS making request in browser");
     return axios.create({
       baseURL: "/",
       withCredentials: true,

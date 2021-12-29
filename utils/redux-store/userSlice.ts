@@ -135,7 +135,6 @@ const signIn = createAsyncThunk<UserState, SignInBody, { state: RootState }>(
 //////////////
 const signOut = createAsyncThunk("user/signOut", async () => {
   await client.post(serverUrl + "/auth/sign-out");
-  console.log("in redux --- signing out");
   return;
 });
 
@@ -222,7 +221,6 @@ const checkStock = createAsyncThunk<{
 
 const updateStock = createAsyncThunk("user/updateStock", async () => {
   const response = await client.put(serverUrl + "/products/update-stock");
-  console.log(response);
 });
 
 /////////////////
@@ -361,7 +359,6 @@ const userSlice = createSlice({
           // remember to add the state type as return type
           state.currentUser = action.payload.currentUser;
           state.csrfToken = action.payload.csrfToken;
-          console.log("in redux getUserStatus---------->", state.currentUser);
         }
       )
       /////////////
@@ -407,9 +404,6 @@ const userSlice = createSlice({
         state.pageLoading_user = true;
       })
       .addCase(signUp.rejected, (state, action: PayloadAction<any>): void => {
-        ////////
-        console.log(action.payload);
-        ////////
         for (let err of action.payload.errors) {
           state.authErrors[err.field] = err.message;
         }

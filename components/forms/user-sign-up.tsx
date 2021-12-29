@@ -36,7 +36,6 @@ import styles from "./__user-sign-up.module.css";
 interface Props {
   inputFieldsArray: string[];
   inputValues: InputValues;
-  inputErrors: Errors;
   setInputErrors: Dispatch<SetStateAction<Errors>>;
   inputFields: (
     fields: string[],
@@ -51,7 +50,6 @@ interface Props {
 function UserSignUp({
   inputFieldsArray,
   inputValues,
-  inputErrors,
   setInputErrors,
   inputFields,
   touched,

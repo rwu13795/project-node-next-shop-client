@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext, NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -17,7 +17,7 @@ import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantl
 import { PaymentDetail } from "../../utils/redux-store/shopSlice";
 
 // UI //
-import { Box, styled, Tab, Grid } from "@mui/material";
+import { Box, Tab, Grid } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import styles from "./__profile.module.css";
 import { setPageLoading } from "../../utils/redux-store/layoutSlice";
@@ -112,8 +112,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       "http://localhost:5000/api/shop/get-order-history"
     );
 
-    console.log(data);
-
     return {
       props: {
         orders: data.orders,
@@ -126,20 +124,3 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     return { props: { orders: null, notAuth: true, page: "auth" } };
   }
 }
-
-// export const Tab_styled = styled(Tab)(({ theme }) => ({
-//   "&.Mui-selected": {
-//     // backgroundColor: "black",
-//     // color: "#ffffff",
-//     // "&:hover": { backgroundColor: "black" },
-//     // "&:active": { backgroundColor: "grey" },
-//     // border: "solid",
-//   },
-//   //   "&:hover": {
-//   //     backgroundColor: theme.palette.info.light,
-//   //     color: "white",
-//   //   },
-//   //   "&:active": {
-//   //     backgroundColor: "grey",
-//   //   },
-// }));

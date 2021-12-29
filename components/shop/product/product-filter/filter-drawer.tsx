@@ -1,5 +1,4 @@
 import { Fragment, useState, SetStateAction, Dispatch, memo } from "react";
-import { useRouter } from "next/router";
 
 import { RequestParams } from "../sub-cat-list";
 import { FilterStats } from "../../../../utils/enums-types/categories-interfaces";
@@ -7,16 +6,7 @@ import FilterCheckBox from "./checkbox";
 import FilterRadioBox from "./radio-box";
 
 // UI //
-import {
-  Drawer,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  List,
-  Collapse,
-  Divider,
-  Box,
-} from "@mui/material";
+import { ListItemButton, ListItemText, Collapse, Divider } from "@mui/material";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import styles from "./__filter-drawer.module.css";

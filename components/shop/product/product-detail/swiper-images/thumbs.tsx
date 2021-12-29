@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState, Fragment, CSSProperties, MouseEvent, memo } from "react";
+import { CSSProperties, memo } from "react";
 
 import { PageColorProps } from "../../../../../utils/react-hooks/get-more-products";
 

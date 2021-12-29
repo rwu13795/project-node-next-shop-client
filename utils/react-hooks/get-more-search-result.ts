@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, useCallback, memo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import browserClient from "../../utils/axios-client/browser-client";
 
 export interface PageColorProps {
@@ -34,7 +34,6 @@ export default function useGetMoreSearchResult(
 
   const [products, setProducts] = useState<PageProductProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  //   const [error, setError] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
 
   // have to reset the products when the startProducts were changed
@@ -51,13 +50,6 @@ export default function useGetMoreSearchResult(
           `http://localhost:5000/api/products/search-product?search=${search}&page=${pageNum}`
         );
 
-        console.log(
-          "data.products in get more",
-          data.products,
-          "pageNum",
-          pageNum
-        );
-
         setHasMore(data.products.length >= ITEMS_PER_PAGE);
         setProducts((prev) => [...prev, ...data.products]);
       } catch (err) {
@@ -68,7 +60,6 @@ export default function useGetMoreSearchResult(
 
   useEffect(() => {
     if (pageNum > 1) {
-      console.log("fetching more");
       setIsLoading(true);
       fetchMoreData();
       setIsLoading(false);

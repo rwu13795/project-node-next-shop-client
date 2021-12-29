@@ -1,27 +1,18 @@
-import React, {
-  useState,
-  Dispatch,
-  SetStateAction,
-  memo,
-  useEffect,
-} from "react";
+import React, { useState, memo, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 
 import {
   PageColorProps,
   PageProductInfo,
 } from "../../../utils/react-hooks/get-more-products";
 import PreviewColor from "./color-preview";
+import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 
 // UI //
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-
 import styles from "./__preview.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
-import { selectOneItmePerRow } from "../../../utils/redux-store/shopSlice";
-import { useRouter } from "next/router";
 
 interface Props {
   colorPropsList: PageColorProps[];
@@ -109,10 +100,8 @@ function ProductPreview({
               src={previewImage}
               alt={previewImage}
               blurDataURL={previewImage}
-              // layout="fill"
               width={685}
               height={800}
-              // loading="eager"
             />
           </div>
         ) : (
@@ -123,17 +112,15 @@ function ProductPreview({
                   src={previewImage}
                   alt={previewImage}
                   blurDataURL={previewImage}
-                  // layout="fill"
                   width={685}
                   height={800}
-                  // loading="eager"
                 />
               </div>
             </a>
           </Link>
         )}
       </div>
-      {/* <div className={styles.sub_box_container}> */}
+
       <div className={styles.color_container}>
         {colorPropsList.map((props, index) => {
           return (
@@ -150,7 +137,6 @@ function ProductPreview({
             />
           );
         })}
-        {/* </div> */}
       </div>
       <div className={styles.item_text}>{title.toUpperCase()}</div>
       <div className={styles.item_text}>$ {price}</div>

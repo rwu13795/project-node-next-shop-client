@@ -1,32 +1,13 @@
-import { useRef, useState, memo, useEffect, useCallback } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
+import { useState, memo, useEffect, useCallback } from "react";
+import { useSelector } from "react-redux";
 
-import {
-  selectOneItmePerRow,
-  setFilterTagToClear,
-} from "../../../utils/redux-store/shopSlice";
+import { selectOneItmePerRow } from "../../../utils/redux-store/shopSlice";
 import ProductPreview from "../../image/product-preview/preview";
-import useGetMoreProducts, {
-  PageProductProps,
-} from "../../../utils/react-hooks/get-more-products";
-import useLastElementRef from "../../../utils/react-hooks/last-elem-ref";
-import {
-  FilterStats,
-  MainCat_PageProps,
-} from "../../../utils/enums-types/categories-interfaces";
-import ProductFilter from "./product-filter/filter";
-import {
-  menMenuList,
-  womenMenuList,
-  kidsMenuList,
-} from "../../../utils/enums-types/product-category";
-import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
+import { PageProductProps } from "../../../utils/react-hooks/get-more-products";
 import browserClient from "../../../utils/axios-client/browser-client";
 
 // UI //
-import { Button, Divider, Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import styles from "./__accessory-tab.module.css";
 import styles_2 from "../../../pages/shop/men/__cat.module.css";
@@ -48,7 +29,6 @@ function AccessoryTab({
   startProducts,
   star_subCatTitles,
 }: Props): JSX.Element {
-  const dispatch = useDispatch();
   const client = browserClient();
 
   const oneItemPerRow = useSelector(selectOneItmePerRow);

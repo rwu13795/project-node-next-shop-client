@@ -2,7 +2,6 @@ import { ChangeEvent, useEffect, useState, memo, Fragment } from "react";
 
 import browserClient from "../../../utils/axios-client/browser-client";
 import { Order } from "../../../pages/auth/profile";
-import { CartItem } from "../../../utils/redux-store/userSlice";
 import OrderDetail from "./order-detail";
 
 // UI //
