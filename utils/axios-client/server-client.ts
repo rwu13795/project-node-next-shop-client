@@ -6,7 +6,7 @@ import { GetServerSidePropsContext } from "next";
 // custom axios client to make request in all pages
 const serverClient = (ctx: GetServerSidePropsContext) => {
   console.log("typeof window ", typeof window);
-  if (typeof window === undefined) {
+  if (typeof window === "undefined") {
     console.log("in server in server in server");
     // in server
     return axios.create({
