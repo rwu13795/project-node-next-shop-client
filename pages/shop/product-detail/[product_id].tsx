@@ -58,7 +58,7 @@ interface PageProps {
   reviews: Reviews;
   editModeItem: boolean;
   isSmall: boolean;
-  cookie: any;
+  context: any;
 }
 
 const ProductDetailPage: NextPage<PageProps> = ({
@@ -66,15 +66,16 @@ const ProductDetailPage: NextPage<PageProps> = ({
   reviews,
   editModeItem,
   isSmall,
-  cookie,
+  context,
 }) => {
   ////////////
-  console.log("cookie-------------->", cookie);
+  console.log("context-------------->", context);
 
   const dispatch = useDispatch();
 
-  const { main_cat, sub_cat, title } = product.productInfo;
-  const props = { main_cat, sub_cat, title };
+  // const { main_cat, sub_cat, title } = product.productInfo;
+  // const props = { main_cat, sub_cat, title };
+
   const client = browserClient();
 
   const [initialReviewDoc, setInitialReviewDoc] = useState<Reviews>(reviews);
@@ -86,6 +87,10 @@ const ProductDetailPage: NextPage<PageProps> = ({
   useEffect(() => {
     return instantlyToTop;
   }, []);
+
+  if (product === undefined || product === null) {
+    return <h1>testing</h1>;
+  }
 
   const refreshReviewsUser = async (pageNum: number, reviewFilter: string) => {
     const { data } = await client.post(
@@ -106,7 +111,7 @@ const ProductDetailPage: NextPage<PageProps> = ({
 
   return (
     <main className={styles.main_container}>
-      <PageLinks {...props} />
+      {/* <PageLinks {...props} /> */}
       {product ? (
         <ProductDetail
           product={product}
@@ -139,8 +144,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const productId = param.slice(param.length - 24);
   // the "main_cat is used to highlight the navbar menu list"
-  const main_cat = param.split("-")[0];
-  const secondString = param.split("-")[1];
+  const main_cat = param.split("_")[0];
+  const secondString = param.split("_")[1];
 
   const editModeItem: boolean = secondString === "edit";
   const isSmall = editModeItem;
@@ -151,26 +156,31 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   console.log("context.req.headers.cookie", context.req?.headers.cookie);
 
   try {
-    const { data }: { data: PageProps } = await axios({
-      method: "get",
-      url: `${process.env.NEXT_PUBLIC_SERVER_URL}/products/detail/${productId}`,
-      headers: context.req ? { cookie: context.req.headers.cookie } : undefined,
-    });
+    // const { data }: { data: PageProps } = await axios({
+    //   method: "get",
+    //   url: `${process.env.NEXT_PUBLIC_SERVER_URL}/products/detail/${productId}`,
+    //   // headers: context.req ? { cookie: context.req.headers.cookie } : undefined,
+    // });
 
     return {
       props: {
-        product: data.product,
-        reviews: data.reviews,
-        page_cat: main_cat,
-        editModeItem,
-        isSmall,
-        cookie: context.req.headers.cookie,
+        // product: data.product,
+        // reviews: data.reviews,
+        // page_cat: main_cat,
+        // editModeItem,
+        // isSmall,
+        context: {
+          productId,
+          main_cat,
+          secondString,
+          cookie: context.req.headers.cookie,
+        },
       },
     };
   } catch (err) {
     console.log(err);
     return {
-      props: { product: null },
+      props: {},
     };
   }
 }

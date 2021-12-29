@@ -58,7 +58,7 @@ function CartEditModal({ category, productId, index, editItem }: Props) {
       dispatch(setPageLoading(true));
       // if the screen is small, don't use the modal, render a new product detail
       // page with the editItem info
-      router.push(`/shop/product-detail/${category}-edit-${productId}`);
+      router.push(`/shop/product-detail/${category}_edit_${productId}`);
     } else {
       await fetchProduct();
       setOpen(true);

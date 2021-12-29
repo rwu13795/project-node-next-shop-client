@@ -37,7 +37,7 @@ function ProductPreview({
     return false;
   });
 
-  const productLink = `/shop/product-detail/${main_cat}-${sub_cat}-${productId}`;
+  const productLink = `/shop/product-detail/${main_cat}_${sub_cat}_${productId}`;
 
   const [imageBoxStyle, setImageBoxStyle] = useState<string>(styles.image_box);
   const [previewImage, setPreviewImage] = useState<string>(
