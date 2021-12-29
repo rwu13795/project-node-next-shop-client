@@ -45,11 +45,19 @@ interface PageProps {
   orders: Order[] | null;
   ordersTotal: number;
   notAuth?: boolean;
+  context: any;
 }
 
-const ProfilePage: NextPage<PageProps> = ({ orders, ordersTotal, notAuth }) => {
+const ProfilePage: NextPage<PageProps> = ({
+  orders,
+  ordersTotal,
+  notAuth,
+  context,
+}) => {
   const dispatch = useDispatch();
   const tagNum = useSelector(selectProfileTagNum);
+
+  console.log(context);
 
   useEffect(() => {
     dispatch(setPageLoading(false));
@@ -121,6 +129,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       },
     };
   } catch (err) {
-    return { props: { orders: null, notAuth: true, page: "auth" } };
+    console.log(context);
+
+    return { props: { orders: null, notAuth: true, page: "auth", context } };
   }
 }
