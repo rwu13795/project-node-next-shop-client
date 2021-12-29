@@ -13,6 +13,7 @@ import PageLinks from "../../../components/layout/page-links/links";
 import browserClient from "../../../utils/axios-client/browser-client";
 import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 import { instantlyToTop } from "../../../utils/helper-functions/scrollToTopInstantly";
+import axios from "axios";
 
 export interface ReviewProps {
   title: string;
@@ -57,6 +58,7 @@ interface PageProps {
   reviews: Reviews;
   editModeItem: boolean;
   isSmall: boolean;
+  cookie: any;
 }
 
 const ProductDetailPage: NextPage<PageProps> = ({
@@ -64,7 +66,11 @@ const ProductDetailPage: NextPage<PageProps> = ({
   reviews,
   editModeItem,
   isSmall,
+  cookie,
 }) => {
+  ////////////
+  console.log("cookie-------------->", cookie);
+
   const dispatch = useDispatch();
 
   const { main_cat, sub_cat, title } = product.productInfo;
@@ -139,12 +145,17 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const editModeItem: boolean = secondString === "edit";
   const isSmall = editModeItem;
 
-  const client = serverClient(context);
+  // const client = serverClient(context);
+
+  console.log("context.req.cookies", context.req?.cookies);
+  console.log("context.req.headers.cookie", context.req?.headers.cookie);
 
   try {
-    const { data }: { data: PageProps } = await client.get(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/products/detail/${productId}`
-    );
+    const { data }: { data: PageProps } = await axios({
+      method: "get",
+      url: `${process.env.NEXT_PUBLIC_SERVER_URL}/products/detail/${productId}`,
+      headers: context.req ? { cookie: context.req.headers.cookie } : undefined,
+    });
 
     return {
       props: {
@@ -153,6 +164,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         page_cat: main_cat,
         editModeItem,
         isSmall,
+        cookie: context.req.headers.cookie,
       },
     };
   } catch (err) {
