@@ -54,7 +54,7 @@ export const addressFields = [
 export const contactFields = [inputNames.email, inputNames.phone];
 
 const client = browserClient();
-const serverUrl = "http://localhost:5000/api";
+const serverUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}`;
 
 const initializeValue = (inputFields: string[]) => {
   let initialValue: InputValues = {};

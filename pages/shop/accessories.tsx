@@ -106,7 +106,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   const { data }: { data: MainCat_PageProps } = await axios.get(
-    `http://localhost:5000/api/products/get-accessories?main_cat=${main_cat}`
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/products/get-accessories?main_cat=${main_cat}`
   );
 
   let tagNum: string;

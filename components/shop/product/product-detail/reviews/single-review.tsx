@@ -90,11 +90,14 @@ function SingleReview({
     } else {
       id = currentReview._id;
     }
-    await client.post("http://localhost:5000/api/products/delete-review", {
-      id_allReviews: id,
-      reviewPrimaryId,
-      rating: currentReview.rating,
-    });
+    await client.post(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/products/delete-review`,
+      {
+        id_allReviews: id,
+        reviewPrimaryId,
+        rating: currentReview.rating,
+      }
+    );
 
     // refresh the reviews after deleting
     if (refreshReviewsAdmin) {

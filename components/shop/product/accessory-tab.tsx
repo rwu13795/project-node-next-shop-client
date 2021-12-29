@@ -43,7 +43,7 @@ function AccessoryTab({
   const getAccessories = useCallback(async () => {
     try {
       const { data } = await client.get(
-        `http://localhost:5000/api/products/get-accessories?main_cat=${main_cat}`
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/products/get-accessories?main_cat=${main_cat}`
       );
 
       setProducts(data.products);

@@ -109,7 +109,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   try {
     const { data }: { data: PageProps } = await client.get(
-      "http://localhost:5000/api/shop/get-order-history"
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/shop/get-order-history`
     );
 
     return {

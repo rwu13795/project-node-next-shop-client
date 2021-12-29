@@ -39,7 +39,7 @@ export default KidsMainCatPage;
 
 export async function getStaticProps() {
   const { data }: { data: MainCat_PageProps } = await axios.get(
-    "http://localhost:5000/api/products/get/kids"
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/products/get/kids`
   );
 
   return {

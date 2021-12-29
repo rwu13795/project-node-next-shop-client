@@ -129,7 +129,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const client = serverClient(context);
 
   const { data }: { data: PageProps } = await client.get(
-    `http://localhost:5000/api/products/search-product?search=${search}&page=1`
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/products/search-product?search=${search}&page=1`
   );
 
   return {

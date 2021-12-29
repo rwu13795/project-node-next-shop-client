@@ -42,7 +42,7 @@ function CartEditModal({ category, productId, index, editItem }: Props) {
   const fetchProduct = useCallback(async () => {
     try {
       const { data } = await client.get<ProductProps>(
-        `http://localhost:5000/api/products/detail/${productId}`
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/products/detail/${productId}`
       );
       setProduct(data.product);
     } catch (err) {

@@ -125,7 +125,7 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
       admin_username: string
     ) => {
       const { data }: { data: PageProps } = await client.get(
-        `http://localhost:5000/api/admin/get-products-list`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/get-products-list`,
         // when the master admin selects another admin, use that admin_username
         // to fetch the product list
         { params: { pageNum, main, sub, admin_username } }
@@ -389,7 +389,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   try {
     const { data }: { data: PageProps } = await client.get(
-      "http://localhost:5000/api/admin/get-products-list",
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/get-products-list`,
       { params: { pageNum: 1, main: main_cat, sub: sub_cat, admin_username } }
     );
 

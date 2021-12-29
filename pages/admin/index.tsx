@@ -120,7 +120,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const client = serverClient(context);
 
   const { data } = await client.get(
-    "http://localhost:5000/api/admin/admin-status"
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/admin-status`
   );
 
   if (data.adminUser.loggedInAsAdmin) {

@@ -89,12 +89,7 @@ function ProductReviews({
     } else {
       // only return the fisrt page of the filtered reviews, not the entire reviewDoc
       setReviewFilter(star);
-      // const { data } = await client.post(
-      //   "http://localhost:5000/api/products/get-reviews",
-      //   { productId, pageNum: 1, filter: star, refresh: false }
-      // );
-      // setPageNum(1);
-      // setCurrentReviews(data.reviews);
+
       if (refreshReviewsUser) {
         await refreshReviewsUser(1, star);
         setPageNum(1);

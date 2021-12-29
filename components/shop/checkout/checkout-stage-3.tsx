@@ -61,7 +61,7 @@ function CheckoutStage_3({ stripeCardToken }: Props): JSX.Element {
       // createAsyncThunk to make this request, and the csrfToken is selected from
       // the userSlice
       const { data } = await client.post(
-        "http://localhost:5000/api/shop/stripe-payment",
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/shop/stripe-payment`,
         {
           totalAmount,
           csrfToken,

@@ -108,17 +108,20 @@ function AddReviewModal({
     }
     if (errorInputfield !== "") return;
 
-    await client.post("http://localhost:5000/api/products/add-review", {
-      productId,
-      reviewProps: {
-        title: inputValues.title,
-        review: inputValues.review,
-        rating,
-        user_name: inputValues.nickname,
-        user_email: inputValues.email,
-        size: inputValues.size,
-      },
-    });
+    await client.post(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/products/add-review`,
+      {
+        productId,
+        reviewProps: {
+          title: inputValues.title,
+          review: inputValues.review,
+          rating,
+          user_name: inputValues.nickname,
+          user_email: inputValues.email,
+          size: inputValues.size,
+        },
+      }
+    );
 
     setSubmited(true);
 

@@ -49,7 +49,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   // if the user loads this sign-in page directly using the url
   // I should check the user-auth before rendering the page
   const { data } = await client.get(
-    "http://localhost:5000/api/auth/user-status"
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/user-status`
   );
 
   if (data.currentUser.isLoggedIn) {

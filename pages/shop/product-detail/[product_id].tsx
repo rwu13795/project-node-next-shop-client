@@ -83,7 +83,7 @@ const ProductDetailPage: NextPage<PageProps> = ({
 
   const refreshReviewsUser = async (pageNum: number, reviewFilter: string) => {
     const { data } = await client.post(
-      "http://localhost:5000/api/products/get-reviews",
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/products/get-reviews`,
       { productId: product._id, pageNum, filter: reviewFilter, refresh: true }
     );
     if (pageNum === 1 && reviewFilter === "") {
@@ -143,7 +143,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   try {
     const { data }: { data: PageProps } = await client.get(
-      `http://localhost:5000/api/products/detail/${productId}`
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/products/detail/${productId}`
     );
 
     return {

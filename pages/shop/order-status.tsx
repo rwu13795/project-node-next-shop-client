@@ -47,7 +47,7 @@ const OrderStatusPage: NextPage = ({}) => {
 
     try {
       const { data } = await client.post(
-        "http://localhost:5000/api/shop/order-status",
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/shop/order-status`,
         { orderId }
       );
       setOrder(data.order);

@@ -45,7 +45,7 @@ const initialState: AdminState = {
 };
 
 const client = browserClient();
-const serverUrl = "http://localhost:5000/api";
+const serverUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}`;
 
 const getAdminStatus = createAsyncThunk("admin/getAdminStatus", async () => {
   const response = await client.get(serverUrl + "/admin/admin-status");

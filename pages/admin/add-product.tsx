@@ -82,7 +82,7 @@ const AddProductPage: NextPage<PageProps> = ({
 
   const refreshReviewsAdmin = async (pageNum: number, reviewFilter: string) => {
     const { data } = await client.post(
-      "http://localhost:5000/api/products/get-reviews",
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/products/get-reviews`,
       { productId, pageNum, filter: reviewFilter }
     );
     const { reviewDoc, newPage } = data;
@@ -182,7 +182,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     // if no productId is found in the query, that means we are NOT editting the product
     const { data }: { data: PageProps } = await client.get(
-      `http://localhost:5000/api/products/detail/${productId}?admin="yes"`
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/products/detail/${productId}?admin="yes"`
     );
     return {
       props: {

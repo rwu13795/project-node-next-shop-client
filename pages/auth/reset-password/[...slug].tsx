@@ -68,7 +68,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     // send request to the server to check the reset-token before rendering the page
     const { data } = await client.post(
-      "http://localhost:5000/api/auth/token-check",
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/token-check`,
       {
         token,
       }

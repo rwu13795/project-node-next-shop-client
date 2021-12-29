@@ -47,7 +47,7 @@ export default function useGetMoreSearchResult(
     if (hasMore) {
       try {
         const { data } = await client.get(
-          `http://localhost:5000/api/products/search-product?search=${search}&page=${pageNum}`
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/products/search-product?search=${search}&page=${pageNum}`
         );
 
         setHasMore(data.products.length >= ITEMS_PER_PAGE);

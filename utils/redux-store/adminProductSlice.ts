@@ -98,7 +98,7 @@ const initialState: AddProductState = {
 };
 
 const client = browserClient();
-const serverUrl = "http://localhost:5000/api";
+const serverUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}`;
 
 // createAsyncThunk<"PayloadAction type", "function param" , "ThunkApiConfig">
 const uploadNewProduct = createAsyncThunk<

@@ -29,7 +29,7 @@ function OrderHistory({
     if (pageNum === newPage) return;
     try {
       const { data }: { data: Props } = await client.get(
-        "http://localhost:5000/api/shop/get-order-history",
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/shop/get-order-history`,
         { params: { pageNum: newPage } }
       );
       setPageNum(newPage);
