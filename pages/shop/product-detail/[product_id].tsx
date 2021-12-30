@@ -173,7 +173,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
           productId,
           main_cat,
           secondString,
-          cookie: context.req.cookies,
+          cookie: context.req.headers.cookie,
         },
       },
     };
