@@ -9,14 +9,14 @@
 }
 
 .color_ball {
-  width: min(31px, 2.2vw);
-  height: min(31px, 2.2vw);
+  width: min(32px, 2.2vw);
+  height: min(32px, 2.2vw);
   border-radius: 2rem;
   border: solid black 1px;
 }
 .color_ball_outer_ring {
-  width: min(36px, 2.8vw);
-  height: min(36px, 2.8vw);
+  width: min(42px, 3vw);
+  height: min(42px, 3vw);
   border-radius: 2rem;
   display: flex;
   justify-content: center;
@@ -27,8 +27,8 @@
 }
 .color_ball_outer_ring_active {
   border: #00789e solid 2px;
-  width: min(36px, 2.8vw);
-  height: min(36px, 2.8vw);
+  width: min(42px, 3vw);
+  height: min(42px, 3vw);
   border-radius: 2rem;
   display: flex;
   justify-content: center;
@@ -126,16 +126,19 @@
     height: auto;
   }
   .color_ball {
-    width: min(31px, 4.8vw);
-    height: min(31px, 4.8vw);
+    width: min(30px, 4.8vw);
+    height: min(30px, 4.8vw);
+    border-radius: 0;
   }
   .color_ball_outer_ring {
-    width: min(36px, 5.8vw);
-    height: min(36px, 5.8vw);
+    width: min(40px, 6.4vw);
+    height: min(40px, 6.4vw);
+    border-radius: 0;
   }
   .color_ball_outer_ring_active {
-    width: min(36px, 5.8vw);
-    height: min(36px, 5.8vw);
+    width: min(40px, 6.4vw);
+    height: min(40px, 6.4vw);
+    border-radius: 0;
   }
   .color_ball_container {
     margin: 0 2px 0 2px;

@@ -171,6 +171,8 @@ function Swiper_product_detail_images({
                 layout="responsive"
                 width={500}
                 height={500}
+                blurDataURL={img}
+                placeholder="blur"
                 className={styles.slide_image}
                 onClick={() => openModalHandler(img)}
               />

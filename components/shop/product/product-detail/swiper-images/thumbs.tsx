@@ -94,6 +94,8 @@ function Swiper_thumbs_product_detail_images({
                 src={img}
                 alt={img}
                 layout="fill"
+                blurDataURL={img}
+                placeholder="blur"
                 className={styles.slide_image}
                 // since all the images have different size and ratio, it is impossible
                 // to fit the image inside the box perfectly.

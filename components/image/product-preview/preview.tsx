@@ -114,6 +114,7 @@ function ProductPreview({
                   blurDataURL={previewImage}
                   width={685}
                   height={800}
+                  placeholder="blur"
                 />
               </div>
             </a>

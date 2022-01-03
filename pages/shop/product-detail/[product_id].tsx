@@ -150,17 +150,15 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const editModeItem: boolean = secondString === "edit";
   const isSmall = editModeItem;
 
-  // const client = serverClient(context);
+  const client = serverClient(context);
 
   console.log("context.req.cookies", context.req?.cookies);
   console.log("context.req.headers.cookie", context.req?.headers.cookie);
 
   try {
-    const { data }: { data: PageProps } = await axios({
-      method: "get",
-      url: `${process.env.NEXT_PUBLIC_SERVER_URL}/products/detail/${productId}`,
-      headers: context.req ? context.req.cookies : undefined,
-    });
+    const { data }: { data: PageProps } = await client.get(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/products/detail/${productId}`
+    );
 
     return {
       props: {

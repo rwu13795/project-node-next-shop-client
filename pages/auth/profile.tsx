@@ -21,6 +21,7 @@ import { Box, Tab, Grid } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import styles from "./__profile.module.css";
 import { setPageLoading } from "../../utils/redux-store/layoutSlice";
+import axios from "axios";
 
 export interface OrderAddressFields {
   first_name: string;

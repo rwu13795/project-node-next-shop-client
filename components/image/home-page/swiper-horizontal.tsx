@@ -124,6 +124,8 @@ function Swiper_horizontal_homePage({ srcProp }: Props): JSX.Element {
                     src={src}
                     alt={src}
                     layout="fill"
+                    blurDataURL={src}
+                    placeholder="blur"
                   />
                   <Slide_text_box main_cat={category} slide_index={index} />
                 </SwiperSlide>
@@ -143,6 +145,8 @@ function Swiper_horizontal_homePage({ srcProp }: Props): JSX.Element {
                     src={src}
                     alt={src}
                     layout="fill"
+                    blurDataURL={src}
+                    placeholder="blur"
                   />
                   <Slide_text_box main_cat={category} slide_index={index} />
                 </SwiperSlide>

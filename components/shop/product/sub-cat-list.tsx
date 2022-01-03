@@ -177,7 +177,14 @@ function SubCatProductsList({
         <div className={styles.right_grid_upper_container}>
           <div className={styles.sub_cat_title}>{sub_cat.toUpperCase()}</div>
           <div className={styles.main_banner}>
-            <Image src={banner} alt="sub-cat" width={1400} height={480} />
+            <Image
+              src={banner}
+              alt="sub-cat"
+              width={1400}
+              height={480}
+              blurDataURL={banner}
+              placeholder="blur"
+            />
           </div>
 
           <div className={styles.filter_tags} id="sub_cat_filter_tag">

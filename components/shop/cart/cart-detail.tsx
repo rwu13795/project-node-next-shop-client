@@ -127,6 +127,8 @@ function CartDetail({
                     alt={item.title}
                     width={cartDropDown || summaryMode ? 120 : 300}
                     height={cartDropDown || summaryMode ? 132 : 320}
+                    blurDataURL={item.imageUrl}
+                    placeholder="blur"
                     layout="responsive"
                     className={image_box}
                   />

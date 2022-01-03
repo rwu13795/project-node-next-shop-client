@@ -86,6 +86,8 @@ function MainCatProductsList({
                       width={550}
                       alt="cat-banner"
                       height={550}
+                      blurDataURL={catBanners[index]}
+                      placeholder="blur"
                     />
                   </a>
                 </Link>
@@ -154,6 +156,7 @@ function MainCatProductsList({
           <div className={styles.featuredCat_container}>
             {featuredCat.map((cat, index) => {
               let sub_cat = cat.toLowerCase();
+              const cat_image = `/sub-cat-featured-image/${main_cat}/${sub_cat}.jpg`;
               return (
                 <div
                   key={cat + index}
@@ -163,7 +166,7 @@ function MainCatProductsList({
                   <Link href={`/shop/${main_cat}/${sub_cat}`} passHref>
                     <a style={{ textDecoration: "none", color: "inherit" }}>
                       <Image
-                        src={`/sub-cat-featured-image/${main_cat}/${sub_cat}.jpg`}
+                        src={cat_image}
                         width={200}
                         height={200}
                         alt="banner"

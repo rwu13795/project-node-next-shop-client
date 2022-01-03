@@ -57,9 +57,13 @@
 .cart_summary_menu::-webkit-scrollbar {
   width: 7px !important;
 }
+.cart_summary_menu::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #008ab4;
+  border-radius: 10px;
+}
 .cart_summary_menu::-webkit-scrollbar-thumb {
   background-color: #008ab4;
-  border: black 1px solid;
+  border-radius: 10px;
 }
 
 /* the "position: absolute" has to be inside the Collapse tab in order to 

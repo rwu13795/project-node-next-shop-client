@@ -119,9 +119,9 @@
   box-shadow: 3px 5px 8px;
   cursor: pointer;
 }
-
 .featuredCat_box:hover .featuredCat_image {
   filter: brightness(1.2);
+  transform: scale(1.05);
   transition: 200ms;
 }
 .featuredCat_box:hover .cat_text {
@@ -129,12 +129,10 @@
   text-shadow: 4px 8px 5px black;
   color: rgb(122, 213, 255);
 }
-
 .featuredCat_image {
   filter: brightness(0.8);
   transition: 200ms;
 }
-
 .cat_text {
   width: 100%;
   position: relative;
