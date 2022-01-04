@@ -29,7 +29,7 @@ const MenMainCatPage: NextPage<MainCat_PageProps> = ({
   const client = browserClient();
   const click = async () => {
     const { data } = await client.get(
-      "https://node-next-shop-server.herokuapp.com/api/auth/user-status"
+      "https://node-next-shop-server.xyz/api/auth/user-status"
     );
     console.log(data);
   };
