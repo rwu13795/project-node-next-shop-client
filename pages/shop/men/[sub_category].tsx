@@ -76,7 +76,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { data }: { data: SubCat_PageProps } = await axios({
     method: "get",
     url: `${process.env.NEXT_PUBLIC_SERVER_URL}/products/get/${main_cat}/${sub_cat}`,
-    headers: context.req ? { cookie: context.req.headers.cookie } : undefined,
+    // headers: context.req ? { cookie: context.req.headers.cookie } : undefined,
   });
 
   return {
