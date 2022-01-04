@@ -15,16 +15,16 @@ import styles from "./__checkout.module.css";
 
 interface Props extends MainCat_PageProps {
   tagNum: string;
-  req: any;
+  context: any;
 }
 
 const AccessoriesPage: NextPage<Props> = ({
   tagNum,
   products,
   subCatTitles,
-  req,
+  context,
 }) => {
-  console.log("req ------------->", req);
+  console.log("context ------------->", context);
 
   const dispatch = useDispatch();
 
@@ -129,7 +129,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       tagNum,
       filter_view: true,
       page: "accessory",
-      req: context.req.headers,
+      context: {
+        headers: context.req.headers,
+        cookie_s: context.req.cookies,
+        cookie_in_head: context.req.headers.cookie,
+      },
     },
   };
 }

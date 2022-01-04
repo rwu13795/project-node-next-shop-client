@@ -14,6 +14,7 @@ import serverClient from "../../../utils/axios-client/server-client";
 import { Button } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import styles from "./__cat.module.css";
+import axios from "axios";
 
 const MenSubCatPage: NextPage<SubCat_PageProps> = ({
   products: startProducts,
@@ -68,9 +69,15 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const client = serverClient(context);
 
-  const { data }: { data: SubCat_PageProps } = await client.get(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/products/get/${main_cat}/${sub_cat}`
-  );
+  // const { data }: { data: SubCat_PageProps } = await client.get(
+  //   `${process.env.NEXT_PUBLIC_SERVER_URL}/products/get/${main_cat}/${sub_cat}`
+  // );
+
+  const { data }: { data: SubCat_PageProps } = await axios({
+    method: "get",
+    url: `${process.env.NEXT_PUBLIC_SERVER_URL}/products/get/${main_cat}/${sub_cat}`,
+    headers: context.req ? { cookie: context.req.headers.cookie } : undefined,
+  });
 
   return {
     props: {
