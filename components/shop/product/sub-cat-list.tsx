@@ -259,7 +259,7 @@ function SubCatProductsList({
             );
           })}
         </Grid>
-        {products.length < 6 && main_cat !== "men" && (
+        {products.length < 6 && main_cat !== "men" && filterTags.size < 1 && (
           <div className={styles.hint_box}>
             HINT: Please navigate to the{" "}
             <Link href="/shop/men">Men&apos;s Collections</Link>, there are more

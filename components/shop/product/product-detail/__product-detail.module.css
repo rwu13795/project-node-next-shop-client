@@ -126,4 +126,8 @@
   .product_desc_divider {
     width: 90%;
   }
+
+  .product_desc_title {
+    font-size: min(7.5vw, 30px);
+  }
 }
