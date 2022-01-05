@@ -28,7 +28,7 @@ const KidsMainCatPage: NextPage<MainCat_PageProps> = ({
   return (
     <main className={styles.main_container}>
       <Head>
-        <title>Kids</title>
+        <title>Kids&apos; Collection</title>
       </Head>
 
       <MainCatProductsList

@@ -159,6 +159,10 @@ const CheckoutPage: NextPage = ({}) => {
     </Elements>
   ) : (
     <main className={styles.main_container_no_item}>
+      <Head>
+        <title>Checkout</title>
+      </Head>
+
       <div className={styles.main_title}>CHECKOUT</div>
       <div className={styles.no_item_text}>
         You don&apos;t have any item in the cart

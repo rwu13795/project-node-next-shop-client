@@ -100,11 +100,13 @@ function AccessoryTab({
               </div>
             );
           })}
-        <Button className={styles_2.to_top_button} onClick={backToTopHandler}>
-          <ArrowBackIosNewIcon className={styles_2.to_top_icon} />
-          back to top
-          <ArrowBackIosNewIcon className={styles_2.to_top_icon} />
-        </Button>
+        {subCatTitles && (
+          <Button className={styles_2.to_top_button} onClick={backToTopHandler}>
+            <ArrowBackIosNewIcon className={styles_2.to_top_icon} />
+            back to top
+            <ArrowBackIosNewIcon className={styles_2.to_top_icon} />
+          </Button>
+        )}
       </div>
     </main>
   );

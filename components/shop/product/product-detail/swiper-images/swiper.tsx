@@ -68,6 +68,9 @@ function Swiper_product_detail_images({
     let posY = e.nativeEvent.offsetY;
     let width = e.currentTarget.offsetWidth;
 
+    // reposition the enlarged image opposite to the mouse x/y axis movement
+    // it creates a browsing effect
+    // the multiplier should be half of the width of the enlarged image
     e.currentTarget.style.backgroundSize = `${width * 2}px`;
     e.currentTarget.style.backgroundPosition =
       -posX * 1 + "px " + -posY * 1 + "px";

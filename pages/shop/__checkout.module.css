@@ -73,7 +73,9 @@
 }
 
 .main_container_no_item {
-  margin-top: 50px;
+  margin: 50px 15px 20px 15px;
+  width: 80vw;
+  max-width: 110rem;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
@@ -112,6 +114,10 @@
     margin-top: 30px;
     margin-bottom: 0;
   }
+  .main_container_no_item {
+    width: 95vw;
+  }
+
   .main_container_login_checkout {
     width: 100vw;
     margin-bottom: 0;

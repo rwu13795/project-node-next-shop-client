@@ -215,53 +215,49 @@ function SubCatProductsList({
         </div>
 
         <Grid item container>
-          {products.length > 0 ? (
-            products.map((p, index) => {
-              let lastElem = index + 1 === products.length;
-              return lastElem ? (
-                <Grid
-                  item
-                  container
-                  className={styles.items_grid}
-                  md={4}
-                  lg={4}
-                  xl={isXL ? 3 : 4}
-                  sm={oneItemPerRow ? 12 : 6}
-                  xs={oneItemPerRow ? 12 : 6}
-                  ref={lastElementRef}
-                  key={index}
-                >
-                  <ProductPreview
-                    productId={p._id}
-                    colorPropsList={p.colorPropsList}
-                    productInfo={p.productInfo}
-                    oneItemPerRow={oneItemPerRow}
-                  />
-                </Grid>
-              ) : (
-                <Grid
-                  item
-                  container
-                  className={styles.items_grid}
-                  md={4}
-                  lg={4}
-                  xl={isXL ? 3 : 4}
-                  sm={oneItemPerRow ? 12 : 6}
-                  xs={oneItemPerRow ? 12 : 6}
-                  key={index}
-                >
-                  <ProductPreview
-                    productId={p._id}
-                    colorPropsList={p.colorPropsList}
-                    productInfo={p.productInfo}
-                    oneItemPerRow={oneItemPerRow}
-                  />
-                </Grid>
-              );
-            })
-          ) : (
-            <h1>Sorry, there is no item added in this category yet</h1>
-          )}
+          {products.map((p, index) => {
+            let lastElem = index + 1 === products.length;
+            return lastElem ? (
+              <Grid
+                item
+                container
+                className={styles.items_grid}
+                md={4}
+                lg={4}
+                xl={isXL ? 3 : 4}
+                sm={oneItemPerRow ? 12 : 6}
+                xs={oneItemPerRow ? 12 : 6}
+                ref={lastElementRef}
+                key={index}
+              >
+                <ProductPreview
+                  productId={p._id}
+                  colorPropsList={p.colorPropsList}
+                  productInfo={p.productInfo}
+                  oneItemPerRow={oneItemPerRow}
+                />
+              </Grid>
+            ) : (
+              <Grid
+                item
+                container
+                className={styles.items_grid}
+                md={4}
+                lg={4}
+                xl={isXL ? 3 : 4}
+                sm={oneItemPerRow ? 12 : 6}
+                xs={oneItemPerRow ? 12 : 6}
+                key={index}
+              >
+                <ProductPreview
+                  productId={p._id}
+                  colorPropsList={p.colorPropsList}
+                  productInfo={p.productInfo}
+                  oneItemPerRow={oneItemPerRow}
+                />
+              </Grid>
+            );
+          })}
         </Grid>
         {products.length < 6 && main_cat !== "men" && (
           <div className={styles.hint_box}>
