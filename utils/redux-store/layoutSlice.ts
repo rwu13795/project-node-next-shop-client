@@ -1,9 +1,16 @@
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from ".";
 
-const initialState = {
+interface LayoutState {
+  pageLoading: boolean;
+  lockScrollBar: boolean;
+  disable_searchInput: boolean;
+}
+
+const initialState: LayoutState = {
   pageLoading: false,
   lockScrollBar: false,
+  disable_searchInput: false,
 };
 
 const layoutSlice = createSlice({
@@ -16,10 +23,14 @@ const layoutSlice = createSlice({
     setLockScrollBar(state, action: PayloadAction<boolean>) {
       state.lockScrollBar = action.payload;
     },
+    set_disable_searchInput(state, action: PayloadAction<boolean>) {
+      state.disable_searchInput = action.payload;
+    },
   },
 });
 
-export const { setPageLoading, setLockScrollBar } = layoutSlice.actions;
+export const { setPageLoading, setLockScrollBar, set_disable_searchInput } =
+  layoutSlice.actions;
 
 export default layoutSlice.reducer;
 
@@ -44,5 +55,11 @@ export const selectLockScrollBar = createSelector(
   [selectLayoutState],
   (state) => {
     return state.lockScrollBar;
+  }
+);
+export const select_disable_searchInput = createSelector(
+  [selectLayoutState],
+  (state) => {
+    return state.disable_searchInput;
   }
 );

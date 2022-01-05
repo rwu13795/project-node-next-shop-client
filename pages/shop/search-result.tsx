@@ -5,7 +5,10 @@ import Head from "next/head";
 
 import serverClient from "../../utils/axios-client/server-client";
 import { PageProductProps } from "../../utils/react-hooks/get-more-products";
-import { setPageLoading } from "../../utils/redux-store/layoutSlice";
+import {
+  setPageLoading,
+  set_disable_searchInput,
+} from "../../utils/redux-store/layoutSlice";
 import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
 import { selectOneItmePerRow } from "../../utils/redux-store/shopSlice";
 import ProductPreview from "../../components/image/product-preview/preview";
@@ -31,8 +34,13 @@ const SearchResult: NextPage<PageProps> = ({
 
   useEffect(() => {
     dispatch(setPageLoading(false));
+    dispatch(set_disable_searchInput(false));
   });
   useEffect(() => {
+    // remove focus on the search input field after the page is loaded
+    const elem = document.getElementById("search-field");
+    if (elem) elem.blur();
+
     return instantlyToTop;
   }, []);
 
