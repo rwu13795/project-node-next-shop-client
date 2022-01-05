@@ -53,5 +53,6 @@ export async function getStaticProps() {
       subCatTitles: data.subCatTitles,
       page_cat: "kids",
     },
+    revalidate: 60 * 30, // Re-generate the page every 30 mins
   };
 }

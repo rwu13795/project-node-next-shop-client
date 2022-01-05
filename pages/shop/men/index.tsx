@@ -53,5 +53,6 @@ export async function getStaticProps() {
       subCatTitles: data.subCatTitles,
       page_cat: "men",
     },
+    revalidate: 60 * 30,
   };
 }
