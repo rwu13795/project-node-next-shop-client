@@ -112,7 +112,9 @@ function FormInputField(props: Props): JSX.Element {
     >
       <div
         className={form_control}
-        style={{ marginRight: page === "user-sign-up" ? "10px" : "0" }}
+        style={{
+          marginRight: page === "user-sign-up" && !isSmall ? "10px" : "0",
+        }}
       >
         <FormControl error={showError} sx={{ width: "100%" }}>
           <InputLabel

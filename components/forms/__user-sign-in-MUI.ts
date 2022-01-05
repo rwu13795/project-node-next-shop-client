@@ -14,6 +14,7 @@ export const sxMUI: Props = {
   to_sign_up: {
     width: "26vw",
     minWidth: "300px",
+    maxWidth: "500px",
     fontSize: "16px",
     mt: "10px",
   },

@@ -4,12 +4,12 @@
 
 .form_control {
   width: 100%;
-  max-width: 40rem;
+  /* max-width: 40rem; */
   margin: 10px 0px;
 }
 .form_control_half {
   width: 100%;
-  max-width: 17.5rem;
+  /* max-width: 17.5rem; */
   margin: 10px 0px;
 }
 

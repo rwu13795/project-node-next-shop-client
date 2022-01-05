@@ -53,7 +53,9 @@ function SelectState({
     <Grid item container xs={12} sm={6} md={md}>
       <div
         className={styles.form_control_half}
-        style={{ marginRight: isSmall ? "0px" : "10px" }}
+        style={{
+          marginRight: page === "user-sign-up" && !isSmall ? "10px" : "0px",
+        }}
       >
         <FormControl error={showError} sx={{ width: "100%" }}>
           <InputLabel sx={{ fontSize: isSmall ? "14px" : "20px" }}>
@@ -147,30 +149,3 @@ const stateArray = [
   "Wisconsin",
   "Wyoming",
 ];
-
-/*
-    <FormControl error={error_main} className={styles.form_control}>
-          <InputLabel id="main-cat-select">Main-Category</InputLabel>
-          <Select
-            labelId="main-cat-select"
-            value={capitalize(productInfo.main_cat)}
-            name={inputNames.main}
-            label="Main Category" // the length oflabel string will determine the length of line break in the box
-            onChange={onChangeHandler}
-            error={error_main}
-            className={styles.input_box_shadow}
-          >
-            {mainCatArray.map((cat) => {
-              return (
-                <MenuItem key={cat} value={cat}>
-                  {cat}
-                </MenuItem>
-              );
-            })}
-          </Select>
-          <FormHelperText className={styles.input_error}>
-            {propError[inputNames.main]}
-          </FormHelperText>
-      </FormControl>
-
- */
