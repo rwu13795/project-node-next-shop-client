@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { TokenResult } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
+import Head from "next/head";
 
 import { stripePromise } from "../../utils/helper-functions/load-stripe";
 import { inputNames } from "../../utils/enums-types/input-names";
@@ -90,6 +91,10 @@ const CheckoutPage: NextPage = ({}) => {
   return cart.length > 0 ? (
     <Elements stripe={stripePromise}>
       <main className={styles.main_container}>
+        <Head>
+          <title>Checkout</title>
+        </Head>
+
         <div className={styles.main_title}>CHECKOUT</div>
 
         <Box className={styles.body}>

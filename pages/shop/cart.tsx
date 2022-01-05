@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Head from "next/head";
 
 import { checkStock, selectCart } from "../../utils/redux-store/userSlice";
 import CartDetail from "../../components/shop/cart/cart-detail";
@@ -32,6 +33,10 @@ const CartPage: NextPage = ({}) => {
 
   return (
     <main className={main_container}>
+      <Head>
+        <title>Cart</title>
+      </Head>
+
       <div className={styles.main_title}>SHOPPING CART</div>
       <CartDetail cart={cart} />
     </main>

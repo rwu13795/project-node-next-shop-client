@@ -29,10 +29,9 @@ const Home: NextPage = () => {
       <Head>
         <title>NEXT NODE SHOP</title>
         <meta
-          name="description"
-          content="NEXT NODE SHOP created by rwu13795.work@gmail.com"
+          name="NEXT NODE SHOP created by rwu13795.work@gmail.com"
+          content="An e-commerce web app written in Typescript using NextJS as front-end and NodeJS as back-end"
         />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <Swiper_homePage />

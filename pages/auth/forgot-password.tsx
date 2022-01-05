@@ -2,6 +2,7 @@ import type { GetServerSidePropsContext, NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Head from "next/head";
 
 import {
   selectIsLoggedIn,
@@ -33,11 +34,17 @@ const ForgotPasswordPage: NextPage = ({}) => {
   }, [isLoggedIn, router]);
 
   return (
-    <AuthForm
-      inputType={inputTypes.forgotPassword}
-      inputFieldsArray={inputFieldsArray}
-      page="user-sign-in"
-    />
+    <main>
+      <Head>
+        <title>Forgot Passwords</title>
+      </Head>
+
+      <AuthForm
+        inputType={inputTypes.forgotPassword}
+        inputFieldsArray={inputFieldsArray}
+        page="user-sign-in"
+      />
+    </main>
   );
 };
 

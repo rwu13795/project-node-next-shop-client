@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import Head from "next/head";
 
 import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
 import { setPageLoading } from "../../utils/redux-store/layoutSlice";
@@ -60,6 +61,10 @@ const OrderStatusPage: NextPage = ({}) => {
 
   return (
     <main className={styles.main_container}>
+      <Head>
+        <title>Checkout</title>
+      </Head>
+
       <div className={styles.main_grid}>
         <div className={styles.title_box}>
           <div className={styles.main_title}>ORDER STATUS</div>

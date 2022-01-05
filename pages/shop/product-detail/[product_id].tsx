@@ -1,9 +1,9 @@
 import { GetServerSidePropsContext, NextPage } from "next";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import Head from "next/head";
 
 import { PageProductProps } from "../../../utils/react-hooks/get-more-products";
-
 import ProductDetail from "../../../components/shop/product/product-detail/product-detail";
 import serverClient from "../../../utils/axios-client/server-client";
 
@@ -13,7 +13,6 @@ import PageLinks from "../../../components/layout/page-links/links";
 import browserClient from "../../../utils/axios-client/browser-client";
 import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 import { instantlyToTop } from "../../../utils/helper-functions/scrollToTopInstantly";
-import axios from "axios";
 
 export interface ReviewProps {
   title: string;
@@ -108,6 +107,10 @@ const ProductDetailPage: NextPage<PageProps> = ({
 
   return (
     <main className={styles.main_container}>
+      <Head>
+        <title>Product Details</title>
+      </Head>
+
       <PageLinks {...props} />
       {product ? (
         <ProductDetail

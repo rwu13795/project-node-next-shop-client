@@ -1,5 +1,6 @@
 import { GetServerSidePropsContext, NextPage } from "next";
 import Link from "next/link";
+import Head from "next/head";
 
 import serverClient from "../../../utils/axios-client/server-client";
 import ForgotPasswordReset from "../../../components/forms/forgot-pw-reset";
@@ -28,12 +29,12 @@ const ForgotPasswordResetPage: NextPage<PageProps> = ({
     );
   }
 
-  // if (resetSuccess) {
-  //   return <RedirectToLogin resetSuccess={resetSuccess} />;
-  // }
-
   return (
     <main style={{ marginTop: "50px" }}>
+      <Head>
+        <title>Reset Passwords</title>
+      </Head>
+
       <ForgotPasswordReset
         token={token}
         userId={userId}

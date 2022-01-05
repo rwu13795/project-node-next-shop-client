@@ -20,6 +20,10 @@ class MyDocument extends Document {
         <Head>
           {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
+          <meta
+            name="NEXT NODE SHOP created by rwu13795.work@gmail.com"
+            content="An e-commerce web app written in Typescript using NextJS as front-end and NodeJS as back-end"
+          />
 
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
@@ -31,6 +35,7 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap"
             rel="stylesheet"
           />
+          <link rel="icon" href="/nextjs.ico" />
         </Head>
         <body style={{ margin: 0, padding: 0 }}>
           <Main />

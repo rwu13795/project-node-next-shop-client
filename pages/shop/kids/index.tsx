@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
+import Head from "next/head";
 
 import { instantlyToTop } from "../../../utils/helper-functions/scrollToTopInstantly";
 import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
@@ -26,6 +27,10 @@ const KidsMainCatPage: NextPage<MainCat_PageProps> = ({
 
   return (
     <main className={styles.main_container}>
+      <Head>
+        <title>Kids</title>
+      </Head>
+
       <MainCatProductsList
         products={products}
         subCatTitles={subCatTitles}

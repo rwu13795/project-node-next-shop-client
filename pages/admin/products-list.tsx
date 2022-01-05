@@ -2,6 +2,7 @@ import { GetServerSidePropsContext, NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useCallback, useState, Fragment } from "react";
+import Head from "next/head";
 
 import serverClient from "../../utils/axios-client/server-client";
 import ProductPreview from "../../components/image/product-preview/preview";
@@ -232,6 +233,10 @@ const AdmimProductsListPage: NextPage<PageProps> = ({
 
   return (
     <main className={styles.main}>
+      <Head>
+        <title>Products List</title>
+      </Head>
+
       <div className={styles.main_grid}>
         <div className={styles.left_grid}>
           <Button variant="outlined" onClick={goToAddProduct}>

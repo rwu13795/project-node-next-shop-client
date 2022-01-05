@@ -2,6 +2,7 @@ import { GetServerSidePropsContext, NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import Head from "next/head";
 
 import AuthForm from "../../components/forms/auth-form";
 import { inputNames } from "../../utils/enums-types/input-names";
@@ -55,7 +56,11 @@ const AdminPage: NextPage = () => {
   };
 
   return (
-    <div className={styles.main}>
+    <main className={styles.main}>
+      <Head>
+        <title>Administration</title>
+      </Head>
+
       <div className={styles.title}>ADMINISTRATION</div>
       {isRegistering ? (
         <div className={styles.main_grid}>
@@ -110,7 +115,7 @@ const AdminPage: NextPage = () => {
           </div>
         </div>
       )}
-    </div>
+    </main>
   );
 };
 

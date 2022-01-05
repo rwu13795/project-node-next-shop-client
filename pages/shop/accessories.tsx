@@ -2,6 +2,7 @@ import { GetServerSidePropsContext, NextPage } from "next";
 import { useDispatch } from "react-redux";
 import { SyntheticEvent, useEffect, useState } from "react";
 import axios from "axios";
+import Head from "next/head";
 
 import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 import { instantlyToTop } from "../../utils/helper-functions/scrollToTopInstantly";
@@ -42,6 +43,10 @@ const AccessoriesPage: NextPage<Props> = ({
 
   return (
     <main className={styles.main_container}>
+      <Head>
+        <title>Accessories</title>
+      </Head>
+
       <div className={styles.main_title} style={{ textAlign: "center" }}>
         ACCESSORIES
       </div>

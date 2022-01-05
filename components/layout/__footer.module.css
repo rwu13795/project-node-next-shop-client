@@ -18,7 +18,7 @@
   position: relative;
   min-height: 140px;
   margin-top: -73px;
-  border: rgb(0, 81, 148) 6px solid;
+  border-top: rgb(0, 81, 148) 10px solid;
 }
 
 .main_grid {
@@ -72,7 +72,8 @@
 .logo {
   display: flex;
   flex-flow: row nowrap;
-  justify-content: baseline;
+  justify-content: center;
+  align-items: center;
   gap: 5px;
 }
 

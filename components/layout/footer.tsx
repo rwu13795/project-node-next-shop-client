@@ -41,23 +41,23 @@ function Footer({ page }: Props): JSX.Element {
         )}
 
         <div className={styles.right_grid}>
-          <div>&copy; 2022 By Ray Wu</div>
           <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-            }}
+            href="https://github.com/rwu13795?tab=repositories"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <div className={styles.link}>&copy; 2022 By Ray Wu</div>
+          </a>
+          <a
+            href="https://heroku.com"
+            style={{ textDecoration: "none", color: "inherit" }}
           >
             <div className={styles.logo}>
               <div>Powered by </div>
               <Image
-                src={page === "home" ? "/vercel.svg" : "/vercel-white.svg"}
-                alt="Vercel Logo"
-                width={72}
-                height={16}
+                src="/heroku.svg"
+                alt="Heroku Logo"
+                width={100}
+                height={36}
               />
             </div>
           </a>

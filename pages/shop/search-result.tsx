@@ -1,6 +1,7 @@
 import { GetServerSidePropsContext, NextPage } from "next";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
+import Head from "next/head";
 
 import serverClient from "../../utils/axios-client/server-client";
 import { PageProductProps } from "../../utils/react-hooks/get-more-products";
@@ -62,6 +63,10 @@ const SearchResult: NextPage<PageProps> = ({
 
   return (
     <main className={styles.main_container}>
+      <Head>
+        <title>Search Result</title>
+      </Head>
+
       <div className={styles.main_title}>
         SEARCH RESULT FOR: {`"${search}"`}
       </div>

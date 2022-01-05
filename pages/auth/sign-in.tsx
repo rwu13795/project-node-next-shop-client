@@ -2,6 +2,7 @@ import type { GetServerSidePropsContext, NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Head from "next/head";
 
 import { selectIsLoggedIn } from "../../utils/redux-store/userSlice";
 import { setPageLoading } from "../../utils/redux-store/layoutSlice";
@@ -33,11 +34,17 @@ const SignInPage: NextPage = ({}) => {
   }, []);
 
   return (
-    <AuthForm
-      inputType={inputTypes.signIn}
-      inputFieldsArray={inputFieldsArray}
-      page="user-sign-in"
-    />
+    <main>
+      <Head>
+        <title>Sign In</title>
+      </Head>
+
+      <AuthForm
+        inputType={inputTypes.signIn}
+        inputFieldsArray={inputFieldsArray}
+        page="user-sign-in"
+      />
+    </main>
   );
 };
 

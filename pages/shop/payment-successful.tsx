@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import Head from "next/head";
 
 import {
   clearCheckoutInfo,
@@ -28,6 +29,10 @@ const PaymentSuccessful: NextPage = ({}) => {
 
   return (
     <main className={styles.main_container}>
+      <Head>
+        <title>Thank You!</title>
+      </Head>
+
       <div className={styles.main_title}>Thank you for your purchase!</div>
 
       {!isLoggedIn && (

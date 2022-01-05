@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
+import Head from "next/head";
 
 import { instantlyToTop } from "../../../utils/helper-functions/scrollToTopInstantly";
 import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
@@ -10,7 +11,6 @@ import { MainCat_PageProps } from "../../../utils/enums-types/categories-interfa
 
 // UI //
 import styles from "./__cat.module.css";
-import browserClient from "../../../utils/axios-client/browser-client";
 
 const MenMainCatPage: NextPage<MainCat_PageProps> = ({
   products,
@@ -27,6 +27,10 @@ const MenMainCatPage: NextPage<MainCat_PageProps> = ({
 
   return (
     <main className={styles.main_container}>
+      <Head>
+        <title>Men</title>
+      </Head>
+
       <MainCatProductsList
         products={products}
         subCatTitles={subCatTitles}

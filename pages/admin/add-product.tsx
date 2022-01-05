@@ -1,4 +1,5 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
+import Head from "next/head";
 import { useRouter } from "next/dist/client/router";
 import React, { ChangeEvent, useEffect, useState, SyntheticEvent } from "react";
 
@@ -103,6 +104,10 @@ const AddProductPage: NextPage<PageProps> = ({
 
   return (
     <main className={styles.main}>
+      <Head>
+        <title>Add Product</title>
+      </Head>
+
       {editMode ? (
         <div className={styles.main_grid}>
           <TabContext value={stage}>

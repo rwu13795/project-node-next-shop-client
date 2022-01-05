@@ -1,6 +1,7 @@
 import { GetServerSidePropsContext, NextPage } from "next";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Head from "next/head";
 
 import {
   CartItem,
@@ -70,7 +71,11 @@ const ProfilePage: NextPage<PageProps> = ({ orders, ordersTotal, notAuth }) => {
   }
 
   return (
-    <Box className={styles.main_container}>
+    <main className={styles.main_container}>
+      <Head>
+        <title>Customer Profile</title>
+      </Head>
+
       <TabContext value={tagNum}>
         <Grid
           container
@@ -99,7 +104,7 @@ const ProfilePage: NextPage<PageProps> = ({ orders, ordersTotal, notAuth }) => {
           <ResetPassword />
         </TabPanel>
       </TabContext>
-    </Box>
+    </main>
   );
 };
 

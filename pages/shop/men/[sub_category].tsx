@@ -1,6 +1,7 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import Head from "next/head";
 
 import { MainCategory } from "../../../utils/enums-types/product-category";
 import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
@@ -9,12 +10,12 @@ import PageLinks from "../../../components/layout/page-links/links";
 import { SubCat_PageProps } from "../../../utils/enums-types/categories-interfaces";
 import { instantlyToTop } from "../../../utils/helper-functions/scrollToTopInstantly";
 import serverClient from "../../../utils/axios-client/server-client";
+import { capitalize } from "../../../utils/helper-functions/capitalize-first-letter";
 
 // UI //
 import { Button } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import styles from "./__cat.module.css";
-import axios from "axios";
 
 const MenSubCatPage: NextPage<SubCat_PageProps> = ({
   products: startProducts,
@@ -44,6 +45,10 @@ const MenSubCatPage: NextPage<SubCat_PageProps> = ({
 
   return (
     <main className={styles.main_container}>
+      <Head>
+        <title>Men&apos;s {capitalize(sub_cat)} </title>
+      </Head>
+
       <PageLinks {...props} />
 
       <SubCatProductsList

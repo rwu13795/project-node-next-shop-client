@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Head from "next/head";
 
 import AuthForm from "../../components/forms/auth-form";
 import { inputTypes } from "../../utils/enums-types/input-types";
@@ -39,6 +40,10 @@ const LoginCheckoutPage: NextPage = ({}) => {
 
   return (
     <main className={styles.main_container_login_checkout}>
+      <Head>
+        <title>Checkout</title>
+      </Head>
+
       <div className={styles.main_grid_login_checkout}>
         {currentUser.cart.length > 0 ? (
           <div>

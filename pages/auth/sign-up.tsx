@@ -1,6 +1,7 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import Head from "next/head";
 
 import serverClient from "../../utils/axios-client/server-client";
 
@@ -35,11 +36,17 @@ const SignUpPage: NextPage = ({}) => {
   }, []);
 
   return (
-    <AuthForm
-      inputType={inputTypes.signUp}
-      inputFieldsArray={inputFieldsArray}
-      page="user-sign-up"
-    />
+    <main>
+      <Head>
+        <title>Sign Up</title>
+      </Head>
+
+      <AuthForm
+        inputType={inputTypes.signUp}
+        inputFieldsArray={inputFieldsArray}
+        page="user-sign-up"
+      />
+    </main>
   );
 };
 
