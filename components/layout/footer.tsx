@@ -56,8 +56,8 @@ function Footer({ page }: Props): JSX.Element {
               <Image
                 src={page === "home" ? "/heroku.svg" : "/heroku-white.svg"}
                 alt="Heroku Logo"
-                width={116}
-                height={30}
+                width={76}
+                height={20}
               />
             </div>
           </a>
