@@ -81,6 +81,9 @@ function ProductReviews({
         setPageNum(newPage);
       }
     }
+
+    const elem = document.getElementById("reviews_sub");
+    if (elem) elem.scrollIntoView({ block: "center", behavior: "smooth" });
   };
 
   const filterReviews = async (star: string) => {
@@ -122,10 +125,7 @@ function ProductReviews({
     }
   };
 
-  const scrollToReviewsSub = () => {
-    const elem = document.getElementById("reviews_sub");
-    if (elem) elem.scrollIntoView({ block: "center", behavior: "smooth" });
-  };
+  const getMoreReviewsHandler = () => {};
 
   return (
     <Grid
@@ -273,7 +273,7 @@ function ProductReviews({
                 disabled={pageNum === 1}
                 className={_nav_button}
               >
-                <span onClick={scrollToReviewsSub}>◀</span>
+                ◀
               </Button>
               <Button
                 variant="outlined"
@@ -286,7 +286,7 @@ function ProductReviews({
                 }
                 className={_nav_button}
               >
-                <span onClick={scrollToReviewsSub}>▶</span>
+                ▶
               </Button>
             </Grid>
           )}
