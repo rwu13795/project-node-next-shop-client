@@ -12,6 +12,7 @@ import {
   selectCart,
   selectCurrentUser,
   selectIsLoggedIn,
+  setPageLoading_user,
 } from "../../utils/redux-store/userSlice";
 import { setPageLoading } from "../../utils/redux-store/layoutSlice";
 import { loadUserInfo } from "../../utils/redux-store/shopSlice";
@@ -74,6 +75,7 @@ const CheckoutPage: NextPage = ({}) => {
 
   useEffect(() => {
     dispatch(setPageLoading(false));
+    dispatch(setPageLoading_user(false));
   });
 
   const tagChangeHandler = (event: SyntheticEvent, newValue: string) => {

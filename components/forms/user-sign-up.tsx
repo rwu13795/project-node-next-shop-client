@@ -66,6 +66,12 @@ function UserSignUp({
     dispatch(setLoadingStatus("idle"));
   }, []);
 
+  useEffect(() => {
+    if (loadingStatus_user === "succeeded") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [loadingStatus_user]);
+
   const singUpHandler = (
     e: FormEvent<HTMLFormElement> | MouseEvent<HTMLButtonElement>
   ) => {

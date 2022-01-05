@@ -27,9 +27,9 @@ const Home: NextPage = () => {
   return (
     <main style={{ height: "calc(100vh - 73px)" }}>
       <Head>
-        <title>NEXT NODE SHOP</title>
+        <title>NODE NEXT SHOP</title>
         <meta
-          name="NEXT NODE SHOP created by rwu13795.work@gmail.com"
+          name="NODE NEXT SHOP created by rwu13795.work@gmail.com"
           content="An e-commerce web app written in Typescript using NextJS as front-end and NodeJS as back-end"
         />
       </Head>
