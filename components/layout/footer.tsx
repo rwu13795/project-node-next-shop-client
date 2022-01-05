@@ -54,10 +54,10 @@ function Footer({ page }: Props): JSX.Element {
             <div className={styles.logo}>
               <div>Powered by </div>
               <Image
-                src="/heroku.svg"
+                src={page === "home" ? "/heroku.svg" : "/heroku-white.svg"}
                 alt="Heroku Logo"
-                width={100}
-                height={36}
+                width={116}
+                height={30}
               />
             </div>
           </a>
