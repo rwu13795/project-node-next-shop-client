@@ -6,14 +6,14 @@ import styles from "./__colors.module.css";
 
 interface Props {
   colorPropsList: PageColorProps[];
-  currentColor: PageColorProps;
+  currentColorCode: string;
   changeColorHandler: (index: number) => void;
   setPreviewImage: Dispatch<SetStateAction<string>>;
 }
 
 function SelectColors({
   colorPropsList,
-  currentColor,
+  currentColorCode,
   changeColorHandler,
   setPreviewImage,
 }: Props): JSX.Element {
@@ -30,7 +30,7 @@ function SelectColors({
       <div className={_ball_outer_container}>
         {colorPropsList.map((prop, index) => {
           let active: string = _ring;
-          if (prop.colorName === currentColor.colorName) {
+          if (prop.colorCode === currentColorCode) {
             active = _ring_active;
           }
           return (

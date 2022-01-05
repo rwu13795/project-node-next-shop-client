@@ -192,7 +192,7 @@ function ProductDetail({
             <div className={_line_item}>
               <SelectColors
                 colorPropsList={colorPropsList}
-                currentColor={currentColor}
+                currentColorCode={currentColor.colorCode}
                 changeColorHandler={changeColorHandler}
                 setPreviewImage={setPreviewImage}
               />
