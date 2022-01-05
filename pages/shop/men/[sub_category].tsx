@@ -69,15 +69,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const client = serverClient(context);
 
-  // const { data }: { data: SubCat_PageProps } = await client.get(
-  //   `${process.env.NEXT_PUBLIC_SERVER_URL}/products/get/${main_cat}/${sub_cat}`
-  // );
-
-  const { data }: { data: SubCat_PageProps } = await axios({
-    method: "get",
-    url: `${process.env.NEXT_PUBLIC_SERVER_URL}/products/get/${main_cat}/${sub_cat}`,
-    // headers: context.req ? { cookie: context.req.headers.cookie } : undefined,
-  });
+  const { data }: { data: SubCat_PageProps } = await client.get(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/products/get/${main_cat}/${sub_cat}`
+  );
 
   return {
     props: {

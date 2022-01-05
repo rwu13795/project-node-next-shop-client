@@ -15,17 +15,13 @@ import styles from "./__checkout.module.css";
 
 interface Props extends MainCat_PageProps {
   tagNum: string;
-  context: any;
 }
 
 const AccessoriesPage: NextPage<Props> = ({
   tagNum,
   products,
   subCatTitles,
-  context,
 }) => {
-  console.log("context ------------->", context);
-
   const dispatch = useDispatch();
 
   const isSmall = useMediaQuery("(max-width: 765px)");
@@ -129,11 +125,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       tagNum,
       filter_view: true,
       page: "accessory",
-      context: {
-        headers: context.req.headers,
-        cookie_s: context.req.cookies,
-        cookie_in_head: context.req.headers.cookie,
-      },
     },
   };
 }

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { GetServerSidePropsContext } from "next";
 
 // for pages that need to fetch data from a route which requires session
@@ -12,9 +12,16 @@ import { GetServerSidePropsContext } from "next";
 // which is automatically passed inside the "getServerSideProps"
 
 const serverClient = (context: GetServerSidePropsContext) => {
-  return axios.create({
-    headers: context.req ? { cookie: context.req.headers.cookie } : undefined,
-  });
+  let config: AxiosRequestConfig = {};
+  if (!context.req.headers.cookie) {
+    config = { withCredentials: true };
+  } else {
+    config = {
+      headers: { cookie: context.req.headers.cookie },
+    };
+  }
+
+  return axios.create(config);
 };
 
 export default serverClient;

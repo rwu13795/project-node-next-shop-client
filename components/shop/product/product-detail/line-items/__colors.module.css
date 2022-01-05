@@ -12,8 +12,8 @@
   border: solid black 1px;
 }
 .color_ball_outer_ring {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 2rem;
   display: flex;
   justify-content: center;
@@ -24,8 +24,8 @@
 }
 .color_ball_outer_ring_active {
   border: #00789e solid 2px;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 2rem;
   display: flex;
   justify-content: center;

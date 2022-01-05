@@ -25,16 +25,6 @@ const MenMainCatPage: NextPage<MainCat_PageProps> = ({
     return instantlyToTop;
   }, []);
 
-  //////////////////////
-  const client = browserClient();
-  const click = async () => {
-    const { data } = await client.get(
-      "https://server.node-next-shop-server.xyz/api/auth/user-status"
-    );
-    console.log(data);
-  };
-  ////////////////////////
-
   return (
     <main className={styles.main_container}>
       <MainCatProductsList
@@ -42,8 +32,6 @@ const MenMainCatPage: NextPage<MainCat_PageProps> = ({
         subCatTitles={subCatTitles}
         main_cat="men"
       />
-
-      <button onClick={click}>AAAAAAAA</button>
     </main>
   );
 };

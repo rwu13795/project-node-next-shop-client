@@ -68,9 +68,6 @@ const ProductDetailPage: NextPage<PageProps> = ({
   isSmall,
   context,
 }) => {
-  ////////////
-  console.log("context-------------->", context);
-
   const dispatch = useDispatch();
 
   const { main_cat, sub_cat, title } = product.productInfo;
@@ -152,9 +149,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const client = serverClient(context);
 
-  console.log("context.req.cookies", context.req?.cookies);
-  console.log("context.req.headers.cookie", context.req?.headers.cookie);
-
   try {
     const { data }: { data: PageProps } = await client.get(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/products/detail/${productId}`
@@ -167,14 +161,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         page_cat: main_cat,
         editModeItem,
         isSmall,
-        context: {
-          productId,
-          main_cat,
-          secondString,
-          cookie_no_head: context.req.cookies,
-          cookie: context.req.headers.cookie,
-          head: context.req.headers,
-        },
       },
     };
   } catch (err) {
