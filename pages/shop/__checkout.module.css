@@ -4,6 +4,12 @@
   margin-top: 50px;
   margin-bottom: 40px;
 }
+.main_container_accessory {
+  width: 80vw;
+  max-width: 90rem;
+  margin-top: 50px;
+  margin-bottom: 40px;
+}
 
 .main_title {
   font-size: 50px;
@@ -110,16 +116,23 @@
 
 @media screen and (max-width: 765px) {
   .main_container {
-    width: 100vw;
+    width: 95vw;
     margin-top: 30px;
     margin-bottom: 0;
   }
+  .main_container_accessory {
+    width: 100vw;
+    max-width: 90rem;
+    margin-top: 30px;
+    margin-bottom: 0;
+  }
+
   .main_container_no_item {
     width: 95vw;
   }
 
   .main_container_login_checkout {
-    width: 100vw;
+    width: 95vw;
     margin-bottom: 0;
   }
 

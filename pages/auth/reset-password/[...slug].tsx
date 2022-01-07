@@ -5,6 +5,8 @@ import Head from "next/head";
 import serverClient from "../../../utils/axios-client/server-client";
 import ForgotPasswordReset from "../../../components/forms/forgot-pw-reset";
 
+import styles from "./__reset-pw.module.css";
+
 interface PageProps {
   userId: string;
   token: string;
@@ -20,17 +22,17 @@ const ForgotPasswordResetPage: NextPage<PageProps> = ({
 }) => {
   if (timeOut) {
     return (
-      <main style={{ marginTop: "50px" }}>
-        <h1 style={{ textAlign: "center" }}>
+      <main className={styles.main_container_expire}>
+        <div className={styles.expire_title}>
           The link for resetting your password has expired, please make a{" "}
           <Link href={"/auth/forgot-password"}>NEW REQUEST</Link> again.
-        </h1>
+        </div>
       </main>
     );
   }
 
   return (
-    <main style={{ marginTop: "50px" }}>
+    <main className={styles.main_container}>
       <Head>
         <title>Reset Passwords</title>
       </Head>

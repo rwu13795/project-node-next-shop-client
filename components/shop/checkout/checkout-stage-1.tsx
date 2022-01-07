@@ -63,6 +63,8 @@ function CheckoutStage_1({ setStage, setAllowedStages }: Props): JSX.Element {
 
   const onBlurHandler = (e: FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
+    if (name === inputNames.address_2) return;
+
     onBlurErrorCheck(name, value, touched, setInputErrors);
   };
 
@@ -70,11 +72,15 @@ function CheckoutStage_1({ setStage, setAllowedStages }: Props): JSX.Element {
     e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>
   ) => {
     const { name, value } = e.target;
+    if (name === inputNames.address_2) return;
+
     if (name === inputNames.email || name === inputNames.phone) {
       dispatch(setContactInfo({ name, value }));
     } else {
       dispatch(setShippingAddress({ name, value }));
     }
+
+    if (name === inputNames.address_2) return;
     onChangeErrorCheck(name, value, setInputErrors);
   };
 

@@ -62,10 +62,15 @@ function FormInputField(props: Props): JSX.Element {
   }
 
   const regex = /[_]/g;
-  const inputLabel = inputName.replace(regex, " ").toUpperCase();
-  const showError =
+  let inputLabel = inputName.replace(regex, " ").toUpperCase();
+  let showError =
     !(authError === "" || authError === undefined) ||
     !(inputError === "" || inputError === undefined);
+
+  if (inputName === inputNames.address_2) {
+    showError = false;
+    inputLabel = `${inputLabel} (optional)`;
+  }
 
   let form_control = styles.form_control;
   let xs: GridSize = 12;
@@ -125,7 +130,7 @@ function FormInputField(props: Props): JSX.Element {
           </InputLabel>
           <OutlinedInput
             type={type}
-            required
+            required={inputName !== inputNames.address_2}
             multiline={page === "add-review-modal"}
             name={inputName}
             value={inputValue}

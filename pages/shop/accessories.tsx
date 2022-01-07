@@ -42,7 +42,7 @@ const AccessoriesPage: NextPage<Props> = ({
   const muiSX = { minWidth: isSmall ? "auto" : "150px" };
 
   return (
-    <main className={styles.main_container}>
+    <main className={styles.main_container_accessory}>
       <Head>
         <title>Accessories</title>
       </Head>

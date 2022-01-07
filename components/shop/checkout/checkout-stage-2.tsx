@@ -44,12 +44,13 @@ import {
 import { AllowedStages } from "../../../pages/shop/checkout";
 import renderInputFields from "../../../utils/helper-functions/render-input-fields";
 import { selectCart } from "../../../utils/redux-store/userSlice";
+import StripeCardElement from "./stripe-card-elements";
+import { inputNames } from "../../../utils/enums-types/input-names";
 import CartDetail from "../cart/cart-detail";
 
 // UI //
 import { Button, Checkbox, SelectChangeEvent } from "@mui/material";
 import styles from "./__stage.module.css";
-import StripeCardElement from "./stripe-card-elements";
 
 interface Props {
   setStage: Dispatch<SetStateAction<string>>;
@@ -114,11 +115,15 @@ function CheckoutStage_2({
 
   const onFocusHandler = (e: FocusEvent<HTMLInputElement>) => {
     const { name } = e.currentTarget;
+    if (name === inputNames.address_2) return;
+
     onFocusErrorCheck(name, setTouched);
   };
 
   const onBlurHandler = (e: FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
+    if (name === inputNames.address_2) return;
+
     onBlurErrorCheck(name, value, touched, setInputErrors);
   };
 
@@ -127,6 +132,8 @@ function CheckoutStage_2({
   ) => {
     const { name, value } = e.target;
     dispatch(setBillingAddress({ name, value }));
+
+    if (name === inputNames.address_2) return;
     onChangeErrorCheck(name, value, setInputErrors);
   };
 

@@ -67,12 +67,16 @@ function AuthForm({
 
   const onFocusHandler = useCallback((e: FocusEvent<HTMLInputElement>) => {
     const { name } = e.currentTarget;
+    if (name === inputNames.address_2) return;
+
     onFocusErrorCheck(name, setTouched);
   }, []);
 
   const onBlurHandler = useCallback(
     (e: FocusEvent<HTMLInputElement>) => {
       const { name, value } = e.currentTarget;
+      if (name === inputNames.address_2) return;
+
       onBlurErrorCheck(name, value, touched, setInputErrors);
     },
     [touched]
@@ -98,6 +102,8 @@ function AuthForm({
       setInputValue((prev) => {
         return { ...prev, [name]: value };
       });
+
+      if (name === inputNames.address_2) return;
       onChangeErrorCheck(name, value, setInputErrors);
     },
     [dispatch]

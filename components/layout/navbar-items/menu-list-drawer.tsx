@@ -95,10 +95,7 @@ function MeunListDrawer({
   if (!list || !keys) {
     return (
       <Fragment>
-        <ListItemButton
-          sx={{ pl: 2 }}
-          onClick={() => onProductClickHandler(cat)}
-        >
+        <ListItemButton sx={{ pl: 2 }} onClick={() => onCatClickHandler(cat)}>
           <ListItemText primary={cat.toUpperCase()} />
         </ListItemButton>
         <Divider />

@@ -28,7 +28,8 @@
   display: flex;
   width: 100%;
   flex-flow: row wrap;
-  justify-content: space-around;
+  justify-content: center;
+  align-items: center;
 }
 .item_box {
   margin: 0 10px;
@@ -49,5 +50,7 @@
 
   .item_box {
     margin: 0;
+    display: flex;
+    justify-content: center;
   }
 }

@@ -25,7 +25,7 @@ const PaymentSuccessful: NextPage = ({}) => {
   useEffect(() => {
     dispatch(clearCartSession());
     dispatch(clearCheckoutInfo());
-  }, []);
+  });
 
   return (
     <main className={styles.main_container}>

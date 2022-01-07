@@ -168,13 +168,14 @@ export const onChangeErrorCheck = (
 // that field, onSubmitCheck will scroll the "view" to that field
 export const onSubmitErrorCheck = (
   inputValues: InputValues,
-  // errors: Errors,
   setInputErrors: Dispatch<SetStateAction<Errors>>
 ): string => {
   let errorInputField = "";
   let hasError = false;
   // set errors on all the empty fields
   for (let [inputName, value] of Object.entries(inputValues)) {
+    if (inputName === inputNames.address_2) continue;
+
     if (value === "") {
       setInputErrors((prev) => {
         return { ...prev, [inputName]: "Required field" };
@@ -185,12 +186,6 @@ export const onSubmitErrorCheck = (
   }
 
   return errorInputField;
-
-  // for (let [inputName, error] of Object.entries(errors)) {
-  //   if (error !== "") return inputName;
-  // }
-
-  // return errorInputField;
 };
 
 export const onFormEnterSubmitCheck = (
@@ -200,6 +195,8 @@ export const onFormEnterSubmitCheck = (
 ): string => {
   let hasError = false;
   for (let [inputName, value] of Object.entries(inputValues)) {
+    if (inputName === inputNames.address_2) continue;
+
     // onBlurCheck cannot detect the error on the input fields if user
     // hit "enter" to sumbit the form, so I have to check the error here again
     if (touched[inputName] === undefined) {

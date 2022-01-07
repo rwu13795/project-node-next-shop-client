@@ -164,7 +164,7 @@
   }
   .button_box_sticky {
     position: sticky;
-    width: 100%;
+    width: 100vw;
     margin: 0;
     bottom: 0;
     height: 60px;
