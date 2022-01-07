@@ -20,6 +20,7 @@ import { inputNames } from "../../utils/enums-types/input-names";
 import Redirect_signedUp_to_homePage from "../auth/redirect-signed-up";
 import {
   AuthErrors,
+  clearAuthErrors,
   selectAuthErrors,
   selectLoadingStatus_user,
   setLoadingStatus,
@@ -63,6 +64,7 @@ function UserSignUp({
   const isSmall = useMediaQuery("(max-width: 765px)");
 
   useEffect(() => {
+    dispatch(clearAuthErrors("all"));
     dispatch(setLoadingStatus("idle"));
   }, []);
 
@@ -70,7 +72,14 @@ function UserSignUp({
     if (loadingStatus_user === "succeeded") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
-  }, [loadingStatus_user]);
+    if (loadingStatus_user === "failed") {
+      // scroll to the first auth error
+      const errorKeys = Object.keys(authErrors);
+      const elem = document.getElementById(errorKeys[0]);
+      if (elem) elem.scrollIntoView({ block: "center", behavior: "smooth" });
+      dispatch(setLoadingStatus("idle"));
+    }
+  }, [loadingStatus_user, authErrors, dispatch]);
 
   const singUpHandler = (
     e: FormEvent<HTMLFormElement> | MouseEvent<HTMLButtonElement>

@@ -123,6 +123,10 @@ function ItemSummary({ items }: Props_sub): JSX.Element {
                 alt={item.imageUrl}
                 width={200}
                 height={230}
+                blurDataURL={item.imageUrl}
+                placeholder="blur"
+                layout="responsive"
+                className={styles.image_box}
               />
             </div>
             <div className={styles.desc_container}>

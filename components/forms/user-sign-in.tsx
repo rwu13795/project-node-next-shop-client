@@ -82,8 +82,13 @@ function UserSignIn({
   useEffect(() => {
     if (loadingStatus_user === "failed") {
       dispatch(setPageLoading(false));
+      // scroll to the first auth error
+      // const errorKeys = Object.keys(authErrors);
+      // const elem = document.getElementById(errorKeys[0]);
+      // if (elem) elem.scrollIntoView({ block: "center", behavior: "smooth" });
+      // dispatch(setLoadingStatus("idle"));
     }
-  }, [loadingStatus_user, dispatch]);
+  }, [loadingStatus_user, dispatch, authErrors]);
 
   const singInHandler = (
     e: FormEvent<HTMLFormElement> | MouseEvent<HTMLButtonElement>

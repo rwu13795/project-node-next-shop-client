@@ -407,7 +407,7 @@ const userSlice = createSlice({
         for (let err of action.payload.errors) {
           state.authErrors[err.field] = err.message;
         }
-        state.loadingStatus = "idle";
+        state.loadingStatus = "failed";
         state.pageLoading_user = false;
       })
       /////////////////

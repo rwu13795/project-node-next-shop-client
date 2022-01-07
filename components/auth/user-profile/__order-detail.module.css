@@ -35,7 +35,7 @@
 }
 
 .item_container {
-  max-width: 422px;
+  width: 422px;
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
@@ -43,11 +43,14 @@
 }
 .image_container {
   width: 50%;
-  width: 200px;
-  height: 230px;
+  object-fit: cover;
   position: relative;
-  border: 2px solid rgb(0, 138, 180);
+  /* border: 2px solid rgb(0, 138, 180); */
 }
+.image_box {
+  border: 2px solid black !important;
+}
+
 .desc_container {
   width: 50%;
   display: flex;
@@ -130,10 +133,11 @@
     display: none;
   }
   .item_container {
+    width: 300px;
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
-    margin: 10px;
+    margin: 10px 0;
   }
   .image_container {
     width: 100px;

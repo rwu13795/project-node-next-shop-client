@@ -67,7 +67,14 @@ const ProfilePage: NextPage<PageProps> = ({ orders, ordersTotal, notAuth }) => {
   };
 
   if (notAuth === true) {
-    return <h1>SIGN IN TO ACCESS YOUR PROFILE</h1>;
+    return (
+      <main className={styles.main_container}>
+        <Head>
+          <title>Customer Profile</title>
+        </Head>
+        <h1 style={{ textAlign: "center" }}>SIGN IN TO ACCESS YOUR PROFILE</h1>
+      </main>
+    );
   }
 
   return (

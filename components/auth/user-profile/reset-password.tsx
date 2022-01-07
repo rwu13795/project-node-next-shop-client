@@ -39,7 +39,7 @@ let initialValues = initializeValues(inputFieldsArray);
 function ResetPassword({}): JSX.Element {
   const dispatch = useDispatch();
   const loadingStatus = useSelector(selectLoadingStatus_user);
-  const authErorrs = useSelector(selectAuthErrors);
+  const authErrors = useSelector(selectAuthErrors);
 
   const [inputErrors, setInputErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Touched>({});
@@ -51,16 +51,20 @@ function ResetPassword({}): JSX.Element {
   }, []);
 
   useEffect(() => {
-    if (
-      loadingStatus === "reset_password_succeeded" ||
-      loadingStatus === "failed"
-    ) {
+    if (loadingStatus === "reset_password_succeeded") {
       dispatch(setPageLoading(false));
-      if (loadingStatus === "reset_password_succeeded") {
-        setInputValues(initialValues);
-      }
+      setInputValues(initialValues);
     }
-  }, [loadingStatus, dispatch]);
+
+    if (loadingStatus === "failed") {
+      // scroll to the first auth error
+      dispatch(setPageLoading(false));
+      const errorKeys = Object.keys(authErrors);
+      const elem = document.getElementById(errorKeys[0]);
+      if (elem) elem.scrollIntoView({ block: "center", behavior: "smooth" });
+      dispatch(setLoadingStatus("idle"));
+    }
+  }, [loadingStatus, dispatch, authErrors]);
 
   const onFocusHandler = (e: FocusEvent<HTMLInputElement>) => {
     const { name } = e.currentTarget;
@@ -76,7 +80,16 @@ function ResetPassword({}): JSX.Element {
     e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>
   ) => {
     const { name, value } = e.target;
-    dispatch(clearAuthErrors(name));
+    if (
+      name === inputNames.new_password ||
+      name === inputNames.confirm_new_password
+    ) {
+      dispatch(clearAuthErrors(inputNames.new_password));
+      dispatch(clearAuthErrors(inputNames.confirm_new_password));
+    } else {
+      dispatch(clearAuthErrors(name));
+    }
+
     setInputValues((prev) => {
       return { ...prev, [name]: value };
     });
@@ -109,7 +122,7 @@ function ResetPassword({}): JSX.Element {
       onBlurHandler,
       onChangeHandler,
       inputErrors,
-      authErorrs,
+      authErrors,
       loadingStatus === "loading" ||
         loadingStatus === "reset_password_succeeded",
       "update-info"
