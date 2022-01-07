@@ -91,11 +91,15 @@ function UpdateProfile({}): JSX.Element {
 
   const onFocusHandler = (e: FocusEvent<HTMLInputElement>) => {
     const { name } = e.currentTarget;
+    if (name === inputNames.address_2) return;
+
     onFocusErrorCheck(name, setTouched);
   };
 
   const onBlurHandler = (e: FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
+    if (name === inputNames.address_2) return;
+
     onBlurErrorCheck(name, value, touched, setInputErrors);
   };
 
@@ -107,6 +111,8 @@ function UpdateProfile({}): JSX.Element {
     setInputValues((prev) => {
       return { ...prev, [name]: value };
     });
+
+    if (name === inputNames.address_2) return;
     onChangeErrorCheck(name, value, setInputErrors);
   };
 

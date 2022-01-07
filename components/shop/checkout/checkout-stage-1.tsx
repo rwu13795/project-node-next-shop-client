@@ -58,6 +58,8 @@ function CheckoutStage_1({ setStage, setAllowedStages }: Props): JSX.Element {
 
   const onFocusHandler = (e: FocusEvent<HTMLInputElement>) => {
     const { name } = e.currentTarget;
+    if (name === inputNames.address_2) return;
+
     onFocusErrorCheck(name, setTouched);
   };
 
@@ -72,7 +74,6 @@ function CheckoutStage_1({ setStage, setAllowedStages }: Props): JSX.Element {
     e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>
   ) => {
     const { name, value } = e.target;
-    if (name === inputNames.address_2) return;
 
     if (name === inputNames.email || name === inputNames.phone) {
       dispatch(setContactInfo({ name, value }));

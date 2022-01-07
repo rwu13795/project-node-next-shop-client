@@ -94,6 +94,12 @@ function AuthForm({
         dispatch(clearAuthErrors(inputNames.confirm_password));
         dispatch(clearAdminErrors(inputNames.password));
         dispatch(clearAdminErrors(inputNames.confirm_password));
+      } else if (
+        name === inputNames.new_password ||
+        name === inputNames.confirm_new_password
+      ) {
+        dispatch(clearAuthErrors(inputNames.new_password));
+        dispatch(clearAuthErrors(inputNames.confirm_new_password));
       } else {
         dispatch(clearAuthErrors(name));
         dispatch(clearAdminErrors(name));
