@@ -161,47 +161,45 @@ function ForgotPasswordReset({
   };
 
   return (
-    <main className={styles.main_container}>
-      <div className={styles.main_grid}>
-        <div className={styles.main_title}>CREATE A NEW PASSWORD</div>
-        <div className={styles.reset_pw_container}>
-          <form onSubmit={resetPasswordHandler}>
-            <div className={styles.input_fields}>{inputFields()}</div>
+    <main className={styles.main_grid}>
+      <div className={styles.main_title}>CREATE A NEW PASSWORD</div>
+      <div className={styles.reset_pw_container}>
+        <form onSubmit={resetPasswordHandler}>
+          <div className={styles.input_fields}>{inputFields()}</div>
 
-            <Button
-              id="reset_pw_button"
-              type="submit"
-              variant="contained"
-              onClick={resetPasswordHandler}
-              disabled={
-                loadingStatus_user === loadingStatus.succeeded || isExpired
-              }
-              sx={{ mb: "30px", width: "min(200px, 50vw)" }}
-            >
-              SUBMIT
-            </Button>
-          </form>
-        </div>
+          <Button
+            id="reset_pw_button"
+            type="submit"
+            variant="contained"
+            onClick={resetPasswordHandler}
+            disabled={
+              loadingStatus_user === loadingStatus.succeeded || isExpired
+            }
+            sx={{ mb: "30px", width: "min(200px, 50vw)" }}
+          >
+            SUBMIT
+          </Button>
+        </form>
+      </div>
 
-        <div className={styles.text_indicator}>
-          {loadingStatus_user === loadingStatus.succeeded ? (
-            <Redirect_to_signIn resetSuccess={true} />
-          ) : (
-            <div className={styles.sub_title}>
-              {isExpired ? (
-                <Fragment>
-                  Session time out, please make a{" "}
-                  <Link href={"/auth/forgot-password"}>NEW REQUEST</Link> again
-                </Fragment>
-              ) : (
-                <Fragment>
-                  Session expires in
-                  {` 0${minute}`}:{second > 9 ? second : `0${second}`}
-                </Fragment>
-              )}
-            </div>
-          )}
-        </div>
+      <div className={styles.text_indicator}>
+        {loadingStatus_user === loadingStatus.succeeded ? (
+          <Redirect_to_signIn resetSuccess={true} />
+        ) : (
+          <div className={styles.sub_title}>
+            {isExpired ? (
+              <Fragment>
+                Session time out, please make a{" "}
+                <Link href={"/auth/forgot-password"}>NEW REQUEST</Link> again
+              </Fragment>
+            ) : (
+              <Fragment>
+                Session expires in
+                {` 0${minute}`}:{second > 9 ? second : `0${second}`}
+              </Fragment>
+            )}
+          </div>
+        )}
       </div>
     </main>
   );
