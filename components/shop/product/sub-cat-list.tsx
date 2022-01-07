@@ -176,7 +176,7 @@ function SubCatProductsList({
       >
         <div className={styles.right_grid_upper_container}>
           <div className={styles.sub_cat_title}>{sub_cat.toUpperCase()}</div>
-          <div className={styles.main_banner}>
+          <div className={styles.main_banner} id="sub_cat_filter_tag">
             <Image
               src={banner}
               alt="sub-cat"
@@ -187,7 +187,7 @@ function SubCatProductsList({
             />
           </div>
 
-          <div className={styles.filter_tags} id="sub_cat_filter_tag">
+          <div className={styles.filter_tags}>
             <div className={styles.items_num}>
               {filterStats?.matchingTotal} item
               {filterStats?.matchingTotal && filterStats.matchingTotal > 1

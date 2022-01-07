@@ -102,7 +102,11 @@ function CartDetail({
 
   return cart.length <= 0 ? (
     <Fragment>
-      <div className={styles.no_item_text}>
+      <div
+        className={
+          cartDropDown ? styles.no_item_text_drop_down : styles.no_item_text
+        }
+      >
         You {"don't"} have any item in the cart
       </div>
     </Fragment>
@@ -222,6 +226,7 @@ function CartDetail({
             </div>
             <div>$ {totalAmount}</div>
           </div>
+
           <div className={styles.buttons_group_drop_down}>
             <Button
               variant="outlined"

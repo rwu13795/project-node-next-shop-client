@@ -186,14 +186,28 @@ handle the width and height */
 /*********************************/
 .left_grid_drop_down {
   width: 100%;
+  max-height: calc(70vh - 215px);
+  overflow-y: auto;
 }
+.left_grid_drop_down::-webkit-scrollbar {
+  width: 4px !important;
+}
+.left_grid_drop_down::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #008ab4;
+  border-radius: 10px;
+}
+.left_grid_drop_down::-webkit-scrollbar-thumb {
+  background-color: #008ab4;
+  border-radius: 10px;
+}
+
 .item_container_drop_down {
-  margin: 0 0 30px 0;
+  margin: 0 14px 10px 0;
   width: 100%;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  border-bottom: solid 2px rgb(0, 138, 180);
+  /* border-bottom: solid 2px rgb(0, 138, 180); */
   padding-bottom: 20px;
 }
 
@@ -227,12 +241,16 @@ handle the width and height */
 }
 
 .summary_drop_down {
+  height: 160px;
   width: 100%;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
   font-weight: bold;
+  border-top: solid 4px rgb(0, 138, 180);
+  margin-top: 10px;
+  padding-top: 20px;
 }
 .buttons_group_drop_down {
   margin-top: 20px;
@@ -253,6 +271,10 @@ handle the width and height */
   font-weight: lighter;
   text-decoration: underline;
   cursor: pointer;
+}
+.no_item_text_drop_down {
+  text-align: center;
+  font-size: 22px;
 }
 
 /******************************************/

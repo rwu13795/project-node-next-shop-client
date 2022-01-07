@@ -89,11 +89,11 @@ function MainCatProductsList({
                       blurDataURL={catBanners[index]}
                       placeholder="blur"
                     />
+                    <div className={styles.banner_text}>
+                      VIEW ALL {subCatTitles[index].toUpperCase()}
+                    </div>
                   </a>
                 </Link>
-                <div className={styles.banner_text}>
-                  VIEW ALL {subCatTitles[index].toUpperCase()}
-                </div>
               </div>
               <div className={styles.text_filler}>
                 {capitalize(subCatTitles[index])} - {textFiller[index]}

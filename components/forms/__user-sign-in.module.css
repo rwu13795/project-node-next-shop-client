@@ -93,7 +93,7 @@
 
 .to_sign_up_text {
   font-size: 22px;
-  margin: 10px 0 10px 0;
+  margin: 10px 0;
 }
 
 .reset_pw_container {
@@ -176,6 +176,9 @@
 
   .to_sign_in {
     margin-top: 20px;
+  }
+  .to_sign_up_text {
+    font-size: 18px;
   }
 }
 
