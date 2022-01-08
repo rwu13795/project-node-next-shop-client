@@ -188,6 +188,7 @@ handle the width and height */
   width: 100%;
   max-height: calc(70vh - 215px);
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 .left_grid_drop_down::-webkit-scrollbar {
   width: 4px !important;
