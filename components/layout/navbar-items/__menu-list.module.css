@@ -31,16 +31,23 @@
 }
 
 .menu_list_items_column_head {
+  width: 100%;
+  border-bottom: solid 2px rgb(78, 78, 78);
+  text-align: center;
   color: rgb(78, 78, 78);
   font-size: 20px;
+}
+.menu_list_single_item_box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .menu_list_single_item {
   text-decoration: none;
   color: inherit;
-  margin-left: 1.2rem;
 }
-
 .menu_list_single_item:hover {
   text-decoration: none;
   color: inherit;

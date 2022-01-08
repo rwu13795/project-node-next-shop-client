@@ -129,11 +129,14 @@ function MenuList({
                   list[key].map((product) => {
                     return (
                       <Fragment key={product}>
-                        <Grid onClick={onSubCatClickHandler}>
+                        <Grid className={styles.menu_list_single_item_box}>
                           <Link
                             href={`/shop/${currentCat.toLowerCase()}/${product.toLowerCase()}`}
                           >
-                            <a className={styles.menu_list_single_item}>
+                            <a
+                              className={styles.menu_list_single_item}
+                              onClick={onSubCatClickHandler}
+                            >
                               {product}
                             </a>
                           </Link>
