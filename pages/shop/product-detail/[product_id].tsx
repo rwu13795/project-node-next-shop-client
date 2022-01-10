@@ -103,8 +103,6 @@ const ProductDetailPage: NextPage<PageProps> = ({
     setReviewDoc(initialReviewDoc);
   };
 
-  console.log("isSmall", isSmall);
-
   return (
     <main className={styles.main_container}>
       <Head>

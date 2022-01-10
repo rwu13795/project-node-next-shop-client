@@ -1,7 +1,7 @@
 .main_grid {
   display: flex;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 5px;
   min-height: 100vh;
   flex-flow: column nowrap;
   align-items: center;
@@ -171,7 +171,7 @@
     width: 40%;
   }
   .main_title {
-    font-size: min(45px, 11vw);
+    font-size: min(45px, 10vw);
   }
   .sub_title {
     margin-bottom: 0;

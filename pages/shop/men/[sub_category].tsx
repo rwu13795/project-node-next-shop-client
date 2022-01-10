@@ -44,7 +44,7 @@ const MenSubCatPage: NextPage<SubCat_PageProps> = ({
   };
 
   return (
-    <main className={styles.main_container}>
+    <main className={styles.sub_cat_main_container}>
       <Head>
         <title>Men&apos;s {capitalize(sub_cat)} </title>
       </Head>

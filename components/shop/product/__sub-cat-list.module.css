@@ -1,5 +1,5 @@
 .main_grid {
-  margin-top: 20px;
+  margin-top: 15px;
   min-height: 100vh;
   flex-flow: row nowrap;
 }
@@ -16,7 +16,7 @@
 
 .side_bar_container {
   position: sticky;
-  top: 200px;
+  top: 120px;
   height: 80vh;
   width: 100%;
   overflow: auto;
@@ -86,7 +86,7 @@
   margin-bottom: 20px;
 }
 .menu_title {
-  font-size: 30px;
+  font-size: 26px;
   font-weight: bold;
 }
 .menu_list {

@@ -36,8 +36,12 @@ const mui_sx = {
   display: { xs: "none", md: "block" },
 } as SxProps<Theme>;
 
-const border_bot: CSSProperties = {
+const page_cat_border: CSSProperties = {
   borderBottom: "solid 3px #008ab4",
+};
+const active_cat: CSSProperties = {
+  borderBottom: "solid 3px #008ab4",
+  color: "#008ab4",
 };
 
 function MenuList({
@@ -155,17 +159,20 @@ function MenuList({
   return (
     <Fragment>
       {mainCatArray.map((cat, index) => {
+        let cat_style: CSSProperties = {};
+        if (cat.toLowerCase() === page_cat) {
+          cat_style = page_cat_border;
+        }
+        if (cat === currentCat && showMenu) {
+          cat_style = active_cat;
+        }
+
         return (
           <Grid item sx={mui_sx} key={index}>
             <Link href={`/shop/${cat.toLowerCase()}`}>
               <a
                 className={styles.menu_list}
-                style={
-                  cat.toLowerCase() === page_cat ||
-                  (cat === currentCat && showMenu)
-                    ? border_bot
-                    : {}
-                }
+                style={cat_style}
                 onMouseEnter={() => openMenu(cat)}
                 onClick={onMainCatClickHandler}
               >

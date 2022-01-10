@@ -47,7 +47,7 @@ const AccessoriesPage: NextPage<Props> = ({
         <title>Accessories</title>
       </Head>
 
-      <div className={styles.main_title} style={{ textAlign: "center" }}>
+      <div className={styles.main_title_acc} style={{ textAlign: "center" }}>
         ACCESSORIES
       </div>
 
