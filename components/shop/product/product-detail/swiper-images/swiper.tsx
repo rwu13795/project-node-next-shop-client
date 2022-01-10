@@ -173,7 +173,7 @@ function Swiper_product_detail_images({
                 alt={img}
                 layout="responsive"
                 width={500}
-                height={500}
+                height={550}
                 blurDataURL={img}
                 placeholder="blur"
                 className={styles.slide_image}

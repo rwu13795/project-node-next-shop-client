@@ -1,3 +1,5 @@
+/* all the shitty free images have different sizes and ratio
+this is the best I could do to make them "fit" inside the main image box */
 .main_swpier {
   max-width: 1000px;
   max-height: 1050px;
@@ -7,7 +9,6 @@
   height: 70vw;
   box-shadow: 3px 6px 5px;
 }
-
 .main_swiper_slide {
   max-width: 1000px;
   max-height: 1050px;
@@ -34,14 +35,15 @@
 /* Screen Small (max-width 775px) */
 .main_swpier_small {
   width: 100vw;
-  height: min(110vw, 800px);
+  /* height is 10% larger than width using "vw" */
+  height: min(110vw, 820px);
   box-shadow: 1px 5px 5px #008ab4;
 }
 
 .main_swiper_slide_small {
   position: relative;
   width: 100vw;
-  height: min(110vw, 800px);
+  height: min(110vw, 820px);
 }
 
 .main_swpier_small_modal {
