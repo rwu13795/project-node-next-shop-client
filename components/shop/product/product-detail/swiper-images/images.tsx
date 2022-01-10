@@ -11,7 +11,6 @@ import SwiperCore, { Navigation } from "swiper";
 
 // UI //
 import { Grid } from "@mui/material";
-import styles from "./__images.module.css";
 
 SwiperCore.use([Navigation]);
 
@@ -45,20 +44,13 @@ function ProductDetailImages({
   };
 
   const onSlideChangeHandler = (swiper: SwiperCore) => {
-    // let images_thumbs = document.getElementById("detail_images_thumbs");
-    // images_thumbs.swiper.slideTo(swiper.realIndex, 250);
     setActiveImage(swiper.realIndex);
   };
 
   return (
     <Fragment>
       {isLarge && (
-        <Grid
-          container
-          justifyContent="row"
-          wrap="nowrap"
-          className={styles.main_container}
-        >
+        <Grid container justifyContent="row" wrap="nowrap">
           <Swiper_thumbs_product_detail_images
             activeThumbsImageHandler={activeThumbsImageHandler}
             activeImage={activeImage}
@@ -74,11 +66,7 @@ function ProductDetailImages({
         </Grid>
       )}
       {isMedium && (
-        <Grid
-          container
-          justifyContent="column"
-          className={styles.main_container}
-        >
+        <Grid container justifyContent="column">
           <Swiper_product_detail_images
             onSlideChangeHandler={onSlideChangeHandler}
             currentColor={currentColor}

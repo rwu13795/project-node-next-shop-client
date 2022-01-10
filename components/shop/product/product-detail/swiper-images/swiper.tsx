@@ -46,10 +46,10 @@ function Swiper_product_detail_images({
 
   const horizontal_pagination = {
     position: "absolute",
-    bottom: "1vh",
+    bottom: "2vw",
     zIndex: 88,
     width: "100vw",
-    height: "50px",
+    height: "24px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
