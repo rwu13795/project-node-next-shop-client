@@ -11,11 +11,16 @@ interface Props {
   main_cat: string;
   sub_cat?: string;
   title?: string;
+  isSmall?: boolean;
 }
 
-function PageLinks({ main_cat, sub_cat, title }: Props): JSX.Element {
+function PageLinks({ main_cat, sub_cat, title, isSmall }: Props): JSX.Element {
+  const main_container = isSmall
+    ? styles.main_container_product_detail_small
+    : styles.main_container;
+
   return (
-    <div className={styles.main_container}>
+    <div className={main_container}>
       <div>
         <Tooltip title="Home Page">
           <Box className={styles.box}>

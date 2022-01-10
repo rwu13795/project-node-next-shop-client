@@ -97,6 +97,9 @@
 }
 
 @media screen and (max-width: 765px) {
+  .main_container {
+    margin-top: 10px;
+  }
   .upper_grid {
     flex-wrap: wrap;
   }
@@ -128,5 +131,6 @@
 
   .product_desc_title {
     font-size: min(7.5vw, 30px);
+    margin-bottom: 10px;
   }
 }

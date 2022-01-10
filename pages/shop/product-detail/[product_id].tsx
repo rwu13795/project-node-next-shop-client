@@ -6,13 +6,14 @@ import Head from "next/head";
 import { PageProductProps } from "../../../utils/react-hooks/get-more-products";
 import ProductDetail from "../../../components/shop/product/product-detail/product-detail";
 import serverClient from "../../../utils/axios-client/server-client";
-
-// UI //
-import styles from "./__detail.module.css";
 import PageLinks from "../../../components/layout/page-links/links";
 import browserClient from "../../../utils/axios-client/browser-client";
 import { setPageLoading } from "../../../utils/redux-store/layoutSlice";
 import { instantlyToTop } from "../../../utils/helper-functions/scrollToTopInstantly";
+
+// UI //
+import { useMediaQuery } from "@mui/material";
+import styles from "./__detail.module.css";
 
 export interface ReviewProps {
   title: string;
@@ -56,7 +57,6 @@ interface PageProps {
   product: PageProductProps;
   reviews: Reviews;
   editModeItem: boolean;
-  isSmall: boolean;
   context: any;
 }
 
@@ -64,15 +64,13 @@ const ProductDetailPage: NextPage<PageProps> = ({
   product,
   reviews,
   editModeItem,
-  isSmall,
-  context,
 }) => {
   const dispatch = useDispatch();
+  const client = browserClient();
 
   const { main_cat, sub_cat, title } = product.productInfo;
   const props = { main_cat, sub_cat, title };
-
-  const client = browserClient();
+  const isSmall = useMediaQuery("(max-width: 765px)");
 
   const [initialReviewDoc, setInitialReviewDoc] = useState<Reviews>(reviews);
   const [reviewDoc, setReviewDoc] = useState<Reviews>(reviews);
@@ -105,24 +103,32 @@ const ProductDetailPage: NextPage<PageProps> = ({
     setReviewDoc(initialReviewDoc);
   };
 
+  console.log("isSmall", isSmall);
+
   return (
     <main className={styles.main_container}>
       <Head>
         <title>Product Details</title>
       </Head>
 
-      <PageLinks {...props} />
+      {!isSmall && <PageLinks {...props} />}
+
       {product ? (
         <ProductDetail
           product={product}
           reviewDoc={reviewDoc}
           editModeItem={editModeItem}
-          isSmall={isSmall}
           refreshReviewsUser={refreshReviewsUser}
           resetReviewsUser={resetReviewsUser}
         />
       ) : (
         <h1>No product found</h1>
+      )}
+
+      {isSmall && (
+        <div className={styles.link_container}>
+          <PageLinks {...props} isSmall={isSmall} />
+        </div>
       )}
     </main>
   );
@@ -148,7 +154,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const secondString = param.split("_")[1];
 
   const editModeItem: boolean = secondString === "edit";
-  const isSmall = editModeItem;
 
   const client = serverClient(context);
 
@@ -163,7 +168,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         reviews: data.reviews,
         page_cat: main_cat,
         editModeItem,
-        isSmall,
       },
     };
   } catch (err) {

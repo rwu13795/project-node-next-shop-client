@@ -30,14 +30,13 @@ import {
 } from "../../../../utils/redux-store/shopSlice";
 
 // UI //
-import { Grid, Button } from "@mui/material";
+import { Grid, Button, useMediaQuery } from "@mui/material";
 import styles from "./__product-detail.module.css";
 
 interface Props {
   product: PageProductProps;
   reviewDoc?: Reviews;
   editModeItem?: boolean;
-  isSmall?: boolean;
   handleClose?: () => void; // the function to close the modal onClick "Update"
   refreshReviewsUser?: (pageNum: number, reviewFilter: string) => Promise<void>;
   resetReviewsUser?: () => void;
@@ -47,7 +46,6 @@ function ProductDetail({
   product,
   reviewDoc,
   editModeItem,
-  isSmall,
   handleClose,
   refreshReviewsUser,
   resetReviewsUser,
@@ -57,6 +55,7 @@ function ProductDetail({
   // get the editItem info from the Cart-detail-page
   const editItem = useSelector(selectEditItem);
   const colorIndex = useSelector(selectPreviewColorIndex);
+  const isSmall = useMediaQuery("(max-width: 765px)");
 
   const { productInfo, colorPropsList, _id } = product;
 

@@ -4,6 +4,13 @@
   flex-flow: row wrap;
   justify-content: flex-start;
 }
+.main_container_product_detail_small {
+  margin-top: 26px;
+  width: auto;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
 
 .page_link {
   text-decoration: none;
