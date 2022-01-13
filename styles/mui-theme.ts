@@ -33,7 +33,7 @@ let theme = createTheme({
       sm: 560,
       md: 765,
       lg: 1080,
-      xl: 1250,
+      xl: 1350,
     },
   },
 });

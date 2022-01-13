@@ -56,6 +56,7 @@ function ProductDetail({
   const editItem = useSelector(selectEditItem);
   const colorIndex = useSelector(selectPreviewColorIndex);
   const isSmall = useMediaQuery("(max-width: 765px)");
+  const isHuge = useMediaQuery("(min-width: 1550px)");
 
   const { productInfo, colorPropsList, _id } = product;
 
@@ -147,7 +148,13 @@ function ProductDetail({
           <Grid sx={{ display: { xs: "flex", md: "none" } }}>
             <div className={_title}>{productInfo.title.toUpperCase()}</div>
           </Grid>
-          <Grid item xs={12} sm={12} md={8} className={_images_container}>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={isHuge ? 7 : 8}
+            className={_images_container}
+          >
             <ProductDetailImages
               currentColor={currentColor}
               previewImage={previewImage}
@@ -159,7 +166,7 @@ function ProductDetail({
             container
             xs={12}
             sm={12}
-            md={4}
+            md={isHuge ? 5 : 4}
             className={_desc_container}
           >
             <Grid
