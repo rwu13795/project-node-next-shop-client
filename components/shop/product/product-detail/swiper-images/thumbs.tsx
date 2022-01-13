@@ -54,10 +54,11 @@ function Swiper_thumbs_product_detail_images({
   } as CSSProperties;
 
   const imageCount = currentColor.imageCount;
+  const thumbsNum = screenSize === "large" ? 5 : 4;
 
   return (
     <Box className={container}>
-      {imageCount > 4 && (
+      {imageCount > thumbsNum && (
         <div className="thumbs-prev-btn-product-detail" style={nav_botton}>
           <Grid container justifyContent="center" className={nav_prev}>
             <Image
@@ -74,7 +75,7 @@ function Swiper_thumbs_product_detail_images({
         direction={screenSize === "large" ? "vertical" : "horizontal"}
         id="detail_images_thumbs"
         spaceBetween={15}
-        slidesPerView={4}
+        slidesPerView={thumbsNum}
         watchSlidesProgress={true}
         navigation={{
           nextEl: ".thumbs-next-btn-product-detail",
@@ -106,7 +107,7 @@ function Swiper_thumbs_product_detail_images({
           );
         })}
       </Swiper>
-      {imageCount > 4 && (
+      {imageCount > thumbsNum && (
         <div className="thumbs-next-btn-product-detail" style={nav_botton}>
           <Grid container justifyContent="center" className={nav_next}>
             <Image

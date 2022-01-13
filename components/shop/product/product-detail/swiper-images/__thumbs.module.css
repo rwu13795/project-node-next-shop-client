@@ -1,18 +1,19 @@
 /* Vertical */
 .thumbs_swiper_vertical {
   display: block;
-  width: 100px;
-  height: 500px;
+  width: 104px;
+  height: 580px;
   margin: 5px;
 }
 
 .thumb_active_vertical {
   position: relative;
   height: 100%;
-  width: 95px;
+  width: 94px;
   box-sizing: border-box;
   border: solid rgba(34, 185, 255) 2.5px;
   box-shadow: 2px 4px 8px;
+  margin-left: 6px;
 }
 .thumb_active_vertical:hover {
   cursor: pointer;
@@ -20,9 +21,10 @@
 .thumb_vertical {
   position: relative;
   height: 100%;
-  width: 95px;
+  width: 94px;
   box-sizing: border-box;
   box-shadow: 2px 3px 3px;
+  margin-left: 6px;
 }
 
 .thumbs_container_vertical {
@@ -46,7 +48,7 @@
 .thumbs_swiper_horizontal {
   display: block;
   width: 500px;
-  height: 120px;
+  height: 130px;
   margin: 5px;
 }
 
