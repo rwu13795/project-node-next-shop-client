@@ -2,6 +2,14 @@
   margin: 15px 15px 20px 15px;
   overflow: hidden;
 }
+.link_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.link_box {
+  width: 80%;
+}
 
 @media screen and (max-width: 765px) {
   .main_container {

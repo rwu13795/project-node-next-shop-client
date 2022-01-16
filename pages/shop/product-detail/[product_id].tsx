@@ -125,7 +125,9 @@ const ProductDetailPage: NextPage<PageProps> = ({
 
       {isSmall && (
         <div className={styles.link_container}>
-          <PageLinks {...props} isSmall={isSmall} />
+          <div className={styles.link_box}>
+            <PageLinks {...props} isSmall={isSmall} />
+          </div>
         </div>
       )}
     </main>
