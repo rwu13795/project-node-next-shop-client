@@ -26,10 +26,16 @@
   width: 4px !important;
 }
 .side_bar_container::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px #008ab475;
   border-radius: 10px;
 }
 .side_bar_container::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+}
+.side_bar_container:hover::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #008ab475;
+  border-radius: 10px;
+}
+.side_bar_container:hover::-webkit-scrollbar-thumb {
   background-color: #008ab4;
   border-radius: 10px;
 }

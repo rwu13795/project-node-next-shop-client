@@ -59,6 +59,9 @@ MyApp.propTypes = {
  Read more: https://nextjs.org/docs/messages/css-global
  Location: pages\_app.js
 
- the bug only occurs on windows for next@11.1.1 and above. If I downgrade to 11.1.0,
+ the bug only occurs on Windows for next@11.1.1 and above. If I downgrade to 11.1.0,
  it might work. 
+
+ PS: I did not try the solution above since I used module.css in all the pages
+     I should build my next app in WSL Ubuntu, and see if this solution works 
 */
