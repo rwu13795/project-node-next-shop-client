@@ -10,76 +10,34 @@ const TestImage: NextPage = ({}) => {
     <main>
       <div>
         <h1>Testing Images</h1>
-        {/* <div>
-          <Image
+
+        <div style={{ width: "300px", height: "300px" }}>
+          <img
             src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing/test-1/1.jpg`}
             alt="test-1"
-            width={300}
-            height={500}
           />
-          <Image
+        </div>
+
+        <div style={{ width: "300px", height: "300px" }}>
+          <img
             src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing/test-1/cat2.jpg`}
             alt="test-1"
-            width={300}
-            height={300}
           />
         </div>
-        <div>
-          <Image
+
+        <div style={{ width: "300px", height: "300px" }}>
+          <img
             src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing/test-2/2.jpg`}
-            alt="test-2"
-            width={300}
-            height={500}
+            alt="test-1"
           />
-          <Image
+        </div>
+
+        <div style={{ width: "300px", height: "300px" }}>
+          <img
             src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing/test-2/cat3.jpg`}
             alt="test-1"
-            width={300}
-            height={300}
           />
         </div>
-        <div>
-          <Image
-            src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing/test-3/3.jpg`}
-            alt="This image cannot be accessed. Server did not provide the cookie on purpose"
-            width={300}
-            height={500}
-          />
-        </div>
-        <div>
-          <Image
-            src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing/cat1.jpg`}
-            alt="This image cannot be accessed. Server did not provide the cookie on purpose"
-            width={300}
-            height={300}
-          />
-        </div> */}
-        {/* <img
-          src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/users/1/cat1.jpg`}
-          alt="users"
-          // width={300}
-          // height={300}
-        /> */}
-        <img
-          src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing/test-1/1.jpg`}
-          alt="test-1"
-        />
-        <img
-          src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing/test-1/cat2.jpg`}
-          alt="test-1"
-        />
-        <img
-          src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/groups/2.jpg`}
-          alt="groups"
-          // width={300}
-          // height={300}
-        />
-        <Image
-          src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/groups/2.jpg`}
-          alt="groups"
-          width={300}
-          height={300}
-        />
       </div>
     </main>
   );
