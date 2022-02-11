@@ -1,14 +1,14 @@
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
 import browserClient from "../../utils/axios-client/browser-client";
 
 const TestPage: NextPage = ({}) => {
   const client = browserClient();
+  const router = useRouter();
 
   const [signedUrl, setSignedUrl] = useState<string>("");
-
-  const [urls, setUrls] = useState({ a: "", b: "", c: "" });
 
   const loadCookie = useCallback(async () => {
     try {
@@ -21,30 +21,22 @@ const TestPage: NextPage = ({}) => {
     } catch (err: any) {
       console.log(err);
     }
-  }, [client]);
+  }, []);
 
   useEffect(() => {
     loadCookie();
-    setTimeout(() => {
-      console.log("showing images");
-      setUrls({
-        a: `https://cdn.node-next-shop-rw.store/testing/cat1.jpg`,
-        b: `https://cdn.node-next-shop-rw.store/testing/cat2.jpg`,
-        c: `https://cdn.node-next-shop-rw.store/testing/cat3.jpg`,
-      });
-    }, 3000);
-  }, [loadCookie]);
+  }, []);
+
+  const showImage = () => {
+    router.push("/testpage/image");
+  };
 
   return (
     <main>
       <div>
         <h1>Testing image</h1>
-        <img src={urls.a} alt="1" />
-        <img src={urls.b} alt="1" />
-        <img src={urls.c} alt="1" />
-        <img src={`https://cdn.node-next-shop-rw.store/cat1.jpg`} alt="1" />
-        <img src={signedUrl} alt="signedUrl" />
-        {/* <button onClick={loadCookie}>load cookie</button> */}
+
+        <button onClick={showImage}>Show Images</button>
       </div>
     </main>
   );
