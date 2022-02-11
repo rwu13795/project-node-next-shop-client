@@ -1,17 +1,21 @@
 import { NextPage } from "next";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import browserClient from "../../utils/axios-client/browser-client";
 
 const TestPage: NextPage = ({}) => {
   const client = browserClient();
 
+  const [signedUrl, setSignedUrl] = useState<string>("");
+
   const loadCookie = async () => {
     try {
-      await client.get(
+      const { data } = await client.get(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/testing-cloud-front`
       );
-      console.log("getting cookie");
+
+      setSignedUrl(data);
+      console.log("getting signedUrl", data);
     } catch (err: any) {
       console.log(err);
     }
@@ -34,6 +38,7 @@ const TestPage: NextPage = ({}) => {
           alt="1"
         />
         <img src={`https://cdn.node-next-shop-rw.store/cat1.jpg`} alt="1" />
+        <img src={signedUrl} alt="signedUrl" />
         <button onClick={loadCookie}>load cookie</button>
       </div>
     </main>
