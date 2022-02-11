@@ -22,18 +22,18 @@ const TestPage: NextPage = ({}) => {
       <div>
         <h1>Testing image</h1>
         <img
-          src={`https://d2a05ov3ia61kl.cloudfront.net/testing/cat1.jpg`}
+          src={`https://cdn.node-next-shop-rw.store/testing/cat1.jpg`}
           alt="1"
         />
         <img
-          src={`https://d2a05ov3ia61kl.cloudfront.net/testing/cat2.jpg`}
+          src={`https://cdn.node-next-shop-rw.store/testing/cat2.jpg`}
           alt="1"
         />
         <img
-          src={`https://d2a05ov3ia61kl.cloudfront.net/testing/cat3.jpg`}
+          src={`https://cdn.node-next-shop-rw.store/testing/cat3.jpg`}
           alt="1"
         />
-        <img src={`https://d2a05ov3ia61kl.cloudfront.net/cat1.jpg`} alt="1" />
+        <img src={`https://cdn.node-next-shop-rw.store/cat1.jpg`} alt="1" />
         <button onClick={loadCookie}>load cookie</button>
       </div>
     </main>

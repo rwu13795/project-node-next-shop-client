@@ -15,12 +15,12 @@ export const sxMUI: Props = {
   },
 
   input_box: {
-    height: "60px",
+    minHeight: "60px",
     fontSize: "20px",
   },
 
   input_box_small: {
-    height: "50px",
+    minHeight: "50px",
     fontSize: "15px",
   },
 };
