@@ -14,35 +14,35 @@ const TestImage: NextPage = ({}) => {
       <div>
         <h1>Testing Images</h1>
 
-        <div style={{ width: "300px", height: "300px" }}>
+        <div>
           <img
             src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing-1/abc/1.jpg`}
             alt="1"
-            style={{ objectFit: "contain" }}
+            style={{ width: "300px", height: "300px", objectFit: "contain" }}
           />
         </div>
 
-        <div style={{ width: "300px", height: "300px" }}>
+        <div>
           <img
             src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing-1/abc/cat1.jpg`}
             alt="cat-1"
-            style={{ objectFit: "contain" }}
+            style={{ width: "300px", height: "300px", objectFit: "contain" }}
           />
         </div>
 
-        <div style={{ width: "300px", height: "300px" }}>
+        <div>
           <img
             src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing-2/abc/2.jpg`}
             alt="2"
-            style={{ objectFit: "contain" }}
+            style={{ width: "300px", height: "300px", objectFit: "contain" }}
           />
         </div>
 
-        <div style={{ width: "300px", height: "300px" }}>
+        <div>
           <img
             src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing-2/abc/cat2.jpg`}
             alt="cat-2"
-            style={{ objectFit: "contain" }}
+            style={{ width: "300px", height: "300px", objectFit: "contain" }}
           />
         </div>
       </div>
