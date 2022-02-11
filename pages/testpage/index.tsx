@@ -27,6 +27,9 @@ const TestPage: NextPage = ({}) => {
     loadCookie();
   }, []);
 
+  // need to set the cookies before mapping the Urls
+  // otherwise, the access will be denied, and users have to refresh the page to
+  // see the images
   const showImage = () => {
     router.push("/testpage/image");
   };
