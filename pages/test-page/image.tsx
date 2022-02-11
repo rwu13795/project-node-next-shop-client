@@ -13,29 +13,29 @@ const TestImage: NextPage = ({}) => {
 
         <div style={{ width: "300px", height: "300px" }}>
           <img
-            src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing/test-1/1.jpg`}
-            alt="test-1"
+            src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing-1/abc/1.jpg`}
+            alt="1"
           />
         </div>
 
         <div style={{ width: "300px", height: "300px" }}>
           <img
-            src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing/test-1/cat2.jpg`}
-            alt="test-1"
+            src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing-1/abc/cat1.jpg`}
+            alt="cat-1"
           />
         </div>
 
         <div style={{ width: "300px", height: "300px" }}>
           <img
-            src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing/test-2/2.jpg`}
-            alt="test-1"
+            src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing-2/abc/2.jpg`}
+            alt="2"
           />
         </div>
 
         <div style={{ width: "300px", height: "300px" }}>
           <img
-            src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing/test-2/cat3.jpg`}
-            alt="test-1"
+            src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing-2/abc/cat2.jpg`}
+            alt="cat-2"
           />
         </div>
       </div>
