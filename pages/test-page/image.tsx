@@ -2,6 +2,10 @@ import { NextPage } from "next";
 import Image from "next/image";
 
 const TestImage: NextPage = ({}) => {
+  console.log(
+    `${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing/test-2/2.jpg`
+  );
+
   return (
     <main>
       <div>

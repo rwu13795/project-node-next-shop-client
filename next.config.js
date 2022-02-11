@@ -4,7 +4,7 @@ module.exports = {
   reactStrictMode: true,
   images: {
     domains: [
-      "i.imgur.com",
+      "cdn.node-next-shop-rw.store",
       "localhost",
       "node-next-shop-server.herokuapp.com",
       "testing-images-on-s3.s3.us-east-2.amazonaws.com",

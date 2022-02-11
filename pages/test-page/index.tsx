@@ -13,6 +13,8 @@ const TestPage: NextPage = ({}) => {
       await client.get(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/testing-cloud-front`
       );
+
+      console.log("setting cookies");
     } catch (err: any) {
       console.log(err);
     }
@@ -26,7 +28,7 @@ const TestPage: NextPage = ({}) => {
   // otherwise, the access will be denied, and users have to refresh the page to
   // see the images
   const showImage = () => {
-    router.push("/testpage/image");
+    router.push("/test-page/image");
   };
 
   return (
