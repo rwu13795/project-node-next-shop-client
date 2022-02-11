@@ -18,7 +18,7 @@ const TestImage: NextPage = ({}) => {
           <img
             src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing-1/abc/1.jpg`}
             alt="1"
-            style={{ objectFit: "cover" }}
+            style={{ objectFit: "contain" }}
           />
         </div>
 
@@ -26,7 +26,7 @@ const TestImage: NextPage = ({}) => {
           <img
             src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing-1/abc/cat1.jpg`}
             alt="cat-1"
-            style={{ objectFit: "cover" }}
+            style={{ objectFit: "contain" }}
           />
         </div>
 
@@ -34,7 +34,7 @@ const TestImage: NextPage = ({}) => {
           <img
             src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing-2/abc/2.jpg`}
             alt="2"
-            style={{ objectFit: "cover" }}
+            style={{ objectFit: "contain" }}
           />
         </div>
 
@@ -42,7 +42,7 @@ const TestImage: NextPage = ({}) => {
           <img
             src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/testing-2/abc/cat2.jpg`}
             alt="cat-2"
-            style={{ objectFit: "cover" }}
+            style={{ objectFit: "contain" }}
           />
         </div>
       </div>
