@@ -55,7 +55,7 @@ const TestImage: NextPage = ({}) => {
           />
         </div> */}
         <img
-          src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/users/3.jpg`}
+          src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/users/1/cat1.jpg`}
           alt="users"
           // width={300}
           // height={300}
@@ -65,6 +65,12 @@ const TestImage: NextPage = ({}) => {
           alt="groups"
           // width={300}
           // height={300}
+        />
+        <Image
+          src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_URL}/groups/2.jpg`}
+          alt="groups"
+          width={300}
+          height={300}
         />
       </div>
     </main>
