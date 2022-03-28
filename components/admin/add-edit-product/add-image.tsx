@@ -97,6 +97,9 @@ function AddImage({
 
   return (
     <Grid item container className={styles.form_grid_center}>
+      {/* whenever a image file is added, the file will be converted into
+      a Url by using URL.createObjectURL(file). And the newly added/edited image
+      can be displayed */}
       {imageUrls.length > 0 && (
         <div style={{ marginRight: "1rem" }}>
           {editImage ? (
@@ -124,9 +127,8 @@ function AddImage({
                 justifyContent="space-evenly"
                 alignItems="baseline"
               >
-                {/* Note: opacity is used to hide the file input instead of visibility: hidden or 
-                display: none, because assistive technology interprets the latter two styles to mean 
-                the file input isn't interactive. */}
+                {/* add the "id" for the file and "htmlFor" in the lable input dynamically 
+                since there will be multiple "Add-Iamge" icons.  */}
                 <Tooltip title="Change">
                   <div>
                     <InputLabel

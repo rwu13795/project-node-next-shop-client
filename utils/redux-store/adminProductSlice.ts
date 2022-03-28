@@ -114,7 +114,11 @@ const uploadNewProduct = createAsyncThunk<
     const selected_admin_username = thunkAPI.getState().admin.selectedAdmin;
 
     try {
-      // re-format the props and put the imageFiles into "formData"
+      // becuase we cannot send the image files and the JSON object through one
+      // single "req.body", we have to use the "FormData"
+      // re-format the props and put the imageFiles into "formData", so that we
+      // can combine the normal objects and images file into a singel "body", and
+      // send them to the server in 1 post-request
       let colorPropsUpload: ColorPropsForUpload[] = [];
 
       const formData = new FormData();
@@ -484,6 +488,11 @@ export const selectColorPropsList = createSelector(
     return state.colorPropsList;
   }
 );
+
+// NOTE
+// I could use createSelector and pass the "selectAdminProductState" as selector
+// like [selectProductInfo] in the selectTitle_adminProduct below, to select
+// the state of the "admin_product", no need to pass the the "state: RootState".
 export const selectImageUrls_byListIndex = (
   state: RootState,
   listIndex: number
