@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 
 import styles from "./__footer.module.css";
 
@@ -9,7 +9,15 @@ interface Props {
 }
 
 function Footer({ page }: Props): JSX.Element {
-  const footer = page === "home" ? styles.footer_home : styles.footer;
+  const [footer, setFooter] = useState<string>(styles.footer_home);
+
+  useEffect(() => {
+    if (page === "home") {
+      setFooter(styles.footer_home);
+    } else {
+      setFooter(styles.footer);
+    }
+  }, [page]);
 
   return (
     <footer className={footer}>
