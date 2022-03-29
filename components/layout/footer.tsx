@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { memo, useLayoutEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 
 import styles from "./__footer.module.css";
 
@@ -10,12 +10,15 @@ interface Props {
 
 function Footer({ page }: Props): JSX.Element {
   const [footer, setFooter] = useState<string>(styles.footer_home);
+  const [color, setColor] = useState<string>(styles.black);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (page === "home") {
       setFooter(styles.footer_home);
+      setColor(styles.black);
     } else {
       setFooter(styles.footer);
+      setColor(styles.white);
     }
   }, [page]);
 
@@ -23,7 +26,7 @@ function Footer({ page }: Props): JSX.Element {
     <footer className={footer}>
       <div className={styles.main_grid}>
         <div className={styles.left_grid}>
-          <div>
+          <div className={color}>
             <div className={styles.link_text}>Contact</div>
             <div>rwu13795.work@gmail.com</div>
           </div>
@@ -33,14 +36,18 @@ function Footer({ page }: Props): JSX.Element {
           <div className={styles.middle_grid}>
             <Link href="/shop/order-status">
               <a style={{ textDecoration: "none", color: "inherit" }}>
-                <div className={styles.link_text + " " + styles.link}>
+                <div
+                  className={styles.link_text + " " + styles.link + " " + color}
+                >
                   Order Status
                 </div>
               </a>
             </Link>
             <Link href="/admin">
               <a style={{ textDecoration: "none", color: "inherit" }}>
-                <div className={styles.link_text + " " + styles.link}>
+                <div
+                  className={styles.link_text + " " + styles.link + " " + color}
+                >
                   Administration
                 </div>
               </a>
@@ -53,13 +60,15 @@ function Footer({ page }: Props): JSX.Element {
             href="https://github.com/rwu13795?tab=repositories"
             style={{ textDecoration: "none", color: "inherit" }}
           >
-            <div className={styles.link}>&copy; 2022 By Ray Wu</div>
+            <div className={styles.link + " " + color}>
+              &copy; 2022 By Ray Wu
+            </div>
           </a>
           <a
             href="https://heroku.com"
             style={{ textDecoration: "none", color: "inherit" }}
           >
-            <div className={styles.logo}>
+            <div className={styles.logo + " " + color}>
               <div>Powered by </div>
               <Image
                 src={page === "home" ? "/heroku.svg" : "/heroku-white.svg"}

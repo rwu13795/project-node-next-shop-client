@@ -108,3 +108,10 @@
     font-size: min(22px, 5vw);
   }
 }
+
+.black {
+  color: black;
+}
+.white {
+  color: white;
+}
