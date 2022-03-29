@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { memo, useEffect, useState } from "react";
+import { memo, useLayoutEffect, useState } from "react";
 
 import styles from "./__footer.module.css";
 
@@ -11,7 +11,7 @@ interface Props {
 function Footer({ page }: Props): JSX.Element {
   const [footer, setFooter] = useState<string>(styles.footer_home);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (page === "home") {
       setFooter(styles.footer_home);
     } else {
