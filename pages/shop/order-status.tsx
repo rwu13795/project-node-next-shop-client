@@ -69,8 +69,8 @@ const OrderStatusPage: NextPage = ({}) => {
         <div className={styles.title_box}>
           <div className={styles.main_title}>ORDER STATUS</div>
           <div className={styles.sub_text}>
-            Enter your ORDER ID, which you can find in your order confirmation
-            email, below
+            Please enter your Order Id, which you can find in your order
+            confirmation email, below
           </div>
         </div>
 
