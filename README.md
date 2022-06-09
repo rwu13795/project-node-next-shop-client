@@ -1,3 +1,5 @@
+### live-demo: https://www.node-next-shop-rw.store/
+
 - This project was written in Typescript in both frontend and backend. I utilized the frameworks Next.js and React.js to create the client and Node.js to create the server.
 
 - This e-commerce web app is a complete application which has most of the essential features. 
